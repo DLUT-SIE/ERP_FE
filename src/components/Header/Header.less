@@ -1,0 +1,48 @@
+@import "../../static/styles/helper.less";
+
+.header {
+  position: relative;
+  height: @header-height;
+  color: #FFF;
+  background-color: @state-primary;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 8px 0px;
+  z-index: 10;
+  display: flex;
+  font-family: PingFangSC-Regular, sans-serif;
+  .switch-slider-btn {
+    display: inline-block;
+    margin-left: 10px;
+  }
+  .header-item {
+    position: absolute;
+    display: inline-block;
+    font-size: 13px;
+    line-height: 48px;
+  }
+  .user-name {
+    right: 75px;
+  }
+  .logout {
+    right: 30px;
+    color: #FFF;
+  }
+  .inner {
+    flex: 1;
+  }
+  .logo {
+    height: @header-height;
+    flex: 0 1 800px;
+    // box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 8px 0px;
+    font-family: PingFangSC-Regular;
+    font-size: 20px;
+    padding-left: 24px;
+    box-sizing: border-box;
+    line-height: @header-height;
+    color: #fff;
+    position: relative;
+    z-index: 10;
+    &:hover {
+      color: #fff;
+    }
+  }
+}

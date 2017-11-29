@@ -1,0 +1,67 @@
+@import "./helper.less";
+
+.card {
+  border: 1px solid @card-border-color;
+  padding: 30px 20px;
+  background-color: @card-background-color;
+  .hd {
+    margin-bottom: 26px;
+  }
+}
+
+.ant-calendar-disabled-cell.ant-calendar-today .ant-calendar-date {
+  color: #108ee9;
+}
+
+.container {
+  // 重写ant-select 和 cascader样式
+  .select, .cascader{
+    width: @select-width;
+  }
+  .ant-table-tbody {
+    td {
+      vertical-align: middle;
+    }
+  }
+  // 解决表格固定列包含select组件时delete按钮hover会穿透显示的问题
+  .ant-table-fixed-right {
+    z-index: 1;
+  }
+  a:focus {
+    text-decoration: none;
+  }
+  div.hide {
+    display: none;
+  }
+  div[data-hide='true'] {
+    display: none;
+  }
+  div[data-visibility='true'] {
+    visibility: visible;
+  }
+  div[data-visibility='false'] {
+    visibility: hidden;
+  }
+}
+
+button.ant-btn.ant-btn-danger {
+  background-color: #f04134;
+  color: #fff;
+  border-color: #f04134;
+  &[disabled] {
+    color: rgba(0,0,0,.25);
+    background-color: #f7f7f7;
+    border-color: #d9d9d9;
+  }
+}
+
+button.ant-btn.ant-btn-success {
+  background-color: #00a854;
+  color: #fff;
+  border-color: #00a854;
+  &[disabled] {
+    color: rgba(0,0,0,.25);
+    background-color: #f7f7f7;
+    border-color: #d9d9d9;
+  }
+}

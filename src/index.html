@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <title>太重滨海煤化工分公司生产管理系统</title>
+  <meta charset='utf-8'>
+  <script>
+    /* eslint-disable */
+    var env = '<%=htmlWebpackPlugin.options.env%>'
+    if (env !== 'production') {
+      window.erpConfig = JSON.parse('<%=htmlWebpackPlugin.options.employeeConf%>')
+      window.erpConfig.menus = JSON.stringify(window.erpConfig.menus)
+    } else {
+      window.erpConfig = {}
+      // window.erpConfig = {
+      //   employeeId: '{{employee_id}}',
+      //   employeeName: '{{employee_name}}',
+      //   employeeMail: '{{email}}',
+      //   isAdmin: checkBool('{{is_admin}}'),
+      //   menus: '{{ menu|tojson|safe }}'
+      // }
+    }
+  </script>
+</head>
+<body>
+  <div id='root' style='height: 100%'></div>
+</body>
+</html>

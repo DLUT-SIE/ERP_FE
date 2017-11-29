@@ -1,0 +1,44 @@
+@import "../../static/styles/helper.less";
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .menus {
+    flex:1;
+    overflow-x: hidden;
+    padding-top: 12px;
+    overflow-y: scroll;
+  }
+  .ant-menu-inline {
+    border-right: none;
+    background-color: @sidebar-bgcolor;
+    color: #dcdada;
+  }
+  .ant-menu-submenu-title:hover{
+    color: @sidebar-item-color;
+    background-color: @sidebar-item-hover-bgcolor;
+  }
+  .ant-menu-item {
+    &:hover {
+      background: @sidebar-item-hover-bgcolor;
+    }
+    a{
+      color: @sidebar-item-color;
+    }
+    &:active {
+      background-color: rgba(237, 237, 237, 0);
+    }
+    &:after {
+      border-right-color: @state-primary;
+    }
+    &.ant-menu-item-selected {
+      background-color: @sidebar-selected-bgcolor;
+      border-right-color: @state-primary;
+      color: #333;
+      > a {
+        font-weight: 500;
+      }
+    }
+  }
+}
