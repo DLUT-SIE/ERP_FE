@@ -5,7 +5,7 @@ import { Form, Input, Button } from 'antd'
 import './FilterBar.less'
 
 const FormItem = Form.Item
-
+console.log('test')
 class FilterBar extends React.Component {
   constructor (props) {
     super(props)
