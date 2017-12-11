@@ -25,15 +25,15 @@ export const menu = {
     },
     data: {
       icon: 'lock',
-      processimport: '/data/processimport',
+      processimport: '/data/processImport',
       process: '/data/process',
       weld: '/data/weld'
     },
     purchase: {
       icon: 'appstore',
-      pendingorder: '/purchase/pendingorder',
+      pendingorder: '/purchase/pendingOrder',
       material: '/purchase/material',
-      purchaseorder: '/purchase/purchaseorder'
+      purchaseorder: '/purchase/purchaseOrder'
     }
   }
 }

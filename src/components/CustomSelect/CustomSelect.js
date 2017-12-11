@@ -8,7 +8,6 @@ import { Select } from 'antd'
 import shallowequal from 'shallowequal'
 import './CustomSelect.less'
 
-// Antd Select 组件的二次封装 by jican
 class CustomSelect extends React.Component {
 
   constructor (props) {
@@ -128,11 +127,11 @@ class CustomSelect extends React.Component {
 
   render () {
     const { value, list } = this.state
-    const { fields } = this.props
+    const { fields, placeholder = '请选择' } = this.props
     return (
       <Select
         className='select custom-select'
-        placeholder='请选择'
+        placeholder={placeholder}
         showSearch
         size='large'
         notFoundContent='没有找到'
@@ -148,6 +147,7 @@ class CustomSelect extends React.Component {
 }
 
 CustomSelect.propTypes = {
+  placeholder: PropTypes.string,
   list: PropTypes.array,
   pushList: PropTypes.array,
   apiConfig: PropTypes.object,
@@ -159,8 +159,8 @@ CustomSelect.propTypes = {
 
 CustomSelect.defaultProps = {
   fields: {
-    valueField: 'id',
-    labelField: 'name'
+    valueField: 'value',
+    labelField: 'label'
   },
   enabledCache: false,
   apiQuery: {}
