@@ -20,8 +20,10 @@ export const menu = {
     sell: {
       icon: 'appstore-o',
       production: '/sell/production',
-      prosend: '/sell/prosend',
-      craftsend: '/sell/craftsend'
+      product: '/sell/product',
+      craft: '/sell/craft',
+      purchase: '/sell/purchase',
+      check: '/sell/check'
     },
     data: {
       icon: 'lock',

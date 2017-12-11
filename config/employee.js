@@ -14,12 +14,20 @@ const config = {
           "name": "产品",
           "children": [],
         }, {
-          "code": "menu.sell.prosend",
+          "code": "menu.sell.product",
           "name": "生产科下发",
           "children": [],
         }, {
-          "code": "menu.sell.craftsend",
+          "code": "menu.sell.craft",
           "name": "工艺科下发",
+          "children": []
+        }, {
+          "code": "menu.sell.purchase",
+          "name": "采购科下发",
+          "children": []
+        }, {
+          "code": "menu.sell.check",
+          "name": "招标文件审核",
           "children": []
         }
       ],
