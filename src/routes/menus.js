@@ -23,11 +23,11 @@ export const menu = {
       prosend: '/sell/prosend',
       craftsend: '/sell/craftsend'
     },
-    data: {
+    process: {
       icon: 'lock',
-      processimport: '/data/processImport',
-      process: '/data/process',
-      weld: '/data/weld'
+      processimport: '/process/processImport',
+      process: '/process/process',
+      weld: '/process/weld'
     },
     purchase: {
       icon: 'appstore',

@@ -24,7 +24,7 @@ export default (path) => {
     breadcrumbName: child.breadcrumbName
   })).concat({
     path: `/${path}`,
-    breadcrumbName: '技术资料管理',
+    breadcrumbName: '工艺管理',
     component: () => (
       <Redirect to={`/${path}/processImport`} />
     )

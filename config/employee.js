@@ -25,19 +25,19 @@ const config = {
       ],
     },
     {
-      "code": "menu.data",
-      "name": "技术资料管理",
+      "code": "menu.process",
+      "name": "工艺管理",
       "children": [
         {
-          "code": "menu.data.processimport",
+          "code": "menu.process.processimport",
           "name": "工艺库导入",
           "children": [],
         }, {
-          "code": "menu.data.process",
+          "code": "menu.process.process",
           "name": "工艺库",
           "children": [],
         }, {
-          "code": "menu.data.weld",
+          "code": "menu.process.weld",
           "name": "焊接明细",
           "children": []
         }

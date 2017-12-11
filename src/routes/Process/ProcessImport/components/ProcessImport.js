@@ -36,7 +36,7 @@ class ProcessImport extends React.Component {
               size='small'
               data-id={record.order_id}
             >
-              <Link to={`/data/process/?order_id=${record.order_id}`}>
+              <Link to={`/process/process/?order_id=${record.order_id}`}>
                 查 看
               </Link>
             </Button>

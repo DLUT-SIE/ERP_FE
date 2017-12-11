@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
-import { Button } from 'antd'
+import { Button, Message } from 'antd'
 import { CICULATION_ROUTE_LIST, PROCESS_ROUTE_LIST } from 'const'
 
 import FilterBar from 'components/WorkOrderFilterBar'
@@ -67,7 +67,26 @@ class ProcessImport extends React.Component {
   }
 
   handleSaveRoute = (fieldsValue) => {
-    console.log('handleSaveRoute', fieldsValue)
+    let result = []
+    let count = 0
+    let flag = true
+    _.forEach(fieldsValue, (value, key) => {
+      const index = +key.split('-')[1]
+      result[index - 1] = value
+      count += value ? 1 : 0
+    })
+    _.forEach(result, (value, index) => {
+      if (!value && index < count) {
+        Message.error('不允许跨路线，请重新设置！')
+        flag = false
+        return
+      }
+    })
+    if (flag) {
+      result = _.filter(result, (value) => {
+        return value !== undefined
+      })
+    }
   }
 
   buildColumns () {
@@ -178,7 +197,7 @@ class ProcessImport extends React.Component {
     const workOrder = _.get(mydata, 'workOrder', '')
     const processName = _.get(mydata, 'processName', '')
     const unit = _.get(mydata, 'unit', '')
-    const values = ['H1', 'J', 'DY']
+    const values = [3, 1, 4]
     return (
       <div>
         <FilterBar

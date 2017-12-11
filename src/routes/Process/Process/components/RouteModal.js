@@ -8,6 +8,7 @@ import './RouteModal.less'
 
 const FormItem = Form.Item
 const { TextArea } = Input
+const routePrefix = 'route-'
 
 class RouteModal extends React.Component {
   constructor (props) {
@@ -29,7 +30,7 @@ class RouteModal extends React.Component {
       items.push(
         <Col span={2} key={i}>
           <FormItem label={`${prefix}${i}`}>
-            {getFieldDecorator(`route${i}`)(
+            {getFieldDecorator(`${routePrefix}${i}`)(
               <CustomSelect
                 style={{ width: 60 }}
                 list={list}
@@ -85,7 +86,7 @@ class RouteModal extends React.Component {
     }
     const fieldsValue = {}
     _.forEach(values, (value, index) => {
-      fieldsValue[`route${index + 1}`] = value
+      fieldsValue[`${routePrefix}${index + 1}`] = value
     })
     this.props.form.setFieldsValue(fieldsValue)
   }
@@ -96,10 +97,7 @@ class RouteModal extends React.Component {
       if (err) {
         return
       }
-      console.log('values', values)
-      onOk && onOk({
-
-      })
+      onOk && onOk(values)
     })
   }
 
@@ -171,7 +169,7 @@ RouteModal.propTypes = {
 let makeFileds = function (fieldsValue) {
   let result = {}
   _.forEach(fieldsValue, (value, index) => {
-    result[`route${index + 1}`] = { value: value + '' }
+    result[`${routePrefix}${index + 1}`] = { value: value + '' }
   })
   return result
 }
