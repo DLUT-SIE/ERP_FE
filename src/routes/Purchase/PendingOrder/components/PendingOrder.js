@@ -5,7 +5,7 @@ import _ from 'lodash'
 import util from 'utils'
 import { Button } from 'antd'
 
-import FilterBar from './FilterBar'
+import FilterBar from 'components/WorkOrderFilterBar'
 import CustomTable from 'components/CustomTable'
 
 const columns = [

@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { Form, Input, Button } from 'antd'
-import './FilterBar.less'
+import './WorkOrderFilterBar.less'
 
 const FormItem = Form.Item
 
-class FilterBar extends React.Component {
+class WorkOrderFilterBar extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -53,7 +53,7 @@ class FilterBar extends React.Component {
   }
 }
 
-FilterBar.propTypes = {
+WorkOrderFilterBar.propTypes = {
   form: PropTypes.object.isRequired,
   onSearch: PropTypes.func.isRequired
 }
@@ -70,6 +70,6 @@ const WrappedForm = Form.create({
   mapPropsToFields (props) {
     return makeFileds(props.fieldsValue)
   }
-})(FilterBar)
+})(WorkOrderFilterBar)
 
 export default WrappedForm
