@@ -7,8 +7,8 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const PRODUCTION_GET_LIST_DATA = 'PRODUCTION_GET_LIST_DATA'
-const PRODUCTION_ADD_LIST_DATA = 'PRODUCTION_ADD_LIST_DATA'
+const PRODUCTIONSEND_GET_LIST_DATA = 'PRODUCTIONSEND_GET_LIST_DATA'
+const PRODUCTIONSEND_ADD_LIST_DATA = 'PRODUCTIONSEND_ADD_LIST_DATA'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -17,14 +17,14 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : PRODUCTION_GET_LIST_DATA,
+    type    : PRODUCTIONSEND_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : PRODUCTION_ADD_LIST_DATA,
+    type    : PRODUCTIONSEND_ADD_LIST_DATA,
     payload : payload
   }
 }
@@ -41,12 +41,13 @@ var initialState = Immutable.fromJS({
   loading: false,
   pagination: {
     pageSize: 10
-  }
+  },
+  columns: []
 })
 
-export default function PendingOrder (state = initialState, action) {
+export default function ProductionSend (state = initialState, action) {
   var map = {
-    PENDING_GET_LIST_DATA () {
+    PRODUCTIONSEND_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -57,12 +58,13 @@ export default function PendingOrder (state = initialState, action) {
         'loading', true
       )
     },
-    PENDING_ADD_LIST_DATA () {
-      let { list } = action.payload
+    PRODUCTIONSEND_ADD_LIST_DATA () {
+      let { data, columns } = action.payload
       return state.mergeIn(
-        ['pagination'], { total: list.count }
+        ['pagination'], { total: data.count }
       ).merge({
-        list: list,
+        list: data.results,
+        columns: columns,
         loading: false
       })
     }
@@ -81,13 +83,11 @@ export default function PendingOrder (state = initialState, action) {
 
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(PRODUCTION_GET_LIST_DATA)
+    const { payload = {} } = yield take(PRODUCTIONSEND_GET_LIST_DATA)
     const { callback, params } = payload
-    const [ list ] = yield [
-      call(fetchAPI, apis.SellAPI.getProFileList, params)
-    ]
-    callback && callback(list.results)
-    yield put(addListDataAction({ list: list.results }))
+    const data = yield call(fetchAPI, apis.Distribution.getProFileList, params)
+    callback && callback(data)
+    yield put(addListDataAction({ data: data }))
   }
 }
 

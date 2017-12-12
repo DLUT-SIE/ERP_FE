@@ -6,27 +6,27 @@ const config = {
   "isAdmin": true,
   "menus": [
     {
-      "code": "menu.sell",
+      "code": "menu.distribution",
       "name": "经销管理",
       "children": [
         {
-          "code": "menu.sell.production",
+          "code": "menu.distribution.production",
           "name": "产品",
           "children": [],
         }, {
-          "code": "menu.sell.product",
+          "code": "menu.distribution.productionSend",
           "name": "生产科下发",
           "children": [],
         }, {
-          "code": "menu.sell.craft",
+          "code": "menu.distribution.processSend",
           "name": "工艺科下发",
           "children": []
         }, {
-          "code": "menu.sell.purchase",
+          "code": "menu.distribution.purchaseSend",
           "name": "采购科下发",
           "children": []
         }, {
-          "code": "menu.sell.check",
+          "code": "menu.distribution.bid",
           "name": "招标文件审核",
           "children": []
         }

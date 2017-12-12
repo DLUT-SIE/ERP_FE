@@ -25,8 +25,10 @@ export default function fetchAPI (api, body, rest, multipartFormData = true) {
     if (multipartFormData) {
       const formData = new FormData()
       for (let name in body) {
+        console.log('name', name, body[name])
         let value = _.isObjectLike(body[name]) ? JSON.stringify(body[name]) : body[name]
-        formData.append(name, value)
+        console.log('value', value)
+        formData.append(name, body[name])
       }
       config.body = formData
     } else {

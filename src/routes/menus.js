@@ -17,13 +17,13 @@ export function formatMenu (source) {
 
 export const menu = {
   menu: {
-    sell: {
+    distribution: {
       icon: 'appstore-o',
-      production: '/sell/production',
-      product: '/sell/product',
-      craft: '/sell/craft',
-      purchase: '/sell/purchase',
-      check: '/sell/check'
+      production: '/distribution/production',
+      productionSend: '/distribution/productionSend',
+      processSend: '/distribution/processSend',
+      purchaseSend: '/distribution/purchaseSend',
+      bid: '/distribution/bid'
     },
     data: {
       icon: 'lock',

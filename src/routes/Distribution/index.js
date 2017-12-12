@@ -1,13 +1,20 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import Production from './Production'
 import _ from 'lodash'
+
+import Production from './Production'
+import ProductionSend from './ProductionSend'
 
 const childRoutes = [
   {
     path: 'production',
     breadcrumbName: '产品',
     component: Production
+  },
+  {
+    path: 'productionSend',
+    breadcrumbName: '生产科下发',
+    component: ProductionSend
   }
 ]
 
