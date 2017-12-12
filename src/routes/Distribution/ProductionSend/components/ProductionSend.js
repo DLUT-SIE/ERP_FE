@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import util from 'utils'
-import { Button, Upload, message } from 'antd'
+import { message } from 'antd'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 
