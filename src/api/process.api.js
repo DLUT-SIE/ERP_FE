@@ -6,5 +6,9 @@ export default {
   getProcessMaterials: {
     url: '/api/processMaterials',
     method: 'GET'
+  },
+  saveRoute: {
+    url: '/api/route',
+    method: 'POST'
   }
 }

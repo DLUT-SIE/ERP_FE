@@ -18,8 +18,12 @@ class RouteModal extends React.Component {
     }
   }
 
-  componentWillReceiveProps () {
-    console.log('componentWillReceiveProps')
+  componentDidMount () {
+    console.log('componentDidMount')
+  }
+
+  componentWillReceiveProps (nextProps) {
+    console.log('componentWillReceiveProps', nextProps)
   }
 
   getFormItems = () => {
@@ -68,9 +72,6 @@ class RouteModal extends React.Component {
       })
       if (!item) {
         Message.error('请输入正确的路线！')
-        this.setState({
-          inputValue: ''
-        })
         return
       } else {
         values[i] = item.value

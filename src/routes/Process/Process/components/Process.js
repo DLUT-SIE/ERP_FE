@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
+import fetchAPI from 'api'
+import { apis } from 'api/config'
 import { Button, Message } from 'antd'
 import { CICULATION_ROUTE_LIST, PROCESS_ROUTE_LIST } from 'const'
 
@@ -36,59 +38,6 @@ class ProcessImport extends React.Component {
     })
   }
 
-  handleOpenRouteModal = (type) => {
-    return () => {
-      if (type === 'circulation') {
-        this.setState({
-          title: '流转路线编辑',
-          label: '请输入流转路线并使用分号";"分割（如：DY;J;H）:',
-          routeVisible: true,
-          number: 10,
-          prefix: 'L',
-          selectList: CICULATION_ROUTE_LIST
-        })
-      } else {
-        this.setState({
-          title: '工序路线编辑',
-          label: '请输入工序路线并使用分号";"分割（如：DY;J;H）:',
-          routeVisible: true,
-          number: 12,
-          prefix: '工序',
-          selectList: PROCESS_ROUTE_LIST
-        })
-      }
-    }
-  }
-
-  handleCloseRoute = () => {
-    this.setState({
-      routeVisible: false
-    })
-  }
-
-  handleSaveRoute = (fieldsValue) => {
-    let result = []
-    let count = 0
-    let flag = true
-    _.forEach(fieldsValue, (value, key) => {
-      const index = +key.split('-')[1]
-      result[index - 1] = value
-      count += value ? 1 : 0
-    })
-    _.forEach(result, (value, index) => {
-      if (!value && index < count) {
-        Message.error('不允许跨路线，请重新设置！')
-        flag = false
-        return
-      }
-    })
-    if (flag) {
-      result = _.filter(result, (value) => {
-        return value !== undefined
-      })
-    }
-  }
-
   buildColumns () {
     return util.buildColumns(columns, {
       circulation_route: {
@@ -97,6 +46,7 @@ class ProcessImport extends React.Component {
             <Button
               type='primary'
               size='small'
+              data-ticketNumber={record.ticket_number}
               onClick={this.handleOpenRouteModal('circulation')}
             >
               编辑
@@ -110,6 +60,7 @@ class ProcessImport extends React.Component {
             <Button
               type='primary'
               size='small'
+              onClick={this.handleOpenRouteModal('process')}
             >
               编辑
             </Button>
@@ -186,9 +137,85 @@ class ProcessImport extends React.Component {
     })
   }
 
+  handleOpenRouteModal = (type) => {
+    return (e) => {
+      const { status } = this.props
+      const mydata = status.toJS()
+      const workOrder = _.get(mydata, 'workOrder', [])
+      const ticketNumber = e.target.dataset.ticketNumber
+      let config
+      console.log('workOrder', workOrder, ticketNumber)
+      if (type === 'circulation') {
+        config = {
+          title: '流转路线编辑',
+          label: '请输入流转路线并使用分号";"分割（如：DY;J;H）:',
+          routeVisible: true,
+          number: 10,
+          prefix: 'L',
+          selectList: CICULATION_ROUTE_LIST,
+          values: [3, 1, 4]
+        }
+      } else {
+        config = {
+          title: '工序路线编辑',
+          label: '请输入工序路线并使用分号";"分割（如：DY;J;H）:',
+          routeVisible: true,
+          number: 12,
+          prefix: '工序',
+          selectList: PROCESS_ROUTE_LIST,
+          values: [4, 5, 1, 7]
+        }
+      }
+      this.setState({
+        workOrder,
+        ticketNumber,
+        ...config
+      })
+    }
+  }
+
+  handleCloseRouteModal = () => {
+    this.setState({
+      routeVisible: false
+    })
+  }
+
+  // 目前判断是否跨路线的方法有点笨，之后再想想优雅的方法
+  handleSaveRoute = (fieldsValue) => {
+    let result = []
+    let count = 0
+    let flag = true
+    const { workOrder, ticketNumber } = this.state
+    _.forEach(fieldsValue, (value, key) => {
+      const index = +key.split('-')[1]
+      result[index - 1] = +value
+      count += value ? 1 : 0
+    })
+    _.forEach(result, (value, index) => {
+      if (!value && index < count) {
+        Message.error('不允许跨路线，请重新设置！')
+        flag = false
+        return
+      }
+    })
+    if (flag) {
+      result = _.filter(result, (value) => {
+        return value !== undefined
+      })
+    }
+    console.log('reult', result)
+    fetchAPI(apis.ProcessAPI.saveRoute, {
+      workOrder: workOrder,
+      ticketNumber: ticketNumber,
+      route: result
+    }).then((repos) => {
+      this.handleCloseRouteModal()
+    })
+  }
+
   render () {
     const { status, location } = this.props
-    const { title, label, number, prefix, routeVisible, selectList } = this.state
+    const { ticketNumber, title, label, number, prefix, routeVisible, selectList } = this.state
     const query = QueryString.parse(location.search)
     const mydata = status.toJS()
     const list = _.get(mydata, 'list', [])
@@ -197,7 +224,7 @@ class ProcessImport extends React.Component {
     const workOrder = _.get(mydata, 'workOrder', '')
     const processName = _.get(mydata, 'processName', '')
     const unit = _.get(mydata, 'unit', '')
-    const values = [3, 1, 4]
+    const { values } = this.state
     return (
       <div>
         <FilterBar
@@ -217,17 +244,21 @@ class ProcessImport extends React.Component {
           size='middle'
           onChange={this.handleChangeTable}
         />
-        <RouteModal
-          title={title}
-          label={label}
-          visible={routeVisible}
-          number={number}
-          prefix={prefix}
-          list={selectList}
-          fieldsValue={values}
-          onOk={this.handleSaveRoute}
-          onCancel={this.handleCloseRoute}
-        />
+        { routeVisible &&
+          <RouteModal
+            workOrder={workOrder}
+            ticketNumber={ticketNumber}
+            title={title}
+            label={label}
+            visible={routeVisible}
+            number={number}
+            prefix={prefix}
+            list={selectList}
+            fieldsValue={values}
+            onOk={this.handleSaveRoute}
+            onCancel={this.handleCloseRouteModal}
+          />
+        }
       </div>
     )
   }

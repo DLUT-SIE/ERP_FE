@@ -34,9 +34,9 @@ class ProcessImport extends React.Component {
             <Button
               type='primary'
               size='small'
-              data-id={record.order_id}
+              data-id={record.work_order}
             >
-              <Link to={`/process/process/?order_id=${record.order_id}`}>
+              <Link to={`/process/process/?work_order=${record.work_order}`}>
                 查 看
               </Link>
             </Button>

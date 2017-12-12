@@ -83,7 +83,7 @@ export function *getListSaga (type, body) {
     const { payload = {} } = yield take(IMPORT_GET_LIST_DATA)
     const { callback, params = {} } = payload
     const [ list ] = yield [
-      call(fetchAPI, apis.DataAPI.getProductList, params)
+      call(fetchAPI, apis.ProcessAPI.getProductList, params)
     ]
     callback && callback(list.results)
     yield put(addListDataAction({ list: list.results }))
