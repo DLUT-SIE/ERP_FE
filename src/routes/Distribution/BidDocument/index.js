@@ -11,8 +11,8 @@ class GetComponent extends React.Component {
     Promise.all([import('./modules')]).then(([mod]) => {
       const reducer = mod.default
       const sagas = mod.sagas
-      injectReducer(store, { key: 'productionSend', reducer })
-      injectSagas(store, { key: 'productionSend', sagas })
+      injectReducer(store, { key: 'bidDocument', reducer })
+      injectSagas(store, { key: 'bidDocument', sagas })
     })
     return (
       <Bundle load={container}>

@@ -7,9 +7,10 @@ import fetchAPI from 'api'
 import { apis } from 'api/config'
 
 import CustomTable from 'components/CustomTable'
+import './DepartmentSend.less'
 
 const columns = [
-  'production_name', 'send_file', 'upload_file', 'status'
+  'production_name', 'send_file', 'upload_file', 'pretty_status'
 ]
 
 class Production extends React.Component {
@@ -17,16 +18,15 @@ class Production extends React.Component {
     super(props)
     this.state = {}
     this._columns = this.buildColumns()
+
+    this._deptType = this.props.location.pathname.split('/')[2].split('_')[0]
+    this._deptMap = window.erpConfig.deptMap
   }
 
   componentDidMount () {
     this.props.getListDataAction({
       params: {
-        related: 4
-      },
-      callback: (data) => {
-        const columns = this.buildColumns()
-        this.props.addListDataAction({ data: data, columns: columns })
+        related: this._deptMap[this._deptType]
       }
     })
   }
@@ -34,9 +34,38 @@ class Production extends React.Component {
   buildColumns () {
     return util.buildColumns(columns, {
       send_file: {
-        // render: (text, record, index) => {
-        //   // return
-        // }
+        render: (text, record, index) => {
+          const document = record.documents_from_distribution[this._deptType]
+          return document ? (
+            <a
+              className='document-link'
+              href={document.path}
+              download={document.name}
+            >
+              {document.name}
+            </a>
+          ) : ''
+        }
+      },
+      upload_file: {
+        render: (text, record, index) => {
+          const document = record.documents_to_distribution[this._deptType]
+          return document ? (
+            <a
+              className='document-link'
+              href={document.path}
+              download={document.name}
+            >
+              {document.name}
+            </a>
+          ) : ''
+        }
+      },
+      pretty_status: {
+        render: (text, record, index) => {
+          const document = record.documents_to_distribution[this._deptType]
+          return document ? document.pretty_status : ''
+        }
       }
     })
   }
@@ -74,16 +103,15 @@ class Production extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
-    const columns = _.get(mydata, 'columns', [])
+    // const columns = _.get(mydata, 'columns', [])
     return (
-      <div>
+      <div className='department-send'>
         <CustomTable
           dataSource={list}
-          columns={columns}
+          columns={this._columns}
           loading={loading}
           pagination={pagination}
           size='middle'
-          bordered
           onChange={this.handleChangeTable}
         />
       </div>
@@ -92,9 +120,9 @@ class Production extends React.Component {
 }
 
 Production.propTypes = {
+  location: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
-  getListDataAction: PropTypes.func.isRequired,
-  addListDataAction: PropTypes.func.isRequired
+  getListDataAction: PropTypes.func.isRequired
 }
 
 export default Production

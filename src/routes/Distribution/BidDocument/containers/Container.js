@@ -1,14 +1,14 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { actions } from '../modules'
-import ProductionSend from '../components/ProductionSend'
+import BidDocument from '../components/BidDocument'
 
 const mapDispatchToProps = {
   ...actions
 }
 
 const mapStateToProps = (state) => ({
-  status: state.productionSend
+  status: state.bidDocument
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductionSend))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BidDocument))

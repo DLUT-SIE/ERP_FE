@@ -3,7 +3,8 @@ import { Redirect } from 'react-router-dom'
 import _ from 'lodash'
 
 import Production from './Production'
-import ProductionSend from './ProductionSend'
+import DepartmentSend from './DepartmentSend'
+import BidDocument from './BidDocument'
 
 const childRoutes = [
   {
@@ -12,9 +13,24 @@ const childRoutes = [
     component: Production
   },
   {
-    path: 'productionSend',
+    path: 'production_send',
     breadcrumbName: '生产科下发',
-    component: ProductionSend
+    component: DepartmentSend
+  },
+  {
+    path: 'process_send',
+    breadcrumbName: '工艺科下发',
+    component: DepartmentSend
+  },
+  {
+    path: 'procurement_send',
+    breadcrumbName: '采购科下发',
+    component: DepartmentSend
+  },
+  {
+    path: 'bid_document',
+    breadcrumbName: '招标文件审核',
+    component: BidDocument
   }
 ]
 
