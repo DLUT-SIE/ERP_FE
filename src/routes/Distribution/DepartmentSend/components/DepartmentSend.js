@@ -103,7 +103,6 @@ class Production extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
-    // const columns = _.get(mydata, 'columns', [])
     return (
       <div className='department-send'>
         <CustomTable
