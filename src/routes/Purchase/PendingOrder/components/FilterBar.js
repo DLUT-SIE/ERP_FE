@@ -58,7 +58,7 @@ FilterBar.propTypes = {
   onSearch: PropTypes.func.isRequired
 }
 
-let makeFileds = function (fieldsValue) {
+let makeFields = function (fieldsValue) {
   let result = {}
   _.forEach(fieldsValue, (value, key) => {
     result[key] = { value }
@@ -68,7 +68,7 @@ let makeFileds = function (fieldsValue) {
 
 const WrappedForm = Form.create({
   mapPropsToFields (props) {
-    return makeFileds(props.fieldsValue)
+    return makeFields(props.fieldsValue)
   }
 })(FilterBar)
 

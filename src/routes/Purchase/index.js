@@ -11,7 +11,7 @@ const childRoutes = [
     component: MaterialSummary
   },
   {
-    path: 'pendingorder',
+    path: 'pending_order',
     breadcrumbName: '待处理工作令',
     component: PendingOrder
   }
@@ -25,9 +25,8 @@ export default (path) => {
   })).concat({
     path: `/${path}`,
     breadcrumbName: '采购管理',
-    // redirect: `/${path}/pendingorder`
     component: () => (
-      <Redirect to={`/${path}/pendingorder`} />
+      <Redirect to={`/${path}/pending_order`} />
     )
   })
 }
