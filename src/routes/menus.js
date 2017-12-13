@@ -20,10 +20,10 @@ export const menu = {
     distribution: {
       icon: 'appstore-o',
       production: '/distribution/production',
-      productionSend: '/distribution/productionSend',
-      processSend: '/distribution/processSend',
-      purchaseSend: '/distribution/purchaseSend',
-      bid: '/distribution/bid'
+      productionSend: '/distribution/production_send',
+      processSend: '/distribution/process_send',
+      procurementSend: '/distribution/procurement_send',
+      bidDocument: '/distribution/bid_document'
     },
     data: {
       icon: 'lock',
@@ -33,9 +33,9 @@ export const menu = {
     },
     purchase: {
       icon: 'appstore',
-      pendingorder: '/purchase/pendingorder',
+      pendingorder: '/purchase/pending_order',
       material: '/purchase/material',
-      purchaseorder: '/purchase/purchaseorder'
+      purchaseorder: '/purchase/purchase_order'
     }
   }
 }
