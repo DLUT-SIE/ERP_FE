@@ -8,8 +8,6 @@ const CustomTable = (props) => {
       className='custom-table'
       rowKey={(record, index) => {
         let id = (
-          record.employee_id ||
-          record.department_id ||
           record.id ||
           index
         )

@@ -268,7 +268,6 @@ class BidDocument extends React.Component {
   }
 
   handleSaveWorkOrder = (fieldsValue) => {
-    console.log('handleSaveWorkOrder', fieldsValue)
     fetchAPI(apis.Distribution.saveWorkOrder, fieldsValue).then((repos) => {
       if (repos.id !== undefined) {
         message.success('工作令生成成功！')
