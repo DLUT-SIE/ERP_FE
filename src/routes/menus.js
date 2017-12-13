@@ -17,11 +17,13 @@ export function formatMenu (source) {
 
 export const menu = {
   menu: {
-    sell: {
+    distribution: {
       icon: 'appstore-o',
-      production: '/sell/production',
-      prosend: '/sell/prosend',
-      craftsend: '/sell/craftsend'
+      production: '/distribution/production',
+      productionSend: '/distribution/production_send',
+      processSend: '/distribution/process_send',
+      procurementSend: '/distribution/procurement_send',
+      bidDocument: '/distribution/bid_document'
     },
     data: {
       icon: 'lock',
@@ -31,9 +33,9 @@ export const menu = {
     },
     purchase: {
       icon: 'appstore',
-      pendingorder: '/purchase/pendingorder',
+      pendingorder: '/purchase/pending_order',
       material: '/purchase/material',
-      purchaseorder: '/purchase/purchaseorder'
+      purchaseorder: '/purchase/purchase_order'
     }
   }
 }

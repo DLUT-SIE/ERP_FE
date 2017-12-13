@@ -6,6 +6,7 @@ import { Breadcrumb } from 'antd'
 
 import Header from 'components/Header'
 import Sidebar from 'components/Sidebar'
+import Distribution from './Distribution'
 import Purchase from './Purchase'
 import NotFound from './NotFound'
 import Home from './Home'
@@ -36,6 +37,7 @@ function getSidebarMenus (menus) {
 
 // 只需将新模块路由添加到这里
 const moduleRoutes = [
+  ...Distribution('distribution'),
   ...Purchase('purchase')
 ]
 

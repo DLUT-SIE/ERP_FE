@@ -4,22 +4,36 @@ const config = {
   "employeeName":"王蕾",
   "employeeMail":"806935949@qq.com",
   "isAdmin": true,
+  "deptMap": {
+    "distribution": 1,
+    "process": 2,
+    "procurement": 3,
+    "production": 4
+  },
   "menus": [
     {
-      "code": "menu.sell",
+      "code": "menu.distribution",
       "name": "经销管理",
       "children": [
         {
-          "code": "menu.sell.production",
+          "code": "menu.distribution.production",
           "name": "产品",
           "children": [],
         }, {
-          "code": "menu.sell.prosend",
+          "code": "menu.distribution.productionSend",
           "name": "生产科下发",
           "children": [],
         }, {
-          "code": "menu.sell.craftsend",
+          "code": "menu.distribution.processSend",
           "name": "工艺科下发",
+          "children": []
+        }, {
+          "code": "menu.distribution.procurementSend",
+          "name": "采购科下发",
+          "children": []
+        }, {
+          "code": "menu.distribution.bidDocument",
+          "name": "招标文件审核",
           "children": []
         }
       ],
