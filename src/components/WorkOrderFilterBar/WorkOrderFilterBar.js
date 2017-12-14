@@ -34,7 +34,7 @@ class WorkOrderFilterBar extends React.Component {
         onSubmit={this.handleSubmit}
       >
         <FormItem>
-          {getFieldDecorator('order_id')(
+          {getFieldDecorator('work_order_uid')(
             <Input className='input' placeholder='工作令' />
           )}
         </FormItem>

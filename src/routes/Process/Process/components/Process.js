@@ -5,7 +5,7 @@ import _ from 'lodash'
 import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
-import { Button, Message } from 'antd'
+import { Button, message } from 'antd'
 import { CICULATION_ROUTE_LIST, PROCESS_ROUTE_LIST } from 'const'
 
 import FilterBar from 'components/WorkOrderFilterBar'
@@ -14,8 +14,8 @@ import TableInfo from './TableInfo'
 import RouteModal from './RouteModal'
 
 const columns = [
-  'ticket_number', 'part_number', 'drawing_number', 'lib_name', 'material', 'count',
-  'net_weight', 'total_weight', 'circulation_route', 'process_route', 'transferCard', 'weldingSeam'
+  'ticket_number', 'part_number', 'drawing_number', 'lib_name', 'spec', 'material', 'count',
+  'piece_weight', 'total_weight', 'remark', 'circulation_route', 'process_route', 'transferCard', 'weldingSeam'
 ]
 
 class ProcessImport extends React.Component {
@@ -46,8 +46,10 @@ class ProcessImport extends React.Component {
             <Button
               type='primary'
               size='small'
-              data-ticketNumber={record.ticket_number}
-              onClick={this.handleOpenRouteModal('circulation')}
+              data-process-material={JSON.stringify(record)}
+              data-index={index}
+              data-route-type='circulation'
+              onClick={this.handleOpenRouteModal}
             >
               编辑
             </Button>
@@ -60,7 +62,10 @@ class ProcessImport extends React.Component {
             <Button
               type='primary'
               size='small'
-              onClick={this.handleOpenRouteModal('process')}
+              data-process-material={JSON.stringify(record)}
+              data-index={index}
+              data-route-type='process'
+              onClick={this.handleOpenRouteModal}
             >
               编辑
             </Button>
@@ -137,39 +142,73 @@ class ProcessImport extends React.Component {
     })
   }
 
-  handleOpenRouteModal = (type) => {
-    return (e) => {
-      const { status } = this.props
-      const mydata = status.toJS()
-      const workOrder = _.get(mydata, 'workOrder', [])
-      const ticketNumber = e.target.dataset.ticketNumber
-      let config
-      console.log('workOrder', workOrder, ticketNumber)
-      if (type === 'circulation') {
-        config = {
+  handleChange = (changeType) => {
+    let { routeType, index } = this.state
+    const { status } = this.props
+    const mydata = status.toJS()
+    const list = _.get(mydata, 'list', [])
+    const api = routeType === 'circulation' ? 'getCirculationRoute' : 'getProcessRoute'
+    if (changeType === 'previous') {
+      if (index === 0) {
+        message.warning('当前为第一条！')
+        return
+      }
+      index -= 1
+    } else {
+      if (index === list.length - 1) {
+        message.warning('当前为最后一条！')
+        return
+      }
+      index += 1
+    }
+    const processMaterialId = list[index].id
+    if (routeType === 'circulation') {
+      fetchAPI(apis.ProcessAPI[api], { process_material_id: processMaterialId }).then((repos) => {
+        this.setState({
+          index,
+          processMaterialId,
+          values: repos.routes
+        })
+      })
+    }
+  }
+
+  handleOpenRouteModal = (e) => {
+    let { processMaterial, index, routeType } = e.target.dataset
+    processMaterial = JSON.parse(processMaterial)
+    if (routeType === 'circulation') {
+      fetchAPI(apis.ProcessAPI.getCirculationRoute, {
+        process_material_id: processMaterial.id
+      }).then((repos) => {
+        this.setState({
+          routeType,
+          index: +index,
+          processMaterial,
           title: '流转路线编辑',
           label: '请输入流转路线并使用分号";"分割（如：DY;J;H）:',
           routeVisible: true,
           number: 10,
           prefix: 'L',
           selectList: CICULATION_ROUTE_LIST,
-          values: [3, 1, 4]
-        }
-      } else {
-        config = {
+          values: repos.routes
+        })
+      })
+    } else {
+      fetchAPI(apis.ProcessAPI.getProcessRoute, {
+        process_material_id: processMaterial.id
+      }).then((repos) => {
+        this.setState({
+          routeType,
+          index: index,
+          processMaterial,
           title: '工序路线编辑',
           label: '请输入工序路线并使用分号";"分割（如：DY;J;H）:',
           routeVisible: true,
           number: 12,
           prefix: '工序',
           selectList: PROCESS_ROUTE_LIST,
-          values: [4, 5, 1, 7]
-        }
-      }
-      this.setState({
-        workOrder,
-        ticketNumber,
-        ...config
+          values: repos.routes
+        })
       })
     }
   }
@@ -185,7 +224,7 @@ class ProcessImport extends React.Component {
     let result = []
     let count = 0
     let flag = true
-    const { workOrder, ticketNumber } = this.state
+    const { routeType, processMaterial } = this.state
     _.forEach(fieldsValue, (value, key) => {
       const index = +key.split('-')[1]
       result[index - 1] = +value
@@ -193,7 +232,7 @@ class ProcessImport extends React.Component {
     })
     _.forEach(result, (value, index) => {
       if (!value && index < count) {
-        Message.error('不允许跨路线，请重新设置！')
+        message.error('不允许跨路线，请重新设置！')
         flag = false
         return
       }
@@ -204,10 +243,10 @@ class ProcessImport extends React.Component {
       })
     }
     console.log('reult', result)
-    fetchAPI(apis.ProcessAPI.saveRoute, {
-      workOrder: workOrder,
-      ticketNumber: ticketNumber,
-      route: result
+    const api = routeType === 'circulation' ? 'saveCirculationRoute' : 'saveProcessRoute'
+    fetchAPI(apis.ProcessAPI[api], {
+      process_material_id: processMaterial.id,
+      routes: result
     }).then((repos) => {
       this.handleCloseRouteModal()
     })
@@ -215,16 +254,14 @@ class ProcessImport extends React.Component {
 
   render () {
     const { status, location } = this.props
-    const { ticketNumber, title, label, number, prefix, routeVisible, selectList } = this.state
+    const { processMaterial, title, label, number, prefix, routeVisible, selectList, values } = this.state
     const query = QueryString.parse(location.search)
     const mydata = status.toJS()
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
-    const pagination = _.get(mydata, 'pagination', {})
     const workOrder = _.get(mydata, 'workOrder', '')
     const processName = _.get(mydata, 'processName', '')
     const unit = _.get(mydata, 'unit', '')
-    const { values } = this.state
     return (
       <div>
         <FilterBar
@@ -240,23 +277,23 @@ class ProcessImport extends React.Component {
           dataSource={list}
           columns={this._columns}
           loading={loading}
-          pagination={pagination}
+          pagination={false}
           size='middle'
           onChange={this.handleChangeTable}
         />
         { routeVisible &&
           <RouteModal
-            workOrder={workOrder}
-            ticketNumber={ticketNumber}
             title={title}
             label={label}
             visible={routeVisible}
+            processMaterial={processMaterial}
             number={number}
             prefix={prefix}
             list={selectList}
             fieldsValue={values}
             onOk={this.handleSaveRoute}
             onCancel={this.handleCloseRouteModal}
+            onChange={this.handleChange}
           />
         }
       </div>

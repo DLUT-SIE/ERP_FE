@@ -9,7 +9,6 @@ import { apis } from 'api/config'
 
 const PROCESS_GET_LIST_DATA = 'PROCESS_GET_LIST_DATA'
 const PROCESS_ADD_LIST_DATA = 'PROCESS_ADD_LIST_DATA'
-const PAGE_SIZE = 10
 
 // ------------------------------------
 // Actions
@@ -47,22 +46,14 @@ var initialState = Immutable.fromJS({
 export default function Process (state = initialState, action) {
   var map = {
     PROCESS_GET_LIST_DATA () {
-      let { params = {} } = action.payload
-      return state.mergeIn(
-        ['pagination'], {
-          current: +(params.page || 1),
-          pageSize: +(params.limit || PAGE_SIZE)
-        }
-      ).set(
+      return state.set(
         'loading', true
       )
     },
     PROCESS_ADD_LIST_DATA () {
       let { data } = action.payload
-      const { results, count, work_order: workOrder, process_name: processName, unit } = data
-      return state.mergeIn(
-        ['pagination'], { total: count }
-      ).merge({
+      const { results, work_order: workOrder, process_name: processName, unit } = data
+      return state.merge({
         list: results,
         workOrder,
         processName,

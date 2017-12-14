@@ -25,7 +25,7 @@ export const menu = {
     },
     process: {
       icon: 'lock',
-      processimport: '/process/processImport',
+      processimport: '/process/process_import',
       process: '/process/process',
       weld: '/process/weld'
     },

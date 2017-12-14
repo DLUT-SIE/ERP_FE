@@ -92,6 +92,12 @@ class RouteModal extends React.Component {
     this.props.form.setFieldsValue(fieldsValue)
   }
 
+  handleChangeProcessMaterials = (e) => {
+    const type = e.target.dataset.type
+    const { onChange } = this.props
+    onChange & onChange(type)
+  }
+
   handleSave = () => {
     const { onOk, form } = this.props
     form.validateFields((err, values) => {
@@ -104,7 +110,8 @@ class RouteModal extends React.Component {
 
   render () {
     const { inputValue } = this.state
-    const { title, visible, label, onCancel } = this.props
+    const { processMaterial, title, visible, label, onCancel } = this.props
+    console.log('processMaterial', processMaterial)
     return (
       <Form>
         <Modal
@@ -114,23 +121,70 @@ class RouteModal extends React.Component {
           onOk={this.handleSave}
           onCancel={onCancel}
           footer={[
-            <Button key='previous' className='previous-btn' onClick={this.handlePrevious}>
+            <Button
+              key='previous'
+              className='previous-btn'
+              data-type='previous'
+              onClick={this.handleChangeProcessMaterials}
+            >
               上一条
             </Button>,
-            <Button key='next' className='previous-btn' onClick={this.handleNext}>
+            <Button
+              key='next'
+              className='previous-btn'
+              data-type='next'
+              onClick={this.handleChangeProcessMaterials}
+            >
               下一条
             </Button>,
-            <Button key='submit' type='primary' onClick={this.handleSave}>
+            <Button
+              key='submit'
+              type='primary'
+              onClick={this.handleSave}
+            >
               保存
             </Button>,
-            <Button key='back' onClick={onCancel}>
+            <Button
+              key='back'
+              onClick={onCancel}
+            >
               返回
             </Button>
           ]}
         >
+          <div className='process-material-info'>
+            <Row gutter={16} key={0}>
+              <Col span={6} key={0}>
+                票号：{processMaterial.ticket_number}
+              </Col>
+              <Col span={6} key={1}>
+                图号：{processMaterial.drawing_number}
+              </Col>
+              <Col span={6} key={2}>
+                名称：{processMaterial.name}
+              </Col>
+              <Col span={6} key={3}>
+                规格：{processMaterial.spec}
+              </Col>
+            </Row>
+            <Row gutter={16} key={1}>
+              <Col span={6} key={0}>
+                部件号：{processMaterial.part_number}
+              </Col>
+              <Col span={6} key={1}>
+                材质：{processMaterial.material}
+              </Col>
+              <Col span={6} key={2}>
+                数量：{processMaterial.count}
+              </Col>
+              <Col span={6} key={3}>
+                备注：{processMaterial.remark}
+              </Col>
+            </Row>
+          </div>
           <div>
             <div className='quick-edit'>
-              <label htmlFor='routeInput'>{label}</label>
+              <b htmlFor='routeInput'>{label}</b>
               <TextArea
                 className='text-input'
                 id='routeInput'
@@ -156,6 +210,7 @@ class RouteModal extends React.Component {
 }
 
 RouteModal.propTypes = {
+  processMaterial: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   visible: PropTypes.bool.isRequired,
@@ -164,6 +219,7 @@ RouteModal.propTypes = {
   list: PropTypes.array.isRequired,
   onOk: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired
 }
 

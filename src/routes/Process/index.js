@@ -6,7 +6,7 @@ import _ from 'lodash'
 
 const childRoutes = [
   {
-    path: 'processImport',
+    path: 'process_import',
     breadcrumbName: '工艺库导入',
     component: ProcessImport
   },
@@ -26,7 +26,7 @@ export default (path) => {
     path: `/${path}`,
     breadcrumbName: '工艺管理',
     component: () => (
-      <Redirect to={`/${path}/processImport`} />
+      <Redirect to={`/${path}/process_import`} />
     )
   })
 }

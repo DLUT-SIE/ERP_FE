@@ -4,13 +4,16 @@ import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
 import { Button, Upload } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, message } from 'react-router-dom'
+import fetchAPI from 'api'
+import { apis } from 'api/config'
 
 import FilterBar from 'components/WorkOrderFilterBar'
 import CustomTable from 'components/CustomTable'
+import './ProcessImport.less'
 
 const columns = [
-  'order_id', 'product_name', 'action'
+  'work_order_uid', 'product_name', 'action'
 ]
 
 class ProcessImport extends React.Component {
@@ -30,31 +33,55 @@ class ProcessImport extends React.Component {
     return util.buildColumns(columns, {
       action: {
         render: (text, record, index) => {
-          return !record.isImport ? (
-            <Button
-              type='primary'
-              size='small'
-              data-id={record.work_order}
-            >
-              <Link to={`/process/process/?work_order=${record.work_order}`}>
-                查 看
-              </Link>
-            </Button>
-          ) : (
-            <Upload
-              // action=''
-              // data={record.order_id}
-            >
+          return (
+            <div>
               <Button
                 type='primary'
                 size='small'
+                data-id={record.work_order}
+                disabled={record.status === 0}
               >
-                导入
+                <Link to={`/process/process/?work_order_uid=${record.work_order_uid}`}>
+                  查 看
+                </Link>
               </Button>
-            </Upload>
+              <span className='ant-divider' />
+              <Upload
+                name='file'
+                data={{ work_order: record.work_order }}
+                customRequest={this.uploadFile}
+              >
+                <Button
+                  type='primary'
+                  size='small'
+                  disabled={record.status === 2}
+                >
+                  导入
+                </Button>
+              </Upload>
+              <span className='ant-divider' />
+              <Button
+                type='primary'
+                size='small'
+                data-id={record.work_order}
+                disabled={record.status !== 1}
+              >
+                审核
+              </Button>
+            </div>
           )
         }
       }
+    })
+  }
+
+  uploadFile = (file) => {
+    fetchAPI(apis.ProcessAPI.uploadProcessFile, {
+      path: file.file,
+      ...file.data
+    }).then(() => {
+      message.success('上传成功')
+      this.updatelist()
     })
   }
 
@@ -109,7 +136,7 @@ class ProcessImport extends React.Component {
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
     return (
-      <div>
+      <div className='process-import'>
         <FilterBar
           fieldsValue={query}
           onSearch={this.handleSearch}

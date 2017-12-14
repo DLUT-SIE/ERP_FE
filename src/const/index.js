@@ -161,10 +161,10 @@ export const COLUMNS = {
     dataIndex: 'action',
     className: 'column-action'
   },
-  order_id: {
+  work_order_uid: {
     title: '工作令',
-    key: 'order_id',
-    dataIndex: 'order_id'
+    key: 'work_order_uid',
+    dataIndex: 'work_order_uid'
   },
   detail: {
     title: '明细表',
@@ -178,8 +178,8 @@ export const COLUMNS = {
   },
   product_name: {
     title: '产品名称',
-    key: 'product_name',
-    dataIndex: 'product_name'
+    key: 'name',
+    dataIndex: 'name'
   },
   ticket_number: {
     title: '票号',
@@ -198,8 +198,13 @@ export const COLUMNS = {
   },
   lib_name: {
     title: '名称',
-    key: 'lib_name',
-    dataIndex: 'lib_name'
+    key: 'name',
+    dataIndex: 'name'
+  },
+  spec: {
+    title: '规格',
+    key: 'spec',
+    dataIndex: 'spec'
   },
   material: {
     title: '材质',
@@ -211,15 +216,20 @@ export const COLUMNS = {
     key: 'count',
     dataIndex: 'count'
   },
-  net_weight: {
+  piece_weight: {
     title: '净重',
-    key: 'net_weight',
-    dataIndex: 'net_weight'
+    key: 'piece_weight',
+    dataIndex: 'piece_weight'
   },
   total_weight: {
     title: '总重',
     key: 'total_weight',
     dataIndex: 'total_weight'
+  },
+  remark: {
+    title: '备注',
+    key: 'remark',
+    dataIndex: 'remark'
   },
   circulation_route: {
     title: '流转路线',
