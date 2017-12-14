@@ -127,11 +127,11 @@ class CustomSelect extends React.Component {
 
   render () {
     const { value, list } = this.state
-    const { fields } = this.props
+    const { fields, placeholder = '请选择' } = this.props
     return (
       <Select
         className='select custom-select'
-        placeholder='请选择'
+        placeholder={placeholder}
         showSearch
         size='large'
         notFoundContent='没有找到'
@@ -147,6 +147,7 @@ class CustomSelect extends React.Component {
 }
 
 CustomSelect.propTypes = {
+  placeholder: PropTypes.string,
   list: PropTypes.array,
   pushList: PropTypes.array,
   apiConfig: PropTypes.object,

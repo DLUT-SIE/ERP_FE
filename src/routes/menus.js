@@ -25,11 +25,11 @@ export const menu = {
       procurementSend: '/distribution/procurement_send',
       bidDocument: '/distribution/bid_document'
     },
-    data: {
+    process: {
       icon: 'lock',
-      processimport: '/data/processimport',
-      process: '/data/process',
-      weld: '/data/weld'
+      processimport: '/process/process_import',
+      process: '/process/process',
+      weld: '/process/weld'
     },
     purchase: {
       icon: 'appstore',

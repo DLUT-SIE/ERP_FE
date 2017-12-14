@@ -3,16 +3,20 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
-import { Button } from 'antd'
+import { Button, Upload } from 'antd'
+import { Link, message } from 'react-router-dom'
+import fetchAPI from 'api'
+import { apis } from 'api/config'
 
 import FilterBar from 'components/WorkOrderFilterBar'
 import CustomTable from 'components/CustomTable'
+import './ProcessImport.less'
 
 const columns = [
-  'order_id', 'detail', 'contract', 'action'
+  'work_order_uid', 'production_name', 'action'
 ]
 
-class PendingOrder extends React.Component {
+class ProcessImport extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -20,7 +24,7 @@ class PendingOrder extends React.Component {
   }
 
   componentDidMount () {
-    this.props.getInitDataAction({
+    this.props.getListDataAction({
       params: this._query()
     })
   }
@@ -30,16 +34,54 @@ class PendingOrder extends React.Component {
       action: {
         render: (text, record, index) => {
           return (
-            <Button
-              type='primary'
-              size='small'
-              data-id={record.work_id}
-            >
-              完成
-            </Button>
+            <div>
+              <Button
+                type='primary'
+                size='small'
+                data-id={record.work_order}
+                disabled={record.status === 0}
+              >
+                <Link to={`/process/process/?work_order_uid=${record.work_order_uid}`}>
+                  查 看
+                </Link>
+              </Button>
+              <span className='ant-divider' />
+              <Upload
+                name='file'
+                data={{ work_order: record.work_order }}
+                customRequest={this.uploadFile}
+              >
+                <Button
+                  type='primary'
+                  size='small'
+                  disabled={record.status === 2}
+                >
+                  导入
+                </Button>
+              </Upload>
+              <span className='ant-divider' />
+              <Button
+                type='primary'
+                size='small'
+                data-id={record.work_order}
+                disabled={record.status !== 1}
+              >
+                审核
+              </Button>
+            </div>
           )
         }
       }
+    })
+  }
+
+  uploadFile = (file) => {
+    fetchAPI(apis.ProcessAPI.uploadProcessFile, {
+      path: file.file,
+      ...file.data
+    }).then(() => {
+      message.success('上传成功')
+      this.updatelist()
     })
   }
 
@@ -94,7 +136,7 @@ class PendingOrder extends React.Component {
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
     return (
-      <div>
+      <div className='process-import'>
         <FilterBar
           fieldsValue={query}
           onSearch={this.handleSearch}
@@ -112,12 +154,11 @@ class PendingOrder extends React.Component {
   }
 }
 
-PendingOrder.propTypes = {
+ProcessImport.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
-  getInitDataAction: PropTypes.func.isRequired,
   getListDataAction: PropTypes.func.isRequired
 }
 
-export default PendingOrder
+export default ProcessImport
