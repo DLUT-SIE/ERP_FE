@@ -11,7 +11,7 @@ const childRoutes = [
     component: MaterialSummary
   },
   {
-    path: 'pendingOrder',
+    path: 'pending_order',
     breadcrumbName: '待处理工作令',
     component: PendingOrder
   }
@@ -26,7 +26,7 @@ export default (path) => {
     path: `/${path}`,
     breadcrumbName: '采购管理',
     component: () => (
-      <Redirect to={`/${path}/pendingOrder`} />
+      <Redirect to={`/${path}/pending_order`} />
     )
   })
 }

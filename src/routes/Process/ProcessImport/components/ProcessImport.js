@@ -13,7 +13,7 @@ import CustomTable from 'components/CustomTable'
 import './ProcessImport.less'
 
 const columns = [
-  'work_order_uid', 'product_name', 'action'
+  'work_order_uid', 'production_name', 'action'
 ]
 
 class ProcessImport extends React.Component {
