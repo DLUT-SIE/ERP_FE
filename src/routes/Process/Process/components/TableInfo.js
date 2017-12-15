@@ -5,7 +5,7 @@ import './TableInfo.less'
 
 class TableInfo extends React.Component {
   render () {
-    const { workOrder, processName, unit } = this.props
+    const { workOrder, productionName, unit } = this.props
     return (
       <div className='table-info'>
         <Row
@@ -13,7 +13,7 @@ class TableInfo extends React.Component {
           align='middle'
         >
           <Col span={3}>工作令：{ workOrder }</Col>
-          <Col span={3}>产品名称：{ processName }</Col>
+          <Col span={3}>产品名称：{ productionName }</Col>
           <Col span={3}>单位：{ unit }</Col>
           <Col span={2} offset={4}>工艺：</Col>
           <Col span={2}>定额：</Col>
@@ -35,7 +35,7 @@ class TableInfo extends React.Component {
 
 TableInfo.propTypes = {
   workOrder: PropTypes.string.isRequired,
-  processName: PropTypes.string.isRequired,
+  productionName: PropTypes.string.isRequired,
   unit: PropTypes.string.isRequired
 }
 

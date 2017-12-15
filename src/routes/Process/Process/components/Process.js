@@ -12,6 +12,7 @@ import FilterBar from 'components/WorkOrderFilterBar'
 import CustomTable from 'components/CustomTable'
 import TableInfo from './TableInfo'
 import RouteModal from './RouteModal'
+import './Process.less'
 
 const columns = [
   'ticket_number', 'part_number', 'drawing_number', 'lib_name', 'spec', 'material', 'count',
@@ -260,7 +261,7 @@ class ProcessImport extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const workOrder = _.get(mydata, 'workOrder', '')
-    const processName = _.get(mydata, 'processName', '')
+    const productionName = _.get(mydata, 'productionName', '')
     const unit = _.get(mydata, 'unit', '')
     return (
       <div>
@@ -270,10 +271,11 @@ class ProcessImport extends React.Component {
         />
         <TableInfo
           workOrder={workOrder}
-          processName={processName}
+          productionName={productionName}
           unit={unit}
         />
         <CustomTable
+          className='process-table'
           dataSource={list}
           columns={this._columns}
           loading={loading}

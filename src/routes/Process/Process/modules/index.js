@@ -52,11 +52,11 @@ export default function Process (state = initialState, action) {
     },
     PROCESS_ADD_LIST_DATA () {
       let { data } = action.payload
-      const { results, work_order: workOrder, process_name: processName, unit } = data
+      const { results, work_order: workOrder, production_name: productionName, unit } = data
       return state.merge({
         list: results,
         workOrder,
-        processName,
+        productionName,
         unit,
         loading: false
       })
