@@ -41,8 +41,7 @@ var initialState = Immutable.fromJS({
   loading: false,
   pagination: {
     pageSize: 10
-  },
-  columns: []
+  }
 })
 
 export default function DepartmentSend (state = initialState, action) {
@@ -59,12 +58,11 @@ export default function DepartmentSend (state = initialState, action) {
       )
     },
     DEPARTMENTSEND_ADD_LIST_DATA () {
-      let { data, columns } = action.payload
+      let { data } = action.payload
       return state.mergeIn(
         ['pagination'], { total: data.count }
       ).merge({
         list: data.results,
-        columns: columns,
         loading: false
       })
     }
@@ -87,6 +85,7 @@ export function *getListSaga (type, body) {
     const { callback, params } = payload
     const data = yield call(fetchAPI, apis.Distribution.getProFileList, params)
     callback && callback(data)
+    console.log('data', data)
     yield put(addListDataAction({ data: data }))
   }
 }

@@ -11,6 +11,8 @@ const BIDDOCUMENT_GET_PRODUCTION_LIST_DATA = 'BIDDOCUMENT_GET_PRODUCTION_LIST_DA
 const BIDDOCUMENT_ADD_PRODUCTION_LIST_DATA = 'BIDDOCUMENT_ADD_PRODUCTION_LIST_DATA'
 const BIDDOCUMENT_GET_WORKORDER_LIST_DATA = 'BIDDOCUMENT_GET_WORKORDER_LIST_DATA'
 const BIDDOCUMENT_ADD_WORKORDER_LIST_DATA = 'BIDDOCUMENT_ADD_WORKORDER_LIST_DATA'
+const BIDDOCUMENT_CHANGE_CHECK_MODAL_DATA = 'BIDDOCUMENT_CHANGE_CHECK_MODAL_DATA'
+const BIDDOCUMENT_CHANGE_WORK_ORDER_MODAL_DATA = 'BIDDOCUMENT_CHANGE_WORK_ORDER_MODAL_DATA'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -45,9 +47,25 @@ function addWorkOrderListDataAction (payload = {}) {
   }
 }
 
+function changeCheckModalAction (payload = {}) {
+  return {
+    type    : BIDDOCUMENT_CHANGE_CHECK_MODAL_DATA,
+    payload : payload
+  }
+}
+
+function changeWorkOrderModalAction (payload = {}) {
+  return {
+    type    : BIDDOCUMENT_CHANGE_WORK_ORDER_MODAL_DATA,
+    payload : payload
+  }
+}
+
 export const actions = {
   getProductionListDataAction,
-  getWorkOrderListDataAction
+  getWorkOrderListDataAction,
+  changeCheckModalAction,
+  changeWorkOrderModalAction
 }
 
 // ------------------------------------
@@ -61,6 +79,12 @@ var initialState = Immutable.fromJS({
   workOrderLoading: false,
   workOrderPagination: {
     pageSize: 10
+  },
+  checkModal: {
+    visible: false
+  },
+  workOrderModal: {
+    visible: false
   }
 })
 
@@ -105,6 +129,12 @@ export default function Production (state = initialState, action) {
         workOrderList: data.results,
         workOrderLoading: false
       })
+    },
+    BIDDOCUMENT_CHANGE_CHECK_MODAL_DATA () {
+      return state.mergeIn(['checkModal'], action.payload)
+    },
+    BIDDOCUMENT_CHANGE_WORK_ORDER_MODAL_DATA () {
+      return state.mergeIn(['workOrderModal'], action.payload)
     }
   }
 

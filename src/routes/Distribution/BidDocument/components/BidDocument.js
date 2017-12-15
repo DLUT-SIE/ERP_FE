@@ -22,10 +22,6 @@ const workOrderColumns = [
 class BidDocument extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      workOrderVisible: false,
-      checkVisible: false
-    }
     this._productionColumns = this.buildProductionColumns()
     this._workOrderColumns = this.buildWorkOrderColumns()
   }
@@ -64,7 +60,7 @@ class BidDocument extends React.Component {
           colSpan: 2,
           width: 220,
           render: (text, record, index) => {
-            const document = record.documents_from_distribution['production']
+            const document = record.documents_to_distribution['production']
             return document ? (
               <a
                 className='document-link'
@@ -80,7 +76,7 @@ class BidDocument extends React.Component {
           colSpan: 0,
           width: 60,
           render : (text, record, index) => {
-            const document = record.documents_from_distribution['production']
+            const document = record.documents_to_distribution['production']
             if (!document) {
               return '未上传'
             }
@@ -90,7 +86,7 @@ class BidDocument extends React.Component {
                 size='small'
                 data-id={document.id}
                 data-map={JSON.stringify(document.actions.status)}
-                onClick={this.handleCheckClick}
+                onClick={this.handleOpenCheckModal}
               >
                 审核
               </Button>
@@ -102,7 +98,7 @@ class BidDocument extends React.Component {
           colSpan: 2,
           width: 220,
           render: (text, record, index) => {
-            const document = record.documents_from_distribution['process']
+            const document = record.documents_to_distribution['process']
             return document ? (
               <a
                 className='document-link'
@@ -118,7 +114,7 @@ class BidDocument extends React.Component {
           colSpan: 0,
           width: 60,
           render : (text, record, index) => {
-            const document = record.documents_from_distribution['process']
+            const document = record.documents_to_distribution['process']
             if (!document) {
               return '未上传'
             }
@@ -128,7 +124,7 @@ class BidDocument extends React.Component {
                 size='small'
                 data-id={document.id}
                 data-map={JSON.stringify(document.actions.status)}
-                onClick={this.handleCheckClick}
+                onClick={this.handleOpenCheckModal}
               >
                 审核
               </Button>
@@ -140,7 +136,7 @@ class BidDocument extends React.Component {
           colSpan: 2,
           width: 220,
           render: (text, record, index) => {
-            const document = record.documents_from_distribution['procurement']
+            const document = record.documents_to_distribution['procurement']
             return document ? (
               <a
                 className='document-link'
@@ -156,7 +152,7 @@ class BidDocument extends React.Component {
           colSpan: 0,
           width: 60,
           render : (text, record, index) => {
-            const document = record.documents_from_distribution['procurement']
+            const document = record.documents_to_distribution['procurement']
             if (!document) {
               return '未上传'
             }
@@ -166,7 +162,7 @@ class BidDocument extends React.Component {
                 size='small'
                 data-id={document.id}
                 data-map={JSON.stringify(document.actions.status)}
-                onClick={this.handleCheckClick}
+                onClick={this.handleOpenCheckModal}
               >
                 审核
               </Button>
@@ -176,7 +172,7 @@ class BidDocument extends React.Component {
       },
       create_work_order: {
         render: (text, record, index) => {
-          const abled = _.every(record.documents_from_distribution, (value, key) => {
+          const abled = _.every(record.documents_to_distribution, (value, key) => {
             return value && value.pretty_status === '通过'
           })
           return (
@@ -184,7 +180,7 @@ class BidDocument extends React.Component {
               type='primary'
               size='small'
               data-id={record.id}
-              onClick={this.handleCreateClick}
+              onClick={this.handleOpenWorkOrderModal}
               disabled={!abled}
             >
               生成工作令
@@ -197,30 +193,6 @@ class BidDocument extends React.Component {
 
   buildWorkOrderColumns () {
     return util.buildColumns(workOrderColumns, {})
-  }
-
-  handleCheckClick = (e) => {
-    const id = +e.target.dataset.id
-    const map = JSON.parse(e.target.dataset.map)
-    const checkList = _.map(map, (value, key) => {
-      return {
-        value: value,
-        label: key
-      }
-    })
-    this.setState({
-      checkVisible: true,
-      documentId: id,
-      checkList: checkList
-    })
-  }
-
-  handleCreateClick = (e) => {
-    const id = +e.target.dataset.id
-    this.setState({
-      workOrderVisible: true,
-      productionId: id
-    })
   }
 
   _query (query = {}, page) {
@@ -260,10 +232,53 @@ class BidDocument extends React.Component {
     this.fetchWorkOrderList(query, 'page2')
   }
 
-  handleCloseModal = () => {
-    this.setState({
-      workOrderVisible: false,
-      checkVisible: false
+  handleOpenCheckModal = (e) => {
+    const id = +e.target.dataset.id
+    const map = JSON.parse(e.target.dataset.map)
+    const checkList = _.map(map, (value, key) => {
+      return {
+        value: value,
+        label: key
+      }
+    })
+    this.props.changeCheckModalAction({
+      visible: true,
+      documentId: id,
+      checkList
+    })
+  }
+
+  handleOpenWorkOrderModal = (e) => {
+    const id = +e.target.dataset.id
+    this.props.changeWorkOrderModalAction({
+      visible: true,
+      productionId: id
+    })
+  }
+
+  handleCloseCheckModal = () => {
+    this.props.changeCheckModalAction({
+      visible: false
+    })
+  }
+
+  handleCloseWorkOrderModal = () => {
+    this.props.changeWorkOrderModalAction({
+      visible: false
+    })
+  }
+
+  handleSaveCheck = (values) => {
+    let { url, method } = apis.Distribution.saveCheckDocument
+    url = url(values.id)
+    const api = {
+      url,
+      method
+    }
+    fetchAPI(api, values.fieldsValue).then((repos) => {
+      message.success('审核成功！')
+      this.handleCloseCheckModal()
+      this.fetchProductionList(this._query({}, 'page1'))
     })
   }
 
@@ -271,25 +286,14 @@ class BidDocument extends React.Component {
     fetchAPI(apis.Distribution.saveWorkOrder, fieldsValue).then((repos) => {
       if (repos.id !== undefined) {
         message.success('工作令生成成功！')
-        this.handleCloseModal()
+        this.handleCloseWorkOrderModal()
         this.fetchProductionList(this._query({}, 'page1'))
         this.fetchWorkOrderList(this._query({}, 'page2'))
       }
     })
   }
 
-  handleSaveCheck = (values) => {
-    let api = apis.Distribution.saveCheckDocument
-    api.url = api.url(values.id)
-    fetchAPI(api, values.fieldsValue).then((repos) => {
-      message.success('审核成功！')
-      this.handleCloseModal()
-      this.fetchProductionList(this._query({}, 'page1'))
-    })
-  }
-
   render () {
-    const { workOrderVisible, productionId, checkVisible, documentId, checkList } = this.state
     const { status } = this.props
     const mydata = status.toJS()
     const productionList = _.get(mydata, 'productionList', [])
@@ -298,6 +302,8 @@ class BidDocument extends React.Component {
     const workOrderList = _.get(mydata, 'workOrderList', [])
     const workOrderLoading = _.get(mydata, 'workOrderLoading')
     const workOrderPagination = _.get(mydata, 'workOrderPagination', {})
+    const checkModal = _.get(mydata, 'checkModal', {})
+    const workOrderModal = _.get(mydata, 'workOrderModal', {})
     return (
       <div className='bid-document'>
         <CustomTable
@@ -318,21 +324,18 @@ class BidDocument extends React.Component {
           bordered
           onChange={this.handleChangeWorkOrderTable}
         />
-        { workOrderVisible &&
+        { workOrderModal.visible &&
           <WorkOrderModal
-            visible={workOrderVisible}
-            productionId={productionId}
+            {...workOrderModal}
             onOk={this.handleSaveWorkOrder}
-            onCancel={this.handleCloseModal}
+            onCancel={this.handleCloseWorkOrderModal}
           />
         }
-        { checkVisible &&
+        { checkModal.visible &&
           <CheckModal
-            visible={checkVisible}
-            documentId={documentId}
-            checkList={checkList}
+            {...checkModal}
             onOk={this.handleSaveCheck}
-            onCancel={this.handleCloseModal}
+            onCancel={this.handleCloseCheckModal}
           />
         }
       </div>
@@ -345,7 +348,9 @@ BidDocument.propTypes = {
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   getProductionListDataAction: PropTypes.func.isRequired,
-  getWorkOrderListDataAction: PropTypes.func.isRequired
+  getWorkOrderListDataAction: PropTypes.func.isRequired,
+  changeCheckModalAction: PropTypes.func.isRequired,
+  changeWorkOrderModalAction: PropTypes.func.isRequired
 }
 
 export default BidDocument
