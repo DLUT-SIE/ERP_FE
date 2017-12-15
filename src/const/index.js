@@ -9,12 +9,6 @@ export const SELL_TYPE_LIST = [
   }
 ]
 
-export const UNKNOW_COLUMN = {
-  title: '未知标题',
-  dataIndex: 'unkow_column',
-  key: 'unkow_column'
-}
-
 export const CICULATION_ROUTE_LIST = [
   {
     value: 0,
@@ -165,6 +159,12 @@ export const PROCESS_ROUTE_LIST = [
   }
 ]
 
+export const UNKNOW_COLUMN = {
+  title: '未知标题',
+  dataIndex: 'unkow_column',
+  key: 'unkow_column'
+}
+
 export const COLUMNS = {
   action: {
     title: '操作',
@@ -268,12 +268,12 @@ export const COLUMNS = {
     dataIndex: 'count'
   },
   piece_weight: {
-    title: '净重',
+    title: '净重(Kg)',
     key: 'piece_weight',
     dataIndex: 'piece_weight'
   },
   total_weight: {
-    title: '总重',
+    title: '总重(Kg)',
     key: 'total_weight',
     dataIndex: 'total_weight'
   },
@@ -301,5 +301,30 @@ export const COLUMNS = {
     title: '焊缝',
     key: 'weldingSeam',
     dataIndex: 'weldingSeam'
+  },
+  order: {
+    title: '序号',
+    key: 'order',
+    dataIndex: 'order'
+  },
+  size: {
+    title: '规格',
+    key: 'size',
+    dataIndex: 'size'
+  },
+  weight: {
+    title: '单重(Kg)',
+    key: 'weight',
+    dataIndex: 'weight'
+  },
+  operative_norm: {
+    title: '执行标准',
+    key: 'operative_norm',
+    dataIndex: 'operative_norm'
+  },
+  status: {
+    title: '供货状态',
+    key: 'status',
+    dataIndex: 'status'
   }
 }

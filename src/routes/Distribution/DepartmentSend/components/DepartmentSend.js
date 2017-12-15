@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
-import { message } from 'antd'
+import { Upload, Button, message } from 'antd'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 
@@ -10,28 +11,27 @@ import CustomTable from 'components/CustomTable'
 import './DepartmentSend.less'
 
 const columns = [
-  'production_name', 'send_file', 'upload_file', 'pretty_status'
+  'production_name', 'send_file', 'upload_file', 'pretty_status', 'action'
 ]
 
 class Production extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
-    this._columns = this.buildColumns()
 
     this._deptType = this.props.location.pathname.split('/')[2].split('_')[0]
     this._deptMap = window.erpConfig.deptMap
+    this._columns = this.buildColumns()
   }
 
   componentDidMount () {
     this.props.getListDataAction({
-      params: {
-        related: this._deptMap[this._deptType]
-      }
+      params: this._query()
     })
   }
 
   buildColumns () {
+    const deptMap = this._deptMap
     return util.buildColumns(columns, {
       send_file: {
         render: (text, record, index) => {
@@ -66,7 +66,37 @@ class Production extends React.Component {
           const document = record.documents_to_distribution[this._deptType]
           return document ? document.pretty_status : ''
         }
+      },
+      action: {
+        render : (text, record, index) => {
+          const document = record.documents_to_distribution[this._deptType]
+          const data = { product: record.id, dst: deptMap['distribution'], src: deptMap[this._deptType] }
+          return document && document.pretty_status === '通过' ? '已上传' : (
+            <Upload
+              name='file'
+              data={data}
+              customRequest={this.uploadFile}
+            >
+              <Button
+                type='primary'
+                size='small'
+              >
+                上传招标文件
+              </Button>
+            </Upload>
+          )
+        }
       }
+    })
+  }
+
+  uploadFile = (file) => {
+    fetchAPI(apis.Distribution.uploadBidFile, {
+      path: file.file,
+      ...file.data
+    }).then(() => {
+      message.success('上传成功')
+      this.updatelist()
     })
   }
 
@@ -79,21 +109,52 @@ class Production extends React.Component {
     return document
   }
 
-  uploadFile = (file) => {
-    fetchAPI(apis.Distribution.uploadBidFile, {
-      path: file.file,
-      ...file.data
-    }).then((repos) => {
-      message.success('上传成功')
+  handleChangeTable = (pagination, filters, sorter) => {
+    this.props.getListDataAction({
+      params: {
+        related: this._deptMap[this._deptType],
+        page: pagination.current > 1 ? pagination.current : ''
+      }
+    })
+  }
+
+  _query (query = {}) {
+    const oldQuery = QueryString.parse(this.props.location.search)
+    return Object.assign({
+      page: 1,
+      related: this._deptMap[this._deptType]
+    }, oldQuery, query)
+  }
+
+  updateQuery (newQuery = {}) {
+    let { pathname } = this.props.location
+    let mergeQuery = this._query(newQuery)
+    let filterQuery = _.forEach(mergeQuery, (item, key) => {
+      if (item === '' || _.isUndefined(item)) {
+        delete mergeQuery[key]
+      }
+    })
+    const search = QueryString.stringify(filterQuery)
+    this.props.history.push({
+      pathname: pathname,
+      search
+    })
+    this.updatelist(filterQuery)
+    return filterQuery
+  }
+
+  updatelist (query = this.props.location.query) {
+    this.props.getListDataAction({
+      params: {
+        related: this._deptMap[this._deptType],
+        ...query
+      }
     })
   }
 
   handleChangeTable = (pagination, filters, sorter) => {
-    this.props.getListDataAction({
-      params: {
-        related: 4,
-        page: pagination.current > 1 ? pagination.current : ''
-      }
+    this.updateQuery({
+      page: pagination.current > 1 ? pagination.current : ''
     })
   }
 
@@ -120,6 +181,7 @@ class Production extends React.Component {
 
 Production.propTypes = {
   location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   getListDataAction: PropTypes.func.isRequired
 }
