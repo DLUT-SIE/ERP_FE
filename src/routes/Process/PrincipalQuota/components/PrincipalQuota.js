@@ -11,6 +11,7 @@ import FilterBar from 'components/WorkOrderFilterBar'
 import CustomTable from 'components/CustomTable'
 import TableInfo from './TableInfo'
 import PrincipalQuotaModal from './PrincipalQuotaModal'
+import './PrincipalQuota.less'
 
 const columns = [
   'order', 'size', 'count', 'weight', 'total_weight', 'material', 'operative_norm', 'status', 'remark', 'action'
@@ -60,7 +61,7 @@ class PrincipalQuota extends React.Component {
                 cancelText='取消'
               >
                 <Button
-                  type='primary'
+                  type='danger'
                   size='small'
                 >
                   删除
@@ -203,18 +204,26 @@ class PrincipalQuota extends React.Component {
     const materials = _.get(mydata, 'materials', {})
     const modal = _.get(mydata, 'modal', {})
     return (
-      <div className='process-import'>
+      <div className='principal-quota'>
         <FilterBar
+          className='filterbar'
           fieldsValue={query}
           onSearch={this.handleSearch}
         />
+        <Button
+          className='add-btn'
+          type='primary'
+          size='large'
+          onClick={this.handleOpenAddModal}
+        >
+          添加
+        </Button>
         <TableInfo
           workOrder={workOrder}
           productionName={productionName}
           unit={unit}
           writer={writer}
           proofreader={proofreader}
-          handleClick={this.handleOpenAddModal}
         />
         <CustomTable
           style={{ marginTop: 0 }}
