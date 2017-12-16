@@ -35,6 +35,14 @@ export default {
     url: '/api/principal_quotas/',
     method: 'DELETE'
   },
+  updatePincipalQuota: {
+    url: 'api/principal_quotas/',
+    method: 'POST'
+  },
+  addPincipalQuota: {
+    url: 'api/principal_quotas/',
+    method: 'PATCH'
+  },
   getMaterials: {
     url: '/api/materials/',
     method: 'GET'

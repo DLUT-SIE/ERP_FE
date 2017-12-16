@@ -51,8 +51,8 @@ const config = {
           "name": "工艺库",
           "children": [],
         }, {
-          "code": "menu.process.weld",
-          "name": "焊接明细",
+          "code": "menu.process.principalquota",
+          "name": "主材定额",
           "children": []
         }
       ],

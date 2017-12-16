@@ -29,7 +29,7 @@ export const menu = {
       icon: 'lock',
       processimport: '/process/process_import',
       process: '/process/process',
-      weld: '/process/weld'
+      principalquota: '/process/principal_quota'
     },
     purchase: {
       icon: 'appstore',
