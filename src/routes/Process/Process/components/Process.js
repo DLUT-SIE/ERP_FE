@@ -275,7 +275,7 @@ class ProcessImport extends React.Component {
           unit={unit}
         />
         <CustomTable
-          className='process-table'
+          style={{ marginTop: 0 }}
           dataSource={list}
           columns={this._columns}
           loading={loading}

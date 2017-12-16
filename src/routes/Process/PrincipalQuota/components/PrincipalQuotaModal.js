@@ -1,0 +1,196 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import _ from 'lodash'
+import { Modal, Input, Button, Form } from 'antd'
+
+import CustomSelect from 'components/CustomSelect'
+import './PrincipalQuotaModal.less'
+
+const FormItem = Form.Item
+
+const formItemLayout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 12 }
+}
+const fieldsConfig = {
+  size: {
+    rules: [{ required: true, message: '请输入规格！' }]
+  },
+  count: {
+    rules: [{
+      required: true, message: '请输入数量！'
+    }, {
+      pattern: /^[0-9]+$/, message: '请输入数值！'
+    }]
+  },
+  weight: {
+    rules: [{ required: true, message: '请输入单重！' }]
+  },
+  material: {
+    rules: [{ required: true, message: '请选择材质！' }]
+  },
+  operative_norm: {
+    rules: [{ required: true, message: '请输入执行标准！' }]
+  },
+  status: {
+    rules: [{ required: true, message: '请输入供货状态！' }]
+  }
+}
+
+class PrincipalQuotaModal extends React.Component {
+  constructor (props) {
+    super(props)
+  }
+
+  handleChangeProcessMaterials = (e) => {
+    const type = e.target.dataset.type
+    const { onChange } = this.props
+    onChange & onChange(type)
+  }
+
+  handleSave = () => {
+    const { onOk, form, fieldsValue } = this.props
+    form.validateFields((err, values) => {
+      if (err) {
+        return
+      }
+      if (fieldsValue.id) {
+        values.id = fieldsValue.id
+      }
+      onOk && onOk({
+        ...values,
+        material: +values.material,
+        count: +values.count
+      })
+    })
+  }
+
+  render () {
+    const { visible, fieldsValue, materials, form, onCancel, onChange } = this.props
+    const { getFieldDecorator } = form
+    const { id } = fieldsValue
+    return (
+      <Form>
+        <Modal
+          className='principal-quota-modal'
+          title={id ? '编辑工艺物料' : '添加工艺物料'}
+          visible={visible}
+          onOk={this.handleSave}
+          onCancel={onCancel}
+          footer={[
+            <Button
+              style={{ display: id ? 'block' : 'none' }}
+              key='previous'
+              className='change-btn'
+              data-type='previous'
+              onClick={onChange}
+            >
+              上一条
+            </Button>,
+            <Button
+              style={{ display: id ? 'block' : 'none' }}
+              key='next'
+              className='change-btn'
+              data-type='next'
+              onClick={onChange}
+            >
+              下一条
+            </Button>,
+            <Button
+              key='submit'
+              type='primary'
+              onClick={this.handleSave}
+            >
+              保存
+            </Button>,
+            <Button
+              key='back'
+              onClick={onCancel}
+            >
+              返回
+            </Button>
+          ]}
+        >
+          <FormItem label='规格' {...formItemLayout}>
+            {
+              getFieldDecorator('size', fieldsConfig['size'])(
+                <Input placeholder='请输入规格' />
+              )
+            }
+          </FormItem>
+          <FormItem label='数量' {...formItemLayout}>
+            {
+              getFieldDecorator('count', fieldsConfig['count'])(
+                <Input placeholder='请输入数量' />
+              )
+            }
+          </FormItem>
+          <FormItem label='单重' {...formItemLayout}>
+            {
+              getFieldDecorator('weight', fieldsConfig['weight'])(
+                <Input placeholder='请输入单重' />
+              )
+            }
+          </FormItem>
+          <FormItem label='材质' {...formItemLayout}>
+            {
+              getFieldDecorator('material', fieldsConfig['material'])(
+                <CustomSelect
+                  placeholder='请输入材质'
+                  list={materials}
+                />
+              )
+            }
+          </FormItem>
+          <FormItem label='执行标准' {...formItemLayout}>
+            {
+              getFieldDecorator('operative_norm', fieldsConfig['operative_norm'])(
+                <Input placeholder='请输入执行标准' />
+              )
+            }
+          </FormItem>
+          <FormItem label='供货状态' {...formItemLayout}>
+            {
+              getFieldDecorator('status', fieldsConfig['status'])(
+                <Input placeholder='请输入供货状态' />
+              )
+            }
+          </FormItem>
+          <FormItem label='备注' {...formItemLayout}>
+            {
+              getFieldDecorator('remark', fieldsConfig['remark'])(
+                <Input placeholder='请输入备注' />
+              )
+            }
+          </FormItem>
+        </Modal>
+      </Form>
+    )
+  }
+}
+
+PrincipalQuotaModal.propTypes = {
+  visible: PropTypes.bool.isRequired,
+  fieldsValue: PropTypes.object.isRequired,
+  materials: PropTypes.array.isRequired,
+  onOk: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  form: PropTypes.object.isRequired
+}
+
+let makeFileds = function (fieldsValue) {
+  let result = {}
+  _.forEach(fieldsValue, (value, key) => {
+    result[key] = { value: value + '' }
+  })
+  return result
+}
+
+const WrappedForm = Form.create({
+  mapPropsToFields (props) {
+    return makeFileds(props.fieldsValue)
+  }
+})(PrincipalQuotaModal)
+
+export default WrappedForm
