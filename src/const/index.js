@@ -242,11 +242,11 @@ export const COLUMNS = {
     key: 'create_work_order',
     dataIndex: 'create_work_order'
   },
-  uid: {
+  /* uid: {
     title: '工作令编号',
     key: 'uid',
     dataIndex: 'uid'
-  },
+  }, */
   pretty_sell_type: {
     title: '销售类型',
     key: 'pretty_sell_type',
@@ -326,5 +326,55 @@ export const COLUMNS = {
     title: '供货状态',
     key: 'status',
     dataIndex: 'status'
+  },
+  uid:{
+    title: '编号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
+  create_dt:{
+    title: '日期',
+    key: 'create_dt',
+    dataIndex: 'create_dt'
+  },
+  purchaser:{
+    title: '采购员',
+    key: 'purchaser',
+    dataIndex: 'purchaser'
+  },
+  inspector: {
+    title: '检验员',
+    key: 'inspector',
+    dataIndex: 'inspector'
+  },
+  weld_seam_uid: {
+    title: '焊缝编号',
+    key: 'weld_seam_uid',
+    dataIndex: 'weld_seam_uid'
+  },
+  material_mark: {
+    title: '焊缝牌号',
+    key: 'material_mark',
+    dataIndex: 'material_mark'
+  },
+  model_number: {
+    title: '型号',
+    key: 'model_number',
+    dataIndex: 'model_number'
+  },
+  specification: {
+    title: '规格',
+    key: 'specification',
+    dataIndex: 'specification'
+  },
+  department: {
+    title: '领用单位',
+    key: 'department',
+    dataIndex: 'department'
+  },
+  keeper: {
+    title: '记录人',
+    key: 'keeper',
+    dataIndex: 'keeper'
   }
 }

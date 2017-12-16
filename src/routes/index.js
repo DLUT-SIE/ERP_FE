@@ -9,6 +9,7 @@ import Sidebar from 'components/Sidebar'
 import Process from './Process'
 import Distribution from './Distribution'
 import Purchase from './Purchase'
+import Inventory from './Inventory'
 import NotFound from './NotFound'
 import Home from './Home'
 import './index.less'
@@ -38,9 +39,12 @@ function getSidebarMenus (menus) {
 
 // 只需将新模块路由添加到这里
 const moduleRoutes = [
+
   ...Distribution('distribution'),
   ...Process('process'),
-  ...Purchase('purchase')
+  ...Purchase('purchase'),
+  ...Inventory('inventory')
+
 ]
 
 const breadcrumbNameMap = {}
@@ -62,7 +66,10 @@ const routes = [
 ]
 const Routes = withRouter((props) => {
   const { location } = props
+  console.log('props', props)
+  /* 这里可否通过match找到当前路径匹配的path */
   const menus = window.erpConfig.menus ? JSON.parse(window.erpConfig.menus) : []
+  console.log('breadcrumbNameMap', breadcrumbNameMap)
   const { defaultKey, items } = getSidebarMenus(menus)
   const pathSnippets = location.pathname.split('/').filter(i => i)
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
