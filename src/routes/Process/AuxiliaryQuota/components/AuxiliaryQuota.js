@@ -10,7 +10,7 @@ import { Button, Popconfirm, message } from 'antd'
 import FilterBar from 'components/WorkOrderFilterBar'
 import AddBar from './AddBar.js'
 import CustomTable from 'components/CustomTable'
-import TableInfo from './TableInfo'
+import TableInfo from 'components/TableInfo'
 import AuxiliaryQuotaModal from './AuxiliaryQuotaModal'
 import './AuxiliaryQuota.less'
 
@@ -126,10 +126,10 @@ class AuxiliaryQuota extends React.Component {
 
   handleAdd = (fieldsValue) => {
     const mydata = this.props.status.toJS()
-    const workOrder = _.get(mydata, 'workOrder', '')
+    const workOrderInfo = _.get(mydata, 'workOrderInfo', '')
     fetchAPI(apis.ProcessAPI.addAuxiliaryQuota, {
-      work_order: workOrder,
-      ...fieldsValue
+      work_order: workOrderInfo.workOrder,
+      ticket_number: +fieldsValue.ticket_number
     }).then((repos) => {
       message.success('添加成功！')
       this.updatelist()
@@ -197,11 +197,7 @@ class AuxiliaryQuota extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
-    const workOrder = _.get(mydata, 'workOrder', '')
-    const productionName = _.get(mydata, 'productionName', '')
-    const unit = _.get(mydata, 'unit', '')
-    const writer = _.get(mydata, 'writer', '')
-    const proofreader = _.get(mydata, 'proofreader', '')
+    const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
     const modal = _.get(mydata, 'modal', {})
     return (
       <div className='auxiliary-quota'>
@@ -215,11 +211,7 @@ class AuxiliaryQuota extends React.Component {
           onQuickAdd={this.handleQuichAdd}
         />
         <TableInfo
-          workOrder={workOrder}
-          productionName={productionName}
-          unit={unit}
-          writer={writer}
-          proofreader={proofreader}
+          fieldsValue={workOrderInfo}
         />
         <CustomTable
           style={{ marginTop: 0 }}

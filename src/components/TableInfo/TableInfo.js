@@ -5,7 +5,8 @@ import './TableInfo.less'
 
 class TableInfo extends React.Component {
   render () {
-    const { workOrder, productionName, unit, writer, proofreader } = this.props
+    const { fieldsValue } = this.props
+    const { workOrder, productionName, unit, writer, proofreader } = fieldsValue
     return (
       <div className='table-info'>
         <Row
@@ -24,11 +25,7 @@ class TableInfo extends React.Component {
 }
 
 TableInfo.propTypes = {
-  workOrder: PropTypes.string.isRequired,
-  productionName: PropTypes.string.isRequired,
-  unit: PropTypes.string.isRequired,
-  writer: PropTypes.string.isRequired,
-  proofreader: PropTypes.string.isRequired
+  fieldsValue: PropTypes.object.isRequired
 }
 
 export default TableInfo

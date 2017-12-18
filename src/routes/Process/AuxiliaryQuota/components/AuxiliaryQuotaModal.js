@@ -31,15 +31,9 @@ const fieldsConfig = {
   remark: {}
 }
 
-class PrincipalQuotaModal extends React.Component {
+class AuxiliaryQuotaModal extends React.Component {
   constructor (props) {
     super(props)
-  }
-
-  handleChangeProcessMaterials = (e) => {
-    const type = e.target.dataset.type
-    const { onChange } = this.props
-    onChange & onChange(type)
   }
 
   handleSave = () => {
@@ -52,9 +46,7 @@ class PrincipalQuotaModal extends React.Component {
         values.id = fieldsValue.id
       }
       onOk && onOk({
-        ...values,
-        material: +values.material,
-        count: +values.count
+        ...values
       })
     })
   }
@@ -65,8 +57,8 @@ class PrincipalQuotaModal extends React.Component {
     return (
       <Form>
         <Modal
-          className='principal-quota-modal'
-          title='编辑辅材定额'
+          className='auxiliary-quota-modal'
+          title='辅材信息卡'
           width={800}
           visible={visible}
           onOk={this.handleSave}
@@ -180,7 +172,7 @@ class PrincipalQuotaModal extends React.Component {
   }
 }
 
-PrincipalQuotaModal.propTypes = {
+AuxiliaryQuotaModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   fieldsValue: PropTypes.object.isRequired,
   onOk: PropTypes.func.isRequired,
@@ -201,6 +193,6 @@ const WrappedForm = Form.create({
   mapPropsToFields (props) {
     return makeFileds(props.fieldsValue)
   }
-})(PrincipalQuotaModal)
+})(AuxiliaryQuotaModal)
 
 export default WrappedForm
