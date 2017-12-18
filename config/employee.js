@@ -54,6 +54,10 @@ const config = {
           "code": "menu.process.principalquota",
           "name": "主材定额",
           "children": []
+        }, {
+          "code": "menu.process.auxiliaryquota",
+          "name": "辅材定额",
+          "children": []
         }
       ],
     },

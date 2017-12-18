@@ -37,14 +37,30 @@ export default {
   },
   updatePincipalQuota: {
     url: 'api/principal_quotas/',
-    method: 'POST'
+    method: 'PATCH'
   },
   addPincipalQuota: {
     url: 'api/principal_quotas/',
-    method: 'PATCH'
+    method: 'POST'
   },
   getMaterials: {
     url: '/api/materials/',
     method: 'GET'
+  },
+  getAuxiliaryQuota: {
+    url: '/api/auxiliary_quotas/',
+    method: 'GET'
+  },
+  updateAuxiliaryQuota: {
+    url: '/api/auxiliary_quotas/',
+    method: 'PATCH'
+  },
+  addAuxiliaryQuota: {
+    url: '/api/auxiliary_quotas/',
+    method: 'POST'
+  },
+  deleteAuxiliaryQuota: {
+    url: '/api/auxiliary_quotas/',
+    method: 'DELETE'
   }
 }

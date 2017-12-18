@@ -326,5 +326,40 @@ export const COLUMNS = {
     title: '供货状态',
     key: 'status',
     dataIndex: 'status'
+  },
+  part_drawing_number: {
+    title: '零件图号',
+    key: 'drawing_number',
+    dataIndex: 'drawing_number'
+  },
+  unit_drawing_number: {
+    title: '部件图号',
+    key: 'parent_drawing_number',
+    dataIndex: 'parent_drawing_number'
+  },
+  category: {
+    title: '材料类别',
+    key: 'category',
+    dataIndex: 'category'
+  },
+  quota: {
+    title: '定额',
+    key: 'quota',
+    dataIndex: 'quota'
+  },
+  use_ratio: {
+    title: '利用率',
+    key: 'use_ratio',
+    dataIndex: 'use_ratio'
+  },
+  press_mark: {
+    title: '利用率',
+    key: 'press_mark',
+    dataIndex: 'press_mark'
+  },
+  gross_weight: {
+    title: '毛重(Kg)',
+    key: 'gross_weight',
+    dataIndex: 'gross_weight'
   }
 }

@@ -29,7 +29,8 @@ export const menu = {
       icon: 'lock',
       processimport: '/process/process_import',
       process: '/process/process',
-      principalquota: '/process/principal_quota'
+      principalquota: '/process/principal_quota',
+      auxiliaryquota: '/process/auxiliary_quota'
     },
     purchase: {
       icon: 'appstore',

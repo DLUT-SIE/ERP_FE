@@ -1,9 +1,11 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
+import _ from 'lodash'
+
 import ProcessImport from './ProcessImport'
 import Process from './Process'
 import PrincipalQuota from './PrincipalQuota'
-import _ from 'lodash'
+import AuxiliaryQuota from './AuxiliaryQuota'
 
 const childRoutes = [
   {
@@ -20,6 +22,11 @@ const childRoutes = [
     path: 'principal_quota',
     breadcrumbName: '主材定额',
     component: PrincipalQuota
+  },
+  {
+    path: 'auxiliary_quota',
+    breadcrumbName: '主材定额',
+    component: AuxiliaryQuota
   }
 ]
 
