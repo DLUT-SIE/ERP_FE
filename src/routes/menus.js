@@ -30,7 +30,8 @@ export const menu = {
       processimport: '/process/process_import',
       process: '/process/process',
       principalquota: '/process/principal_quota',
-      auxiliaryquota: '/process/auxiliary_quota'
+      auxiliaryquota: '/process/auxiliary_quota',
+      weldingquota: '/process/welding_quota'
     },
     purchase: {
       icon: 'appstore',

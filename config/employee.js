@@ -58,6 +58,10 @@ const config = {
           "code": "menu.process.auxiliaryquota",
           "name": "辅材定额",
           "children": []
+        }, {
+          "code": "menu.process.weldingquota",
+          "name": "焊材定额",
+          "children": []
         }
       ],
     },

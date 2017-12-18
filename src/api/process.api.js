@@ -62,5 +62,21 @@ export default {
   deleteAuxiliaryQuota: {
     url: '/api/auxiliary_quotas/',
     method: 'DELETE'
+  },
+  getWeldingQuota: {
+    url: '/api/welding_quotas/',
+    method: 'GET'
+  },
+  updateWeldingQuota: {
+    url: '/api/welding_quotas/',
+    method: 'PATCH'
+  },
+  addWeldingQuota: {
+    url: '/api/welding_quotas/',
+    method: 'POST'
+  },
+  deleteWeldingQuota: {
+    url: '/api/welding_quotas/',
+    method: 'DELETE'
   }
 }

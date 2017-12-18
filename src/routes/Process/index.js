@@ -6,6 +6,7 @@ import ProcessImport from './ProcessImport'
 import Process from './Process'
 import PrincipalQuota from './PrincipalQuota'
 import AuxiliaryQuota from './AuxiliaryQuota'
+import WeldingQuota from './WeldingQuota'
 
 const childRoutes = [
   {
@@ -25,8 +26,13 @@ const childRoutes = [
   },
   {
     path: 'auxiliary_quota',
-    breadcrumbName: '主材定额',
+    breadcrumbName: '辅材定额',
     component: AuxiliaryQuota
+  },
+  {
+    path: 'welding_quota',
+    breadcrumbName: '焊材定额',
+    component: WeldingQuota
   }
 ]
 

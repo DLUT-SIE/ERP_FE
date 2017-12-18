@@ -361,5 +361,10 @@ export const COLUMNS = {
     title: '毛重(Kg)',
     key: 'gross_weight',
     dataIndex: 'gross_weight'
+  },
+  mark: {
+    title: '牌号',
+    key: 'mark',
+    dataIndex: 'mark'
   }
 }
