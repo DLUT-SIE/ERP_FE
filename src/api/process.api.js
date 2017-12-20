@@ -1,7 +1,11 @@
 export default {
-  getProductList: {
-    url: '/api/products/',
+  getProcessLibraries: {
+    url: '/api/process_libraries/',
     method: 'GET'
+  },
+  uploadProcessLibrary: {
+    url: '/api/process_libraries/upload/',
+    method: 'POST'
   },
   getProcessMaterials: {
     url: '/api/process_materials/',
@@ -13,10 +17,6 @@ export default {
   },
   saveProcessRoute: {
     url: '/api/process_route/',
-    method: 'POST'
-  },
-  uploadProcessFile: {
-    url: '/api/processs/',
     method: 'POST'
   },
   getCirculationRoute: {
@@ -77,6 +77,18 @@ export default {
   },
   deleteWeldingQuota: {
     url: '/api/welding_quotas/',
+    method: 'DELETE'
+  },
+  getTransferCards: {
+    url: '/api/transfer_card',
+    method: 'GET'
+  },
+  getTransferCard: {
+    url: (id) => (`/api/transfer_card/${id}/`),
+    method: 'GET'
+  },
+  deleteTransferCard: {
+    url: (id) => (`/api/transfer_card/${id}/`),
     method: 'DELETE'
   }
 }

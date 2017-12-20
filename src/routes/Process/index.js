@@ -4,11 +4,23 @@ import _ from 'lodash'
 
 import ProcessImport from './ProcessImport'
 import Process from './Process'
+import TransferCardDetail from './TransferCardDetail'
+import TransferCard from './TransferCard'
 import PrincipalQuota from './PrincipalQuota'
 import AuxiliaryQuota from './AuxiliaryQuota'
 import WeldingQuota from './WeldingQuota'
 
 const childRoutes = [
+  {
+    path: 'process/transfer_card_detail',
+    breadcrumbName: '流转卡详情',
+    component: TransferCardDetail
+  },
+  {
+    path: 'process/transfer_card',
+    breadcrumbName: '流转卡列表',
+    component: TransferCard
+  },
   {
     path: 'process_import',
     breadcrumbName: '工艺库导入',
