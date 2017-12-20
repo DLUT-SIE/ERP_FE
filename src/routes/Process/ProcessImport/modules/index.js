@@ -58,12 +58,12 @@ export default function ProcessImport (state = initialState, action) {
       )
     },
     IMPORT_ADD_LIST_DATA () {
-      let { list } = action.payload
+      let { data } = action.payload
       return state.mergeIn(
-        ['pagination'], { total: list.count }
+        ['pagination'], { total: data.count }
       ).merge({
         loading: false,
-        ...action.payload
+        list: data.results
       })
     }
   }
@@ -82,11 +82,9 @@ export function *getListSaga (type, body) {
   while (true) {
     const { payload = {} } = yield take(IMPORT_GET_LIST_DATA)
     const { callback, params = {} } = payload
-    const [ list ] = yield [
-      call(fetchAPI, apis.ProcessAPI.getProductList, params)
-    ]
-    callback && callback(list.results)
-    yield put(addListDataAction({ list: list.results }))
+    const data = yield call(fetchAPI, apis.ProcessAPI.getProcessLibraries, params)
+    callback && callback(data)
+    yield put(addListDataAction({ data: data }))
   }
 }
 
