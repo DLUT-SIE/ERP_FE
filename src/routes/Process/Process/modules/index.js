@@ -40,7 +40,8 @@ var initialState = Immutable.fromJS({
   loading: false,
   pagination: {
     pageSize: 10
-  }
+  },
+  workOrderInfo: {}
 })
 
 export default function Process (state = initialState, action) {
@@ -53,11 +54,14 @@ export default function Process (state = initialState, action) {
     PROCESS_ADD_LIST_DATA () {
       let { data } = action.payload
       const { results, work_order: workOrder, production_name: productionName, unit } = data
-      return state.merge({
+      return state.mergeIn(
+        ['workOrderInfo'], {
+          workOrder,
+          productionName,
+          unit
+        }
+      ).merge({
         list: results,
-        workOrder,
-        productionName,
-        unit,
         loading: false
       })
     }

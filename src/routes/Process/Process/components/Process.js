@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import QueryString from 'query-string'
+import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import util from 'utils'
 import fetchAPI from 'api'
@@ -260,19 +261,25 @@ class ProcessImport extends React.Component {
     const mydata = status.toJS()
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
-    const workOrder = _.get(mydata, 'workOrder', '')
-    const productionName = _.get(mydata, 'productionName', '')
-    const unit = _.get(mydata, 'unit', '')
+    const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
     return (
-      <div>
+      <div className='process'>
         <FilterBar
+          className='filterbar'
           fieldsValue={query}
           onSearch={this.handleSearch}
         />
+        <Button
+          className='transfercard-btn'
+          type='primary'
+          size='large'
+        >
+          <Link to={`/process/process/transfer_card/?work_order_uid=${workOrderInfo.workOrder}`}>
+            查看流转卡列表
+          </Link>
+        </Button>
         <TableInfo
-          workOrder={workOrder}
-          productionName={productionName}
-          unit={unit}
+          fieldsValue={workOrderInfo}
         />
         <CustomTable
           style={{ marginTop: 0 }}
@@ -281,6 +288,7 @@ class ProcessImport extends React.Component {
           loading={loading}
           pagination={false}
           size='middle'
+          rowClassName={(record, index) => record.part_number === 0 ? 'highlight-row' : ''}
           onChange={this.handleChangeTable}
         />
         { routeVisible &&
