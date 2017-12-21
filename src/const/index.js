@@ -159,6 +159,29 @@ export const PROCESS_ROUTE_LIST = [
   }
 ]
 
+export const PURCHASE_ORDER_STATUS_LIST = [
+  {
+    value: 0,
+    label: '创建中订购单'
+  },
+  {
+    value: 1,
+    label: '创建完成订购单'
+  },
+  {
+    value: 2,
+    label: '审核通过订购单'
+  },
+  {
+    value: 3,
+    label: '批准通过订购单'
+  },
+  {
+    value: 4,
+    label: '已终止历史订购单'
+  }
+]
+
 export const UNKNOW_COLUMN = {
   title: '未知标题',
   dataIndex: 'unkow_column',
@@ -326,5 +349,15 @@ export const COLUMNS = {
     title: '供货状态',
     key: 'status',
     dataIndex: 'status'
+  },
+  purchase_order_uid: {
+    title: '订购单单号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
+  create_date: {
+    title: '创建时间',
+    key: 'create_date',
+    dataIndex: 'create_date'
   }
 }

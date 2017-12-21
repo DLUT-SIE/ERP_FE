@@ -1,5 +1,6 @@
 import Distribution from './distribution.api'
 import ProcessAPI from './process.api'
+import PurchaseAPI from './purchase.api'
 
 const baseAPIs = {
   // 定义格式如下
@@ -13,5 +14,6 @@ const baseAPIs = {
 // 拆分 API 在此处 assign 进来，如 Object.assign({}, baseAPIs, { moreAPIs })
 export const apis = Object.assign({}, baseAPIs, {
   Distribution,
-  ProcessAPI
+  ProcessAPI,
+  PurchaseAPI
 })
