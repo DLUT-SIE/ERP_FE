@@ -202,6 +202,7 @@ class PrincipalQuota extends React.Component {
     const proofreader = _.get(mydata, 'proofreader', '')
     const materials = _.get(mydata, 'materials', {})
     const modal = _.get(mydata, 'modal', {})
+    console.log('modal', modal)
     return (
       <div className='process-import'>
         <FilterBar

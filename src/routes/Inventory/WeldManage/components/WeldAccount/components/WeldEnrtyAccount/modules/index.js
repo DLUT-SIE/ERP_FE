@@ -7,8 +7,8 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const DEPARTMENTSEND_GET_LIST_DATA = 'DEPARTMENTSEND_GET_LIST_DATA'
-const DEPARTMENTSEND_ADD_LIST_DATA = 'DEPARTMENTSEND_ADD_LIST_DATA'
+const ENTRY_ACCOUNT_GET_LIST_DATA = 'ENTRY_ACCOUNT_GET_LIST_DATA'
+const ENTRY_ACCOUNT_ADD_LIST_DATA = 'ENTRY_ACCOUNT_ADD_LIST_DATA'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -17,14 +17,14 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : DEPARTMENTSEND_GET_LIST_DATA,
+    type    : ENTRY_ACCOUNT_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : DEPARTMENTSEND_ADD_LIST_DATA,
+    type    : ENTRY_ACCOUNT_ADD_LIST_DATA,
     payload : payload
   }
 }
@@ -44,9 +44,9 @@ var initialState = Immutable.fromJS({
   }
 })
 
-export default function DepartmentSend (state = initialState, action) {
+export default function PendingOrder (state = initialState, action) {
   var map = {
-    DEPARTMENTSEND_GET_LIST_DATA () {
+    ENTRY_ACCOUNT_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -57,10 +57,10 @@ export default function DepartmentSend (state = initialState, action) {
         'loading', true
       )
     },
-    DEPARTMENTSEND_ADD_LIST_DATA () {
+    ENTRY_ACCOUNT_ADD_LIST_DATA () {
       let { data } = action.payload
       return state.mergeIn(
-        ['pagination'], { total: data.count }
+        ['pagination'],
       ).merge({
         list: data.results,
         loading: false
@@ -81,9 +81,9 @@ export default function DepartmentSend (state = initialState, action) {
 
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(DEPARTMENTSEND_GET_LIST_DATA)
+    const { payload = {} } = yield take(ENTRY_ACCOUNT_GET_LIST_DATA)
     const { callback, params } = payload
-    const data = yield call(fetchAPI, apis.Distribution.getProFileList, params)
+    const data = yield call(fetchAPI, apis.InventoryAPI.getWeldEntryAccount, params)
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }

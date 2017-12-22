@@ -7,8 +7,9 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const DEPARTMENTSEND_GET_LIST_DATA = 'DEPARTMENTSEND_GET_LIST_DATA'
-const DEPARTMENTSEND_ADD_LIST_DATA = 'DEPARTMENTSEND_ADD_LIST_DATA'
+const HUMITURE_RECORD_GET_LIST_DATA = 'HUMITURE_RECORD_GET_LIST_DATA'
+const HUMITURE_RECORD_ADD_LIST_DATA = 'HUMITURE_RECORD_ADD_LIST_DATA'
+const HUMITURE_RECORD_CHANGE_MODAL_DATA = 'HUMITURE_RECORD_CHANGE_MODAL_DATA'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -17,21 +18,28 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : DEPARTMENTSEND_GET_LIST_DATA,
+    type    : HUMITURE_RECORD_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : DEPARTMENTSEND_ADD_LIST_DATA,
+    type    : HUMITURE_RECORD_ADD_LIST_DATA,
+    payload : payload
+  }
+}
+function changeModalAction (payload = {}) {
+  return {
+    type    : HUMITURE_RECORD_CHANGE_MODAL_DATA,
     payload : payload
   }
 }
 
 export const actions = {
   getListDataAction,
-  addListDataAction
+  addListDataAction,
+  changeModalAction
 }
 
 // ------------------------------------
@@ -41,12 +49,15 @@ var initialState = Immutable.fromJS({
   loading: false,
   pagination: {
     pageSize: 10
+  },
+  modal: {
+    visible: false
   }
 })
 
-export default function DepartmentSend (state = initialState, action) {
+export default function WeldHumitureRecord (state = initialState, action) {
   var map = {
-    DEPARTMENTSEND_GET_LIST_DATA () {
+    HUMITURE_RECORD_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -57,7 +68,7 @@ export default function DepartmentSend (state = initialState, action) {
         'loading', true
       )
     },
-    DEPARTMENTSEND_ADD_LIST_DATA () {
+    HUMITURE_RECORD_ADD_LIST_DATA () {
       let { data } = action.payload
       return state.mergeIn(
         ['pagination'], { total: data.count }
@@ -65,6 +76,9 @@ export default function DepartmentSend (state = initialState, action) {
         list: data.results,
         loading: false
       })
+    },
+    HUMITURE_RECORD_CHANGE_MODAL_DATA () {
+      return state.mergeIn(['modal'], action.payload)
     }
   }
 
@@ -81,9 +95,9 @@ export default function DepartmentSend (state = initialState, action) {
 
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(DEPARTMENTSEND_GET_LIST_DATA)
+    const { payload = {} } = yield take(HUMITURE_RECORD_GET_LIST_DATA)
     const { callback, params } = payload
-    const data = yield call(fetchAPI, apis.Distribution.getProFileList, params)
+    const data = yield call(fetchAPI, apis.InventoryAPI.getWeldHumitureRecord, params)
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }

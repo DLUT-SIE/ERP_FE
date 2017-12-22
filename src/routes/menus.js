@@ -36,6 +36,11 @@ export const menu = {
       pendingorder: '/purchase/pending_order',
       material: '/purchase/material',
       purchaseorder: '/purchase/purchase_order'
+    },
+    inventory: {
+      icon: 'appstore',
+      weld: '/inventory/weld',
+      steel: '/inventory/steel'
     }
   }
 }
