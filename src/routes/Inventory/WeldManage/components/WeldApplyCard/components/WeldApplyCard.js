@@ -12,7 +12,7 @@ import CustomTable from 'components/CustomTable'
 
 const columns = [
   'sub_order_uid', 'weld_seam_uid', 'material_mark', 'model', 'specification', 'department',
-  'create_dt', 'uid', 'action'
+  'create_dt', 'common_uid', 'action'
 ]
 const applyCardStatus = {
   APPLY_STATUS_KEEPER: 3,

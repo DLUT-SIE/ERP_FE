@@ -70,7 +70,6 @@ class WeldEntryAccount extends React.Component {
       method
     }
     fetchAPI(api, id).then((resp) => {
-      console.log('response', resp)
       this.props.changeModalAction({
         visible: true,
         fieldsValue: resp

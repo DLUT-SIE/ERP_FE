@@ -84,7 +84,6 @@ export function *getListSaga (type, body) {
     const { payload = {} } = yield take(APPLY_CARD_GET_LIST_DATA)
     const { callback, params } = payload
     const data = yield call(fetchAPI, apis.InventoryAPI.getWeldApplyCard, params)
-    // console.log('getListSaga==========',callback, data, params);
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }

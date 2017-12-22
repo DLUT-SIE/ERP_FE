@@ -70,7 +70,6 @@ export default function WeldHumitureRecord (state = initialState, action) {
     },
     HUMITURE_RECORD_ADD_LIST_DATA () {
       let { data } = action.payload
-      console.log('data==========', data)
       return state.mergeIn(
         ['pagination'], { total: data.count }
       ).merge({
@@ -99,7 +98,6 @@ export function *getListSaga (type, body) {
     const { payload = {} } = yield take(HUMITURE_RECORD_GET_LIST_DATA)
     const { callback, params } = payload
     const data = yield call(fetchAPI, apis.InventoryAPI.getWeldHumitureRecord, params)
-    // console.log('getListSaga==========',callback, data, params);
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }

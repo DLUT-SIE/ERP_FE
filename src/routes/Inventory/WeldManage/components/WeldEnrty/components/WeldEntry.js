@@ -11,7 +11,7 @@ import FilterBar from './FilterBar'
 import CustomTable from 'components/CustomTable'
 
 const columns = [
-  'uid', 'create_dt', 'purchaser', 'inspector', 'action'
+  'common_uid', 'create_dt', 'purchaser', 'inspector', 'action'
 ]
 const entryStatus = {
   ENTRYSTAUS_CHOICES_KEEPER: 2,

@@ -87,7 +87,6 @@ export function *getListSaga (type, body) {
     const [ list ] = yield [
       call(fetchAPI, apis.getPendingOrderList, params)
     ]
-    console.log('getListSaga 上层==========', callback, list, params)
     callback && callback(list.order_id)
     yield put(addListDataAction({ list: list.order_id }))
   }

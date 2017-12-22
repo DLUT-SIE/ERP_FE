@@ -95,7 +95,6 @@ export function *getListSaga (type, body) {
     const { payload = {} } = yield take(WELD_INVENTORY_ACCOUNT_GET_LIST_DATA)
     const { callback, params } = payload
     const data = yield call(fetchAPI, apis.InventoryAPI.getWeldInventoryAccount, params)
-    // console.log('getListSaga==========',callback, data, params);
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }

@@ -242,11 +242,11 @@ export const COLUMNS = {
     key: 'create_work_order',
     dataIndex: 'create_work_order'
   },
-  /* uid: {
+  uid: {
     title: '工作令编号',
     key: 'uid',
     dataIndex: 'uid'
-  }, */
+  },
   pretty_sell_type: {
     title: '销售类型',
     key: 'pretty_sell_type',
@@ -327,7 +327,7 @@ export const COLUMNS = {
     key: 'status',
     dataIndex: 'status'
   },
-  uid:{
+  common_uid:{
     title: '编号',
     key: 'uid',
     dataIndex: 'uid'

@@ -85,7 +85,6 @@ export function *getListSaga (type, body) {
     const { callback, params } = payload
     const data = yield call(fetchAPI, apis.Distribution.getProFileList, params)
     callback && callback(data)
-    console.log('data', data)
     yield put(addListDataAction({ data: data }))
   }
 }

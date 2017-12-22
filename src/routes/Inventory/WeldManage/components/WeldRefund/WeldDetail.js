@@ -6,7 +6,6 @@ class WeldDetail extends React.Component {
     super(props)
   }
   render () {
-    console.log('param', this.props.match)
     return (
       <div>WeldDetail</div>
     )
