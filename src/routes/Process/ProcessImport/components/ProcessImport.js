@@ -48,7 +48,7 @@ class ProcessImport extends React.Component {
               <span className='ant-divider' />
               <Upload
                 name='file'
-                // accept='.xlsx, .xls, .xlsm'
+                accept='.xlsx, .xls, .xlsm'
                 data={{ id: record.id }}
                 customRequest={this.uploadFile}
               >
@@ -79,7 +79,7 @@ class ProcessImport extends React.Component {
 
   uploadFile = (file) => {
     fetchAPI(apis.ProcessAPI.uploadProcessLibrary, {
-      path: file.file,
+      file: file.file,
       ...file.data
     }).then(() => {
       message.success('上传成功')
