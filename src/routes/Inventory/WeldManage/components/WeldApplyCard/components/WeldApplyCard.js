@@ -5,11 +5,12 @@ import _ from 'lodash'
 import util from 'utils'
 import { Button } from 'antd'
 import { Link } from 'react-router-dom'
+import moment from 'moment'
 import FilterBar from './FilterBar'
 import CustomTable from 'components/CustomTable'
 
 const columns = [
-  'order_id', 'weld_seam_uid', 'material_mark', 'model_number', 'specification', 'department',
+  'sub_order_uid', 'weld_seam_uid', 'material_mark', 'model', 'specification', 'department',
   'create_dt', 'uid', 'action'
 ]
 const applyCardStatus = {
@@ -17,7 +18,7 @@ const applyCardStatus = {
   APPLY_STATUS_END: 4
 }
 
-class WeldEntry extends React.Component {
+class WeldApplyCard extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -31,6 +32,11 @@ class WeldEntry extends React.Component {
   }
   buildColumns () {
     return util.buildColumns(columns, {
+      create_dt:{
+        render: (text, record, index) => {
+          return moment(record.create_dt).format('YYYY-MM-DD')
+        }
+      },
       action: {
         render: (text, record, index) => {
           if (record.status === applyCardStatus.APPLY_STATUS_KEEPER) {
@@ -77,7 +83,7 @@ class WeldEntry extends React.Component {
     let { pathname } = this.props.location
     let mergeQuery = this._query(newQuery)
     let filterQuery = _.forEach(mergeQuery, (item, key) => {
-      if (item === '' || _.isUndefined(item)) {
+      if (item === '' || _.isUndefined(item) || _.isNull(item) || key === 'status') {
         delete mergeQuery[key]
       }
     })
@@ -128,11 +134,11 @@ class WeldEntry extends React.Component {
   }
 }
 
-WeldEntry.propTypes = {
+WeldApplyCard.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   getListDataAction: PropTypes.func.isRequired
 }
 
-export default WeldEntry
+export default WeldApplyCard

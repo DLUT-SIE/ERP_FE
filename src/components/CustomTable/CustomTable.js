@@ -3,7 +3,6 @@ import { Table } from 'antd'
 import './CustomTable.less'
 
 const CustomTable = (props) => {
-  console.log('...props', { ...props })
   return (
     <Table
       className='custom-table'

@@ -44,7 +44,7 @@ var initialState = Immutable.fromJS({
   }
 })
 
-export default function PendingOrder (state = initialState, action) {
+export default function WeldEntry (state = initialState, action) {
   var map = {
     ENTRY_GET_LIST_DATA () {
       let { params = {} } = action.payload
@@ -84,7 +84,6 @@ export function *getListSaga (type, body) {
     const { payload = {} } = yield take(ENTRY_GET_LIST_DATA)
     const { callback, params } = payload
     const data = yield call(fetchAPI, apis.InventoryAPI.getWeldEntry, params)
-    // console.log('getListSaga==========',callback, data, params);
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }

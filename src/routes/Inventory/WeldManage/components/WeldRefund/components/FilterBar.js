@@ -36,6 +36,16 @@ class FilterBar extends React.Component {
         onSubmit={this.handleSubmit}
       >
         <FormItem>
+          {getFieldDecorator('sub_order_uid')(
+            <Input className='input' placeholder='工作令' />
+          )}
+        </FormItem>
+        <FormItem>
+          {getFieldDecorator('welding_seam_uid')(
+            <Input className='input' placeholder='焊缝编号' />
+          )}
+        </FormItem>
+        <FormItem>
           {
             getFieldDecorator('create_dt_start')(
               <DatePicker placeholder='起始日期' />
@@ -48,11 +58,6 @@ class FilterBar extends React.Component {
               <DatePicker placeholder='结束日期' />
             )
           }
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('uid')(
-            <Input className='input' placeholder='入库单编号' />
-          )}
         </FormItem>
         <FormItem>
           <Button
@@ -78,7 +83,7 @@ let makeFields = function (fieldsValue) {
   let result = {}
   _.forEach(fieldsValue, (value, key) => {
     result[key] = { value }
-    if ((key === 'create_dt_start' || key === 'create_dt_end')) {
+    if (key === 'create_dt_start' || key === 'create_dt_end') {
       if (value) {
         result[key] = {
           value: moment(value, 'YYYY-MM-DD')

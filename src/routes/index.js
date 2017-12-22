@@ -66,10 +66,8 @@ const routes = [
 ]
 const Routes = withRouter((props) => {
   const { location } = props
-  console.log('props', props)
   /* 这里可否通过match找到当前路径匹配的path */
   const menus = window.erpConfig.menus ? JSON.parse(window.erpConfig.menus) : []
-  console.log('breadcrumbNameMap', breadcrumbNameMap)
   const { defaultKey, items } = getSidebarMenus(menus)
   const pathSnippets = location.pathname.split('/').filter(i => i)
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {

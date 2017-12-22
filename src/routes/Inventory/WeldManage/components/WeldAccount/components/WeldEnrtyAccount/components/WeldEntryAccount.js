@@ -3,21 +3,16 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
-import { Button } from 'antd'
-import { Link } from 'react-router-dom'
 import FilterBar from './FilterBar'
 import CustomTable from 'components/CustomTable'
 import moment from 'moment'
 
 const columns = [
-  'uid', 'create_dt', 'purchaser', 'inspector', 'action'
+  'material_mark', 'specification', 'create_dt', 'material_batch_number', 'material_number', 'factory', 'weight'
 ]
-const entryStatus = {
-  ENTRYSTAUS_CHOICES_KEEPER: 2,
-  ENTRYSTAUS_CHOICES_END: 3
-}
 
-class WeldEntry extends React.Component {
+
+class WeldEntryAccount extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -34,31 +29,6 @@ class WeldEntry extends React.Component {
       create_dt:{
         render: (text, record, index) => {
           return moment(record.create_dt).format('YYYY-MM-DD')
-        }
-      },
-      action: {
-        render: (text, record, index) => {
-          if (record.status === entryStatus.ENTRYSTAUS_CHOICES_KEEPER) {
-            return (
-              <Button
-                type='danger'
-                size='small'
-                data-id={record.uid}
-              >
-                <Link to={`/inventory/weld/weld_entry/${record.uid}/`}>待处理</Link>
-              </Button>
-            )
-          } else {
-            return (
-              <Button
-                type='primary'
-                size='small'
-                data-id={record.uid}
-              >
-                <Link to={`/inventory/weld/weld_entry/${record.uid}/`}>详情</Link>
-              </Button>
-            )
-          }
         }
       }
     })
@@ -133,11 +103,11 @@ class WeldEntry extends React.Component {
   }
 }
 
-WeldEntry.propTypes = {
+WeldEntryAccount.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   getListDataAction: PropTypes.func.isRequired
 }
 
-export default WeldEntry
+export default WeldEntryAccount

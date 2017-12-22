@@ -10,14 +10,14 @@ import CustomTable from 'components/CustomTable'
 import moment from 'moment'
 
 const columns = [
-  'uid', 'create_dt', 'purchaser', 'inspector', 'action'
+  'sub_order_uid', 'department', 'create_dt', 'refund_id', 'refund_pretty_status', 'action'
 ]
 const entryStatus = {
-  ENTRYSTAUS_CHOICES_KEEPER: 2,
-  ENTRYSTAUS_CHOICES_END: 3
+  REFUND_CHOICES_KEEPER: 2,
+  REFUND_CHOICES_END: 3
 }
 
-class WeldEntry extends React.Component {
+class WeldRefund extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -38,14 +38,14 @@ class WeldEntry extends React.Component {
       },
       action: {
         render: (text, record, index) => {
-          if (record.status === entryStatus.ENTRYSTAUS_CHOICES_KEEPER) {
+          if (record.status === entryStatus.REFUND_CHOICES_KEEPER) {
             return (
               <Button
                 type='danger'
                 size='small'
                 data-id={record.uid}
               >
-                <Link to={`/inventory/weld/weld_entry/${record.uid}/`}>待处理</Link>
+                <Link to={`/inventory/weld/weld_entry/${record.uid}`}>待处理</Link>
               </Button>
             )
           } else {
@@ -55,7 +55,7 @@ class WeldEntry extends React.Component {
                 size='small'
                 data-id={record.uid}
               >
-                <Link to={`/inventory/weld/weld_entry/${record.uid}/`}>详情</Link>
+                <Link to={`/inventory/weld/weld_entry/${record.uid}`}>详情</Link>
               </Button>
             )
           }
@@ -133,11 +133,11 @@ class WeldEntry extends React.Component {
   }
 }
 
-WeldEntry.propTypes = {
+WeldRefund.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   getListDataAction: PropTypes.func.isRequired
 }
 
-export default WeldEntry
+export default WeldRefund

@@ -50,8 +50,13 @@ class FilterBar extends React.Component {
           }
         </FormItem>
         <FormItem>
-          {getFieldDecorator('uid')(
-            <Input className='input' placeholder='入库单编号' />
+          {getFieldDecorator('material_mark')(
+            <Input className='input' placeholder='牌号' />
+          )}
+        </FormItem>
+        <FormItem>
+          {getFieldDecorator('specification')(
+            <Input className='input' placeholder='规格' />
           )}
         </FormItem>
         <FormItem>
@@ -78,7 +83,7 @@ let makeFields = function (fieldsValue) {
   let result = {}
   _.forEach(fieldsValue, (value, key) => {
     result[key] = { value }
-    if ((key === 'create_dt_start' || key === 'create_dt_end')) {
+    if (key === 'create_dt_start' || key === 'create_dt_end') {
       if (value) {
         result[key] = {
           value: moment(value, 'YYYY-MM-DD')

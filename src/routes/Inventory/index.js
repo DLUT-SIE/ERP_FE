@@ -3,9 +3,14 @@ import { Redirect } from 'react-router-dom'
 import SteelManage from './SteelManage'
 import WeldManage from './WeldManage'
 import WeldEntry from './WeldManage/components/WeldEnrty'
-import WeldDetail from './WeldManage/components/WeldEnrty/WeldDetail'
+import WeldDetail from './WeldManage/components/WeldEnrty/components/WeldDetail'
 import WeldApplyCard from './WeldManage/components/WeldApplyCard'
 import WeldHumitureRecord from './WeldManage/components/WeldHumitureRecord'
+import WeldRefund from './WeldManage/components/WeldRefund'
+import WeldAccount from './WeldManage/components/WeldAccount'
+import WeldEntryAccount from './WeldManage/components/WeldAccount/components/WeldEnrtyAccount'
+import WeldApplyCardAccount from './WeldManage/components/WeldAccount/components/WeldApplyCardAccount'
+import WeldInventoryAccount from './WeldManage/components/WeldAccount/components/WeldInventoryAccount'
 import _ from 'lodash'
 
 const childRoutes = [
@@ -16,7 +21,7 @@ const childRoutes = [
     exact: true
   },
   {
-    path: 'weld/weld_entry',
+    path: `weld/weld_entry`,
     breadcrumbName: '焊材入库管理',
     component: WeldEntry,
     exact: true
@@ -37,6 +42,36 @@ const childRoutes = [
     path: 'weld/weld_humiture_record',
     breadcrumbName: '焊材温湿度记录',
     component: WeldHumitureRecord,
+    exact: true
+  },
+  {
+    path:'weld/weld_refund',
+    breadcrumbName: '焊材退库管理',
+    component: WeldRefund,
+    exact: true
+  },
+  {
+    path:'weld/weld_account/weld_entry_account',
+    breadcrumbName: '焊材入库台账',
+    component: WeldEntryAccount,
+    exact: true
+  },
+  {
+    path:'weld/weld_account/weld_apply_card_account',
+    breadcrumbName: '焊材出库台账',
+    component: WeldApplyCardAccount,
+    exact: true
+  },
+  {
+    path:'weld/weld_account/weld_inventory_account',
+    breadcrumbName: '焊材库存台账',
+    component: WeldInventoryAccount,
+    exact: true
+  },
+  {
+    path:'weld/weld_account',
+    breadcrumbName: '焊材台账',
+    component: WeldAccount,
     exact: true
   },
   {

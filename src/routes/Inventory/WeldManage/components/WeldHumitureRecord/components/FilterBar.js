@@ -18,17 +18,12 @@ class FilterBar extends React.Component {
     const { onSearch, form } = this.props
     form.validateFields(() => {
       let fieldsValue = form.getFieldsValue()
-      console.log(fieldsValue)
-      fieldsValue.start_date = fieldsValue.start_date && moment(fieldsValue.start_date).format('YYYY-MM-DD')
-      fieldsValue.end_date = fieldsValue.end_date && moment(fieldsValue.end_date).format('YYYY-MM-DD')
-      console.log(fieldsValue)
+      fieldsValue.create_dt_start = fieldsValue.create_dt_start && moment(fieldsValue.create_dt_start).format('YYYY-MM-DD')
+      fieldsValue.create_dt_end = fieldsValue.create_dt_end && moment(fieldsValue.create_dt_end).format('YYYY-MM-DD')
       onSearch && onSearch({
         ...fieldsValue
       })
     })
-  }
-  handleAdd = (e) => {
-    console.log(1)
   }
 
   render () {
@@ -42,14 +37,14 @@ class FilterBar extends React.Component {
       >
         <FormItem>
           {
-            getFieldDecorator('start_date')(
+            getFieldDecorator('create_dt_start')(
               <DatePicker placeholder='起始日期' />
             )
           }
         </FormItem>
         <FormItem>
           {
-            getFieldDecorator('end_date')(
+            getFieldDecorator('create_dt_end')(
               <DatePicker placeholder='结束日期' />
             )
           }
@@ -64,8 +59,8 @@ class FilterBar extends React.Component {
             查询
           </Button>
         </FormItem>
-        <FormItem>
-          <Button type='primary' icon='plus' onClick={this.handleAdd}>
+        <FormItem className='float-right'>
+          <Button type='primary' icon='plus' onClick={this.props.onAddClick} >
             新建记录
           </Button>
         </FormItem>
@@ -76,16 +71,19 @@ class FilterBar extends React.Component {
 
 FilterBar.propTypes = {
   form: PropTypes.object.isRequired,
-  onSearch: PropTypes.func.isRequired
+  onSearch: PropTypes.func.isRequired,
+  onAddClick: PropTypes.func.isRequired
 }
 
 let makeFields = function (fieldsValue) {
   let result = {}
   _.forEach(fieldsValue, (value, key) => {
     result[key] = { value }
-    if (key === 'start_date' || key === 'end_date') {
-      result[key] = {
-        value: moment(value, 'YYYY-MM-DD')
+    if (key === 'create_dt_start' || key === 'create_dt_end') {
+      if (value) {
+        result[key] = {
+          value: moment(value, 'YYYY-MM-DD')
+        }
       }
     }
   })

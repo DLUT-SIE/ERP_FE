@@ -3,20 +3,20 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
-import { Button } from 'antd'
-import { Link } from 'react-router-dom'
+import fetchAPI from 'api'
+import { apis } from 'api/config'
+import { Button, message } from 'antd'
 import FilterBar from './FilterBar'
+import HumitureRecordModal from './HumitureRecordModal'
 import CustomTable from 'components/CustomTable'
+import moment from 'moment'
 
 const columns = [
   'create_dt', 'keeper', 'action'
 ]
-const status = {
-  ENTRYSTAUS_CHOICES_KEEPER: 2,
-  ENTRYSTAUS_CHOICES_END: 3
-}
 
-class WeldEntry extends React.Component {
+
+class WeldHumitureRecord extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -27,32 +27,31 @@ class WeldEntry extends React.Component {
     this.props.getListDataAction({
       params: this._query()
     })
+    // todo:这里需要获取要求的温湿度
+    this.require_temp = 60
+    this.require_humid = 70
   }
   buildColumns () {
     return util.buildColumns(columns, {
+      create_dt:{
+        render: (text, record, index) => {
+          return moment(record.create_dt).format('YYYY-MM-DD')
+        }
+      },
       action: {
         render: (text, record, index) => {
-          if (record.status === status.ENTRYSTAUS_CHOICES_KEEPER) {
-            return (
-              <Button
-                type='danger'
-                size='small'
-                data-id={record.uid}
-              >
-                <Link to={`/inventory/weld/weld_entry/${record.uid}`}>待处理</Link>
-              </Button>
-            )
-          } else {
-            return (
-              <Button
-                type='primary'
-                size='small'
-                data-id={record.uid}
-              >
-                <Link to={`/inventory/weld/weld_entry/${record.uid}`}>详情</Link>
-              </Button>
-            )
-          }
+          return (
+            <Button
+              type='primary'
+              size='small'
+              data-fields-value={JSON.stringify(record)}
+              data-index={index}
+              data-id={record.id}
+              onClick={this.handleOpenEditModal}
+            >
+              查看详情
+            </Button>
+          )
         }
       }
     })
@@ -62,6 +61,34 @@ class WeldEntry extends React.Component {
     this.updateQuery({
       page: 1,
       ...searchValue
+    })
+  }
+  handleOpenEditModal = (e) => {
+    const { id } = e.target.dataset
+    let { url, method } = apis.InventoryAPI.getWeldHumitureRecordDetail
+    url = url(id)
+    const api = {
+      url,
+      method
+    }
+    fetchAPI(api, id).then((resp) => {
+      this.props.changeModalAction({
+        visible: true,
+        fieldsValue: resp
+      })
+    }
+    )
+  }
+  handleAddRecords = (e) => {
+    this.props.changeModalAction({
+      visible: true,
+      fieldsValue: {}
+    })
+  }
+
+  handleCloseModal = (e) => {
+    this.props.changeModalAction({
+      visible: false
     })
   }
 
@@ -76,7 +103,7 @@ class WeldEntry extends React.Component {
     let { pathname } = this.props.location
     let mergeQuery = this._query(newQuery)
     let filterQuery = _.forEach(mergeQuery, (item, key) => {
-      if (item === '' || _.isUndefined(item)) {
+      if (item === '' || _.isUndefined(item) || _.isNull(item)) {
         delete mergeQuery[key]
       }
     })
@@ -94,7 +121,31 @@ class WeldEntry extends React.Component {
       params: query
     })
   }
-
+  handleSave = (fieldsValue) => {
+    if (fieldsValue.id) {
+      let { url, method } = apis.InventoryAPI.updateWeldHumitureRecord
+      url = url(fieldsValue.id)
+      const api = {
+        url,
+        method
+      }
+      fetchAPI(api, fieldsValue).then((repos) => {
+        this.handleCloseModal()
+        message.success('修改成功！')
+        this.props.getListDataAction({
+          params: this._query()
+        })
+      })
+      return
+    }
+    fetchAPI(apis.InventoryAPI.createWeldHumitureRecord, fieldsValue).then((repos) => {
+      this.handleCloseModal()
+      message.success('新建成功！')
+      this.props.getListDataAction({
+        params: this._query()
+      })
+    })
+  }
   handleChangeTable = (pagination, filters, sorter) => {
     this.updateQuery({
       page: pagination.current > 1 ? pagination.current : ''
@@ -108,11 +159,13 @@ class WeldEntry extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
+    const modal = _.get(mydata, 'modal', {})
     return (
       <div>
         <FilterBar
           fieldsValue={query}
           onSearch={this.handleSearch}
+          onAddClick={this.handleAddRecords}
         />
         <CustomTable
           dataSource={list}
@@ -122,16 +175,26 @@ class WeldEntry extends React.Component {
           size='middle'
           onChange={this.handleChangeTable}
         />
+        { modal.visible &&
+          <HumitureRecordModal
+            onOk={this.handleSave}
+            onCancel={this.handleCloseModal}
+            requireTemp={this.require_temp}
+            requireHumid={this.require_humid}
+            {...modal}
+          />
+        }
       </div>
     )
   }
 }
 
-WeldEntry.propTypes = {
+WeldHumitureRecord.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
-  getListDataAction: PropTypes.func.isRequired
+  getListDataAction: PropTypes.func.isRequired,
+  changeModalAction: PropTypes.func.isRequired
 }
 
-export default WeldEntry
+export default WeldHumitureRecord

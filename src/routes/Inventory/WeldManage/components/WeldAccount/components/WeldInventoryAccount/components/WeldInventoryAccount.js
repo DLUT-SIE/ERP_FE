@@ -3,21 +3,20 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
-import { Button } from 'antd'
-import { Link } from 'react-router-dom'
 import FilterBar from './FilterBar'
 import CustomTable from 'components/CustomTable'
 import moment from 'moment'
+import { Button, message } from 'antd'
+import { apis } from 'api/config'
+import fetchAPI from 'api'
+import WeldInventoryAccountModal from './WeldInventoryAccountModal'
 
 const columns = [
-  'uid', 'create_dt', 'purchaser', 'inspector', 'action'
+  'material_mark', 'specification', 'entry_count', 'entry_dt', 'material_batch_number', 'material_number', 'factory', 'inventory_pretty_status', 'count', 'action'
 ]
-const entryStatus = {
-  ENTRYSTAUS_CHOICES_KEEPER: 2,
-  ENTRYSTAUS_CHOICES_END: 3
-}
 
-class WeldEntry extends React.Component {
+
+class WeldEntryAccount extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -31,34 +30,25 @@ class WeldEntry extends React.Component {
   }
   buildColumns () {
     return util.buildColumns(columns, {
-      create_dt:{
+      entry_dt:{
         render: (text, record, index) => {
           return moment(record.create_dt).format('YYYY-MM-DD')
         }
       },
       action: {
         render: (text, record, index) => {
-          if (record.status === entryStatus.ENTRYSTAUS_CHOICES_KEEPER) {
-            return (
-              <Button
-                type='danger'
-                size='small'
-                data-id={record.uid}
-              >
-                <Link to={`/inventory/weld/weld_entry/${record.uid}/`}>待处理</Link>
-              </Button>
-            )
-          } else {
-            return (
-              <Button
-                type='primary'
-                size='small'
-                data-id={record.uid}
-              >
-                <Link to={`/inventory/weld/weld_entry/${record.uid}/`}>详情</Link>
-              </Button>
-            )
-          }
+          return (
+            <Button
+              type='primary'
+              size='small'
+              data-fields-value={JSON.stringify(record)}
+              data-index={index}
+              data-id={record.id}
+              onClick={this.handleOpenEditModal}
+            >
+              查看详情
+            </Button>
+          )
         }
       }
     })
@@ -70,7 +60,47 @@ class WeldEntry extends React.Component {
       ...searchValue
     })
   }
-
+  // update
+  handleOpenEditModal = (e) => {
+    const { id } = e.target.dataset
+    let { url, method } = apis.InventoryAPI.getWeldInventoryAccountDetail
+    url = url(id)
+    const api = {
+      url,
+      method
+    }
+    fetchAPI(api, id).then((resp) => {
+      console.log('response', resp)
+      this.props.changeModalAction({
+        visible: true,
+        fieldsValue: resp
+      })
+    }
+    )
+  }
+  // need update
+  handleSave = (fieldsValue) => {
+    if (fieldsValue.id) {
+      let { url, method } = apis.InventoryAPI.updateWeldInventoryAccount
+      url = url(fieldsValue.id)
+      const api = {
+        url,
+        method
+      }
+      fetchAPI(api, fieldsValue).then((repos) => {
+        this.handleCloseModal()
+        message.success('修改成功！')
+        this.props.getListDataAction({
+          params: this._query()
+        })
+      })
+    }
+  }
+  handleCloseModal = (e) => {
+    this.props.changeModalAction({
+      visible: false
+    })
+  }
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
     return Object.assign({
@@ -114,6 +144,7 @@ class WeldEntry extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
+    const modal = _.get(mydata, 'modal', {})
     return (
       <div>
         <FilterBar
@@ -128,16 +159,26 @@ class WeldEntry extends React.Component {
           size='middle'
           onChange={this.handleChangeTable}
         />
+        { modal.visible &&
+        <WeldInventoryAccountModal
+          onOk={this.handleSave}
+          onCancel={this.handleCloseModal}
+          requireTemp={this.require_temp}
+          requireHumid={this.require_humid}
+          {...modal}
+        />
+        }
       </div>
     )
   }
 }
 
-WeldEntry.propTypes = {
+WeldEntryAccount.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
-  getListDataAction: PropTypes.func.isRequired
+  getListDataAction: PropTypes.func.isRequired,
+  changeModalAction: PropTypes.func.isRequired
 }
 
-export default WeldEntry
+export default WeldEntryAccount
