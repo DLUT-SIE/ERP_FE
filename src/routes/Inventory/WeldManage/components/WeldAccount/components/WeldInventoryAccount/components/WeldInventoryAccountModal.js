@@ -6,9 +6,10 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { Modal, Input, Button, Form, Row, Col, Select } from 'antd'
 import './WeldInventoryAccountModal.less'
-import CustomTable from 'components/CustomTable'
 import util from 'utils'
 import moment from 'moment'
+
+import CustomTable from 'components/CustomTable'
 
 const FormItem = Form.Item
 const columns = [
@@ -63,9 +64,8 @@ class HumitureRecordModal extends React.Component {
     })
   }
   render () {
-    const { visible, fieldsValue, form, onCancel } = this.props
+    const { visible, form, onCancel } = this.props
     const { getFieldDecorator } = form
-    const id = fieldsValue && fieldsValue.id
     return (
       <Form>
         <Modal

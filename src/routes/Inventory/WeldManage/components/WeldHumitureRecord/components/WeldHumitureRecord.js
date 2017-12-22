@@ -6,15 +6,15 @@ import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 import { Button, message } from 'antd'
+import moment from 'moment'
+
 import FilterBar from './FilterBar'
 import HumitureRecordModal from './HumitureRecordModal'
 import CustomTable from 'components/CustomTable'
-import moment from 'moment'
 
 const columns = [
   'create_dt', 'keeper', 'action'
 ]
-
 
 class WeldHumitureRecord extends React.Component {
   constructor (props) {

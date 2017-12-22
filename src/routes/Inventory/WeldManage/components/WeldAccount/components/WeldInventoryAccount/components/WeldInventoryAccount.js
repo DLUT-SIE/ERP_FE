@@ -3,18 +3,18 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
-import FilterBar from './FilterBar'
-import CustomTable from 'components/CustomTable'
 import moment from 'moment'
 import { Button, message } from 'antd'
 import { apis } from 'api/config'
 import fetchAPI from 'api'
+
 import WeldInventoryAccountModal from './WeldInventoryAccountModal'
+import FilterBar from './FilterBar'
+import CustomTable from 'components/CustomTable'
 
 const columns = [
   'material_mark', 'specification', 'entry_count', 'entry_dt', 'material_batch_number', 'material_number', 'factory', 'inventory_pretty_status', 'count', 'action'
 ]
-
 
 class WeldEntryAccount extends React.Component {
   constructor (props) {

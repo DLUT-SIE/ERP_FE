@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
+import moment from 'moment'
+
 import FilterBar from './FilterBar'
 import CustomTable from 'components/CustomTable'
-import moment from 'moment'
 
 const columns = [
   'sub_order_uid', 'weld_seam_uid', 'create_dt', 'applicant', 'department', 'uid', 'weight'
 ]
-
 
 class WeldApplyCardAccount extends React.Component {
   constructor (props) {

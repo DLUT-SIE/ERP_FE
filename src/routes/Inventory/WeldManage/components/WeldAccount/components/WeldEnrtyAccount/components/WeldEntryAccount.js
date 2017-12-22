@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
+import moment from 'moment'
+
 import FilterBar from './FilterBar'
 import CustomTable from 'components/CustomTable'
-import moment from 'moment'
 
 const columns = [
   'material_mark', 'specification', 'create_dt', 'material_batch_number', 'material_number', 'factory', 'weight'
 ]
-
 
 class WeldEntryAccount extends React.Component {
   constructor (props) {

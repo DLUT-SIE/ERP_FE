@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 class WeldDetail extends React.Component {
   constructor (props) {
     super(props)

@@ -5,9 +5,10 @@ import _ from 'lodash'
 import util from 'utils'
 import { Button } from 'antd'
 import { Link } from 'react-router-dom'
+import moment from 'moment'
+
 import FilterBar from './FilterBar'
 import CustomTable from 'components/CustomTable'
-import moment from 'moment'
 
 const columns = [
   'sub_order_uid', 'department', 'create_dt', 'refund_id', 'refund_pretty_status', 'action'
