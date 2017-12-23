@@ -159,6 +159,48 @@ export const PROCESS_ROUTE_LIST = [
   }
 ]
 
+export const WELD_POSITION_LIST = [
+  {
+    value: 'FLUSH_WELD',
+    label: '平焊'
+  },
+  {
+    value: 'HORIZONTAL_WELD',
+    label: '横焊'
+  },
+  {
+    value: 'OVERHEAD_WELD',
+    label: '仰焊'
+  },
+  {
+    value: 'VERTICAL_WELD',
+    label: '立向上焊'
+  },
+  {
+    value: 'WIDE_WELD',
+    label: '全位置焊'
+  }
+]
+
+export const WELD_METHOD_LIST = [
+  {
+    value: 'SMAW',
+    label: '焊条电弧焊'
+  },
+  {
+    value: 'SAW',
+    label: '埋弧焊'
+  },
+  {
+    value: 'GMAW',
+    label: '气体保护焊'
+  },
+  {
+    value: 'GTAW',
+    label: '氩弧焊'
+  }
+]
+
 export const UNKNOW_COLUMN = {
   title: '未知标题',
   dataIndex: 'unkow_column',
@@ -386,5 +428,20 @@ export const COLUMNS = {
     title: '编制进度',
     key: 'write_status',
     dataIndex: 'write_status'
+  },
+  collaborative_content: {
+    title: '协作内容',
+    key: 'collaborative_content',
+    dataIndex: 'collaborative_content'
+  },
+  weight_alias: {
+    title: '重量(Kg)',
+    key: 'weight_alias',
+    dataIndex: 'weight_alias'
+  },
+  process_routes: {
+    title: '生产路线',
+    key: 'process_routes',
+    dataIndex: 'process_routes'
   }
 }

@@ -12,20 +12,56 @@ export default {
     method: 'GET'
   },
   saveCirculationRoute: {
-    url: '/api/circulation_route/',
-    method: 'POST'
+    url: (id) => (`/api/circulation_routes/${id}/`),
+    method: 'PATCH'
   },
   saveProcessRoute: {
-    url: '/api/process_route/',
-    method: 'POST'
+    url: (id) => (`/api/process_routes/${id}/`),
+    method: 'PATCH'
   },
   getCirculationRoute: {
-    url: '/api/circulation_route/',
+    url: '/api/circulation_routes/',
     method: 'GET'
   },
   getProcessRoute: {
-    url: '/api/process_route/',
+    url: '/api/process_routes/',
     method: 'GET'
+  },
+  getBoughtInItems: {
+    url: '/api/bought_in_items/',
+    method: 'GET'
+  },
+  updateBoughtInItems: {
+    url: (id) => (`/api/bought_in_items/${id}/`),
+    method: 'PATCH'
+  },
+  deleteBoughtInItems: {
+    url: (id) => (`/api/bought_in_items/${id}/`),
+    method: 'DELETE'
+  },
+  getFirstFeedingItems: {
+    url: '/api/first_feeding_items/',
+    method: 'GET'
+  },
+  updateFirstFeedingItems: {
+    url: (id) => (`/api/first_feeding_items/${id}/`),
+    method: 'PATCH'
+  },
+  deleteFirstFeedingItems: {
+    url: (id) => (`/api/first_feeding_items/${id}/`),
+    method: 'DELETE'
+  },
+  getCoperantItems: {
+    url: '/api/cooperant_items/',
+    method: 'GET'
+  },
+  updateCoperantItems: {
+    url: (id) => (`/api/cooperant_items/${id}/`),
+    method: 'PATCH'
+  },
+  deleteCoperantItems: {
+    url: (id) => (`/api/cooperant_items/${id}/`),
+    method: 'DELETE'
   },
   getPrincipalQuota: {
     url: '/api/principal_quotas/',

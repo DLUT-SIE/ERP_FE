@@ -29,6 +29,9 @@ export const menu = {
       icon: 'lock',
       processimport: '/process/process_import',
       process: '/process/process',
+      broughtinitems: '/process/bought_in_items',
+      firstfeedingitems: '/process/first_feeding_items',
+      cooperantitems: '/process/cooperant_items',
       principalquota: '/process/principal_quota',
       auxiliaryquota: '/process/auxiliary_quota',
       weldingquota: '/process/welding_quota'
