@@ -18,14 +18,6 @@ class RouteModal extends React.Component {
     }
   }
 
-  componentDidMount () {
-    console.log('componentDidMount')
-  }
-
-  componentWillReceiveProps (nextProps) {
-    console.log('componentWillReceiveProps', nextProps)
-  }
-
   getFormItems = () => {
     const { number, prefix, list } = this.props
     const { getFieldDecorator } = this.props.form
@@ -36,6 +28,7 @@ class RouteModal extends React.Component {
           <FormItem label={`${prefix}${i}`}>
             {getFieldDecorator(`${routePrefix}${i}`)(
               <CustomSelect
+                allowClear
                 style={{ width: 60 }}
                 list={list}
                 placeholder='----'
@@ -61,10 +54,7 @@ class RouteModal extends React.Component {
       return
     }
     const { list } = this.props
-    // const labelList = _.map(list, (item) => {
-    //   return item.label
-    // })
-    inputValue = inputValue.replace(/；/g, ';')
+    inputValue = inputValue.replace(/；/g, ';').toUpperCase()
     const values = inputValue.split(';')
     for (let i = 0; i < values.length; i++) {
       const item = _.find(list, (item) => {
@@ -111,7 +101,6 @@ class RouteModal extends React.Component {
   render () {
     const { inputValue } = this.state
     const { processMaterial, title, visible, label, onCancel } = this.props
-    console.log('processMaterial', processMaterial)
     return (
       <Form>
         <Modal
@@ -223,8 +212,12 @@ RouteModal.propTypes = {
   form: PropTypes.object.isRequired
 }
 
-let makeFileds = function (fieldsValue) {
+let makeFileds = function (props) {
+  const { number, fieldsValue } = props
   let result = {}
+  for (let i = 0; i < number; i++) {
+    result[`${routePrefix}${i + 1}`] = { value: undefined }
+  }
   _.forEach(fieldsValue, (value, index) => {
     result[`${routePrefix}${index + 1}`] = { value: value + '' }
   })
@@ -233,7 +226,7 @@ let makeFileds = function (fieldsValue) {
 
 const WrappedForm = Form.create({
   mapPropsToFields (props) {
-    return makeFileds(props.fieldsValue)
+    return makeFileds(props)
   }
 })(RouteModal)
 

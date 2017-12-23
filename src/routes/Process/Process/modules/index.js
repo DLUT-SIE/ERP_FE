@@ -9,6 +9,8 @@ import { apis } from 'api/config'
 
 const PROCESS_GET_LIST_DATA = 'PROCESS_GET_LIST_DATA'
 const PROCESS_ADD_LIST_DATA = 'PROCESS_ADD_LIST_DATA'
+const PROCESS_CHANGE_ROUTE_MODAL = 'PROCESS_CHANGE_ROUTE_MODAL'
+const PROCESS_CHANGE_WELD_MODAL = 'PROCESS_CHANGE_WELD_MODAL'
 
 // ------------------------------------
 // Actions
@@ -28,9 +30,25 @@ function addListDataAction (payload = {}) {
   }
 }
 
+function changeRouteModalAction (payload = {}) {
+  return {
+    type    : PROCESS_CHANGE_ROUTE_MODAL,
+    payload : payload
+  }
+}
+
+function changeWeldModalAction (payload = {}) {
+  return {
+    type    : PROCESS_CHANGE_WELD_MODAL,
+    payload : payload
+  }
+}
+
 export const actions = {
   getListDataAction,
-  addListDataAction
+  addListDataAction,
+  changeRouteModalAction,
+  changeWeldModalAction
 }
 
 // ------------------------------------
@@ -41,7 +59,13 @@ var initialState = Immutable.fromJS({
   pagination: {
     pageSize: 10
   },
-  workOrderInfo: {}
+  workOrderInfo: {},
+  routeModal: {
+    visible: false
+  },
+  weldModal: {
+    visible: false
+  }
 })
 
 export default function Process (state = initialState, action) {
@@ -64,6 +88,12 @@ export default function Process (state = initialState, action) {
         list: results,
         loading: false
       })
+    },
+    PROCESS_CHANGE_ROUTE_MODAL () {
+      return state.mergeIn(['routeModal'], action.payload)
+    },
+    PROCESS_CHANGE_WELD_MODAL () {
+      return state.mergeIn(['weldModal'], action.payload)
     }
   }
 
