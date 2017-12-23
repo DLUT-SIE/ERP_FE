@@ -1,0 +1,231 @@
+.transfer-card-detail{
+  .btn-group{
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .transfer-card-table{
+    margin-top: 10pt;
+    border-collapse: collapse;
+    border: none;
+    td{
+      border-top:none;
+      border-left:none;
+      border-bottom:solid windowtext 1.0pt;
+      border-right:solid windowtext 1.0pt;
+      padding:0cm 5.4pt 0cm 5.4pt;
+      text-align: center;
+      font-size: 14px;
+    }
+    .first-tr{
+      page-break-inside: avoid;
+      height: 13.9pt;
+      td{
+        border-top: solid windowtext 1.5pt;
+        height: 13.9pt;
+        font-family: '宋体';
+      }
+      .compony-td{
+        width: 134.75pt;
+        border-top: 1.5pt;
+        border-left: 1.5pt;
+        border-bottom: 1.0pt;
+        border-right: 1.0pt;
+        border-color: windowtext;
+        border-style: solid;
+        padding: 10pt 5.4pt;
+        height: 13.9pt;
+        .p{
+          text-align: center;
+          line-height: 20.0pt;
+          font-size: 15.0pt;
+          font-family: '华文隶书';
+        }
+      }
+      .transfer-card-name-td{
+        width: 270.25pt;
+        font-size: 16.0pt;
+        font-family: '华文中宋';
+      }
+      .file-number-td{
+        width:72.0pt;
+      }
+      .file-number-value-td{
+        width:107.75pt;
+      }
+      .according-file-name-td{
+        width:81.25pt;
+      }
+      .according-file-name-value-td{
+        width:90.0pt;
+        border-right: solid windowtext 1.5pt;
+      }
+    }
+    .file-number-tr{
+      page-break-inside:avoid;
+      height:13.35pt;
+      td {
+        height:13.35pt;
+      }
+      .according-file-number-td{
+        width:81.25pt;
+      }
+      .according-file-number-value-td{
+        width:90.0pt;
+        border-right: solid windowtext 1.5pt;
+      }
+    }
+    .work-ticket-tr{
+      page-break-inside:avoid;
+      height:19.9pt;
+      td{
+        height:19.9pt;
+      }
+      .work-ticket-td{
+        width:72.0pt;
+      }
+      .work-ticket-value-td{
+        width:107.75pt;
+      }
+      .current-page-td{
+        width:81.25pt;
+      }
+      .total-page-td{
+        width:90.0pt;
+        border-right: solid windowtext 1.5pt;
+      }
+    }
+    .simple-graph-tr{
+      page-break-inside:avoid;
+      height:22.7pt;
+      td{
+        height:22.7pt;
+      }
+      .simple-graph-td{
+        width:378.0pt;
+        border-top:none;
+        border-left:solid windowtext 1.5pt;
+        border-bottom:solid windowtext 1.0pt;
+        border-right:solid windowtext 1.0pt;
+        padding:0cm 5.4pt 0cm 5.4pt;
+        height:22.7pt;
+        text-align: left;
+        vertical-align: top;
+      }
+      .first-base-info-td{
+        width:81.0pt;
+      }
+      .first-base-info-value-td{
+        width:109.6pt;
+      }
+      .second-base-info-td{
+        width:77.25pt;
+      }
+      .second-base-info-value-td{
+        width:110.15pt;
+        border-right:solid windowtext 1.5pt;
+      }
+    }
+    .process-tr{
+      page-break-inside:avoid;
+      height:22.15pt;
+      td{
+        height:22.15pt;
+      }
+      .order-td{
+        width:44.15pt;
+        border-left:solid windowtext 1.5pt;
+      }
+      .process-td{
+        width:44.3pt;
+      }
+      .process-request-td{
+        width:468.1pt;
+      }
+      .operator-td{
+        width:99.7pt;
+      }
+      .checker-td{
+        width:99.75pt;
+        border-right:solid windowtext 1.5pt;
+      }
+      .name-td{
+        width:49.85pt;
+      }
+      .first-date-td{
+        width:49.85pt;
+      }
+      .second-date-td{
+        width:49.9pt;
+        border-right:solid windowtext 1.5pt;
+      }
+    }
+    .name-date-tr{
+      page-break-inside:avoid;
+      height:18.75pt;
+      td{
+        height:18.75pt;
+      }
+    }
+    .sign-tr{
+      page-break-inside:avoid;
+      height:14.6pt;
+      .mark-td{
+        width:44.15pt;
+        border-left:solid windowtext 1.5pt;
+      }
+      .revise-td{
+        width: 44.3pt;
+      }
+      .change-file-number-td{
+        width:71.8pt;
+      }
+      .sign-td{
+        width:81.0pt;
+      }
+      .date-td{
+        width:63.15pt;
+      }
+      .write-td{
+        width:75.2pt;
+      }
+      .writer-td{
+        width:75.25pt;
+      }
+      .write-date-td{
+        width:75.2pt;
+      }
+      .proof-td{
+        width:75.25pt;
+      }
+      .proof-reader-td{
+        width:75.2pt;
+      }
+      .proof-date-td{
+        width:75.5pt;
+        border-right:solid windowtext 1.5pt;
+      }
+    }
+    .second-sign-tr{
+      page-break-inside:avoid;
+      height:14.6pt;
+      td:first-child{
+      }
+    }
+  }
+}
+
+@media print {
+  body * {
+      visibility: hidden;
+  }
+  .transfer-card-table,
+  .transfer-card-table * {
+      visibility: visible;
+  }
+  .transfer-card-table {
+      position: absolute;
+      left: 0;
+      top: 0;
+  }
+}

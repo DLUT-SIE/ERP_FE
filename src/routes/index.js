@@ -12,6 +12,7 @@ import Purchase from './Purchase'
 import Inventory from './Inventory'
 import NotFound from './NotFound'
 import Home from './Home'
+import 'static/styles/core.less'
 import './index.less'
 
 function getSidebarMenus (menus) {

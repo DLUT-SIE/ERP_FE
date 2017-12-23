@@ -70,7 +70,8 @@ var initialState = Immutable.fromJS({
   },
   modal: {
     visible: false
-  }
+  },
+  workOrderInfo: {}
 })
 
 export default function PrincipalQuota (state = initialState, action) {
@@ -91,12 +92,15 @@ export default function PrincipalQuota (state = initialState, action) {
       const { count, results, work_order_uid: workOrder, production_name: productionName, unit, writer, proofreader } = data
       return state.mergeIn(
         ['pagination'], { total: count }
+      ).mergeIn(
+        ['workOrderInfo'], {
+          workOrder,
+          productionName,
+          unit,
+          writer,
+          proofreader
+        }
       ).merge({
-        workOrder,
-        productionName,
-        unit,
-        writer,
-        proofreader,
         list: results,
         loading: false
       })

@@ -159,6 +159,48 @@ export const PROCESS_ROUTE_LIST = [
   }
 ]
 
+export const WELD_POSITION_LIST = [
+  {
+    value: 'FLUSH_WELD',
+    label: '平焊'
+  },
+  {
+    value: 'HORIZONTAL_WELD',
+    label: '横焊'
+  },
+  {
+    value: 'OVERHEAD_WELD',
+    label: '仰焊'
+  },
+  {
+    value: 'VERTICAL_WELD',
+    label: '立向上焊'
+  },
+  {
+    value: 'WIDE_WELD',
+    label: '全位置焊'
+  }
+]
+
+export const WELD_METHOD_LIST = [
+  {
+    value: 'SMAW',
+    label: '焊条电弧焊'
+  },
+  {
+    value: 'SAW',
+    label: '埋弧焊'
+  },
+  {
+    value: 'GMAW',
+    label: '气体保护焊'
+  },
+  {
+    value: 'GTAW',
+    label: '氩弧焊'
+  }
+]
+
 export const UNKNOW_COLUMN = {
   title: '未知标题',
   dataIndex: 'unkow_column',
@@ -326,6 +368,81 @@ export const COLUMNS = {
     title: '供货状态',
     key: 'status',
     dataIndex: 'status'
+  },
+  part_drawing_number: {
+    title: '零件图号',
+    key: 'drawing_number',
+    dataIndex: 'drawing_number'
+  },
+  unit_drawing_number: {
+    title: '部件图号',
+    key: 'parent_drawing_number',
+    dataIndex: 'parent_drawing_number'
+  },
+  category: {
+    title: '材料类别',
+    key: 'category',
+    dataIndex: 'category'
+  },
+  quota: {
+    title: '定额',
+    key: 'quota',
+    dataIndex: 'quota'
+  },
+  use_ratio: {
+    title: '利用率',
+    key: 'use_ratio',
+    dataIndex: 'use_ratio'
+  },
+  press_mark: {
+    title: '利用率',
+    key: 'press_mark',
+    dataIndex: 'press_mark'
+  },
+  gross_weight: {
+    title: '毛重(Kg)',
+    key: 'gross_weight',
+    dataIndex: 'gross_weight'
+  },
+  mark: {
+    title: '牌号',
+    key: 'mark',
+    dataIndex: 'mark'
+  },
+  part_name: {
+    title: '零件名',
+    key: 'part_name',
+    dataIndex: 'part_name'
+  },
+  transfer_card_category: {
+    title: '流转卡类型',
+    key: 'category',
+    dataIndex: 'category'
+  },
+  transfer_card_file_number: {
+    title: '流转卡文件编号',
+    key: 'file_number',
+    dataIndex: 'file_number'
+  },
+  write_status: {
+    title: '编制进度',
+    key: 'write_status',
+    dataIndex: 'write_status'
+  },
+  collaborative_content: {
+    title: '协作内容',
+    key: 'collaborative_content',
+    dataIndex: 'collaborative_content'
+  },
+  weight_alias: {
+    title: '重量(Kg)',
+    key: 'weight_alias',
+    dataIndex: 'weight_alias'
+  },
+  process_routes: {
+    title: '生产路线',
+    key: 'process_routes',
+    dataIndex: 'process_routes'
   },
   common_uid:{
     title: '编号',

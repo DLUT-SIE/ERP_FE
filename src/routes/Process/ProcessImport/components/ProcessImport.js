@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
-import { Button, Upload } from 'antd'
-import { Link, message } from 'react-router-dom'
+import { Button, Upload, message } from 'antd'
+import { Link } from 'react-router-dom'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 
@@ -38,7 +38,7 @@ class ProcessImport extends React.Component {
               <Button
                 type='primary'
                 size='small'
-                data-id={record.work_order}
+                data-id={record.id}
                 disabled={record.status === 0}
               >
                 <Link to={`/process/process/?work_order_uid=${record.work_order_uid}`}>
@@ -48,7 +48,8 @@ class ProcessImport extends React.Component {
               <span className='ant-divider' />
               <Upload
                 name='file'
-                data={{ work_order: record.work_order }}
+                accept='.xlsx, .xls, .xlsm'
+                data={{ id: record.id }}
                 customRequest={this.uploadFile}
               >
                 <Button
@@ -63,8 +64,9 @@ class ProcessImport extends React.Component {
               <Button
                 type='primary'
                 size='small'
-                data-id={record.work_order}
+                data-id={record.id}
                 disabled={record.status !== 1}
+                onClick={this.handleProof}
               >
                 审核
               </Button>
@@ -76,13 +78,18 @@ class ProcessImport extends React.Component {
   }
 
   uploadFile = (file) => {
-    fetchAPI(apis.ProcessAPI.uploadProcessFile, {
-      path: file.file,
+    fetchAPI(apis.ProcessAPI.uploadProcessLibrary, {
+      file: file.file,
       ...file.data
     }).then(() => {
       message.success('上传成功')
       this.updatelist()
     })
+  }
+
+  handleProof = (e) => {
+    const { id } = e.target.dataset
+    console.log('handleProof', id)
   }
 
   handleSearch = (searchValue) => {
