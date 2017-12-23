@@ -8,7 +8,7 @@ import { apis } from 'api/config'
 import { Button, Popconfirm, message } from 'antd'
 
 import FilterBar from 'components/WorkOrderFilterBar'
-import AddBar from './AddBar.js'
+import AddBar from 'components/AddBar'
 import CustomTable from 'components/CustomTable'
 import TableInfo from 'components/TableInfo'
 import AuxiliaryQuotaModal from './AuxiliaryQuotaModal'
