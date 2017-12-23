@@ -96,6 +96,21 @@ const config = {
         }
       ],
     },
+    {
+      "code": "menu.inventory",
+      "name": "库存管理",
+      "children": [
+        {
+          "code": "menu.inventory.weld",
+          "name": "焊材库存管理",
+          "children": [],
+        }, {
+          "code": "menu.inventory.steel",
+          "name": "钢材库存管理",
+          "children": []
+        }
+      ],
+    },
   ]
 }
 

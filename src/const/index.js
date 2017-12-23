@@ -443,5 +443,130 @@ export const COLUMNS = {
     title: '生产路线',
     key: 'process_routes',
     dataIndex: 'process_routes'
+  },
+  common_uid:{
+    title: '编号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
+  create_dt:{
+    title: '日期',
+    key: 'create_dt',
+    dataIndex: 'create_dt'
+  },
+  purchaser:{
+    title: '采购员',
+    key: 'purchaser',
+    dataIndex: 'purchaser'
+  },
+  inspector: {
+    title: '检验员',
+    key: 'inspector',
+    dataIndex: 'inspector'
+  },
+  weld_seam_uid: {
+    title: '焊缝编号',
+    key: 'weld_seam_uid',
+    dataIndex: 'weld_seam_uid'
+  },
+  material_mark: {
+    title: '焊缝牌号',
+    key: 'material_mark',
+    dataIndex: 'material_mark'
+  },
+  model: {
+    title: '型号',
+    key: 'model',
+    dataIndex: 'model'
+  },
+  specification: {
+    title: '规格',
+    key: 'specification',
+    dataIndex: 'specification'
+  },
+  department: {
+    title: '领用单位',
+    key: 'department',
+    dataIndex: 'department'
+  },
+  applicant: {
+    title: '领料人',
+    key: 'applicant',
+    dataIndex: 'applicant'
+  },
+  keeper: {
+    title: '记录人',
+    key: 'keeper',
+    dataIndex: 'keeper'
+  },
+  sub_order_uid: {
+    title: '工作令',
+    key: 'sub_order_uid',
+    dataIndex: 'sub_order_uid'
+  },
+  refund_id: {
+    title: '退库单编号',
+    key: 'id',
+    dataIndex: 'id'
+  },
+  refund_pretty_status: {
+    title: '退库单状态',
+    key: 'pretty_status',
+    dataIndex: 'pretty_status'
+  },
+  material_number: {
+    title: '材质编号',
+    key: 'material_number',
+    dataIndex: 'material_number'
+  },
+  factory: {
+    title: '厂家',
+    key: 'factory',
+    dataIndex: 'factory'
+  },
+  entry_count:{
+    title: '入库数量',
+    key: 'entry_count',
+    dataIndex: 'entry_count'
+  },
+  entry_dt: {
+    title: '入库时间',
+    key: 'entry_dt',
+    dataIndex: 'entry_dt'
+  },
+  material_batch_number: {
+    title: '材料批号',
+    key: 'material_batch_number',
+    dataIndex: 'material_batch_number'
+  },
+  welding_seam_uid:{
+    title: '焊缝编号',
+    key: 'welding_seam_uid',
+    dataIndex: 'welding_seam_uid'
+  },
+  apply_dt:{
+    title: '领用时间',
+    key: 'apply_dt',
+    dataIndex: 'apply_dt'
+  },
+  apply_uid:{
+    title: '领用单编号',
+    key: 'apply_uid',
+    dataIndex: 'apply_uid'
+  },
+  actual_weight: {
+    title: '实发重量',
+    key: 'actual_weight',
+    dataIndex: 'actual_weight'
+  },
+  actual_count: {
+    title: '实发数量',
+    key: 'actual_count',
+    dataIndex: 'actual_count'
+  },
+  inventory_pretty_status: {
+    title: '状态',
+    key: 'pretty_status',
+    dataIndex: 'pretty_status'
   }
 }

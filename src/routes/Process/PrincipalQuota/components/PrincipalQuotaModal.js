@@ -199,6 +199,7 @@ let makeFileds = function (fieldsValue) {
   _.forEach(fieldsValue, (value, key) => {
     result[key] = { value: value + '' }
   })
+  console.log('result', result)
   return result
 }
 

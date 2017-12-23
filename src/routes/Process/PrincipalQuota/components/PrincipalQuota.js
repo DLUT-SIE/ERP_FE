@@ -199,6 +199,7 @@ class PrincipalQuota extends React.Component {
     const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
     const materials = _.get(mydata, 'materials', {})
     const modal = _.get(mydata, 'modal', {})
+    console.log('modal', modal)
     return (
       <div className='principal-quota'>
         <FilterBar

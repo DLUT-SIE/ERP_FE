@@ -7,8 +7,8 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const DEPARTMENTSEND_GET_LIST_DATA = 'DEPARTMENTSEND_GET_LIST_DATA'
-const DEPARTMENTSEND_ADD_LIST_DATA = 'DEPARTMENTSEND_ADD_LIST_DATA'
+const PENDING_GET_LIST_DATA = 'PENDING_GET_LIST_DATA'
+const PENDING_ADD_LIST_DATA = 'PENDING_ADD_LIST_DATA'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -17,14 +17,14 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : DEPARTMENTSEND_GET_LIST_DATA,
+    type    : PENDING_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : DEPARTMENTSEND_ADD_LIST_DATA,
+    type    : PENDING_ADD_LIST_DATA,
     payload : payload
   }
 }
@@ -44,9 +44,9 @@ var initialState = Immutable.fromJS({
   }
 })
 
-export default function DepartmentSend (state = initialState, action) {
+export default function PendingOrder (state = initialState, action) {
   var map = {
-    DEPARTMENTSEND_GET_LIST_DATA () {
+    PENDING_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -57,12 +57,13 @@ export default function DepartmentSend (state = initialState, action) {
         'loading', true
       )
     },
-    DEPARTMENTSEND_ADD_LIST_DATA () {
-      let { data } = action.payload
+    PENDING_ADD_LIST_DATA () {
+      let { list } = action.payload
       return state.mergeIn(
-        ['pagination'], { total: data.count }
+        ['pagination'],
+        /* { total: list.count } */
       ).merge({
-        list: data.results,
+        list: list,
         loading: false
       })
     }
@@ -81,11 +82,13 @@ export default function DepartmentSend (state = initialState, action) {
 
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(DEPARTMENTSEND_GET_LIST_DATA)
+    const { payload = {} } = yield take(PENDING_GET_LIST_DATA)
     const { callback, params } = payload
-    const data = yield call(fetchAPI, apis.Distribution.getProFileList, params)
-    callback && callback(data)
-    yield put(addListDataAction({ data: data }))
+    const [ list ] = yield [
+      call(fetchAPI, apis.getPendingOrderList, params)
+    ]
+    callback && callback(list.order_id)
+    yield put(addListDataAction({ list: list.order_id }))
   }
 }
 
