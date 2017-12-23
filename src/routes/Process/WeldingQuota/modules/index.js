@@ -9,7 +9,7 @@ import { apis } from 'api/config'
 
 const WELDING_GET_LIST_DATA = 'WELDING_GET_LIST_DATA'
 const WELDING_ADD_LIST_DATA = 'WELDING_ADD_LIST_DATA'
-const WELDING_CHANGE_MODAL_DATA = 'WELDING_CHANGE_MODAL_DATA'
+const WELDING_CHANGE_MODAL = 'WELDING_CHANGE_MODAL'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -32,7 +32,7 @@ function addListDataAction (payload = {}) {
 
 function changeModalAction (payload = {}) {
   return {
-    type    : WELDING_CHANGE_MODAL_DATA,
+    type    : WELDING_CHANGE_MODAL,
     payload : payload
   }
 }
@@ -87,7 +87,7 @@ export default function WeldingQuota (state = initialState, action) {
         loading: false
       })
     },
-    WELDING_CHANGE_MODAL_DATA () {
+    WELDING_CHANGE_MODAL () {
       return state.mergeIn(['modal'], action.payload)
     }
   }
