@@ -13,7 +13,7 @@ import FilterBar from 'components/WorkOrderFilterBar'
 import CustomTable from 'components/CustomTable'
 import TableInfo from './TableInfo'
 import RouteModal from './RouteModal'
-import WeldModal from './WeldModal'
+import WeldModal from 'components/WeldingSeamModal'
 import './Process.less'
 
 const columns = [

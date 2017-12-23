@@ -5,7 +5,7 @@ import { Modal, Input, Button, Row, Col, Form } from 'antd'
 import { WELD_POSITION_LIST, WELD_METHOD_LIST } from 'const'
 
 import CustomSelect from 'components/CustomSelect'
-import './WeldModal.less'
+import './WeldingSeamModal.less'
 
 const FormItem = Form.Item
 const formItemLayout = {
