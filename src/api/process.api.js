@@ -27,6 +27,10 @@ export default {
     url: '/api/process_routes/',
     method: 'GET'
   },
+  getWeldingSeam: {
+    url: '/api/welding_seams/',
+    method: 'GET'
+  },
   getBoughtInItems: {
     url: '/api/bought_in_items/',
     method: 'GET'

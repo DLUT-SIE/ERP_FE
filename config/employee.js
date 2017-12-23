@@ -51,6 +51,10 @@ const config = {
           "name": "工艺库",
           "children": [],
         }, {
+          "code": "menu.process.weldingseam",
+          "name": "焊缝明细",
+          "children": [],
+        }, {
           "code": "menu.process.broughtinitems",
           "name": "外购件明细",
           "children": []
