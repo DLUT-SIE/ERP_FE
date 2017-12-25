@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import QueryString from 'query-string'
 import { Button } from 'antd'
 import './TransferCardDetail.less'
 
@@ -7,17 +9,46 @@ class TransferCardDetail extends React.Component {
     super(props)
   }
 
+  componentDidMount () {
+    const { id } = QueryString.parse(this.props.location.search)
+    this.props.getCardDataAction({
+      id: +id
+    })
+    this.props.getProcessDataAction({
+      params: {
+        limit: 5,
+        transfer_card: id
+      }
+    })
+  }
+
+  handleChangePage = (e) => {
+    console.log('handleChangePage', e.target.dataset)
+    const { type } = e.target.dataset
+    console.log('type', type)
+    // if (type === 'next') {
+    //
+    // }
+  }
+
   handlePrint = () => {
     console.log('handlePrint')
     window.print()
   }
+
   render () {
     return (
       <div className='transfer-card-detail'>
         <div className='btn-group'>
           <Button icon='left'>上一页</Button>
           <Button icon='printer' onClick={this.handlePrint}>打印</Button>
-          <Button icon='right'>下一页</Button>
+          <Button
+            icon='right'
+            data-type='next'
+            onClick={this.handleChangePage}
+          >
+            下一页
+          </Button>
         </div>
         <table className='transfer-card-table'>
           <tbody>
@@ -331,6 +362,12 @@ class TransferCardDetail extends React.Component {
       </div>
     )
   }
+}
+
+TransferCardDetail.propTypes = {
+  location: PropTypes.object.isRequired,
+  getCardDataAction: PropTypes.func.isRequired,
+  getProcessDataAction: PropTypes.func.isRequired
 }
 
 export default TransferCardDetail

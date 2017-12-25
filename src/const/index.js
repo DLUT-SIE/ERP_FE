@@ -411,23 +411,23 @@ export const COLUMNS = {
   },
   part_name: {
     title: '零件名',
-    key: 'part_name',
-    dataIndex: 'part_name'
+    key: 'name',
+    dataIndex: 'name'
   },
   transfer_card_category: {
     title: '流转卡类型',
     key: 'category',
     dataIndex: 'category'
   },
-  transfer_card_file_number: {
+  file_index: {
     title: '流转卡文件编号',
-    key: 'file_number',
-    dataIndex: 'file_number'
+    key: 'file_index',
+    dataIndex: 'file_index'
   },
   write_status: {
     title: '编制进度',
-    key: 'write_status',
-    dataIndex: 'write_status'
+    key: 'status',
+    dataIndex: 'status'
   },
   collaborative_content: {
     title: '协作内容',

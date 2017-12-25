@@ -12,7 +12,7 @@ import CustomTable from 'components/CustomTable'
 import TableInfo from './TableInfo'
 
 const columns = [
-  'order', 'ticket_number', 'part_name', 'transfer_card_category', 'transfer_card_file_number', 'write_status', 'action'
+  'ticket_number', 'part_name', 'transfer_card_category', 'file_index', 'write_status', 'action'
 ]
 
 class TransferCard extends React.Component {
@@ -30,11 +30,6 @@ class TransferCard extends React.Component {
 
   buildColumns () {
     return util.buildColumns(columns, {
-      order: {
-        render: (text, record, index) => {
-          return index + 1
-        }
-      },
       action: {
         render: (text, record, index) => {
           return (

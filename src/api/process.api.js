@@ -27,6 +27,22 @@ export default {
     url: '/api/process_routes/',
     method: 'GET'
   },
+  getTransferCards: {
+    url: '/api/transfer_cards/',
+    method: 'GET'
+  },
+  getTransferCard: {
+    url: (id) => (`/api/transfer_cards/${id}/`),
+    method: 'GET'
+  },
+  deleteTransferCard: {
+    url: (id) => (`/api/transfer_cards/${id}/`),
+    method: 'DELETE'
+  },
+  getTransferCardProcess: {
+    url: '/api/transfer_card_processes/',
+    method: 'GET'
+  },
   getBoughtInItems: {
     url: '/api/bought_in_items/',
     method: 'GET'
@@ -113,18 +129,6 @@ export default {
   },
   deleteWeldingQuota: {
     url: '/api/welding_quotas/',
-    method: 'DELETE'
-  },
-  getTransferCards: {
-    url: '/api/transfer_card',
-    method: 'GET'
-  },
-  getTransferCard: {
-    url: (id) => (`/api/transfer_card/${id}/`),
-    method: 'GET'
-  },
-  deleteTransferCard: {
-    url: (id) => (`/api/transfer_card/${id}/`),
     method: 'DELETE'
   }
 }
