@@ -39,7 +39,7 @@ class TransferCard extends React.Component {
                 size='small'
                 data-index={index}
               >
-                <Link to={`/process/process/transfer_card_detail/?id=${record.id}`}>
+                <Link to={`/process/process/transfer_card/transfer_card_detail/?id=${record.id}`}>
                   查看
                 </Link>
               </Button>

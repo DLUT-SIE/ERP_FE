@@ -10,6 +10,7 @@ const TRANSCARDDETAIL_GET_CARD_DATA = 'TRANSCARDDETAIL_GET_CARD_DATA'
 const TRANSCARDDETAIL_ADD_CARD_DATA = 'TRANSCARDDETAIL_ADD_CARD_DATA'
 const TRANSCARDDETAIL_GET_PROCESS_DATA = 'TRANSCARDDETAIL_GET_PROCESS_DATA'
 const TRANSCARDDETAIL_ADD_PROCESS_DATA = 'TRANSCARDDETAIL_ADD_PROCESS_DATA'
+const TRANSCARDDETAIL_CHANGE_CARD_MODAL = 'TRANSCARDDETAIL_CHANGE_CARD_MODAL'
 const FIRST_PAGE_SIZE = 5
 const PAGE_SIZE = 10
 // ------------------------------------
@@ -43,9 +44,17 @@ function addProcessDataAction (payload) {
   }
 }
 
+function changeCardModalAction (payload) {
+  return {
+    type: TRANSCARDDETAIL_CHANGE_CARD_MODAL,
+    payload: payload
+  }
+}
+
 export const actions = {
   getCardDataAction,
-  getProcessDataAction
+  getProcessDataAction,
+  changeCardModalAction
 }
 
 // ------------------------------------
@@ -55,6 +64,10 @@ var initialState = Immutable.fromJS({
   cardInfo: {},
   pagination: {
     pageSize: 10
+  },
+  processList: [],
+  cardModal: {
+    visible: false
   }
 })
 
@@ -62,7 +75,6 @@ export default function TransferCardDetail (state = initialState, action) {
   var map = {
     TRANSCARDDETAIL_ADD_CARD_DATA () {
       const { data } = action.payload
-      console.log('data', data)
       return state.merge({
         cardInfo: data
       })
@@ -71,7 +83,7 @@ export default function TransferCardDetail (state = initialState, action) {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
-          current: +(params.page || 1),
+          current: +(params.current || 1),
           pageSize: +(params.limit || PAGE_SIZE)
         }
       )
@@ -79,13 +91,16 @@ export default function TransferCardDetail (state = initialState, action) {
     TRANSCARDDETAIL_ADD_PROCESS_DATA () {
       const { data } = action.payload
       const { count, results } = data
-      console.log('process data', data)
-      return state.merge({
-        processList: results,
-        pagination: {
-          totalPage: count <= FIRST_PAGE_SIZE ? 1 : Math.ceil((count - FIRST_PAGE_SIZE) / PAGE_SIZE)
+      return state.mergeIn(
+        ['pagination'], {
+          totalPage: count <= FIRST_PAGE_SIZE ? 1 : Math.ceil((count - FIRST_PAGE_SIZE) / PAGE_SIZE) + 1
         }
+      ).merge({
+        processList: results
       })
+    },
+    TRANSCARDDETAIL_CHANGE_CARD_MODAL () {
+      return state.mergeIn(['cardModal'], action.payload)
     }
   }
 

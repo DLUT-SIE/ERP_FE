@@ -35,6 +35,10 @@ export default {
     url: (id) => (`/api/transfer_cards/${id}/`),
     method: 'GET'
   },
+  updateTransferCard: {
+    url: (id) => (`/api/transfer_cards/${id}/`),
+    method: 'PATCH'
+  },
   deleteTransferCard: {
     url: (id) => (`/api/transfer_cards/${id}/`),
     method: 'DELETE'
