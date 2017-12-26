@@ -11,8 +11,6 @@ const TRANSCARDDETAIL_ADD_CARD_DATA = 'TRANSCARDDETAIL_ADD_CARD_DATA'
 const TRANSCARDDETAIL_GET_PROCESS_DATA = 'TRANSCARDDETAIL_GET_PROCESS_DATA'
 const TRANSCARDDETAIL_ADD_PROCESS_DATA = 'TRANSCARDDETAIL_ADD_PROCESS_DATA'
 const TRANSCARDDETAIL_CHANGE_CARD_MODAL = 'TRANSCARDDETAIL_CHANGE_CARD_MODAL'
-const FIRST_PAGE_SIZE = 5
-const PAGE_SIZE = 10
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -84,16 +82,16 @@ export default function TransferCardDetail (state = initialState, action) {
       return state.mergeIn(
         ['pagination'], {
           current: +(params.current || 1),
-          pageSize: +(params.limit || PAGE_SIZE)
+          pageSize: +(params.limit)
         }
       )
     },
     TRANSCARDDETAIL_ADD_PROCESS_DATA () {
-      const { data } = action.payload
+      const { data, firstPageSize, pageSize } = action.payload
       const { count, results } = data
       return state.mergeIn(
         ['pagination'], {
-          totalPage: count <= FIRST_PAGE_SIZE ? 1 : Math.ceil((count - FIRST_PAGE_SIZE) / PAGE_SIZE) + 1
+          totalPage: count <= firstPageSize ? 1 : Math.ceil((count - firstPageSize) / pageSize) + 1
         }
       ).merge({
         processList: results
@@ -133,9 +131,12 @@ export function *getProcessSaga (type, body) {
   while (true) {
     const { payload = {} } = yield take(TRANSCARDDETAIL_GET_PROCESS_DATA)
     const { callback, params } = payload
-    const data = yield call(fetchAPI, apis.ProcessAPI.getTransferCardProcess, params)
+    const data = yield call(fetchAPI, apis.ProcessAPI.getTransferCardProcess, {
+      offset: params.offset,
+      limit: params.limit
+    })
     callback && callback(data)
-    yield put(addProcessDataAction({ data }))
+    yield put(addProcessDataAction({ data, firstPageSize: params.firstPageSize, pageSize: params.pageSize }))
   }
 }
 

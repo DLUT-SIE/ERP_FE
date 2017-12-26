@@ -5,13 +5,18 @@ import { Button } from 'antd'
 
 import './TransferCardTable.less'
 
-class TransferCardTable extends React.Component {
+const PAGE_SIZE = 10
+
+class SpecialElementTransferCardTable extends React.Component {
   constructor (props) {
     super(props)
   }
 
   getProcessTr = () => {
     const { processList } = this.props
+    while (processList.length < PAGE_SIZE) {
+      processList.push({})
+    }
     const processTrs = _.map(processList, (process, index) => {
       return (
         <tr className='process-tr' key={index}>
@@ -37,7 +42,6 @@ class TransferCardTable extends React.Component {
   render () {
     const { cardInfo, pagination } = this.props
     const { current, totalPage } = pagination
-    const isFirstPage = current === 1
     return (
       <table className='transfer-card-table'>
         <tbody>
@@ -46,16 +50,16 @@ class TransferCardTable extends React.Component {
               <p className='p'>太重（天津）滨海</p>
               <p className='p'>重型机械有限公司</p>
             </td>
-            <td className='transfer-card-name-td' colSpan={5} rowSpan={3}>
-              <b>筒 体 工 艺 卡（流转)</b>
+            <td className='transfer-card-name-td' colSpan={10} rowSpan={3}>
+              <b>特别元件工艺卡（流转）</b>
             </td>
-            <td className='file-number-td' colSpan={4} rowSpan={2}>
+            <td className='file-number-td' colSpan={2}>
               文件编号
             </td>
-            <td className='file-number-value-td' colSpan={4} rowSpan={2}>
+            <td className='file-number-value-td' colSpan={3}>
               {cardInfo.file_index}
             </td>
-            <td className='according-file-name-td' colSpan={5}>
+            <td className='according-file-name-td' colSpan={3}>
               依据文件名称
             </td>
             <td className='according-file-name-value-td' colSpan={4}>
@@ -63,7 +67,13 @@ class TransferCardTable extends React.Component {
             </td>
           </tr>
           <tr className='file-number-tr'>
-            <td className='according-file-number-td' colSpan={5}>
+            <td className='container-category-td' colSpan={2}>
+              容器类别
+            </td>
+            <td className='container-category-value-td' colSpan={3}>
+              {cardInfo.container_category}
+            </td>
+            <td className='according-file-number-td' colSpan={3}>
               依据文件编号
             </td>
             <td className='according-file-number-value-td' colSpan={4}>
@@ -71,137 +81,89 @@ class TransferCardTable extends React.Component {
             </td>
           </tr>
           <tr className='work-ticket-tr'>
-            <td className='work-ticket-td' colSpan={4}>
+            <td className='work-ticket-td' colSpan={2}>
               工作票号
             </td>
-            <td className='work-ticket-value-td' colSpan={4}>
+            <td className='work-ticket-value-td' colSpan={3}>
               <b>{cardInfo.ticket_number}#</b>
             </td>
-            <td className='current-page-td' colSpan={5}>
+            <td className='current-page-td' colSpan={3}>
               第 {current} 页
             </td>
             <td className='total-page-td' colSpan={4}>
              共 {totalPage} 页
             </td>
           </tr>
-          { isFirstPage &&
-            <tr className='simple-graph-tr'>
-              <td className='simple-graph-td' colSpan={8} rowSpan={7}>
-                简图：
-                { cardInfo.path &&
-                  <img className='simple-graph-img' src={cardInfo.path} alt='简图' />
-                }
-              </td>
-              <td className='first-base-info-td' colSpan={5}>
-                工 作 令
-              </td>
-              <td className='first-base-info-value-td' colSpan={4}>
-                {cardInfo.work_order_uid}
-              </td>
-              <td className='second-base-info-td' colSpan={5}>
-                零 件 图 号
-              </td>
-              <td className='second-base-info-value-td' colSpan={4}>
-                {cardInfo.drawing_number}
-              </td>
-            </tr>
-          }
-          { isFirstPage &&
-            <tr className='simple-graph-tr'>
-              <td className='first-base-info-td' colSpan={5}>
-                产 品 名 称
-              </td>
-              <td className='first-base-info-value-td' colSpan={4}>
-                {cardInfo.product_name}
-              </td>
-              <td className='second-base-info-td' colSpan={5}>
-                零 件 名 称
-              </td>
-              <td className='second-base-info-value-td' colSpan={4}>
-                {cardInfo.name}
-              </td>
-            </tr>
-          }
-          { isFirstPage &&
-            <tr className='simple-graph-tr'>
-              <td className='first-base-info-td' colSpan={5}>
-                容 器 类 别
-              </td>
-              <td className='first-base-info-value-td' colSpan={4}>
-                {cardInfo.container_category}
-              </td>
-              <td className='second-base-info-td' colSpan={5}>
-                数 量 / 台
-              </td>
-              <td className='second-base-info-value-td' colSpan={4}>
-                {cardInfo.count}
-              </td>
-            </tr>
-          }
-          { isFirstPage &&
-            <tr className='simple-graph-tr'>
-              <td className='first-base-info-td' colSpan={5}>
-                所属部件名称
-              </td>
-              <td className='first-base-info-value-td' colSpan={4}>
-                {cardInfo.parent_name}
-              </td>
-              <td className='second-base-info-td' colSpan={5}>
-                受 压 标 记
-              </td>
-              <td className='second-base-info-value-td' colSpan={4}>
-                {cardInfo.press_mark}
-              </td>
-            </tr>
-          }
-          { isFirstPage &&
-            <tr className='simple-graph-tr'>
-              <td className='first-base-info-td' colSpan={5}>
-                所属部件图号
-              </td>
-              <td className='first-base-info-value-td' colSpan={4}>
-                {cardInfo.parent_drawing_number}
-              </td>
-              <td className='second-base-info-td' colSpan={5}>
-                材     料
-              </td>
-              <td className='second-base-info-value-td' colSpan={4}>
-                {cardInfo.material}
-              </td>
-            </tr>
-          }
-          { isFirstPage &&
-            <tr className='simple-graph-tr'>
-              <td className='first-base-info-td' colSpan={5}>
-                产品试板图号
-              </td>
-              <td className='first-base-info-value-td' colSpan={4}>
-                {cardInfo.welding_plate_idx}
-              </td>
-              <td className='second-base-info-td' colSpan={5}>
-                材 质 标 记
-              </td>
-              <td className='second-base-info-value-td' colSpan={4}>
-                {cardInfo.material_index}
-              </td>
-            </tr>
-          }
-          { isFirstPage &&
-            <tr className='simple-graph-tr'>
-              <td className='first-base-info-td' colSpan={5}>
-                母材试板图号
-              </td>
-              <td className='first-base-info-value-td' colSpan={4}>
-                {cardInfo.parent_plate_idx}
-              </td>
-              <td className='second-base-info-td' colSpan={5}>
-                路     线
-              </td>
-              <td className='second-base-info-value-td' colSpan={4}>
-                {cardInfo.circulation_routes}
-              </td>
-            </tr>
-          }
+          <tr className='card-info-tr'>
+            <td className='work-order-td' colSpan={2}>
+              工作令
+            </td>
+            <td className='production-name-td' colSpan={2}>
+              产品名称
+            </td>
+            <td className='drawing-number-td' colSpan={2}>
+              零件图号
+            </td>
+            <td className='name-td' colSpan={3}>
+              零件名称
+            </td>
+            <td className='count-td'>
+              数量
+            </td>
+            <td className='parent-drawing-number-td' colSpan={3}>
+              所属部件图号
+            </td>
+            <td className='parent-name-td' colSpan={3}>
+              所属部件名称
+            </td>
+            <td className='press-mark-td' colSpan={2}>
+              受压标记
+            </td>
+            <td className='material-td' colSpan={2}>
+              材    质
+            </td>
+            <td className='material-index-td' colSpan={3}>
+              材质标记
+            </td>
+            <td className='circulation-route-td' colSpan={3}>
+              工艺路线
+            </td>
+          </tr>
+          <tr className='card-info-tr'>
+            <td className='work-order-td' colSpan={2}>
+              {cardInfo.work_order_uid}
+            </td>
+            <td className='production-name-td' colSpan={2}>
+              {cardInfo.product_name}
+            </td>
+            <td className='drawing-number-td' colSpan={2}>
+              {cardInfo.drawing_number}
+            </td>
+            <td className='name-td' colSpan={3}>
+              {cardInfo.name}
+            </td>
+            <td className='count-td'>
+              {cardInfo.count}
+            </td>
+            <td className='parent-drawing-number-td' colSpan={3}>
+              {cardInfo.parent_drawing_number}
+            </td>
+            <td className='parent-name-td' colSpan={3}>
+              {cardInfo.parent_name}
+            </td>
+            <td className='press-mark-td' colSpan={2}>
+              {cardInfo.press_mark}
+            </td>
+            <td className='material-td' colSpan={2}>
+              {cardInfo.material}
+            </td>
+            <td className='material-index-td' colSpan={3}>
+              {cardInfo.material_index}
+            </td>
+            <td className='circulation-route-td' colSpan={3}>
+              {cardInfo.circulation_routes.join(', ')}
+            </td>
+          </tr>
           <tr className='process-tr'>
             <td className='order-td' rowSpan={2}>
               序 号
@@ -356,10 +318,10 @@ class TransferCardTable extends React.Component {
   }
 }
 
-TransferCardTable.propTypes = {
+SpecialElementTransferCardTable.propTypes = {
   cardInfo: PropTypes.object.isRequired,
   pagination: PropTypes.object.isRequired,
   processList: PropTypes.array.isRequired
 }
 
-export default TransferCardTable
+export default SpecialElementTransferCardTable

@@ -7,16 +7,32 @@ import { apis } from 'api/config'
 import { Button, message, Upload } from 'antd'
 import './TransferCardDetail.less'
 
-import TransferCardTable from './TransferCardTable'
+import BarrelTransferCardTable from './BarrelTransferCardTable'
+import SpecialElementTransferCardTable from './SpecialElementTransferCardTable'
+import PressContainerTransferCardTable from './PressContainerTransferCardTable'
 import CardInfoModal from './CardInfoModal'
+import TechRequirementModal from './TechRequirementModal'
 
-const FIRST_PAGE_SIZE = 5
+const FIRST_PAGE_SIZE = 7
 const PAGE_SIZE = 10
+const PRESS_PAGE_SIZE = 7
 
 class TransferCardDetail extends React.Component {
   constructor (props) {
     super(props)
-    this._id = +QueryString.parse(this.props.location.search).id
+    const query = QueryString.parse(this.props.location.search)
+    this._id = +query.id
+    this._categary = query.category
+    if (this._categary === '筒体流转卡' || this._categary === '封头流转卡') {
+      this._firstPageSize = FIRST_PAGE_SIZE
+      this._pageSize = PAGE_SIZE
+    } else if (this._categary === '焊接试板流转卡' || this._categary === '母材试板流转卡') {
+      this._firstPageSize = PRESS_PAGE_SIZE
+      this._pageSize = PRESS_PAGE_SIZE
+    } else {
+      this._firstPageSize = PAGE_SIZE
+      this._pageSize = PAGE_SIZE
+    }
   }
 
   componentDidMount () {
@@ -26,7 +42,9 @@ class TransferCardDetail extends React.Component {
     this.props.getProcessDataAction({
       params: {
         offset: 0,
-        limit: FIRST_PAGE_SIZE,
+        limit: this._firstPageSize,
+        firstPageSize: this._firstPageSize,
+        pageSize: this._pageSize,
         transfer_card: this._id
       }
     })
@@ -38,6 +56,9 @@ class TransferCardDetail extends React.Component {
     const mydata = status.toJS()
     const pagination = _.get(mydata, 'pagination', {})
     const { current, totalPage } = pagination
+    const firstPageSize = this._firstPageSize
+    const pageSize = this._pageSize
+    const id = this._id
     if (type === 'next') {
       if (current + 1 > totalPage) {
         message.warning('当前为最后一页！')
@@ -45,10 +66,12 @@ class TransferCardDetail extends React.Component {
       }
       getProcessDataAction({
         params: {
-          offset: FIRST_PAGE_SIZE + (current - 1) * PAGE_SIZE,
-          limit: PAGE_SIZE,
+          offset: firstPageSize + (current - 1) * pageSize,
+          limit: pageSize,
           current: current + 1,
-          transfer_card: this._id
+          firstPageSize,
+          pageSize,
+          transfer_card: id
         }
       })
       return
@@ -60,25 +83,28 @@ class TransferCardDetail extends React.Component {
       getProcessDataAction({
         params: {
           offset: 0,
-          limit: FIRST_PAGE_SIZE,
+          limit: firstPageSize,
           current: 1,
-          transfer_card: this._id
+          firstPageSize,
+          pageSize,
+          transfer_card: id
         }
       })
     } else {
       getProcessDataAction({
         params: {
-          offset: FIRST_PAGE_SIZE + (current - 3) * PAGE_SIZE,
-          limit: PAGE_SIZE,
+          offset: firstPageSize + (current - 3) * pageSize,
+          limit: pageSize,
           current: current - 1,
-          transfer_card: this._id
+          firstPageSize,
+          pageSize,
+          transfer_card: id
         }
       })
     }
   }
 
   handlePrint = () => {
-    console.log('handlePrint')
     window.print()
   }
 
@@ -92,7 +118,9 @@ class TransferCardDetail extends React.Component {
       path: file.file
     }).then(() => {
       message.success('上传成功')
-      this.getCardDataAction()
+      this.props.getCardDataAction({
+        id: this._id
+      })
     })
   }
 
@@ -107,7 +135,8 @@ class TransferCardDetail extends React.Component {
         parent_drawing_number: cardInfo.parent_drawing_number,
         material_index: cardInfo.material_index,
         welding_plate_idx: cardInfo.welding_plate_idx,
-        parent_plate_idx: cardInfo.parent_plate_idx
+        parent_plate_idx: cardInfo.parent_plate_idx,
+        tech_requirement: cardInfo.tech_requirement
       }
     })
   }
@@ -119,7 +148,6 @@ class TransferCardDetail extends React.Component {
   }
 
   handleEditCard = (fieldsValue) => {
-    console.log('handleEditCard', fieldsValue)
     const { url, method } = apis.ProcessAPI.updateTransferCard
     const api = {
       url: url(this._id),
@@ -167,12 +195,22 @@ class TransferCardDetail extends React.Component {
               上传简图
             </Button>
           </Upload>
-          <Button
-            icon='edit'
-            onClick={this.handleOpenCardModal}
-          >
-            编辑流转卡信息
-          </Button>
+          { (cardInfo.category === '筒体流转卡' || cardInfo.category === '封头流转卡') &&
+            <Button
+              icon='edit'
+              onClick={this.handleOpenCardModal}
+            >
+              编辑流转卡信息
+            </Button>
+          }
+          { (cardInfo.category === '焊接试板流转卡' || cardInfo.category === '母材试板流转卡') &&
+            <Button
+              icon='edit'
+              onClick={this.handleOpenCardModal}
+            >
+              编辑技术要求
+            </Button>
+          }
           <Button
             icon='right'
             data-type='next'
@@ -181,13 +219,34 @@ class TransferCardDetail extends React.Component {
             下一页
           </Button>
         </div>
-        <TransferCardTable
-          cardInfo={cardInfo}
-          pagination={pagination}
-          processList={processList}
-        />
-        { cardModal.visible &&
-          <CardInfoModal
+        { (cardInfo.category === '筒体流转卡' || cardInfo.category === '封头流转卡') &&
+          <BarrelTransferCardTable
+            cardInfo={cardInfo}
+            pagination={pagination}
+            processList={processList}
+          />
+        }
+        { (cardInfo.category === '受压元件流转卡' || cardInfo.category === '特别元件流转卡') &&
+          <SpecialElementTransferCardTable
+            cardInfo={cardInfo}
+            pagination={pagination}
+            processList={processList}
+          />
+        }
+        { (cardInfo.category === '焊接试板流转卡' || cardInfo.category === '母材试板流转卡') &&
+          <PressContainerTransferCardTable
+            cardInfo={cardInfo}
+            pagination={pagination}
+            processList={processList}
+          />
+        }
+        { cardModal.visible && (cardInfo.category === '筒体流转卡' || cardInfo.category === '封头流转卡')
+          ? <CardInfoModal
+            {...cardModal}
+            onOk={this.handleEditCard}
+            onCancel={this.handleCloseCardModal}
+          />
+          : <TechRequirementModal
             {...cardModal}
             onOk={this.handleEditCard}
             onCancel={this.handleCloseCardModal}
