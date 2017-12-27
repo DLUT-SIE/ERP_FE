@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import { Form, Input } from 'antd'
+import { Form, Input, Modal } from 'antd'
 
 const FormItem = Form.Item
 const formItemLayout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 }
+  labelCol: { span: 4 },
+  wrapperCol: { span: 18 }
 }
 const fieldsConfig = {
   remark: {
@@ -14,7 +14,7 @@ const fieldsConfig = {
   }
 }
 
-class Modal extends React.Component {
+class EditModal extends React.Component {
   constructor (props) {
     super(props)
   }
@@ -32,7 +32,7 @@ class Modal extends React.Component {
   }
 
   render () {
-    const { visible, onCancel, form } = this.props
+    const { visible, onCancel, form, type } = this.props
     return (
       <Form>
         <Modal
@@ -42,10 +42,15 @@ class Modal extends React.Component {
           onOk={this.handleSave}
           onCancel={onCancel}
         >
-          <FormItem label='备注' {...formItemLayout}>
+          <FormItem
+            label={type !== 'cooperant_items' ? '备注' : '协作内容'}
+            {...formItemLayout}
+          >
             {
               form.getFieldDecorator('remark', fieldsConfig['remark'])(
-                <Input placeholder='请输入备注' />
+                <Input
+                  placeholder={type !== 'cooperant_items' ? '请输入备注' : '请输入协作内容'}
+                />
               )
             }
           </FormItem>
@@ -55,8 +60,9 @@ class Modal extends React.Component {
   }
 }
 
-Modal.propTypes = {
+EditModal.propTypes = {
   id: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
   visible: PropTypes.bool.isRequired,
   onOk: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
@@ -75,6 +81,6 @@ const WrappedForm = Form.create({
   mapPropsToFields (props) {
     return makeFileds(props.fieldsValue)
   }
-})(Modal)
+})(EditModal)
 
 export default WrappedForm

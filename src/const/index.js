@@ -201,6 +201,20 @@ export const WELD_METHOD_LIST = [
   }
 ]
 
+export const DETAILED_TABLE_CATEGORY_MAP = {
+  '辅材定额明细表': 0,
+  '主材定额明细表': 1,
+  '工序性外协明细表': 2,
+  '先投件明细表': 3,
+  '外购件明细表': 4,
+  '焊缝明细表': 5,
+  '装箱外购件明细表': 6,
+  '设计库表': 7,
+  '焊材明细表': 8,
+  '流转卡表': 9,
+  '工艺库表': 10
+}
+
 export const UNKNOW_COLUMN = {
   title: '未知标题',
   dataIndex: 'unkow_column',
