@@ -5,6 +5,7 @@ import _ from 'lodash'
 import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
+import { DETAILED_TABLE_CATEGORY_MAP } from 'const'
 import { Button, Popconfirm, message } from 'antd'
 
 import FilterBar from 'components/WorkOrderFilterBar'
@@ -14,7 +15,7 @@ import PrincipalQuotaModal from './PrincipalQuotaModal'
 import './PrincipalQuota.less'
 
 const columns = [
-  'order', 'size', 'count', 'weight', 'total_weight', 'material', 'operative_norm', 'status', 'remark', 'action'
+  'size', 'count', 'weight', 'total_weight', 'material_name', 'operative_norm', 'status', 'remark', 'action'
 ]
 
 class PrincipalQuota extends React.Component {
@@ -22,24 +23,29 @@ class PrincipalQuota extends React.Component {
     super(props)
     this.state = {}
     this._columns = this.buildColumns()
+    this._category = DETAILED_TABLE_CATEGORY_MAP['主材定额明细表']
   }
 
   componentDidMount () {
-    this.props.getListDataAction({
-      params: this._query()
-    })
-    this.props.getMaterialsAction({
-      params: {}
-    })
+    const query = this._query()
+    if (query.work_order_uid !== undefined) {
+      this.props.getLibraryDataAction({
+        params: {
+          work_order_uid: query.work_order_uid,
+          category: this._category
+        }
+      })
+      this.props.getListDataAction({
+        params: query
+      })
+      this.props.getMaterialsAction({
+        params: {}
+      })
+    }
   }
 
   buildColumns () {
     return util.buildColumns(columns, {
-      order: {
-        render: (text, record, index) => {
-          return index + 1
-        }
-      },
       action: {
         render: (text, record, index) => {
           return (
@@ -76,9 +82,16 @@ class PrincipalQuota extends React.Component {
 
   handleDelete = (id) => {
     return (e) => {
-      fetchAPI(apis.ProcessAPI.deletePrincipalQuota, { id: id }).then((repos) => {
+      const { url, method } = apis.ProcessAPI.deletePrincipalQuota
+      const api = {
+        url: url(id),
+        method
+      }
+      fetchAPI(api, {}).then((repos) => {
         message.success('删除成功！')
-        this.updatelist()
+        this.props.getListDataAction({
+          params: this._query()
+        })
       })
     }
   }
@@ -132,17 +145,33 @@ class PrincipalQuota extends React.Component {
     })
   }
 
-  handleSave = (fieldsValue) => {
-    if (fieldsValue.id) {
-      fetchAPI(apis.ProcessAPI.updatePincipalQuota, fieldsValue).then((repos) => {
+  handleSave = (id, fieldsValue) => {
+    if (id) {
+      const { url, method } = apis.ProcessAPI.updatePincipalQuota
+      const api = {
+        url: url(id),
+        method
+      }
+      fetchAPI(api, fieldsValue).then((repos) => {
         message.success('修改成功！')
-        this.updatelist()
+        this.handleCloseModal()
+        this.props.getListDataAction({
+          params: this._query()
+        })
       })
       return
     }
-    fetchAPI(apis.ProcessAPI.addPincipalQuota, fieldsValue).then((repos) => {
+    const mydata = this.props.status.toJS()
+    const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
+    fetchAPI(apis.ProcessAPI.addPincipalQuota, {
+      ...fieldsValue,
+      quota_list: workOrderInfo.id
+    }).then((repos) => {
       message.success('添加成功！')
-      this.updatelist()
+      this.handleCloseModal()
+      this.props.getListDataAction({
+        params: this._query()
+      })
     })
   }
 
@@ -178,9 +207,19 @@ class PrincipalQuota extends React.Component {
   }
 
   updatelist (query = this.props.location.query) {
-    this.props.getListDataAction({
-      params: query
-    })
+    if (query.work_order_uid !== undefined) {
+      this.props.getLibraryDataAction({
+        params: {
+          work_order_uid: query.work_order_uid,
+          category: this._category
+        }
+      })
+      this.props.getListDataAction({
+        params: query
+      })
+    } else {
+      this.props.resetDataAction()
+    }
   }
 
   handleChangeTable = (pagination, filters, sorter) => {
@@ -199,7 +238,6 @@ class PrincipalQuota extends React.Component {
     const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
     const materials = _.get(mydata, 'materials', {})
     const modal = _.get(mydata, 'modal', {})
-    console.log('modal', modal)
     return (
       <div className='principal-quota'>
         <FilterBar
@@ -211,6 +249,7 @@ class PrincipalQuota extends React.Component {
           className='add-btn'
           type='primary'
           size='large'
+          disabled={workOrderInfo.id === undefined}
           onClick={this.handleOpenAddModal}
         >
           添加
@@ -245,8 +284,10 @@ PrincipalQuota.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
+  getLibraryDataAction: PropTypes.func.isRequired,
   getListDataAction: PropTypes.func.isRequired,
   getMaterialsAction: PropTypes.func.isRequired,
+  resetDataAction: PropTypes.func.isRequired,
   changeModalAction: PropTypes.func.isRequired
 }
 

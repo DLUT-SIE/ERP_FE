@@ -445,8 +445,8 @@ export const COLUMNS = {
   },
   collaborative_content: {
     title: '协作内容',
-    key: 'collaborative_content',
-    dataIndex: 'collaborative_content'
+    key: 'remark',
+    dataIndex: 'remark'
   },
   weight_alias: {
     title: '重量(Kg)',
@@ -582,5 +582,10 @@ export const COLUMNS = {
     title: '状态',
     key: 'pretty_status',
     dataIndex: 'pretty_status'
+  },
+  material_name: {
+    title: '材质',
+    key: 'material_name',
+    dataIndex: 'material_name'
   }
 }

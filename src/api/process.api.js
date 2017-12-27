@@ -108,7 +108,7 @@ export default {
     method: 'PATCH'
   },
   addPincipalQuota: {
-    url: 'api/principal_quota_items/',
+    url: '/api/principal_quota_items/',
     method: 'POST'
   },
   deletePrincipalQuota: {

@@ -24,16 +24,20 @@ const fieldsConfig = {
     }]
   },
   weight: {
-    rules: [{ required: true, message: '请输入单重！' }]
+    rules: [{
+      required: true, message: '请输入单重！'
+    }, {
+      pattern: /^(\d+)(\.\d+)?$/, message: '请输入整数或小数！'
+    }]
   },
   material: {
     rules: [{ required: true, message: '请选择材质！' }]
   },
   operative_norm: {
-    rules: [{ required: true, message: '请输入执行标准！' }]
+    // rules: [{ required: true, message: '请输入执行标准！' }]
   },
   status: {
-    rules: [{ required: true, message: '请输入供货状态！' }]
+    // rules: [{ required: true, message: '请输入供货状态！' }]
   }
 }
 
@@ -48,14 +52,18 @@ class PrincipalQuotaModal extends React.Component {
       if (err) {
         return
       }
-      if (fieldsValue.id) {
-        values.id = fieldsValue.id
+      const params = {
+        size: values.size || '',
+        count: values.count ? +values.count : 0,
+        weight: values.weight ? +values.weight : 0,
+        operative_norm: values.operative_norm || '',
+        status: values.status || '',
+        remark: values.remark || ''
       }
-      onOk && onOk({
-        ...values,
-        material: +values.material,
-        count: +values.count
-      })
+      if (values.material) {
+        params.material = +values.material
+      }
+      onOk && onOk(fieldsValue.id, params)
     })
   }
 

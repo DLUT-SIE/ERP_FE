@@ -61,6 +61,7 @@ class DetailedList extends React.Component {
 
   componentDidMount () {
     const query = this._query()
+    this.props.resetDataAction()
     if (query.work_order_uid !== undefined) {
       this.props.getLibraryDataAction({
         params: {
@@ -174,7 +175,10 @@ class DetailedList extends React.Component {
       quota_list: workOrderInfo.id
     }).then((repos) => {
       message.success('添加成功！')
-      this.updatelist()
+      this.props.getListDataAction({
+        api: this._config.getApi,
+        params: this._query()
+      })
     })
   }
 
@@ -268,10 +272,12 @@ class DetailedList extends React.Component {
           fieldsValue={query}
           onSearch={this.handleSearch}
         />
-        <AddBar
-          onAdd={this.handleAdd}
-          onQuickAdd={this.handleQuichAdd}
-        />
+        { workOrderInfo.id &&
+          <AddBar
+            onAdd={this.handleAdd}
+            onQuickAdd={this.handleQuichAdd}
+          />
+        }
         <TableInfo
           fieldsValue={workOrderInfo}
         />
