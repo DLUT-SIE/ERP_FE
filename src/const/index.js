@@ -650,11 +650,6 @@ export const COLUMNS = {
     key: 'apply_card_uid',
     dataIndex: 'apply_card_uid'
   },
-  category: {
-    title: '材料类别',
-    key: 'category',
-    dataIndex: 'category'
-  },
   apply_intentory: {
     title: '领用材料',
     key: 'apply_intentory',
