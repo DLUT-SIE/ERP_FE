@@ -9,8 +9,9 @@ import { Button, Popconfirm, message } from 'antd'
 
 import FilterBar from 'components/WorkOrderFilterBar'
 import CustomTable from 'components/CustomTable'
-import TableInfo from './TableInfo'
+import TableInfo from 'components/TableInfo'
 import PrincipalQuotaModal from './PrincipalQuotaModal'
+import './PrincipalQuota.less'
 
 const columns = [
   'order', 'size', 'count', 'weight', 'total_weight', 'material', 'operative_norm', 'status', 'remark', 'action'
@@ -60,7 +61,7 @@ class PrincipalQuota extends React.Component {
                 cancelText='取消'
               >
                 <Button
-                  type='primary'
+                  type='danger'
                   size='small'
                 >
                   删除
@@ -195,27 +196,27 @@ class PrincipalQuota extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
-    const workOrder = _.get(mydata, 'workOrder', '')
-    const productionName = _.get(mydata, 'productionName', '')
-    const unit = _.get(mydata, 'unit', '')
-    const writer = _.get(mydata, 'writer', '')
-    const proofreader = _.get(mydata, 'proofreader', '')
+    const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
     const materials = _.get(mydata, 'materials', {})
     const modal = _.get(mydata, 'modal', {})
     console.log('modal', modal)
     return (
-      <div className='process-import'>
+      <div className='principal-quota'>
         <FilterBar
+          className='filterbar'
           fieldsValue={query}
           onSearch={this.handleSearch}
         />
+        <Button
+          className='add-btn'
+          type='primary'
+          size='large'
+          onClick={this.handleOpenAddModal}
+        >
+          添加
+        </Button>
         <TableInfo
-          workOrder={workOrder}
-          productionName={productionName}
-          unit={unit}
-          writer={writer}
-          proofreader={proofreader}
-          handleClick={this.handleOpenAddModal}
+          fieldsValue={workOrderInfo}
         />
         <CustomTable
           style={{ marginTop: 0 }}

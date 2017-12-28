@@ -24,37 +24,40 @@ class WorkOrderFilterBar extends React.Component {
   }
 
   render () {
-    const { form } = this.props
+    const { form, className } = this.props
     const { getFieldDecorator } = form
 
     return (
-      <Form
-        className='pendingorder-filterbar'
-        layout='inline'
-        onSubmit={this.handleSubmit}
-      >
-        <FormItem>
-          {getFieldDecorator('work_order_uid')(
-            <Input className='input' placeholder='工作令' />
-          )}
-        </FormItem>
-        <FormItem>
-          <Button
-            type='primary'
-            icon='search'
-            htmlType='submit'
-            onClick={this.handleSubmit}
-          >
-            工作令查询
-          </Button>
-        </FormItem>
-      </Form>
+      <div className={className}>
+        <Form
+          className='work-order-filterbar'
+          layout='inline'
+          onSubmit={this.handleSubmit}
+        >
+          <FormItem>
+            {getFieldDecorator('work_order_uid')(
+              <Input className='input' placeholder='工作令' />
+            )}
+          </FormItem>
+          <FormItem>
+            <Button
+              type='primary'
+              icon='search'
+              htmlType='submit'
+              onClick={this.handleSubmit}
+            >
+              工作令查询
+            </Button>
+          </FormItem>
+        </Form>
+      </div>
     )
   }
 }
 
 WorkOrderFilterBar.propTypes = {
   form: PropTypes.object.isRequired,
+  className: PropTypes.string,
   onSearch: PropTypes.func.isRequired
 }
 

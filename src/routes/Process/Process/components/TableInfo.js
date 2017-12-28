@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col, Button } from 'antd'
+import { Row, Col } from 'antd'
 import './TableInfo.less'
 
 class TableInfo extends React.Component {
   render () {
-    const { workOrder, productionName, unit } = this.props
+    const { fieldsValue } = this.props
+    const { workOrder, productionName, unit } = fieldsValue
     return (
       <div className='table-info'>
         <Row
@@ -15,18 +16,10 @@ class TableInfo extends React.Component {
           <Col span={3}>工作令：{ workOrder }</Col>
           <Col span={3}>产品名称：{ productionName }</Col>
           <Col span={3}>单位：{ unit }</Col>
-          <Col span={2} offset={4}>工艺：</Col>
+          <Col span={2} offset={7}>工艺：</Col>
           <Col span={2}>定额：</Col>
           <Col span={2}>统计：</Col>
           <Col span={2}>校对：</Col>
-          <Col span={3}>
-            <Button
-              className='trnsfercard-btn'
-              type='primary'
-            >
-              查看流转卡列表
-            </Button>
-          </Col>
         </Row>
       </div>
     )
@@ -34,9 +27,7 @@ class TableInfo extends React.Component {
 }
 
 TableInfo.propTypes = {
-  workOrder: PropTypes.string.isRequired,
-  productionName: PropTypes.string.isRequired,
-  unit: PropTypes.string.isRequired
+  fieldsValue: PropTypes.object.isRequired
 }
 
 export default TableInfo

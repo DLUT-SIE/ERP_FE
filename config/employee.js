@@ -51,8 +51,28 @@ const config = {
           "name": "工艺库",
           "children": [],
         }, {
+          "code": "menu.process.broughtinitems",
+          "name": "外购件明细",
+          "children": []
+        }, {
+          "code": "menu.process.firstfeedingitems",
+          "name": "先投件明细",
+          "children": []
+        }, {
+          "code": "menu.process.cooperantitems",
+          "name": "工序性协作件明细",
+          "children": []
+        }, {
           "code": "menu.process.principalquota",
           "name": "主材定额",
+          "children": []
+        }, {
+          "code": "menu.process.auxiliaryquota",
+          "name": "辅材定额",
+          "children": []
+        }, {
+          "code": "menu.process.weldingquota",
+          "name": "焊材定额",
           "children": []
         }
       ],
