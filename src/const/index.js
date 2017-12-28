@@ -211,6 +211,20 @@ export const WELD_METHOD_LIST = [
   }
 ]
 
+export const DETAILED_TABLE_CATEGORY_MAP = {
+  '辅材定额明细表': 0,
+  '主材定额明细表': 1,
+  '工序性外协明细表': 2,
+  '先投件明细表': 3,
+  '外购件明细表': 4,
+  '焊缝明细表': 5,
+  '装箱外购件明细表': 6,
+  '设计库表': 7,
+  '焊材明细表': 8,
+  '流转卡表': 9,
+  '工艺库表': 10
+}
+
 export const UNKNOW_COLUMN = {
   title: '未知标题',
   dataIndex: 'unkow_column',
@@ -421,28 +435,28 @@ export const COLUMNS = {
   },
   part_name: {
     title: '零件名',
-    key: 'part_name',
-    dataIndex: 'part_name'
+    key: 'name',
+    dataIndex: 'name'
   },
   transfer_card_category: {
     title: '流转卡类型',
     key: 'category',
     dataIndex: 'category'
   },
-  transfer_card_file_number: {
+  file_index: {
     title: '流转卡文件编号',
-    key: 'file_number',
-    dataIndex: 'file_number'
+    key: 'file_index',
+    dataIndex: 'file_index'
   },
   write_status: {
     title: '编制进度',
-    key: 'write_status',
-    dataIndex: 'write_status'
+    key: 'status',
+    dataIndex: 'status'
   },
   collaborative_content: {
     title: '协作内容',
-    key: 'collaborative_content',
-    dataIndex: 'collaborative_content'
+    key: 'remark',
+    dataIndex: 'remark'
   },
   weight_alias: {
     title: '重量(Kg)',
@@ -578,6 +592,11 @@ export const COLUMNS = {
     title: '状态',
     key: 'pretty_status',
     dataIndex: 'pretty_status'
+  },
+  material_name_in_quota: {
+    title: '材质',
+    key: 'material_name',
+    dataIndex: 'material_name'
   },
   source: {
     title: '货物来源',

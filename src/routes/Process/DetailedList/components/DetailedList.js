@@ -5,13 +5,14 @@ import _ from 'lodash'
 import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
+import { DETAILED_TABLE_CATEGORY_MAP } from 'const'
 import { Button, Popconfirm, message } from 'antd'
 
 import FilterBar from 'components/WorkOrderFilterBar'
 import AddBar from 'components/AddBar'
 import CustomTable from 'components/CustomTable'
 import TableInfo from 'components/TableInfo'
-// import AuxiliaryQuotaModal from './AuxiliaryQuotaModal'
+import EditModal from './EditModal'
 import './DetailedList.less'
 
 const columns1 = [
@@ -27,18 +28,24 @@ const typeMap = {
     getApi: 'getBoughtInItems',
     updateApi: 'updateBoughtInItems',
     deleteApi: 'deleteBoughtInItems',
+    addApi: 'addBoughtInItems',
+    category: DETAILED_TABLE_CATEGORY_MAP['外购件明细表'],
     columns: columns1
   },
   'first_feeding_items': {
     getApi: 'getFirstFeedingItems',
     updateApi: 'updateFirstFeedingItems',
     deleteApi: 'deleteFirstFeedingItems',
+    addApi: 'addFirstFeedingItems',
+    category: DETAILED_TABLE_CATEGORY_MAP['先投件明细表'],
     columns: columns1
   },
   'cooperant_items': {
     getApi: 'getCoperantItems',
     updateApi: 'updateCoperantItems',
     deleteApi: 'deleteCoperantItems',
+    addApi: 'addCoperantItems',
+    category: DETAILED_TABLE_CATEGORY_MAP['工序性外协明细表'],
     columns: columns2
   }
 }
@@ -53,10 +60,20 @@ class DetailedList extends React.Component {
   }
 
   componentDidMount () {
-    this.props.getListDataAction({
-      api: this._config.getApi,
-      params: this._query()
-    })
+    const query = this._query()
+    this.props.resetDataAction()
+    if (query.work_order_uid !== undefined) {
+      this.props.getLibraryDataAction({
+        params: {
+          work_order_uid: query.work_order_uid,
+          category: this._config.category
+        }
+      })
+      this.props.getListDataAction({
+        api: this._config.getApi,
+        params: query
+      })
+    }
   }
 
   buildColumns () {
@@ -77,6 +94,11 @@ class DetailedList extends React.Component {
             return record.total_weight
           }
         }]
+      },
+      process_routes: {
+        render: (text, record, index) => {
+          return record.circulation_routes.join(', ')
+        }
       },
       action: {
         render: (text, record, index) => {
@@ -121,7 +143,10 @@ class DetailedList extends React.Component {
       }
       fetchAPI(api, {}).then((repos) => {
         message.success('删除成功！')
-        this.updatelist()
+        this.props.getListDataAction({
+          api: this._config.getApi,
+          params: this._query()
+        })
       })
     }
   }
@@ -130,7 +155,7 @@ class DetailedList extends React.Component {
     const { id, fieldValue } = e.target.dataset
     this.props.changeModalAction({
       visible: true,
-      id,
+      id: +id,
       fieldValue: fieldValue
     })
   }
@@ -144,12 +169,16 @@ class DetailedList extends React.Component {
   handleAdd = (fieldsValue) => {
     const mydata = this.props.status.toJS()
     const workOrderInfo = _.get(mydata, 'workOrderInfo', '')
-    fetchAPI(apis.ProcessAPI.addAuxiliaryQuota, {
-      work_order_uid: workOrderInfo.workOrder,
-      ticket_number: +fieldsValue.ticket_number
+    fetchAPI(apis.ProcessAPI[this._config['addApi']], {
+      work_order_uid: workOrderInfo.work_order_uid,
+      ticket_number: +fieldsValue.ticket_number,
+      quota_list: workOrderInfo.id
     }).then((repos) => {
       message.success('添加成功！')
-      this.updatelist()
+      this.props.getListDataAction({
+        api: this._config.getApi,
+        params: this._query()
+      })
     })
   }
 
@@ -160,12 +189,16 @@ class DetailedList extends React.Component {
   handleSave = (id, fieldsValue) => {
     const { url, method } = apis.ProcessAPI[this._config.updateApi]
     const api = {
-      url: url(fieldsValue.id),
+      url: url(id),
       method
     }
     fetchAPI(api, fieldsValue).then((repos) => {
       message.success('修改成功！')
-      this.updatelist()
+      this.handleCloseModal()
+      this.props.getListDataAction({
+        api: this._config.getApi,
+        params: this._query()
+      })
     })
   }
 
@@ -201,10 +234,20 @@ class DetailedList extends React.Component {
   }
 
   updatelist (query = this.props.location.query) {
-    this.props.getListDataAction({
-      api: this._config.getApi,
-      params: query
-    })
+    if (query.work_order_uid !== undefined) {
+      this.props.getLibraryDataAction({
+        params: {
+          work_order_uid: query.work_order_uid,
+          category: this._config.category
+        }
+      })
+      this.props.getListDataAction({
+        api: this._config.getApi,
+        params: query
+      })
+    } else {
+      this.props.resetDataAction()
+    }
   }
 
   handleChangeTable = (pagination, filters, sorter) => {
@@ -221,7 +264,7 @@ class DetailedList extends React.Component {
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
     const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
-    // const modal = _.get(mydata, 'modal', {})
+    const modal = _.get(mydata, 'modal', {})
     return (
       <div className='auxiliary-quota'>
         <FilterBar
@@ -229,10 +272,12 @@ class DetailedList extends React.Component {
           fieldsValue={query}
           onSearch={this.handleSearch}
         />
-        <AddBar
-          onAdd={this.handleAdd}
-          onQuickAdd={this.handleQuichAdd}
-        />
+        { workOrderInfo.id &&
+          <AddBar
+            onAdd={this.handleAdd}
+            onQuickAdd={this.handleQuichAdd}
+          />
+        }
         <TableInfo
           fieldsValue={workOrderInfo}
         />
@@ -246,6 +291,14 @@ class DetailedList extends React.Component {
           size='middle'
           onChange={this.handleChangeTable}
         />
+        { modal.visible &&
+          <EditModal
+            type={this._listType}
+            onOk={this.handleSave}
+            onCancel={this.handleCloseModal}
+            {...modal}
+          />
+        }
       </div>
     )
   }
@@ -256,6 +309,8 @@ DetailedList.propTypes = {
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   getListDataAction: PropTypes.func.isRequired,
+  getLibraryDataAction: PropTypes.func.isRequired,
+  resetDataAction: PropTypes.func.isRequired,
   changeModalAction: PropTypes.func.isRequired
 }
 
