@@ -14,7 +14,7 @@ import WeldingQuota from './WeldingQuota'
 
 const childRoutes = [
   {
-    path: 'process/transfer_card_detail',
+    path: 'process/transfer_card/transfer_card_detail',
     breadcrumbName: '流转卡详情',
     component: TransferCardDetail
   },

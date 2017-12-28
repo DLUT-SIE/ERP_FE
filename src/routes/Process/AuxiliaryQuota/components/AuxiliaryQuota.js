@@ -5,6 +5,7 @@ import _ from 'lodash'
 import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
+import { DETAILED_TABLE_CATEGORY_MAP } from 'const'
 import { Button, Popconfirm, message } from 'antd'
 
 import FilterBar from 'components/WorkOrderFilterBar'
@@ -15,7 +16,7 @@ import AuxiliaryQuotaModal from './AuxiliaryQuotaModal'
 import './AuxiliaryQuota.less'
 
 const columns = [
-  'order', 'ticket_number', 'unit_drawing_number', 'part_drawing_number', 'category', 'material', 'spec',
+  'ticket_number', 'unit_drawing_number', 'part_drawing_number', 'category', 'material', 'spec',
   'count', 'piece_weight', 'gross_weight', 'quota', 'use_ratio', 'press_mark', 'action'
 ]
 
@@ -24,21 +25,26 @@ class AuxiliaryQuota extends React.Component {
     super(props)
     this.state = {}
     this._columns = this.buildColumns()
+    this._category = DETAILED_TABLE_CATEGORY_MAP['辅材定额明细表']
   }
 
   componentDidMount () {
-    this.props.getListDataAction({
-      params: this._query()
-    })
+    const query = this._query()
+    if (query.work_order_uid !== undefined) {
+      this.props.getLibraryDataAction({
+        params: {
+          work_order_uid: query.work_order_uid,
+          category: this._category
+        }
+      })
+      this.props.getListDataAction({
+        params: query
+      })
+    }
   }
 
   buildColumns () {
     return util.buildColumns(columns, {
-      order: {
-        render: (text, record, index) => {
-          return index + 1
-        }
-      },
       action: {
         render: (text, record, index) => {
           return (
@@ -75,9 +81,16 @@ class AuxiliaryQuota extends React.Component {
 
   handleDelete = (id) => {
     return (e) => {
-      fetchAPI(apis.ProcessAPI.deleteAuxiliaryQuota, { id: id }).then((repos) => {
+      const { url, method } = apis.ProcessAPI.deleteAuxiliaryQuota
+      const api = {
+        url: url(id),
+        method
+      }
+      fetchAPI(api, {}).then((repos) => {
         message.success('删除成功！')
-        this.updatelist()
+        this.props.getListDataAction({
+          params: this._query()
+        })
       })
     }
   }
@@ -125,14 +138,18 @@ class AuxiliaryQuota extends React.Component {
   }
 
   handleAdd = (fieldsValue) => {
+    console.log('handleAdd', fieldsValue)
     const mydata = this.props.status.toJS()
-    const workOrderInfo = _.get(mydata, 'workOrderInfo', '')
+    const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
     fetchAPI(apis.ProcessAPI.addAuxiliaryQuota, {
-      work_order: workOrderInfo.workOrder,
-      ticket_number: +fieldsValue.ticket_number
+      work_order_uid: workOrderInfo.work_order_uid,
+      ticket_number: +fieldsValue.ticket_number,
+      quota_list: workOrderInfo.id
     }).then((repos) => {
       message.success('添加成功！')
-      this.updatelist()
+      this.props.getListDataAction({
+        params: this._query()
+      })
     })
   }
 
@@ -140,10 +157,18 @@ class AuxiliaryQuota extends React.Component {
     console.log('handleQuichAdd')
   }
 
-  handleSave = (fieldsValue) => {
-    fetchAPI(apis.ProcessAPI.updateAuxiliaryQuota, fieldsValue).then((repos) => {
+  handleSave = (id, fieldsValue) => {
+    const { url, method } = apis.ProcessAPI.updateAuxiliaryQuota
+    const api = {
+      url: url(id),
+      method
+    }
+    fetchAPI(api, fieldsValue).then((repos) => {
       message.success('修改成功！')
-      this.updatelist()
+      this.handleCloseModal()
+      this.props.getListDataAction({
+        params: this._query()
+      })
     })
   }
 
@@ -179,9 +204,19 @@ class AuxiliaryQuota extends React.Component {
   }
 
   updatelist (query = this.props.location.query) {
-    this.props.getListDataAction({
-      params: query
-    })
+    if (query.work_order_uid !== undefined) {
+      this.props.getLibraryDataAction({
+        params: {
+          work_order_uid: query.work_order_uid,
+          category: this._category
+        }
+      })
+      this.props.getListDataAction({
+        params: query
+      })
+    } else {
+      this.props.resetDataAction()
+    }
   }
 
   handleChangeTable = (pagination, filters, sorter) => {
@@ -240,6 +275,8 @@ AuxiliaryQuota.propTypes = {
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   getListDataAction: PropTypes.func.isRequired,
+  getLibraryDataAction: PropTypes.func.isRequired,
+  resetDataAction: PropTypes.func.isRequired,
   changeModalAction: PropTypes.func.isRequired
 }
 

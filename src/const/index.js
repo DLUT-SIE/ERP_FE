@@ -158,6 +158,16 @@ export const PROCESS_ROUTE_LIST = [
     label: 'D'
   }
 ]
+export const MATERIAL_CATEGORY = [
+  { value: 0,
+    label: '焊材' },
+  { value: 1,
+    label: '钢材' },
+  { value: 2,
+    label: '辅材' },
+  { value: 3,
+    label: '外购件' }
+]
 
 export const WELD_POSITION_LIST = [
   {
@@ -200,6 +210,20 @@ export const WELD_METHOD_LIST = [
     label: '氩弧焊'
   }
 ]
+
+export const DETAILED_TABLE_CATEGORY_MAP = {
+  '辅材定额明细表': 0,
+  '主材定额明细表': 1,
+  '工序性外协明细表': 2,
+  '先投件明细表': 3,
+  '外购件明细表': 4,
+  '焊缝明细表': 5,
+  '装箱外购件明细表': 6,
+  '设计库表': 7,
+  '焊材明细表': 8,
+  '流转卡表': 9,
+  '工艺库表': 10
+}
 
 export const UNKNOW_COLUMN = {
   title: '未知标题',
@@ -411,28 +435,28 @@ export const COLUMNS = {
   },
   part_name: {
     title: '零件名',
-    key: 'part_name',
-    dataIndex: 'part_name'
+    key: 'name',
+    dataIndex: 'name'
   },
   transfer_card_category: {
     title: '流转卡类型',
     key: 'category',
     dataIndex: 'category'
   },
-  transfer_card_file_number: {
+  file_index: {
     title: '流转卡文件编号',
-    key: 'file_number',
-    dataIndex: 'file_number'
+    key: 'file_index',
+    dataIndex: 'file_index'
   },
   write_status: {
     title: '编制进度',
-    key: 'write_status',
-    dataIndex: 'write_status'
+    key: 'status',
+    dataIndex: 'status'
   },
   collaborative_content: {
     title: '协作内容',
-    key: 'collaborative_content',
-    dataIndex: 'collaborative_content'
+    key: 'remark',
+    dataIndex: 'remark'
   },
   weight_alias: {
     title: '重量(Kg)',
@@ -663,5 +687,126 @@ export const COLUMNS = {
     title: '添加',
     key: 'add',
     dataIndex: 'add'
+  },
+  material_name_in_quota: {
+    title: '材质',
+    key: 'material_name',
+    dataIndex: 'material_name'
+  },
+  source: {
+    title: '货物来源',
+    key: 'source',
+    dataIndex: 'source'
+  },
+  pretty_steel_type: {
+    title: '入库单类型',
+    key: 'pretty_steel_type',
+    dataIndex: 'pretty_steel_type'
+  },
+  steel_type: {
+    title: '材料类型',
+    key: 'steel_type',
+    dataIndex: 'steel_type'
+  },
+  refunder: {
+    title: '退料人',
+    key: 'refunder',
+    dataIndex: 'refunder'
+  },
+  apply_count: {
+    title: '领用数量',
+    key: 'apply_count',
+    dataIndex: 'apply_count'
+  },
+  batch_number: {
+    title: '炉批号',
+    key: 'batch_number',
+    dataIndex: 'batch_number'
+  },
+  location: {
+    title: '库房位置',
+    key: 'location',
+    dataIndex: 'location'
+  },
+  refund_times: {
+    title: '退库次数',
+    key: 'refund_times',
+    dataIndex: 'refund_times'
+  },
+  nesting_diagram: {
+    title: '-套料图-',
+    key: 'nesting_diagram',
+    dataIndex: 'nesting_diagram'
+  },
+  // 外购件入库
+  material_type: {
+    title: '材料类型',
+    key: 'material_type',
+    dataIndex: 'material_type'
+  },
+  mark_number: {
+    title: '-标记号-',
+    key: 'mark_number',
+    dataIndex: 'mark_number'
+  },
+  standard_number: {
+    title: '-标准号/图号-',
+    key: 'standard_number',
+    dataIndex: 'standard_number'
+  },
+  entry_uid: {
+    title: '入库单号',
+    key: 'entry_uid',
+    dataIndex: 'entry_uid'
+  },
+  apply_card_uid: {
+    title: '领用单号',
+    key: 'apply_card_uid',
+    dataIndex: 'apply_card_uid'
+  },
+  apply_intentory: {
+    title: '领用材料',
+    key: 'apply_intentory',
+    dataIndex: 'apply_intentory'
+  },
+  name: {
+    title: '-名称-',
+    key: 'name',
+    dataIndex: 'name'
+  },
+  suppilier: {
+    title: '供货商',
+    key: 'suppilier',
+    dataIndex: 'suppilier'
+  },
+  material_name: {
+    title: '-材料名称-',
+    key: 'material_name',
+    dataIndex: 'material_name'
+  },
+  actual_specification: {
+    title: '实发规格',
+    key: 'actual_specification',
+    dataIndex: 'actual_specification'
+  },
+  apply_name: {
+    title: '请领名称',
+    key: 'apply_name',
+    dataIndex: 'apply_name'
+  },
+  apply_specification: {
+    title: '请领规格',
+    key: 'apply_specification',
+    dataIndex: 'apply_specification'
+  },
+  warehouse_name: {
+    title: '库房名称',
+    key: 'name',
+    dataIndex: 'name'
+  },
+  pretty_category: {
+    title: '材料类别',
+    key: 'pretty_category',
+    dataIndex: 'pretty_category'
   }
 }

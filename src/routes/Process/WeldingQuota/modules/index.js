@@ -9,6 +9,9 @@ import { apis } from 'api/config'
 
 const WELDING_GET_LIST_DATA = 'WELDING_GET_LIST_DATA'
 const WELDING_ADD_LIST_DATA = 'WELDING_ADD_LIST_DATA'
+const WELDING_GET_LIBRARY_DATA = 'WELDING_GET_LIBRARY_DATA'
+const WELDING_ADD_LIBRARY_DATA = 'WELDING_ADD_LIBRARY_DATA'
+const WELDING_RESET_DATA = 'WELDING_RESET_DATA'
 const WELDING_CHANGE_MODAL = 'WELDING_CHANGE_MODAL'
 const PAGE_SIZE = 10
 
@@ -30,6 +33,27 @@ function addListDataAction (payload = {}) {
   }
 }
 
+function getLibraryDataAction (body) {
+  return {
+    type    : WELDING_GET_LIBRARY_DATA,
+    payload : body
+  }
+}
+
+function addLibraryDataAction (payload = {}) {
+  return {
+    type    : WELDING_ADD_LIBRARY_DATA,
+    payload : payload
+  }
+}
+
+function resetDataAction (payload = {}) {
+  return {
+    type    : WELDING_RESET_DATA,
+    payload : payload
+  }
+}
+
 function changeModalAction (payload = {}) {
   return {
     type    : WELDING_CHANGE_MODAL,
@@ -39,6 +63,8 @@ function changeModalAction (payload = {}) {
 
 export const actions = {
   getListDataAction,
+  getLibraryDataAction,
+  resetDataAction,
   changeModalAction
 }
 
@@ -71,20 +97,27 @@ export default function WeldingQuota (state = initialState, action) {
     },
     WELDING_ADD_LIST_DATA () {
       let { data } = action.payload
-      const { count, results, work_order_uid: workOrder, production_name: productionName, unit, writer, proofreader } = data
+      const { count, results } = data
       return state.mergeIn(
         ['pagination'], { total: count }
-      ).mergeIn(
-        ['workOrderInfo'], {
-          workOrder,
-          productionName,
-          unit,
-          writer,
-          proofreader
-        }
       ).merge({
         list: results,
         loading: false
+      })
+    },
+    WELDING_ADD_LIBRARY_DATA () {
+      let { data } = action.payload
+      if (!data.results[0]) {
+        return state
+      }
+      return state.mergeIn(
+        ['workOrderInfo'], data.results[0]
+      )
+    },
+    WELDING_RESET_DATA () {
+      return state.merge({
+        workOrderInfo: {},
+        list: []
       })
     },
     WELDING_CHANGE_MODAL () {
@@ -112,6 +145,17 @@ export function *getListSaga (type, body) {
   }
 }
 
+export function *getLibrarySaga (type, body) {
+  while (true) {
+    const { payload = {} } = yield take(WELDING_GET_LIBRARY_DATA)
+    const { callback, params = {} } = payload
+    const data = yield call(fetchAPI, apis.ProcessAPI.getQuotaList, params)
+    callback && callback(data)
+    yield put(addLibraryDataAction({ data: data }))
+  }
+}
+
 export const sagas = [
-  getListSaga
+  getListSaga,
+  getLibrarySaga
 ]

@@ -7,8 +7,8 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const ENTRY_GET_LIST_DATA = 'ENTRY_GET_LIST_DATA'
-const ENTRY_ADD_LIST_DATA = 'ENTRY_ADD_LIST_DATA'
+const WELD_ENTRY_GET_LIST_DATA = 'WELD_ENTRY_GET_LIST_DATA'
+const WELD_ENTRY_ADD_LIST_DATA = 'WELD_ENTRY_ADD_LIST_DATA'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -17,14 +17,14 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : ENTRY_GET_LIST_DATA,
+    type    : WELD_ENTRY_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : ENTRY_ADD_LIST_DATA,
+    type    : WELD_ENTRY_ADD_LIST_DATA,
     payload : payload
   }
 }
@@ -46,7 +46,7 @@ var initialState = Immutable.fromJS({
 
 export default function WeldEntry (state = initialState, action) {
   var map = {
-    ENTRY_GET_LIST_DATA () {
+    WELD_ENTRY_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -57,7 +57,7 @@ export default function WeldEntry (state = initialState, action) {
         'loading', true
       )
     },
-    ENTRY_ADD_LIST_DATA () {
+    WELD_ENTRY_ADD_LIST_DATA () {
       let { data } = action.payload
       return state.mergeIn(
         ['pagination'],
@@ -81,7 +81,7 @@ export default function WeldEntry (state = initialState, action) {
 
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(ENTRY_GET_LIST_DATA)
+    const { payload = {} } = yield take(WELD_ENTRY_GET_LIST_DATA)
     const { callback, params } = payload
     const data = yield call(fetchAPI, apis.InventoryAPI.getWeldEntry, params)
     callback && callback(data)
