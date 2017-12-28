@@ -46,5 +46,105 @@ export default {
   updateWeldInventoryAccount: {
     url: (id) => (`/api/welding_material_inventory_ledgers/${id}/`),
     method: 'PATCH'
+  },
+  getSteelEntry: {
+    url: '/api/steel_material_entries/',
+    method: 'GET'
+  },
+  getSteelApplyCard: {
+    url: '/api/steel_material_apply_cards/',
+    method: 'GET'
+  },
+  getSteelRefund: {
+    url: '/api/steel_material_refund_cards/',
+    method: 'GET'
+  },
+  getSteelApplyCardAccount: {
+    url: '/api/steel_material_apply_ledgers/',
+    method: 'GET'
+  },
+  getSteelEntryAccount: {
+    url: '/api/steel_material_entry_ledgers/',
+    method: 'GET'
+  },
+  getSteelRefundAccount: {
+    url: '/api/steel_material_inventory_ledgers/',
+    method: 'GET'
+  },
+  getSteelInventoryAccount: {
+    url: '/api/steel_material_inventory_ledgers/',
+    method: 'GET'
+  },
+  getSteelInventoryAccountDetail: {
+    url: (id) => (`/api/steel_material_inventory_ledgers/${id}/`),
+    method: 'GET'
+  },
+  updateSteelInventoryAccount: {
+    url: (id) => (`/api/steel_material_inventory_ledgers/${id}/`),
+    method: 'PATCH'
+  },
+  getBroughtInEntry: {
+    url: '/api/bought_in_component_entries/',
+    method: 'GET'
+  },
+  getBroughtInApplyCard: {
+    url: '/api/bought_in_component_apply_cards/',
+    method: 'GET'
+  },
+  getBroughtInRefund: {
+    url: '/api/bought_in_component_refund_cards/',
+    method: 'GET'
+  },
+  getBroughtInEntryAccount: {
+    url: '/api/bought_in_component_entry_ledgers/',
+    method: 'GET'
+  },
+  getBroughtInApplyCardAccount: {
+    url: '/api/bought_in_component_apply_ledgers/',
+    method: 'GET'
+  },
+  getBroughtInInventoryAccount: {
+    url: '/api/bought_in_component_inventory_ledgers/',
+    method: 'GET'
+  },
+  getAuxiliaryEntry: {
+    url: '/api/auxiliary_material_entries/',
+    method: 'GET'
+  },
+  getAuxiliaryApplyCard: {
+    url: '/api/auxiliary_material_apply_cards/',
+    method: 'GET'
+  },
+  getAuxiliaryEntryAccount: {
+    url: '/api/auxiliary_material_entry_ledgers/',
+    method: 'GET'
+  },
+  getAuxiliaryApplyCardAccount: {
+    url: '/api/auxiliary_material_apply_ledgers/',
+    method: 'GET'
+  },
+  getAuxiliaryInventoryAccount: {
+    url: '/api/auxiliary_material_inventory_ledgers/',
+    method: 'GET'
+  },
+  getWarehouseRecords: {
+    url: '/api/warehouses/',
+    method: 'GET'
+  },
+  getWarehouseRecordsDetail: {
+    url: (id) => (`/api/warehouses/${id}/`),
+    method: 'GET'
+  },
+  updateWarehouseRecord: {
+    url: (id) => (`/api/warehouses/${id}/`),
+    method: 'PATCH'
+  },
+  deleteWarehouseRecord: {
+    url: '/api/warehouses/',
+    method: 'DELETE'
+  },
+  createWarehouseRecord: {
+    url: '/api/warehouses/',
+    method: 'POST'
   }
 }

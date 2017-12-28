@@ -7,9 +7,9 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const HUMITURE_RECORD_GET_LIST_DATA = 'HUMITURE_RECORD_GET_LIST_DATA'
-const HUMITURE_RECORD_ADD_LIST_DATA = 'HUMITURE_RECORD_ADD_LIST_DATA'
-const HUMITURE_RECORD_CHANGE_MODAL_DATA = 'HUMITURE_RECORD_CHANGE_MODAL_DATA'
+const WELD_HUMITURE_RECORD_GET_LIST_DATA = 'WELD_HUMITURE_RECORD_GET_LIST_DATA'
+const WELD_HUMITURE_RECORD_ADD_LIST_DATA = 'WELD_HUMITURE_RECORD_ADD_LIST_DATA'
+const WELD_HUMITURE_RECORD_CHANGE_MODAL_DATA = 'WELD_HUMITURE_RECORD_CHANGE_MODAL_DATA'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -18,20 +18,20 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : HUMITURE_RECORD_GET_LIST_DATA,
+    type    : WELD_HUMITURE_RECORD_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : HUMITURE_RECORD_ADD_LIST_DATA,
+    type    : WELD_HUMITURE_RECORD_ADD_LIST_DATA,
     payload : payload
   }
 }
 function changeModalAction (payload = {}) {
   return {
-    type    : HUMITURE_RECORD_CHANGE_MODAL_DATA,
+    type    : WELD_HUMITURE_RECORD_CHANGE_MODAL_DATA,
     payload : payload
   }
 }
@@ -57,7 +57,7 @@ var initialState = Immutable.fromJS({
 
 export default function WeldHumitureRecord (state = initialState, action) {
   var map = {
-    HUMITURE_RECORD_GET_LIST_DATA () {
+    WELD_HUMITURE_RECORD_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -68,7 +68,7 @@ export default function WeldHumitureRecord (state = initialState, action) {
         'loading', true
       )
     },
-    HUMITURE_RECORD_ADD_LIST_DATA () {
+    WELD_HUMITURE_RECORD_ADD_LIST_DATA () {
       let { data } = action.payload
       return state.mergeIn(
         ['pagination'], { total: data.count }
@@ -77,7 +77,7 @@ export default function WeldHumitureRecord (state = initialState, action) {
         loading: false
       })
     },
-    HUMITURE_RECORD_CHANGE_MODAL_DATA () {
+    WELD_HUMITURE_RECORD_CHANGE_MODAL_DATA () {
       return state.mergeIn(['modal'], action.payload)
     }
   }
@@ -95,7 +95,7 @@ export default function WeldHumitureRecord (state = initialState, action) {
 
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(HUMITURE_RECORD_GET_LIST_DATA)
+    const { payload = {} } = yield take(WELD_HUMITURE_RECORD_GET_LIST_DATA)
     const { callback, params } = payload
     const data = yield call(fetchAPI, apis.InventoryAPI.getWeldHumitureRecord, params)
     callback && callback(data)

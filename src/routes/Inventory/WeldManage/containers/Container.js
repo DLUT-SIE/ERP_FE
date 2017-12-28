@@ -8,7 +8,7 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = (state) => ({
-  status: state.pendingOrder
+  // status: state.pendingOrder
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MenuPanel))
