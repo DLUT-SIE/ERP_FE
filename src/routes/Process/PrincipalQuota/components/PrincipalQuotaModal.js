@@ -58,10 +58,8 @@ class PrincipalQuotaModal extends React.Component {
         weight: values.weight ? +values.weight : 0,
         operative_norm: values.operative_norm || '',
         status: values.status || '',
-        remark: values.remark || ''
-      }
-      if (values.material) {
-        params.material = +values.material
+        remark: values.remark || '',
+        material: values.material ? +values.material : ''
       }
       onOk && onOk(fieldsValue.id, params)
     })
