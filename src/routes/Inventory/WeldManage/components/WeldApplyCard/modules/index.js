@@ -7,8 +7,8 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const APPLY_CARD_GET_LIST_DATA = 'APPLY_CARD_GET_LIST_DATA'
-const APPLY_CARD_ADD_LIST_DATA = 'APPLY_CARD_ADD_LIST_DATA'
+const WELD_APPLY_CARD_GET_LIST_DATA = 'WELD_APPLY_CARD_GET_LIST_DATA'
+const WELD_APPLY_CARD_ADD_LIST_DATA = 'WELD_APPLY_CARD_ADD_LIST_DATA'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -17,14 +17,14 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : APPLY_CARD_GET_LIST_DATA,
+    type    : WELD_APPLY_CARD_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : APPLY_CARD_ADD_LIST_DATA,
+    type    : WELD_APPLY_CARD_ADD_LIST_DATA,
     payload : payload
   }
 }
@@ -44,9 +44,9 @@ var initialState = Immutable.fromJS({
   }
 })
 
-export default function PendingOrder (state = initialState, action) {
+export default function WeldApplyCard (state = initialState, action) {
   var map = {
-    APPLY_CARD_GET_LIST_DATA () {
+    WELD_APPLY_CARD_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -57,7 +57,7 @@ export default function PendingOrder (state = initialState, action) {
         'loading', true
       )
     },
-    APPLY_CARD_ADD_LIST_DATA () {
+    WELD_APPLY_CARD_ADD_LIST_DATA () {
       let { data } = action.payload
       return state.mergeIn(
         ['pagination'],
@@ -81,7 +81,7 @@ export default function PendingOrder (state = initialState, action) {
 
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(APPLY_CARD_GET_LIST_DATA)
+    const { payload = {} } = yield take(WELD_APPLY_CARD_GET_LIST_DATA)
     const { callback, params } = payload
     const data = yield call(fetchAPI, apis.InventoryAPI.getWeldApplyCard, params)
     callback && callback(data)

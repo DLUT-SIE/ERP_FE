@@ -7,8 +7,8 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const REFUND_GET_LIST_DATA = 'REFUND_GET_LIST_DATA'
-const REFUND_ADD_LIST_DATA = 'REFUND_ADD_LIST_DATA'
+const WELD_REFUND_GET_LIST_DATA = 'WELD_REFUND_GET_LIST_DATA'
+const WELD_REFUND_ADD_LIST_DATA = 'WELD_REFUND_ADD_LIST_DATA'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -17,14 +17,14 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : REFUND_GET_LIST_DATA,
+    type    : WELD_REFUND_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : REFUND_ADD_LIST_DATA,
+    type    : WELD_REFUND_ADD_LIST_DATA,
     payload : payload
   }
 }
@@ -44,9 +44,9 @@ var initialState = Immutable.fromJS({
   }
 })
 
-export default function Refund (state = initialState, action) {
+export default function WeldRefund (state = initialState, action) {
   var map = {
-    REFUND_GET_LIST_DATA () {
+    WELD_REFUND_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -57,7 +57,7 @@ export default function Refund (state = initialState, action) {
         'loading', true
       )
     },
-    REFUND_ADD_LIST_DATA () {
+    WELD_REFUND_ADD_LIST_DATA () {
       let { data } = action.payload
       return state.mergeIn(
         ['pagination'],
@@ -81,7 +81,7 @@ export default function Refund (state = initialState, action) {
 
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(REFUND_GET_LIST_DATA)
+    const { payload = {} } = yield take(WELD_REFUND_GET_LIST_DATA)
     const { callback, params } = payload
     const data = yield call(fetchAPI, apis.InventoryAPI.getWeldRefund, params)
     callback && callback(data)
