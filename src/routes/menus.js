@@ -45,7 +45,10 @@ export const menu = {
     inventory: {
       icon: 'appstore',
       weld: '/inventory/weld',
-      steel: '/inventory/steel'
+      steel: '/inventory/steel',
+      brought_in: '/inventory/brought_in',
+      auxiliary: '/inventory/auxiliary',
+      basic_data: '/inventory/basic_data'
     }
   }
 }

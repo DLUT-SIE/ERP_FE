@@ -108,6 +108,19 @@ const config = {
           "code": "menu.inventory.steel",
           "name": "钢材库存管理",
           "children": []
+        },
+        {
+          "code": "menu.inventory.brought_in",
+          "name": "外购件库存管理",
+          "children": []
+        },{
+          "code": "menu.inventory.auxiliary",
+          "name": "辅助工具库存管理",
+          "children": []
+        },{
+          "code": "menu.inventory.basic_data",
+          "name": "库存基础数据管理",
+          "children": []
         }
       ],
     },

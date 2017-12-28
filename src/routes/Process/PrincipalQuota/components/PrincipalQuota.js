@@ -15,7 +15,7 @@ import PrincipalQuotaModal from './PrincipalQuotaModal'
 import './PrincipalQuota.less'
 
 const columns = [
-  'size', 'count', 'weight', 'total_weight', 'material_name', 'operative_norm', 'status', 'remark', 'action'
+  'size', 'count', 'weight', 'total_weight', 'material_name_in_quota', 'operative_norm', 'status', 'remark', 'action'
 ]
 
 class PrincipalQuota extends React.Component {

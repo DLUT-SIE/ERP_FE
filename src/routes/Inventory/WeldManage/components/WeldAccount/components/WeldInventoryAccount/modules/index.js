@@ -52,7 +52,7 @@ var initialState = Immutable.fromJS({
   }
 })
 
-export default function PendingOrder (state = initialState, action) {
+export default function WeldInventoryAccount (state = initialState, action) {
   var map = {
     WELD_INVENTORY_ACCOUNT_GET_LIST_DATA () {
       let { params = {} } = action.payload
