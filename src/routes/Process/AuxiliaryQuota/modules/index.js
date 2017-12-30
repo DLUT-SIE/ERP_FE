@@ -105,7 +105,7 @@ export default function AuxiliaryQuota (state = initialState, action) {
         loading: false
       })
     },
-    PRINCIPAL_ADD_LIBRARY_DATA () {
+    AUXILIARY_ADD_LIBRARY_DATA () {
       let { data } = action.payload
       if (!data.results[0]) {
         return state
@@ -114,7 +114,7 @@ export default function AuxiliaryQuota (state = initialState, action) {
         ['workOrderInfo'], data.results[0]
       )
     },
-    PRINCIPAL_RESET_DATA () {
+    AUXILIARY_RESET_DATA () {
       return state.merge({
         workOrderInfo: {},
         list: []
@@ -139,7 +139,7 @@ export function *getListSaga (type, body) {
   while (true) {
     const { payload = {} } = yield take(AUXILIARY_GET_LIST_DATA)
     const { callback, params = {} } = payload
-    const data = yield call(fetchAPI, apis.ProcessAPI.getAuxiliaryQuota, params)
+    const data = yield call(fetchAPI, apis.ProcessAPI.getAuxiliaryQuotas, params)
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }

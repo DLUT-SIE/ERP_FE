@@ -169,7 +169,7 @@ export function *getListSaga (type, body) {
   while (true) {
     const { payload = {} } = yield take(PRINCIPAL_GET_LIST_DATA)
     const { callback, params = {} } = payload
-    const data = yield call(fetchAPI, apis.ProcessAPI.getPrincipalQuota, params)
+    const data = yield call(fetchAPI, apis.ProcessAPI.getPrincipalQuotas, params)
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }

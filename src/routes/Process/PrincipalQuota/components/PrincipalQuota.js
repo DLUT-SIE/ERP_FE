@@ -53,7 +53,7 @@ class PrincipalQuota extends React.Component {
               <Button
                 type='primary'
                 size='small'
-                data-fields-value={JSON.stringify(record)}
+                data-id={record.id}
                 data-index={index}
                 onClick={this.handleOpenEditModal}
               >
@@ -96,12 +96,25 @@ class PrincipalQuota extends React.Component {
     }
   }
 
+  fetchPrincipalQuota (id, cb) {
+    const { url, method } = apis.ProcessAPI.getPrincipalQuota
+    const api = {
+      url: url(id),
+      method
+    }
+    fetchAPI(api, {}).then((repos) => {
+      cb(repos)
+    })
+  }
+
   handleOpenEditModal = (e) => {
-    const { fieldsValue, index } = e.target.dataset
-    this.props.changeModalAction({
-      visible: true,
-      index: +index,
-      fieldsValue: JSON.parse(fieldsValue)
+    const { id, index } = e.target.dataset
+    this.fetchPrincipalQuota(id, (repos) => {
+      this.props.changeModalAction({
+        visible: true,
+        index: +index,
+        fieldsValue: repos
+      })
     })
   }
 
@@ -138,10 +151,12 @@ class PrincipalQuota extends React.Component {
       }
       index += 1
     }
-    changeModalAction({
-      visible: true,
-      index,
-      fieldsValue: list[index]
+    this.fetchPrincipalQuota(list[index].id, (repos) => {
+      changeModalAction({
+        visible: true,
+        index: +index,
+        fieldsValue: repos
+      })
     })
   }
 
@@ -170,7 +185,9 @@ class PrincipalQuota extends React.Component {
       message.success('添加成功！')
       this.handleCloseModal()
       this.props.getListDataAction({
-        params: this._query()
+        params: this._query({
+          page: 1
+        })
       })
     })
   }
@@ -245,15 +262,16 @@ class PrincipalQuota extends React.Component {
           fieldsValue={query}
           onSearch={this.handleSearch}
         />
-        <Button
-          className='add-btn'
-          type='primary'
-          size='large'
-          disabled={workOrderInfo.id === undefined}
-          onClick={this.handleOpenAddModal}
-        >
-          添加
-        </Button>
+        { workOrderInfo.id &&
+          <Button
+            className='add-btn'
+            type='primary'
+            size='large'
+            onClick={this.handleOpenAddModal}
+          >
+            添加
+          </Button>
+        }
         <TableInfo
           fieldsValue={workOrderInfo}
         />
