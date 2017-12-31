@@ -223,7 +223,7 @@ class PrincipalQuota extends React.Component {
     return filterQuery
   }
 
-  updatelist (query = this.props.location.query) {
+  updatelist (query = QueryString.parse(this.props.location.search)) {
     if (query.work_order_uid !== undefined) {
       this.props.getLibraryDataAction({
         params: {
