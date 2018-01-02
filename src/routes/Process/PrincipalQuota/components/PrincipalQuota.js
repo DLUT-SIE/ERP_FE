@@ -158,7 +158,7 @@ class PrincipalQuota extends React.Component {
     this.fetchPrincipalQuota(list[index].id, (repos) => {
       changeModalAction({
         visible: true,
-        index: +index,
+        index,
         fieldsValue: repos
       })
     })
@@ -228,7 +228,6 @@ class PrincipalQuota extends React.Component {
   }
 
   updatelist (query = QueryString.parse(this.props.location.search)) {
-    console.log('updatelist')
     if (query.work_order_uid !== undefined) {
       this.props.getLibraryDataAction({
         params: {
