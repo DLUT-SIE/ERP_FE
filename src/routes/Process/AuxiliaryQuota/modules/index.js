@@ -107,12 +107,9 @@ export default function AuxiliaryQuota (state = initialState, action) {
     },
     AUXILIARY_ADD_LIBRARY_DATA () {
       let { data } = action.payload
-      if (!data.results[0]) {
-        return state
-      }
-      return state.mergeIn(
-        ['workOrderInfo'], data.results[0]
-      )
+      return state.merge({
+        workOrderInfo: data.results[0] || {}
+      })
     },
     AUXILIARY_RESET_DATA () {
       return state.merge({

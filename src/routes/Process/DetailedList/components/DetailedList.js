@@ -76,6 +76,10 @@ class DetailedList extends React.Component {
     }
   }
 
+  componentWillUnmount () {
+    this.props.resetDataAction()
+  }
+
   buildColumns () {
     return util.buildColumns(this._config.columns, {
       weight_alias: {

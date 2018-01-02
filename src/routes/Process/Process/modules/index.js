@@ -124,12 +124,9 @@ export default function Process (state = initialState, action) {
     },
     PROCESS_ADD_LIBRARY_DATA () {
       let { data } = action.payload
-      if (!data.results[0]) {
-        return state
-      }
-      return state.mergeIn(
-        ['workOrderInfo'], data.results[0]
-      )
+      return state.merge({
+        workOrderInfo: data.results[0] || {}
+      })
     },
     PROCESS_RESET_DATA () {
       return state.merge({

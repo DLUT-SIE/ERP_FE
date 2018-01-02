@@ -97,7 +97,8 @@ var initialState = Immutable.fromJS({
   modal: {
     visible: false
   },
-  workOrderInfo: {}
+  workOrderInfo: {},
+  list: []
 })
 
 export default function WeldingQuota (state = initialState, action) {
@@ -125,12 +126,9 @@ export default function WeldingQuota (state = initialState, action) {
     },
     WELDING_ADD_LIBRARY_DATA () {
       let { data } = action.payload
-      if (!data.results[0]) {
-        return state
-      }
-      return state.mergeIn(
-        ['workOrderInfo'], data.results[0]
-      )
+      return state.merge({
+        workOrderInfo: data.results[0] || {}
+      })
     },
     WELDING_ADD_MATERIALS_DATA () {
       let { data } = action.payload

@@ -43,6 +43,10 @@ class AuxiliaryQuota extends React.Component {
     }
   }
 
+  componentWillUnmount () {
+    this.props.resetDataAction()
+  }
+
   buildColumns () {
     return util.buildColumns(columns, {
       action: {

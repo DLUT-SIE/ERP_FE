@@ -50,6 +50,10 @@ class ProcessImport extends React.Component {
     }
   }
 
+  componentWillUnmount () {
+    this.props.resetDataAction()
+  }
+
   buildColumns () {
     return util.buildColumns(columns, {
       circulation_route: {
@@ -345,7 +349,7 @@ class ProcessImport extends React.Component {
       this.handleCloseCardModal()
       this.props.history.push({
         pathname: '/process/process/transfer_card/transfer_card_detail',
-        search: `id=${fieldsValue.id}&category=${fieldsValue.category}`
+        search: `id=${repos.id}&category=${repos.category_name}`
       })
     })
   }

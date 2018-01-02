@@ -125,12 +125,9 @@ export default function PrincipalQuota (state = initialState, action) {
     },
     PRINCIPAL_ADD_LIBRARY_DATA () {
       let { data } = action.payload
-      if (!data.results[0]) {
-        return state
-      }
-      return state.mergeIn(
-        ['workOrderInfo'], data.results[0]
-      )
+      return state.merge({
+        workOrderInfo: data.results[0] || {}
+      })
     },
     PRINCIPAL_ADD_MATERIALS_DATA () {
       let { data } = action.payload

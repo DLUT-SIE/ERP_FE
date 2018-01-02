@@ -42,6 +42,10 @@ class WeldingQuota extends React.Component {
     }
   }
 
+  componentWillUnmount () {
+    this.props.resetDataAction()
+  }
+
   buildColumns () {
     return util.buildColumns(columns, {
       action: {
@@ -252,9 +256,10 @@ class WeldingQuota extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
-    const workOrderInfo = _.get(mydata, 'workOrderInfo', '')
+    const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
     const modal = _.get(mydata, 'modal', {})
     const materials = _.get(mydata, 'materials', [])
+    console.log('render', workOrderInfo, list)
     return (
       <div className='welding-quota'>
         <FilterBar
