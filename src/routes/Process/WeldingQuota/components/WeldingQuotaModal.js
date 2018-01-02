@@ -47,8 +47,11 @@ class WeldingQuotaModal extends React.Component {
         return
       }
       onOk && onOk(fieldsValue.id, {
-        ...values,
-        mark: +values.mark
+        material: +values.material,
+        size: values.size || '',
+        operative_norm: values.operative_norm || '',
+        quota: values.quota ? +values.quota : 0,
+        remark: values.remark || ''
       })
     })
   }

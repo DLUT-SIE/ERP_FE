@@ -160,27 +160,27 @@ export const PROCESS_ROUTE_LIST = [
 ]
 export const TRANSFERCARD_CATEGORY_LIST = [
   {
-    value: '筒体流转卡',
+    value: '0',
     label: '筒体流转卡'
   },
   {
-    value: '封头流转卡',
+    value: '1',
     label: '封头流转卡'
   },
   {
-    value: '焊接试板流转卡',
+    value: '2',
     label: '焊接试板流转卡'
   },
   {
-    value: '母材试板流转卡',
+    value: '3',
     label: '母材试板流转卡'
   },
   {
-    value: '受压元件流转卡',
+    value: '4',
     label: '受压元件流转卡'
   },
   {
-    value: '特别元件流转卡',
+    value: '5',
     label: '特别元件流转卡'
   }
 ]

@@ -30,7 +30,7 @@ class CreateTransferCardModal extends React.Component {
       }
       onOk && onOk({
         id,
-        category: values.category
+        category: +values.category
       })
     })
   }
