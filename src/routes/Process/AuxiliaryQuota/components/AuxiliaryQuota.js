@@ -43,6 +43,10 @@ class AuxiliaryQuota extends React.Component {
     }
   }
 
+  componentWillUnmount () {
+    this.props.resetDataAction()
+  }
+
   buildColumns () {
     return util.buildColumns(columns, {
       action: {
@@ -52,7 +56,7 @@ class AuxiliaryQuota extends React.Component {
               <Button
                 type='primary'
                 size='small'
-                data-fields-value={JSON.stringify(record)}
+                data-id={record.id}
                 data-index={index}
                 onClick={this.handleOpenModal}
               >
@@ -95,12 +99,25 @@ class AuxiliaryQuota extends React.Component {
     }
   }
 
+  fetchAuxiliaryQuota (id, cb) {
+    const { url, method } = apis.ProcessAPI.getAuxiliaryQuota
+    const api = {
+      url: url(id),
+      method
+    }
+    fetchAPI(api, {}).then((repos) => {
+      cb(repos)
+    })
+  }
+
   handleOpenModal = (e) => {
-    const { fieldsValue, index } = e.target.dataset
-    this.props.changeModalAction({
-      visible: true,
-      index: +index,
-      fieldsValue: JSON.parse(fieldsValue)
+    const { id, index } = e.target.dataset
+    this.fetchAuxiliaryQuota(id, (repos) => {
+      this.props.changeModalAction({
+        visible: true,
+        index: +index,
+        fieldsValue: repos
+      })
     })
   }
 
@@ -130,15 +147,16 @@ class AuxiliaryQuota extends React.Component {
       }
       index += 1
     }
-    changeModalAction({
-      visible: true,
-      index,
-      fieldsValue: list[index]
+    this.fetchAuxiliaryQuota(list[index].id, (repos) => {
+      changeModalAction({
+        visible: true,
+        index: +index,
+        fieldsValue: repos
+      })
     })
   }
 
   handleAdd = (fieldsValue) => {
-    console.log('handleAdd', fieldsValue)
     const mydata = this.props.status.toJS()
     const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
     fetchAPI(apis.ProcessAPI.addAuxiliaryQuota, {
@@ -203,7 +221,7 @@ class AuxiliaryQuota extends React.Component {
     return filterQuery
   }
 
-  updatelist (query = this.props.location.query) {
+  updatelist (query = QueryString.parse(this.props.location.search)) {
     if (query.work_order_uid !== undefined) {
       this.props.getLibraryDataAction({
         params: {
@@ -241,10 +259,12 @@ class AuxiliaryQuota extends React.Component {
           fieldsValue={query}
           onSearch={this.handleSearch}
         />
-        <AddBar
-          onAdd={this.handleAdd}
-          onQuickAdd={this.handleQuichAdd}
-        />
+        { workOrderInfo.id &&
+          <AddBar
+            onAdd={this.handleAdd}
+            onQuickAdd={this.handleQuichAdd}
+          />
+        }
         <TableInfo
           fieldsValue={workOrderInfo}
         />

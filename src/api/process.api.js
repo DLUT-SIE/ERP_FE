@@ -39,6 +39,10 @@ export default {
     url: (id) => (`/api/transfer_cards/${id}/`),
     method: 'PATCH'
   },
+  addTransferCard: {
+    url: '/api/transfer_cards/',
+    method: 'POST'
+  },
   deleteTransferCard: {
     url: (id) => (`/api/transfer_cards/${id}/`),
     method: 'DELETE'
@@ -99,8 +103,12 @@ export default {
     url: (id) => (`/api/cooperant_items/${id}/`),
     method: 'DELETE'
   },
-  getPrincipalQuota: {
+  getPrincipalQuotas: {
     url: '/api/principal_quota_items/',
+    method: 'GET'
+  },
+  getPrincipalQuota: {
+    url: (id) => (`/api/principal_quota_items/${id}/`),
     method: 'GET'
   },
   updatePincipalQuota: {
@@ -119,8 +127,24 @@ export default {
     url: '/api/materials/',
     method: 'GET'
   },
-  getAuxiliaryQuota: {
+  getTotalWeldingMaterials: {
+    url: '/api/total_welding_materials/',
+    method: 'GET'
+  },
+  getWeldingMaterials: {
+    url: '/api/welding_materials/',
+    method: 'GET'
+  },
+  getFluxMaterials: {
+    url: '/api/flux_materials/',
+    method: 'GET'
+  },
+  getAuxiliaryQuotas: {
     url: '/api/auxiliary_quota_items/',
+    method: 'GET'
+  },
+  getAuxiliaryQuota: {
+    url: (id) => (`/api/auxiliary_quota_items/${id}/`),
     method: 'GET'
   },
   updateAuxiliaryQuota: {
@@ -135,8 +159,12 @@ export default {
     url: (id) => (`/api/auxiliary_quota_items/${id}/`),
     method: 'DELETE'
   },
-  getWeldingQuota: {
+  getWeldingQuotas: {
     url: '/api/welding_quota_items/',
+    method: 'GET'
+  },
+  getWeldingQuota: {
+    url: (id) => (`/api/welding_quota_items/${id}/`),
     method: 'GET'
   },
   updateWeldingQuota: {
