@@ -12,21 +12,25 @@ const formItemLayout = {
   wrapperCol: { span: 16 }
 }
 const fieldsConfig = {
-  quota_coefficient: {
-    rules: [{ required: true, message: '请输入定额系数！' }]
+  quota_coef: {
+    rules: [{
+      // required: true, message: '请输入定额系数！'
+    }, {
+      pattern: /^(\d+)(\.\d+)?$/, message: '请输入有效的整数或小数！'
+    }]
   },
   quota: {
     rules: [{
-      required: true, message: '请输入定额！'
+      // required: true, message: '请输入定额！'
     }, {
-      pattern: /^[0-9]+$/, message: '请输入数值！'
+      pattern: /^(\d+)(\.\d+)?$/, message: '请输入有效的整数或小数！'
     }]
   },
-  norm_code: {
-    rules: [{ required: true, message: '请输入标准代码！' }]
+  stardard_code: {
+    // rules: [{ required: true, message: '请输入标准代码！' }]
   },
   category: {
-    rules: [{ required: true, message: '请输入材料种类' }]
+    // rules: [{ required: true, message: '请输入材料种类' }]
   },
   remark: {}
 }
@@ -42,17 +46,14 @@ class AuxiliaryQuotaModal extends React.Component {
       if (err) {
         return
       }
-      if (fieldsValue.id) {
-        values.id = fieldsValue.id
-      }
-      onOk && onOk({
+      onOk && onOk(fieldsValue.id, {
         ...values
       })
     })
   }
 
   render () {
-    const { visible, form, onCancel, onChange } = this.props
+    const { visible, form, fieldsValue, onCancel, onChange } = this.props
     const { getFieldDecorator } = form
     return (
       <Form>
@@ -98,19 +99,28 @@ class AuxiliaryQuotaModal extends React.Component {
           <fieldset>
             <legend>原始数据</legend>
             <Row gutter={16}>
-              <Col span={8}>工作票号：{}</Col>
-              <Col span={8}>图号：{}</Col>
-              <Col span={8}>名称：{}</Col>
+              <Col span={3} className='original-data-label'>工作票号：</Col>
+              <Col span={5} className='original-data-value'>{fieldsValue.ticket_number}</Col>
+              <Col span={3} className='ant-form-item-label'>部件图号：</Col>
+              <Col span={5} className='original-data-value'>{fieldsValue.unit_drawing_number}</Col>
+              <Col span={3} className='ant-form-item-label'>名称：</Col>
+              <Col span={5} className='original-data-value'>{fieldsValue.name}</Col>
             </Row>
             <Row gutter={16}>
-              <Col span={8}>受压标识：{}</Col>
-              <Col span={8}>材质：{}</Col>
-              <Col span={8}>数量：{}</Col>
+              <Col span={3} className='original-data-label'>受压标识：</Col>
+              <Col span={5} className='original-data-value'>{fieldsValue.piece_weight}</Col>
+              <Col span={3} className='original-data-label'>材质：</Col>
+              <Col span={5} className='original-data-value'>{fieldsValue.material}</Col>
+              <Col span={3} className='original-data-label'>数量：</Col>
+              <Col span={5} className='original-data-value'>{fieldsValue.count}</Col>
             </Row>
             <Row gutter={16}>
-              <Col span={8}>净重：{}</Col>
-              <Col span={8}>毛重：{}</Col>
-              <Col span={8}>规格：{}</Col>
+              <Col span={3} className='original-data-label'>净重：</Col>
+              <Col span={5} className='original-data-value'>{fieldsValue.piece_weight}</Col>
+              <Col span={3} className='original-data-label'>毛重：</Col>
+              <Col span={5} className='original-data-value'>{fieldsValue.total_weight}</Col>
+              <Col span={3} className='original-data-label'>规格：</Col>
+              <Col span={5} className='original-data-value'>{fieldsValue.spec}</Col>
             </Row>
           </fieldset>
           <br />
@@ -120,7 +130,7 @@ class AuxiliaryQuotaModal extends React.Component {
               <Col span={8}>
                 <FormItem label='定额系数' {...formItemLayout}>
                   {
-                    getFieldDecorator('quota_coefficient', fieldsConfig['quota_coefficient'])(
+                    getFieldDecorator('quota_coef', fieldsConfig['quota_coef'])(
                       <Input placeholder='请输入定额系数' />
                     )
                   }
@@ -138,7 +148,7 @@ class AuxiliaryQuotaModal extends React.Component {
               <Col span={8}>
                 <FormItem label='标准代码' {...formItemLayout}>
                   {
-                    getFieldDecorator('norm_code', fieldsConfig['norm_code'])(
+                    getFieldDecorator('stardard_code', fieldsConfig['stardard_code'])(
                       <Input placeholder='请输入标准代码' />
                     )
                   }

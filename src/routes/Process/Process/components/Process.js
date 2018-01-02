@@ -14,6 +14,7 @@ import CustomTable from 'components/CustomTable'
 import TableInfo from './TableInfo'
 import RouteModal from './RouteModal'
 import WeldModal from 'components/WeldingSeamModal'
+import CardModal from './CreateTransferCardModal'
 import './Process.less'
 
 const columns = [
@@ -36,9 +37,21 @@ class ProcessImport extends React.Component {
   }
 
   componentDidMount () {
-    this.props.getListDataAction({
-      params: this._query()
-    })
+    const query = this._query()
+    if (query.work_order_uid !== undefined) {
+      this.props.getLibraryDataAction({
+        params: {
+          work_order_uid: query.work_order_uid
+        }
+      })
+      this.props.getListDataAction({
+        params: query
+      })
+    }
+  }
+
+  componentWillUnmount () {
+    this.props.resetDataAction()
   }
 
   buildColumns () {
@@ -77,12 +90,23 @@ class ProcessImport extends React.Component {
       },
       transferCard: {
         render: (text, record, index) => {
-          return (
+          return record.transfer_card_id ? (
             <Button
               type='primary'
               size='small'
             >
-              编辑
+              <Link to={`/process/process/transfer_card/transfer_card_detail/?id=${record.transfer_card_id}&category=${record.transfer_card_name}`}>
+                编辑
+              </Link>
+            </Button>
+          ) : (
+            <Button
+              type='primary'
+              size='small'
+              data-id={record.id}
+              onClick={this.handleOpenCardModal}
+            >
+              创建
             </Button>
           )
         }
@@ -135,10 +159,19 @@ class ProcessImport extends React.Component {
     return filterQuery
   }
 
-  updatelist (query = this.props.location.query) {
-    this.props.getListDataAction({
-      params: query
-    })
+  updatelist (query = QueryString.parse(this.props.location.search)) {
+    if (query.work_order_uid !== undefined) {
+      this.props.getLibraryDataAction({
+        params: {
+          work_order_uid: query.work_order_uid
+        }
+      })
+      this.props.getListDataAction({
+        params: query
+      })
+    } else {
+      this.props.resetDataAction()
+    }
   }
 
   handleChangeTable = (pagination, filters, sorter) => {
@@ -294,6 +327,33 @@ class ProcessImport extends React.Component {
     console.log('handleSaveWeld', fieldsValue)
   }
 
+  handleOpenCardModal = (e) => {
+    const { id } = e.currentTarget.dataset
+    this.props.changeCardModalAction({
+      visible: true,
+      id: +id
+    })
+  }
+
+  handleCloseCardModal = () => {
+    this.props.changeCardModalAction({
+      visible: false
+    })
+  }
+
+  handleCreateTransferCard = (fieldsValue) => {
+    fetchAPI(apis.ProcessAPI.addTransferCard, {
+      process_material: fieldsValue.id,
+      category: fieldsValue.category
+    }).then((repos) => {
+      this.handleCloseCardModal()
+      this.props.history.push({
+        pathname: '/process/process/transfer_card/transfer_card_detail',
+        search: `id=${repos.id}&category=${repos.category_name}`
+      })
+    })
+  }
+
   render () {
     const { status, location } = this.props
     const query = QueryString.parse(location.search)
@@ -303,6 +363,7 @@ class ProcessImport extends React.Component {
     const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
     const routeModal = _.get(mydata, 'routeModal', {})
     const weldModal = _.get(mydata, 'weldModal', {})
+    const cardModal = _.get(mydata, 'cardModal', {})
     return (
       <div className='process'>
         <FilterBar
@@ -310,15 +371,17 @@ class ProcessImport extends React.Component {
           fieldsValue={query}
           onSearch={this.handleSearch}
         />
-        <Button
-          className='transfercard-btn'
-          type='primary'
-          size='large'
-        >
-          <Link to={`/process/process/transfer_card/?work_order_uid=${workOrderInfo.workOrder}`}>
-            查看流转卡列表
-          </Link>
-        </Button>
+        { workOrderInfo.work_order_uid &&
+          <Button
+            className='transfercard-btn'
+            type='primary'
+            size='large'
+          >
+            <Link to={`/process/process/transfer_card/?work_order_uid=${workOrderInfo.work_order_uid}&name=${workOrderInfo.name}`}>
+              查看流转卡列表
+            </Link>
+          </Button>
+        }
         <TableInfo
           fieldsValue={workOrderInfo}
         />
@@ -347,6 +410,13 @@ class ProcessImport extends React.Component {
             onCancel={this.handleCloseWeldModal}
           />
         }
+        { cardModal.visible &&
+          <CardModal
+            {...cardModal}
+            onOk={this.handleCreateTransferCard}
+            onCancel={this.handleCloseCardModal}
+          />
+        }
       </div>
     )
   }
@@ -357,8 +427,11 @@ ProcessImport.propTypes = {
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   getListDataAction: PropTypes.func.isRequired,
+  getLibraryDataAction: PropTypes.func.isRequired,
+  resetDataAction: PropTypes.func.isRequired,
   changeRouteModalAction: PropTypes.func.isRequired,
-  changeWeldModalAction: PropTypes.func.isRequired
+  changeWeldModalAction: PropTypes.func.isRequired,
+  changeCardModalAction: PropTypes.func.isRequired
 }
 
 export default ProcessImport
