@@ -10,6 +10,7 @@ import Process from './Process'
 import Distribution from './Distribution'
 import Purchase from './Purchase'
 import Inventory from './Inventory'
+import Production from './Production'
 import NotFound from './NotFound'
 import Home from './Home'
 import 'static/styles/core.less'
@@ -44,7 +45,8 @@ const moduleRoutes = [
   ...Distribution('distribution'),
   ...Process('process'),
   ...Purchase('purchase'),
-  ...Inventory('inventory')
+  ...Inventory('inventory'),
+  ...Production('production')
 
 ]
 

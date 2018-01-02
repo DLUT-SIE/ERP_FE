@@ -20,6 +20,16 @@ let util = {
     }
     return _findItem(list, value, key)
   },
+  str2bool (value = '') {
+    switch (value.toLowerCase()) {
+      case 'true':
+        return true
+      case 'false':
+        return false
+      default:
+        return undefined
+    }
+  },
   str2num (value) {
     return _.isArray(value) ? value.map(util.str2num) : (
       _.isUndefined(value) ? undefined : +value

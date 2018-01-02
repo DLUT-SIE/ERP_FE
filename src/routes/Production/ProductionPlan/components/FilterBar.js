@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import { Form, Button, Input } from 'antd'
+import { Form, Button, Input, DatePicker } from 'antd'
 import './FilterBar.less'
-import { MATERIAL_CATEGORY } from 'const/index'
+import moment from 'moment'
 import CustomSelect from 'components/CustomSelect'
-
+import { PRODUCTION_STATUS } from 'const/index'
 const FormItem = Form.Item
 
 class FilterBar extends React.Component {
@@ -19,6 +19,8 @@ class FilterBar extends React.Component {
     const { onSearch, form } = this.props
     form.validateFields(() => {
       let fieldsValue = form.getFieldsValue()
+      fieldsValue.plan_start_time = fieldsValue.plan_start_time && moment(fieldsValue.plan_start_time).format('YYYY-MM-DD')
+      fieldsValue.plan_end_time = fieldsValue.plan_end_time && moment(fieldsValue.plan_end_time).format('YYYY-MM-DD')
       onSearch && onSearch({
         ...fieldsValue
       })
@@ -28,32 +30,36 @@ class FilterBar extends React.Component {
   render () {
     const { form } = this.props
     const { getFieldDecorator } = form
-    console.log(MATERIAL_CATEGORY)
     return (
       <Form
-        className='warehouse-manage-filterbar'
+        className='production-plan-manage-filterbar'
         layout='inline'
         onSubmit={this.handleSubmit}
       >
         <FormItem>
-          {getFieldDecorator('name')(
-            <Input className='input' placeholder='库房名称' />
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('location')(
-            <Input className='input' placeholder='位置' />
+          {getFieldDecorator('work_order')(
+            <Input className='input' placeholder='工作令' />
           )}
         </FormItem>
         <FormItem >
           {
-            getFieldDecorator('category')(
+            getFieldDecorator('status')(
               <CustomSelect
-                placeholder='请选择材料类型'
-                list={MATERIAL_CATEGORY}
+                placeholder='状态'
+                list={PRODUCTION_STATUS}
               />
             )
           }
+        </FormItem>
+        <FormItem>
+          {getFieldDecorator('plan_start_time')(
+            <DatePicker className='input' placeholder='计划年月开始' />
+          )}
+        </FormItem>
+        <FormItem>
+          {getFieldDecorator('plan_end_time')(
+            <DatePicker className='input' placeholder='计划年月终止' />
+          )}
         </FormItem>
         <FormItem>
           <Button
@@ -67,7 +73,7 @@ class FilterBar extends React.Component {
         </FormItem>
         <FormItem className='float-right'>
           <Button type='primary' icon='plus' onClick={this.props.onAddClick} >
-            新增库房
+            添加生产计划
           </Button>
         </FormItem>
       </Form>
@@ -85,8 +91,12 @@ let makeFields = function (fieldsValue) {
   let result = {}
   _.forEach(fieldsValue, (value, key) => {
     result[key] = { value }
-    if (key === 'category') {
-      result[key] = 0
+    if (key === 'plan_start_time' || key === 'plan_end_time') {
+      if (value) {
+        result[key] = {
+          value: moment(value, 'YYYY-MM-DD')
+        }
+      }
     }
   })
   return result

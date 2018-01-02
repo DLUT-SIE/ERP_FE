@@ -2,6 +2,7 @@
 import Distribution from './distribution.api'
 import ProcessAPI from './process.api'
 import InventoryAPI from './inventory.api'
+import ProductionAPI from './production.api'
 const baseAPIs = {
   // 定义格式如下
   getPendingOrderList: {
@@ -16,6 +17,7 @@ export const apis = Object.assign({}, baseAPIs, {
 
   Distribution,
   ProcessAPI,
-  InventoryAPI
+  InventoryAPI,
+  ProductionAPI
 
 })

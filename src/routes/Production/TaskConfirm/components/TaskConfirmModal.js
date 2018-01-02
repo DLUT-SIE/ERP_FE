@@ -5,8 +5,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { Modal, Input, Button, Form } from 'antd'
-import './WarehouseModal.less'
-import { MATERIAL_CATEGORY } from 'const/index'
+import './TaskConfirmModal.less'
 import CustomSelect from 'components/CustomSelect'
 
 const FormItem = Form.Item
@@ -15,23 +14,24 @@ const formItemLayout = {
   wrapperCol: { span: 12 }
 }
 
-const fieldsConfig = {
-  name: {
-    rules:[{ required: true, message:'请输入库房名称' }]
-  },
-  location: {
-    rules:[{ required: true, message:'请输入库房位置' }]
-  },
-  category: {
-    rules:[{ required: true, message:'请输入材料类别' }]
-  }
-}
-class WarehouseModal extends React.Component {
+class ProductionPlanModal extends React.Component {
   constructor (props) {
     super(props)
+    this.state = {}
+  }
+  componentDidMount () {
+    console.log('props', this.props.fieldsValue)
+    // this.getGroupsByProcessName()
+    let groups = this.props.fieldsValue.select_work_groups
+    groups = groups.map((item) => {
+      return { label: item.name, value: item.id }
+    })
+    this.setState({ groups: groups })
+    console.log('props', this.props.fieldsValue)
   }
   handleSave = () => {
     const { onOk, form, fieldsValue } = this.props
+    console.log(fieldsValue)
     form.validateFields((err, values) => {
       if (err) {
         return
@@ -39,24 +39,25 @@ class WarehouseModal extends React.Component {
       if (fieldsValue.id) {
         values.id = fieldsValue.id
       }
-      if (_.isUndefined(values.remark)) {
-        values.remark = ''
+      if (values.work_group_name) {
+        values.work_group = values.work_group_name
       }
+      console.log('values.work_group', values.work_group)
       onOk && onOk({
         ...values,
         count: +values.count
       })
+      console.log('values', values)
     })
   }
   render () {
-    const { visible, fieldsValue, form, onCancel } = this.props
+    const { visible, form, onCancel } = this.props
     const { getFieldDecorator } = form
-    const id = fieldsValue && fieldsValue.id
     return (
       <Form>
         <Modal
-          className='warehouse-modal'
-          title={id ? '修改库房记录' : '增加库房记录'}
+          className='task-allocation-modal'
+          title='编辑工作组'
           visible={visible}
           onOk={this.handleSave}
           onCancel={onCancel}
@@ -76,26 +77,31 @@ class WarehouseModal extends React.Component {
             </Button>
           ]}
         >
-          <FormItem label='库房名称' {...formItemLayout}>
+          <FormItem label='工作票号'{...formItemLayout} >
             {
-              getFieldDecorator('name', fieldsConfig['name'])(
-                <Input placeholder='请输入库房名称' />
+              getFieldDecorator('material_index')(
+                <Input disabled />
               )
             }
           </FormItem>
-          <FormItem label='位置' {...formItemLayout}>
+          <FormItem label='工作令'{...formItemLayout} >
             {
-              getFieldDecorator('location', fieldsConfig['location'])(
-                <Input placeholder='请输入位置' />
+              getFieldDecorator('work_order_uid')(
+                <Input disabled />
               )
             }
           </FormItem>
-          <FormItem label='材料类型'{...formItemLayout} >
+          <FormItem label='工序号'{...formItemLayout} >
             {
-              getFieldDecorator('category', fieldsConfig['category'])(
-                <CustomSelect
-                  placeholder='请选择材料类型'
-                  list={MATERIAL_CATEGORY}
+              getFieldDecorator('process_id')(
+                <Input disabled />
+              )
+            }
+          </FormItem>
+          <FormItem label='分配组' {...formItemLayout}>
+            {
+              getFieldDecorator('work_group_name')(
+                <CustomSelect placeholder='请选择分配的工作组' list={this.state.groups}
                 />
               )
             }
@@ -105,7 +111,7 @@ class WarehouseModal extends React.Component {
     )
   }
 }
-WarehouseModal.propTypes = {
+ProductionPlanModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   fieldsValue: PropTypes.object.isRequired,
   onOk: PropTypes.func.isRequired,
@@ -115,7 +121,7 @@ WarehouseModal.propTypes = {
 let makeFileds = function (fieldsValue) {
   let result = {}
   _.forEach(fieldsValue, (value, key) => {
-    result[key] = { value: value + '' }
+    result[key] = { value }
   })
   return result
 }
@@ -124,6 +130,6 @@ const WrappedForm = Form.create({
   mapPropsToFields (props) {
     return makeFileds(props.fieldsValue)
   }
-})(WarehouseModal)
+})(ProductionPlanModal)
 
 export default WrappedForm

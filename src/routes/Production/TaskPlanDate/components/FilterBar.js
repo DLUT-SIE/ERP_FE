@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { Form, Button, Input } from 'antd'
 import './FilterBar.less'
-import { MATERIAL_CATEGORY } from 'const/index'
 import CustomSelect from 'components/CustomSelect'
-
+import { PROCESS_ROUTE_LIST, TASK_PLAN_STATUS } from 'const/index'
+import util from 'utils'
 const FormItem = Form.Item
 
 class FilterBar extends React.Component {
@@ -19,6 +19,8 @@ class FilterBar extends React.Component {
     const { onSearch, form } = this.props
     form.validateFields(() => {
       let fieldsValue = form.getFieldsValue()
+      console.log(fieldsValue, fieldsValue)
+      fieldsValue.plan_status = util.str2bool(fieldsValue.plan_status)
       onSearch && onSearch({
         ...fieldsValue
       })
@@ -28,29 +30,38 @@ class FilterBar extends React.Component {
   render () {
     const { form } = this.props
     const { getFieldDecorator } = form
-    console.log(MATERIAL_CATEGORY)
     return (
       <Form
-        className='warehouse-manage-filterbar'
+        className='task-plan-date-filterbar'
         layout='inline'
         onSubmit={this.handleSubmit}
       >
         <FormItem>
-          {getFieldDecorator('name')(
-            <Input className='input' placeholder='库房名称' />
+          {getFieldDecorator('work_order_uid')(
+            <Input className='input' placeholder='工作令' />
           )}
         </FormItem>
         <FormItem>
-          {getFieldDecorator('location')(
-            <Input className='input' placeholder='位置' />
+          {getFieldDecorator('material_index')(
+            <Input className='input' placeholder='工作票号' />
           )}
         </FormItem>
         <FormItem >
           {
-            getFieldDecorator('category')(
+            getFieldDecorator('process_name')(
               <CustomSelect
-                placeholder='请选择材料类型'
-                list={MATERIAL_CATEGORY}
+                placeholder='工序'
+                list={PROCESS_ROUTE_LIST}
+              />
+            )
+          }
+        </FormItem>
+        <FormItem >
+          {
+            getFieldDecorator('plan_status')(
+              <CustomSelect
+                placeholder='任务计划状态'
+                list={TASK_PLAN_STATUS}
               />
             )
           }
@@ -65,11 +76,6 @@ class FilterBar extends React.Component {
             查询
           </Button>
         </FormItem>
-        <FormItem className='float-right'>
-          <Button type='primary' icon='plus' onClick={this.props.onAddClick} >
-            新增库房
-          </Button>
-        </FormItem>
       </Form>
     )
   }
@@ -77,17 +83,13 @@ class FilterBar extends React.Component {
 
 FilterBar.propTypes = {
   form: PropTypes.object.isRequired,
-  onSearch: PropTypes.func.isRequired,
-  onAddClick: PropTypes.func.isRequired
+  onSearch: PropTypes.func.isRequired
 }
 
 let makeFields = function (fieldsValue) {
   let result = {}
   _.forEach(fieldsValue, (value, key) => {
     result[key] = { value }
-    if (key === 'category') {
-      result[key] = 0
-    }
   })
   return result
 }

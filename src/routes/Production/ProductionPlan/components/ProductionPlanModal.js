@@ -4,9 +4,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import { Modal, Input, Button, Form } from 'antd'
-import './WarehouseModal.less'
-import { MATERIAL_CATEGORY } from 'const/index'
+import { Modal, Input, Button, Form, DatePicker } from 'antd'
+import moment from 'moment'
+import './ProductionPlanModal.less'
+import { PRODUCTION_STATUS } from 'const/index'
 import CustomSelect from 'components/CustomSelect'
 
 const FormItem = Form.Item
@@ -16,22 +17,20 @@ const formItemLayout = {
 }
 
 const fieldsConfig = {
-  name: {
-    rules:[{ required: true, message:'请输入库房名称' }]
+  status: {
+    rules:[{ required: true, message:'请输入生产计划状态' }]
   },
-  location: {
-    rules:[{ required: true, message:'请输入库房位置' }]
-  },
-  category: {
-    rules:[{ required: true, message:'请输入材料类别' }]
+  plan_dt: {
+    rules:[{ required: true, message:'请输计划年月' }, { type: 'date', message:'请选择一个日期' }]
   }
 }
-class WarehouseModal extends React.Component {
+class ProductionPlanModal extends React.Component {
   constructor (props) {
     super(props)
   }
   handleSave = () => {
     const { onOk, form, fieldsValue } = this.props
+    console.log(fieldsValue)
     form.validateFields((err, values) => {
       if (err) {
         return
@@ -42,6 +41,7 @@ class WarehouseModal extends React.Component {
       if (_.isUndefined(values.remark)) {
         values.remark = ''
       }
+      fieldsValue.plan_dt = fieldsValue.plan_dt && moment(fieldsValue.plan_dt).format('YYYY-MM-DD')
       onOk && onOk({
         ...values,
         count: +values.count
@@ -56,7 +56,7 @@ class WarehouseModal extends React.Component {
       <Form>
         <Modal
           className='warehouse-modal'
-          title={id ? '修改库房记录' : '增加库房记录'}
+          title={id ? '修改生产计划' : '添加生产计划'}
           visible={visible}
           onOk={this.handleSave}
           onCancel={onCancel}
@@ -76,27 +76,27 @@ class WarehouseModal extends React.Component {
             </Button>
           ]}
         >
-          <FormItem label='库房名称' {...formItemLayout}>
+          <FormItem label='生产计划状态'{...formItemLayout} >
             {
-              getFieldDecorator('name', fieldsConfig['name'])(
-                <Input placeholder='请输入库房名称' />
-              )
-            }
-          </FormItem>
-          <FormItem label='位置' {...formItemLayout}>
-            {
-              getFieldDecorator('location', fieldsConfig['location'])(
-                <Input placeholder='请输入位置' />
-              )
-            }
-          </FormItem>
-          <FormItem label='材料类型'{...formItemLayout} >
-            {
-              getFieldDecorator('category', fieldsConfig['category'])(
+              getFieldDecorator('status', fieldsConfig['status'])(
                 <CustomSelect
-                  placeholder='请选择材料类型'
-                  list={MATERIAL_CATEGORY}
+                  placeholder='请选择生产计划状态'
+                  list={PRODUCTION_STATUS}
                 />
+              )
+            }
+          </FormItem>
+          <FormItem label='计划年月' {...formItemLayout}>
+            {
+              getFieldDecorator('plan_dt')(
+                <DatePicker placeholder='请输入计划年月' />
+              )
+            }
+          </FormItem>
+          <FormItem label='备注' {...formItemLayout}>
+            {
+              getFieldDecorator('remark')(
+                <Input placeholder='请输入备注' />
               )
             }
           </FormItem>
@@ -105,7 +105,7 @@ class WarehouseModal extends React.Component {
     )
   }
 }
-WarehouseModal.propTypes = {
+ProductionPlanModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   fieldsValue: PropTypes.object.isRequired,
   onOk: PropTypes.func.isRequired,
@@ -115,7 +115,14 @@ WarehouseModal.propTypes = {
 let makeFileds = function (fieldsValue) {
   let result = {}
   _.forEach(fieldsValue, (value, key) => {
-    result[key] = { value: value + '' }
+    result[key] = { value }
+    if (key === 'plan_dt') {
+      if (value) {
+        result[key] = {
+          value: moment(value, 'YYYY-MM-DD')
+        }
+      }
+    }
   })
   return result
 }
@@ -124,6 +131,6 @@ const WrappedForm = Form.create({
   mapPropsToFields (props) {
     return makeFileds(props.fieldsValue)
   }
-})(WarehouseModal)
+})(ProductionPlanModal)
 
 export default WrappedForm
