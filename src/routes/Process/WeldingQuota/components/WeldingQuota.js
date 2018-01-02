@@ -38,7 +38,7 @@ class WeldingQuota extends React.Component {
       this.props.getListDataAction({
         params: query
       })
-      this.props.getMaterialsAction()
+      this.props.getMaterialsAction({})
     }
   }
 
