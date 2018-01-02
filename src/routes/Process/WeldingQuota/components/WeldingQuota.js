@@ -27,6 +27,7 @@ class WeldingQuota extends React.Component {
   }
 
   componentDidMount () {
+    this.props.getMaterialsAction({})
     const query = this._query()
     if (query.work_order_uid !== undefined) {
       this.props.getLibraryDataAction({
@@ -38,7 +39,6 @@ class WeldingQuota extends React.Component {
       this.props.getListDataAction({
         params: query
       })
-      this.props.getMaterialsAction({})
     }
   }
 
@@ -259,7 +259,6 @@ class WeldingQuota extends React.Component {
     const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
     const modal = _.get(mydata, 'modal', {})
     const materials = _.get(mydata, 'materials', [])
-    console.log('render', workOrderInfo, list)
     return (
       <div className='welding-quota'>
         <FilterBar

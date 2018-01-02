@@ -27,6 +27,9 @@ class PrincipalQuota extends React.Component {
   }
 
   componentDidMount () {
+    this.props.getMaterialsAction({
+      params: {}
+    })
     const query = this._query()
     if (query.work_order_uid !== undefined) {
       this.props.getLibraryDataAction({
@@ -37,9 +40,6 @@ class PrincipalQuota extends React.Component {
       })
       this.props.getListDataAction({
         params: query
-      })
-      this.props.getMaterialsAction({
-        params: {}
       })
     }
   }
@@ -228,6 +228,7 @@ class PrincipalQuota extends React.Component {
   }
 
   updatelist (query = QueryString.parse(this.props.location.search)) {
+    console.log('updatelist')
     if (query.work_order_uid !== undefined) {
       this.props.getLibraryDataAction({
         params: {
