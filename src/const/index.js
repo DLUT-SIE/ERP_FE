@@ -197,42 +197,42 @@ export const MATERIAL_CATEGORY = [
 
 export const WELD_POSITION_LIST = [
   {
-    value: 'FLUSH_WELD',
+    value: 0,
     label: '平焊'
   },
   {
-    value: 'HORIZONTAL_WELD',
+    value: 1,
     label: '横焊'
   },
   {
-    value: 'OVERHEAD_WELD',
+    value: 2,
     label: '仰焊'
   },
   {
-    value: 'VERTICAL_WELD',
+    value: 3,
     label: '立向上焊'
   },
   {
-    value: 'WIDE_WELD',
+    value: 4,
     label: '全位置焊'
   }
 ]
 
 export const WELD_METHOD_LIST = [
   {
-    value: 'SMAW',
+    value: 0,
     label: '焊条电弧焊'
   },
   {
-    value: 'SAW',
+    value: 1,
     label: '埋弧焊'
   },
   {
-    value: 'GMAW',
+    value: 2,
     label: '气体保护焊'
   },
   {
-    value: 'GTAW',
+    value: 3,
     label: '氩弧焊'
   }
 ]
@@ -656,6 +656,11 @@ export const COLUMNS = {
     key: 'bm_1',
     dataIndex: 'bm_1'
   },
+  bm_thick_1: {
+    title: '母材厚度1',
+    key: 'bm_thick_1',
+    dataIndex: 'bm_thick_1'
+  },
   wm_1: {
     title: '焊丝/焊条1',
     key: 'wm_1',
@@ -672,7 +677,7 @@ export const COLUMNS = {
     dataIndex: 'wt_1'
   },
   weight_1: {
-    title: '重量1',
+    title: '焊材重量1',
     key: 'weight_1',
     dataIndex: 'weight_1'
   },
@@ -682,7 +687,7 @@ export const COLUMNS = {
     dataIndex: 'wf_1'
   },
   wf_weight_1: {
-    title: '焊剂1重量',
+    title: '焊剂重量1',
     key: 'wf_weight_1',
     dataIndex: 'wf_weight_1'
   },
@@ -690,6 +695,11 @@ export const COLUMNS = {
     title: '母材材质2',
     key: 'bm_2',
     dataIndex: 'bm_2'
+  },
+  bm_thick_2: {
+    title: '母材厚度2',
+    key: 'bm_thick_2',
+    dataIndex: 'bm_thick_2'
   },
   wm_2: {
     title: '焊丝/焊条2',
@@ -707,7 +717,7 @@ export const COLUMNS = {
     dataIndex: 'wt_2'
   },
   weight_2: {
-    title: '重量2',
+    title: '焊材重量2',
     key: 'weight_2',
     dataIndex: 'weight_2'
   },
@@ -717,7 +727,7 @@ export const COLUMNS = {
     dataIndex: 'wf_2'
   },
   wf_weight_2: {
-    title: '焊剂2重量',
+    title: '焊剂重量2',
     key: 'wf_weight_2',
     dataIndex: 'wf_weight_2'
   },

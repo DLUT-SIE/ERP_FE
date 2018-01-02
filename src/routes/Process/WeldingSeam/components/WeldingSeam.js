@@ -5,6 +5,7 @@ import _ from 'lodash'
 import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
+import { DETAILED_TABLE_CATEGORY_MAP } from 'const'
 import { Button, Checkbox, message } from 'antd'
 
 import FilterBar from 'components/WorkOrderFilterBar'
@@ -14,8 +15,8 @@ import WeldingSeamModal from 'components/WeldingSeamModal'
 import './WeldingSeam.less'
 
 const columns = [
-  'add', 'part_drawing_number', 'uid', 'ticket_number', 'seam_type', 'weld_method', 'length', 'bm_1', 'wm_1',
-  'ws_1', 'wt_1', 'weight_1', 'wf_1', 'wf_weight_1', 'bm_2', 'wm_2', 'ws_2', 'wt_2', 'weight_2', 'wf_2',
+  'add', 'part_drawing_number', 'uid', 'ticket_number', 'seam_type', 'weld_method', 'length', 'bm_1', 'bm_thick_1', 'wm_1',
+  'ws_1', 'wt_1', 'weight_1', 'wf_1', 'wf_weight_1', 'bm_2', 'bm_thick_2', 'wm_2', 'ws_2', 'wt_2', 'weight_2', 'wf_2',
   'wf_weight_2', 'remark', 'action'
 ]
 
@@ -24,12 +25,29 @@ class WeldingSeam extends React.Component {
     super(props)
     this.state = {}
     this._columns = this.buildColumns()
+    this._category = DETAILED_TABLE_CATEGORY_MAP['焊缝明细表']
   }
 
   componentDidMount () {
-    this.props.getListDataAction({
-      params: this._query()
+    this.props.getMaterialsAction({
+      params: {}
     })
+    const query = this._query()
+    if (query.work_order_uid !== undefined) {
+      this.props.getLibraryDataAction({
+        params: {
+          work_order_uid: query.work_order_uid,
+          category: this._category
+        }
+      })
+      this.props.getListDataAction({
+        params: query
+      })
+    }
+  }
+
+  componentWillUnmount () {
+    this.props.resetDataAction()
   }
 
   buildColumns () {
@@ -63,7 +81,7 @@ class WeldingSeam extends React.Component {
               <Button
                 type='primary'
                 size='small'
-                data-fields-value={JSON.stringify(record)}
+                data-id={record.id}
                 data-index={index}
                 onClick={this.handleOpenWeldingSeamModal}
               >
@@ -84,12 +102,25 @@ class WeldingSeam extends React.Component {
     }
   }
 
+  fetchWeldingSeam (id, cb) {
+    const { url, method } = apis.ProcessAPI.getWeldingSeam
+    const api = {
+      url: url(id),
+      method
+    }
+    fetchAPI(api, {}).then((repos) => {
+      cb(repos)
+    })
+  }
+
   handleOpenWeldingSeamModal = (e) => {
-    const { fieldsValue, index } = e.target.dataset
-    this.props.changeWeldingSeamModalAction({
-      visible: true,
-      index: +index,
-      fieldsValue: JSON.parse(fieldsValue)
+    const { id, index } = e.target.dataset
+    this.fetchWeldingSeam(id, (repos) => {
+      this.props.changeWeldingSeamModalAction({
+        visible: true,
+        index: +index,
+        fieldsValue: repos
+      })
     })
   }
 
@@ -103,9 +134,9 @@ class WeldingSeam extends React.Component {
     const { type } = e.target.dataset
     const { status, changeWeldingSeamModalAction } = this.props
     const mydata = status.toJS()
-    const modal = _.get(mydata, 'modal', [])
+    const weldingSeamModal = _.get(mydata, 'weldingSeamModal', [])
     const list = _.get(mydata, 'list', [])
-    let { index } = modal
+    let { index } = weldingSeamModal
     if (type === 'previous') {
       if (index === 0) {
         message.warning('本条已为当前页第一条！')
@@ -119,17 +150,28 @@ class WeldingSeam extends React.Component {
       }
       index += 1
     }
-    changeWeldingSeamModalAction({
-      visible: true,
-      index,
-      fieldsValue: list[index]
+    console.log('handleChangeWeldingSeam', list, index)
+    this.fetchWeldingSeam(list[index].id, (repos) => {
+      changeWeldingSeamModalAction({
+        visible: true,
+        index,
+        fieldsValue: repos
+      })
     })
   }
 
-  handleSaveWeldingSeam = (fieldsValue) => {
-    fetchAPI(apis.ProcessAPI.updateWeldingQuota, fieldsValue).then((repos) => {
+  handleSaveWeldingSeam = (id, fieldsValue) => {
+    const { url, method } = apis.ProcessAPI.updateWeldingSeam
+    const api = {
+      url: url(id),
+      method
+    }
+    fetchAPI(api, fieldsValue).then((repos) => {
       message.success('修改成功！')
-      this.updatelist()
+      this.handleCloseWeldingSeamModal()
+      this.props.getListDataAction({
+        params: this._query()
+      })
     })
   }
 
@@ -164,10 +206,20 @@ class WeldingSeam extends React.Component {
     return filterQuery
   }
 
-  updatelist (query = this.props.location.query) {
-    this.props.getListDataAction({
-      params: query
-    })
+  updatelist (query = QueryString.parse(this.props.location.search)) {
+    if (query.work_order_uid !== undefined) {
+      this.props.getLibraryDataAction({
+        params: {
+          work_order_uid: query.work_order_uid,
+          category: this._category
+        }
+      })
+      this.props.getListDataAction({
+        params: query
+      })
+    } else {
+      this.props.resetDataAction()
+    }
   }
 
   handleChangeTable = (pagination, filters, sorter) => {
@@ -183,8 +235,10 @@ class WeldingSeam extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
-    const workOrderInfo = _.get(mydata, 'workOrderInfo', '')
+    const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
     const weldingSeamModal = _.get(mydata, 'weldingSeamModal', {})
+    const weldingMaterials = _.get(mydata, 'weldingMaterials', {})
+    const fluxMaterials = _.get(mydata, 'fluxMaterials', {})
     return (
       <div className='welding-seam'>
         <FilterBar
@@ -224,8 +278,11 @@ class WeldingSeam extends React.Component {
         { weldingSeamModal.visible &&
           <WeldingSeamModal
             {...weldingSeamModal}
+            weldingMaterials={weldingMaterials}
+            fluxMaterials={fluxMaterials}
             onOk={this.handleSaveWeldingSeam}
             onCancel={this.handleCloseWeldingSeamModal}
+            onChange={this.handleChangeWeldingSeam}
           />
         }
       </div>
@@ -237,6 +294,9 @@ WeldingSeam.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
+  getLibraryDataAction: PropTypes.func.isRequired,
+  getMaterialsAction: PropTypes.func.isRequired,
+  resetDataAction: PropTypes.func.isRequired,
   getListDataAction: PropTypes.func.isRequired,
   changeWeldingSeamModalAction: PropTypes.func.isRequired
 }
