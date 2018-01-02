@@ -14,9 +14,9 @@ const formItemLayout = {
 }
 const fieldsConfig = {
   category: {
-    rules: [{ required: true, message: '请输入类别！' }]
+    // rules: [{ required: true, message: '请输入类别！' }]
   },
-  mark: {
+  material: {
     rules: [{ required: true, message: '请选择牌号！' }]
   },
   size: {
@@ -26,7 +26,11 @@ const fieldsConfig = {
     rules: [{ required: true, message: '请输入执行标注' }]
   },
   quota: {
-    rules: [{ required: true, message: '请输入定额' }]
+    rules: [{
+      required: true, message: '请输入定额'
+    }, {
+      pattern: /^(\d+)(\.\d+)?$/, message: '请输入有效的整数或小数！'
+    }]
   },
   remark: {}
 }
@@ -42,10 +46,7 @@ class WeldingQuotaModal extends React.Component {
       if (err) {
         return
       }
-      if (fieldsValue.id) {
-        values.id = fieldsValue.id
-      }
-      onOk && onOk({
+      onOk && onOk(fieldsValue.id, {
         ...values,
         mark: +values.mark
       })
@@ -104,7 +105,7 @@ class WeldingQuotaModal extends React.Component {
               <FormItem label='类别' {...formItemLayout}>
                 {
                   getFieldDecorator('category', fieldsConfig['category'])(
-                    <Input placeholder='请输入类别' disabled={id !== undefined} />
+                    <Input placeholder='请输入类别' disabled />
                   )
                 }
               </FormItem>
@@ -112,7 +113,7 @@ class WeldingQuotaModal extends React.Component {
             <Col span={8}>
               <FormItem label='牌号' {...formItemLayout}>
                 {
-                  getFieldDecorator('mark', fieldsConfig['mark'])(
+                  getFieldDecorator('material', fieldsConfig['material'])(
                     <CustomSelect
                       placeholder='请选择牌号'
                       list={materials}

@@ -1,5 +1,6 @@
 import { put, call, take } from 'redux-saga/effects'
 import Immutable from 'immutable'
+import _ from 'lodash'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 
@@ -11,6 +12,8 @@ const WELDING_GET_LIST_DATA = 'WELDING_GET_LIST_DATA'
 const WELDING_ADD_LIST_DATA = 'WELDING_ADD_LIST_DATA'
 const WELDING_GET_LIBRARY_DATA = 'WELDING_GET_LIBRARY_DATA'
 const WELDING_ADD_LIBRARY_DATA = 'WELDING_ADD_LIBRARY_DATA'
+const WELDING_GET_MATERIALS_DATA = 'WELDING_GET_MATERIALS_DATA'
+const WELDING_ADD_MATERIALS_DATA = 'WELDING_ADD_MATERIALS_DATA'
 const WELDING_RESET_DATA = 'WELDING_RESET_DATA'
 const WELDING_CHANGE_MODAL_DATA = 'WELDING_CHANGE_MODAL_DATA'
 const PAGE_SIZE = 10
@@ -47,6 +50,20 @@ function addLibraryDataAction (payload = {}) {
   }
 }
 
+function getMaterialsAction (payload = {}) {
+  return {
+    type    : WELDING_GET_MATERIALS_DATA,
+    payload : payload
+  }
+}
+
+function addMaterialsAction (payload = {}) {
+  return {
+    type    : WELDING_ADD_MATERIALS_DATA,
+    payload : payload
+  }
+}
+
 function resetDataAction (payload = {}) {
   return {
     type    : WELDING_RESET_DATA,
@@ -64,6 +81,7 @@ function changeModalAction (payload = {}) {
 export const actions = {
   getListDataAction,
   getLibraryDataAction,
+  getMaterialsAction,
   resetDataAction,
   changeModalAction
 }
@@ -114,6 +132,18 @@ export default function WeldingQuota (state = initialState, action) {
         ['workOrderInfo'], data.results[0]
       )
     },
+    WELDING_ADD_MATERIALS_DATA () {
+      let { data } = action.payload
+      const materials = _.map(data.results, (item) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
+      })
+      return state.merge({
+        materials: materials
+      })
+    },
     WELDING_RESET_DATA () {
       return state.merge({
         workOrderInfo: {},
@@ -139,7 +169,7 @@ export function *getListSaga (type, body) {
   while (true) {
     const { payload = {} } = yield take(WELDING_GET_LIST_DATA)
     const { callback, params = {} } = payload
-    const data = yield call(fetchAPI, apis.ProcessAPI.getWeldingQuota, params)
+    const data = yield call(fetchAPI, apis.ProcessAPI.getWeldingQuotas, params)
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }
@@ -155,7 +185,17 @@ export function *getLibrarySaga (type, body) {
   }
 }
 
+export function *getMaterialsSaga (type, body) {
+  while (true) {
+    const { payload = {} } = yield take(WELDING_GET_MATERIALS_DATA)
+    const { params = {} } = payload
+    const data = yield call(fetchAPI, apis.ProcessAPI.getTotalWeldingMaterials, params)
+    yield put(addMaterialsAction({ data: data }))
+  }
+}
+
 export const sagas = [
   getListSaga,
-  getLibrarySaga
+  getLibrarySaga,
+  getMaterialsSaga
 ]
