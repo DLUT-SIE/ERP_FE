@@ -19,7 +19,8 @@
     "codecov": "cat coverage/*/lcov.info | codecov",
     "precommit": "npm run lint",
     "commitmsg": "validate-commit-msg",
-    "commit": "git-cz "
+    "commit": "git-cz ",
+    "build:dll": "webpack --config ./config/webpack.dll.config.js"
   },
   "betterScripts": {
     "compile": {
@@ -156,7 +157,8 @@
     "webpack-dev-middleware": "^1.9.0",
     "webpack-hot-middleware": "^2.15.0",
     "yargs": "^6.5.0",
-    "yarn": "^0.24.4"
+    "yarn": "^0.24.4",
+    "add-asset-html-webpack-plugin": "^2.1.2"
   },
   "dependencies": {
     "antd": "^2.13.10",
