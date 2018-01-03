@@ -7,6 +7,7 @@ import _ from 'lodash'
 import ProductionPlan from './ProductionPlan'
 import TaskPlanDate from './TaskPlanDate'
 import TaskAllocation from './TaskAllocation'
+import TaskConfirm from './TaskConfirm'
 
 const childRoutes = [
   {
@@ -27,7 +28,7 @@ const childRoutes = [
   {
     path: 'task_confirm',
     breadcrumbName: '任务完成确认',
-    component: ProductionPlan
+    component: TaskConfirm
   }
 ]
 

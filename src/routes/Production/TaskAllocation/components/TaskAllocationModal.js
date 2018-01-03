@@ -16,7 +16,7 @@ const formItemLayout = {
   wrapperCol: { span: 12 }
 }
 
-class ProductionPlanModal extends React.Component {
+class TaskAllocationModal extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -129,7 +129,7 @@ class ProductionPlanModal extends React.Component {
     )
   }
 }
-ProductionPlanModal.propTypes = {
+TaskAllocationModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   fieldsValue: PropTypes.object.isRequired,
   onOk: PropTypes.func.isRequired,
@@ -148,6 +148,6 @@ const WrappedForm = Form.create({
   mapPropsToFields (props) {
     return makeFileds(props.fieldsValue)
   }
-})(ProductionPlanModal)
+})(TaskAllocationModal)
 
 export default WrappedForm

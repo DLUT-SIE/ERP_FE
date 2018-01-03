@@ -11,6 +11,7 @@ import { Button, message } from 'antd'
 import FilterBar from './FilterBar'
 import TaskAllocationModal from './TaskAllocationModal'
 import CustomTable from 'components/CustomTable'
+import { PROCESS_DETAIL_STATUS } from 'const'
 
 const columns = [
   'material_index', 'work_order_uid', 'process_id', 'process_name', 'work_hour', 'estimated_start_dt', 'estimated_finish_dt', 'work_group_name', 'action'
@@ -42,6 +43,19 @@ class ProductionPlan extends React.Component {
       },
       action: {
         render: (text, record, index) => {
+          if (record.status === PROCESS_DETAIL_STATUS.ALLOCATION) {
+            return (
+              <Button
+                type='primary'
+                size='small'
+                data-id={record.id}
+                data-index={index}
+                onClick={this.handleRedo}
+              >
+                撤销
+              </Button>
+            )
+          }
           return (
             <Button
               type='primary'
@@ -50,7 +64,7 @@ class ProductionPlan extends React.Component {
               data-index={index}
               onClick={this.handleOpenEditModal}
             >
-              编辑工作组
+              编辑
             </Button>
           )
         }
@@ -72,7 +86,27 @@ class ProductionPlan extends React.Component {
       fieldsValue: JSON.parse(fieldsValue)
     })
   }
-
+  handleRedo = (e) => {
+    const { id } = e.target.dataset
+    let { url, method } = apis.ProductionAPI.updateProcessDetails
+    url = url(id)
+    const api = {
+      url,
+      method
+    }
+    let values = {}
+    values.id = +id
+    values.status = PROCESS_DETAIL_STATUS.PLANED
+    values.work_group = null
+    console.log(values)
+    fetchAPI(api, values).then((repos) => {
+      this.handleCloseModal()
+      message.success('修改成功！')
+      this.props.getListDataAction({
+        params: this._query()
+      })
+    })
+  }
   handleCloseModal = (e) => {
     this.props.changeModalAction({
       visible: false
@@ -110,12 +144,14 @@ class ProductionPlan extends React.Component {
   }
   handleSave = (fieldsValue) => {
     let { url, method } = apis.ProductionAPI.updateProcessDetails
-    console.log(fieldsValue)
     url = url(fieldsValue.id)
     const api = {
       url,
       method
     }
+    fieldsValue.status = PROCESS_DETAIL_STATUS.ALLOCATION
+    fieldsValue.allocation_status = true
+    console.log(fieldsValue)
     fetchAPI(api, fieldsValue).then((repos) => {
       this.handleCloseModal()
       message.success('修改成功！')

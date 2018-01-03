@@ -5,6 +5,7 @@ import _ from 'lodash'
 import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
+import { DETAILED_TABLE_CATEGORY_MAP } from 'const'
 import { Button, Popconfirm, message } from 'antd'
 
 import FilterBar from 'components/WorkOrderFilterBar'
@@ -22,21 +23,26 @@ class WeldingQuota extends React.Component {
     super(props)
     this.state = {}
     this._columns = this.buildColumns()
+    this._category = DETAILED_TABLE_CATEGORY_MAP['焊材定额明细表']
   }
 
   componentDidMount () {
-    this.props.getListDataAction({
-      params: this._query()
-    })
+    const query = this._query()
+    if (query.work_order_uid !== undefined) {
+      this.props.getLibraryDataAction({
+        params: {
+          work_order_uid: query.work_order_uid,
+          category: this._category
+        }
+      })
+      this.props.getListDataAction({
+        params: query
+      })
+    }
   }
 
   buildColumns () {
     return util.buildColumns(columns, {
-      order: {
-        render: (text, record, index) => {
-          return index + 1
-        }
-      },
       action: {
         render: (text, record, index) => {
           return (
@@ -73,9 +79,16 @@ class WeldingQuota extends React.Component {
 
   handleDelete = (id) => {
     return (e) => {
-      fetchAPI(apis.ProcessAPI.deleteWeldingQuota, { id: id }).then((repos) => {
+      const { url, method } = apis.ProcessAPI.deleteWeldingQuota
+      const api = {
+        url: url(id),
+        method
+      }
+      fetchAPI(api, {}).then((repos) => {
         message.success('删除成功！')
-        this.updatelist()
+        this.props.getListDataAction({
+          params: this._query()
+        })
       })
     }
   }
@@ -133,10 +146,33 @@ class WeldingQuota extends React.Component {
     console.log('handleQuichAdd')
   }
 
-  handleSave = (fieldsValue) => {
-    fetchAPI(apis.ProcessAPI.updateWeldingQuota, fieldsValue).then((repos) => {
-      message.success('修改成功！')
-      this.updatelist()
+  handleSave = (id, fieldsValue) => {
+    if (id) {
+      const { url, method } = apis.ProcessAPI.updateWeldingQuota
+      const api = {
+        url: url(id),
+        method
+      }
+      fetchAPI(api, fieldsValue).then((repos) => {
+        message.success('修改成功！')
+        this.handleCloseModal()
+        this.props.getListDataAction({
+          params: this._query()
+        })
+      })
+      return
+    }
+    const mydata = this.props.status.toJS()
+    const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
+    fetchAPI(apis.ProcessAPI.addWeldingQuota, {
+      ...fieldsValue,
+      quota_list: workOrderInfo.id
+    }).then((repos) => {
+      message.success('添加成功！')
+      this.handleCloseModal()
+      this.props.getListDataAction({
+        params: this._query()
+      })
     })
   }
 
@@ -172,9 +208,19 @@ class WeldingQuota extends React.Component {
   }
 
   updatelist (query = this.props.location.query) {
-    this.props.getListDataAction({
-      params: query
-    })
+    if (query.work_order_uid !== undefined) {
+      this.props.getLibraryDataAction({
+        params: {
+          work_order_uid: query.work_order_uid,
+          category: this._category
+        }
+      })
+      this.props.getListDataAction({
+        params: query
+      })
+    } else {
+      this.props.resetDataAction()
+    }
   }
 
   handleChangeTable = (pagination, filters, sorter) => {
@@ -244,7 +290,9 @@ WeldingQuota.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
+  getLibraryDataAction: PropTypes.func.isRequired,
   getListDataAction: PropTypes.func.isRequired,
+  resetDataAction: PropTypes.func.isRequired,
   changeModalAction: PropTypes.func.isRequired
 }
 

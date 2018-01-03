@@ -11,6 +11,7 @@ import { Button, message } from 'antd'
 import FilterBar from './FilterBar'
 import TaskPlanDateModal from './TaskPlanDateModal'
 import CustomTable from 'components/CustomTable'
+import { PROCESS_DETAIL_STATUS } from 'const'
 
 const columns = [
   'material_index', 'work_order_uid', 'process_id', 'process_name', 'work_hour', 'estimated_start_dt', 'estimated_finish_dt', 'action'
@@ -124,12 +125,15 @@ class ProductionPlan extends React.Component {
   }
   handleSave = (fieldsValue) => {
     let { url, method } = apis.ProductionAPI.updateProcessDetails
-    console.log(fieldsValue)
     url = url(fieldsValue.id)
+    fieldsValue.status = PROCESS_DETAIL_STATUS.PLANED
+    // todo: 这里需要手动更新plan_status状态吗
+    fieldsValue.plan_status = true
     const api = {
       url,
       method
     }
+    console.log(fieldsValue)
     fetchAPI(api, fieldsValue).then((repos) => {
       this.handleCloseModal()
       message.success('修改成功！')

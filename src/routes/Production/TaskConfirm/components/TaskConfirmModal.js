@@ -4,15 +4,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import { Modal, Input, Button, Form } from 'antd'
+import { Modal, Button, Form } from 'antd'
 import './TaskConfirmModal.less'
-import CustomSelect from 'components/CustomSelect'
-
-const FormItem = Form.Item
-const formItemLayout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 12 }
-}
+import TaskInfoTable from './TaskInfoTable'
+import { PROCESS_DETAIL_STATUS } from 'const'
 
 class ProductionPlanModal extends React.Component {
   constructor (props) {
@@ -20,18 +15,15 @@ class ProductionPlanModal extends React.Component {
     this.state = {}
   }
   componentDidMount () {
-    console.log('props', this.props.fieldsValue)
     // this.getGroupsByProcessName()
     let groups = this.props.fieldsValue.select_work_groups
     groups = groups.map((item) => {
       return { label: item.name, value: item.id }
     })
     this.setState({ groups: groups })
-    console.log('props', this.props.fieldsValue)
   }
   handleSave = () => {
     const { onOk, form, fieldsValue } = this.props
-    console.log(fieldsValue)
     form.validateFields((err, values) => {
       if (err) {
         return
@@ -39,10 +31,9 @@ class ProductionPlanModal extends React.Component {
       if (fieldsValue.id) {
         values.id = fieldsValue.id
       }
-      if (values.work_group_name) {
-        values.work_group = values.work_group_name
-      }
-      console.log('values.work_group', values.work_group)
+      values.remark = this.state.remark
+      values.status = PROCESS_DETAIL_STATUS.INSPECTED
+      console.log('remark', fieldsValue)
       onOk && onOk({
         ...values,
         count: +values.count
@@ -50,62 +41,52 @@ class ProductionPlanModal extends React.Component {
       console.log('values', values)
     })
   }
+  getFooter (status) {
+    if (status === PROCESS_DETAIL_STATUS.INSPECTED) {
+      return [
+        <Button
+          key='back'
+          onClick={this.onCancel}
+        >
+          返回
+        </Button>
+      ]
+    } else if (status === PROCESS_DETAIL_STATUS.CONFIRMED) {
+      return [
+        <Button
+          key='submit'
+          type='primary'
+          onClick={this.handleSave}
+        >
+          保存
+        </Button>,
+        <Button
+          key='back'
+          onClick={this.onCancel}
+        >
+          返回
+        </Button>
+      ]
+    }
+  }
+  onChange = (remark) => {
+    this.state.remark = remark
+    console.log('onchange', remark)
+  }
   render () {
-    const { visible, form, onCancel } = this.props
-    const { getFieldDecorator } = form
+    const { visible, onCancel } = this.props
     return (
       <Form>
         <Modal
-          className='task-allocation-modal'
+          className='task-confirm-modal'
           title='编辑工作组'
           visible={visible}
+          width={750}
           onOk={this.handleSave}
           onCancel={onCancel}
-          footer={[
-            <Button
-              key='submit'
-              type='primary'
-              onClick={this.handleSave}
-            >
-              保存
-            </Button>,
-            <Button
-              key='back'
-              onClick={onCancel}
-            >
-              返回
-            </Button>
-          ]}
+          footer={this.getFooter(this.props.fieldsValue.status)}
         >
-          <FormItem label='工作票号'{...formItemLayout} >
-            {
-              getFieldDecorator('material_index')(
-                <Input disabled />
-              )
-            }
-          </FormItem>
-          <FormItem label='工作令'{...formItemLayout} >
-            {
-              getFieldDecorator('work_order_uid')(
-                <Input disabled />
-              )
-            }
-          </FormItem>
-          <FormItem label='工序号'{...formItemLayout} >
-            {
-              getFieldDecorator('process_id')(
-                <Input disabled />
-              )
-            }
-          </FormItem>
-          <FormItem label='分配组' {...formItemLayout}>
-            {
-              getFieldDecorator('work_group_name')(
-                <CustomSelect placeholder='请选择分配的工作组' list={this.state.groups}
-                />
-              )
-            }
-          </FormItem>
+          <TaskInfoTable taskInfo={this.props.fieldsValue} onChange={this.onChange} />
         </Modal>
       </Form>
     )

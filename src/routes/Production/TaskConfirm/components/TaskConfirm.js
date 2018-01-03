@@ -7,9 +7,10 @@ import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 import { Button, message } from 'antd'
+import { PROCESS_DETAIL_STATUS } from 'const'
 
 import FilterBar from './FilterBar'
-import TaskAllocationModal from './TaskConfirmModal'
+import TaskConfirmModal from './TaskConfirmModal'
 import CustomTable from 'components/CustomTable'
 
 const columns = [
@@ -42,7 +43,7 @@ class ProductionPlan extends React.Component {
       },
       action: {
         render: (text, record, index) => {
-          if (!_.isNull(record.actual_finish_dt)) {
+          if (record.status === PROCESS_DETAIL_STATUS.INSPECTED) {
             return (
               <Button
                 type='primary'
@@ -54,7 +55,7 @@ class ProductionPlan extends React.Component {
                 查看
               </Button>
             )
-          } else if (!_.isNull(record.inspection_dt)) {
+          } else if (record.status === PROCESS_DETAIL_STATUS.CONFIRMED) {
             return (
               <Button
                 type='primary'
@@ -71,9 +72,9 @@ class ProductionPlan extends React.Component {
               <Button
                 type='primary'
                 size='small'
-                data-fields-value={JSON.stringify(record)}
                 data-index={index}
-                onClick={this.handleOpenEditModal}
+                data-id={record.id}
+                onClick={this.handleConfirm}
               >
                 确认
               </Button>
@@ -88,6 +89,22 @@ class ProductionPlan extends React.Component {
     this.updateQuery({
       page: 1,
       ...searchValue
+    })
+  }
+  handleConfirm = (e) => {
+    let { url, method } = apis.ProductionAPI.updateProcessDetails
+    const { id } = e.target.dataset
+    url = url(id)
+    // fieldsValue.status = 3
+    const api = {
+      url,
+      method
+    }
+    fetchAPI(api, { status: PROCESS_DETAIL_STATUS.CONFIRMED, confirm_status: true }).then((repos) => {
+      message.success('修改成功！')
+      this.props.getListDataAction({
+        params: this._query()
+      })
     })
   }
   handleOpenEditModal = (e) => {
@@ -136,7 +153,7 @@ class ProductionPlan extends React.Component {
   }
   handleSave = (fieldsValue) => {
     let { url, method } = apis.ProductionAPI.updateProcessDetails
-    console.log(fieldsValue)
+    console.log('handleSave', fieldsValue)
     url = url(fieldsValue.id)
     const api = {
       url,
@@ -182,7 +199,7 @@ class ProductionPlan extends React.Component {
           onChange={this.handleChangeTable}
         />
         { modal.visible &&
-          <TaskAllocationModal
+          <TaskConfirmModal
             onOk={this.handleSave}
             onCancel={this.handleCloseModal}
             {...modal}

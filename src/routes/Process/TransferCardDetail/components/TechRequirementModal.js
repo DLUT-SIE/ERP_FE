@@ -1,51 +1,53 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import { Form, Input } from 'antd'
+import { Modal, Input, Form } from 'antd'
 
 const FormItem = Form.Item
+const { TextArea } = Input
+
 const formItemLayout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 }
+  labelCol: { span: 4 },
+  wrapperCol: { span: 20 }
 }
 const fieldsConfig = {
-  remark: {
-    rules: [{ required: true, message: '请输入备注！' }]
-  }
+  tech_requirement: {}
 }
 
-class Modal extends React.Component {
+class TechRequirementModal extends React.Component {
   constructor (props) {
     super(props)
   }
 
   handleSave = () => {
-    const { id, onOk, form } = this.props
+    const { onOk, form } = this.props
     form.validateFields((err, values) => {
       if (err) {
         return
       }
-      onOk && onOk(id, {
+      onOk && onOk({
         ...values
       })
     })
   }
 
   render () {
-    const { visible, onCancel, form } = this.props
+    const { visible, form, onCancel } = this.props
+    const { getFieldDecorator } = form
     return (
       <Form>
         <Modal
-          className='detailed-list-modal'
-          title='物料信息卡'
+          className='tech-requirement-modal'
+          title='技术要求'
           visible={visible}
+          width={600}
           onOk={this.handleSave}
           onCancel={onCancel}
         >
-          <FormItem label='备注' {...formItemLayout}>
+          <FormItem label='技术要求' {...formItemLayout}>
             {
-              form.getFieldDecorator('remark', fieldsConfig['remark'])(
-                <Input placeholder='请输入备注' />
+              getFieldDecorator('tech_requirement', fieldsConfig['tech_requirement'])(
+                <TextArea rows={10} placeholder='请输入技术要求' />
               )
             }
           </FormItem>
@@ -55,8 +57,7 @@ class Modal extends React.Component {
   }
 }
 
-Modal.propTypes = {
-  id: PropTypes.number.isRequired,
+TechRequirementModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onOk: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
@@ -75,6 +76,6 @@ const WrappedForm = Form.create({
   mapPropsToFields (props) {
     return makeFileds(props.fieldsValue)
   }
-})(Modal)
+})(TechRequirementModal)
 
 export default WrappedForm
