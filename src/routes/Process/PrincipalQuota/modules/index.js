@@ -10,8 +10,11 @@ import { apis } from 'api/config'
 
 const PRINCIPAL_GET_LIST_DATA = 'PRINCIPAL_GET_LIST_DATA'
 const PRINCIPAL_ADD_LIST_DATA = 'PRINCIPAL_ADD_LIST_DATA'
+const PRINCIPAL_GET_LIBRARY_DATA = 'PRINCIPAL_GET_LIBRARY_DATA'
+const PRINCIPAL_ADD_LIBRARY_DATA = 'PRINCIPAL_ADD_LIBRARY_DATA'
 const PRINCIPAL_GET_MATERIALS_DATA = 'PRINCIPAL_GET_MATERIALS_DATA'
 const PRINCIPAL_ADD_MATERIALS_DATA = 'PRINCIPAL_ADD_MATERIALS_DATA'
+const PRINCIPAL_RESET_DATA = 'PRINCIPAL_RESET_DATA'
 const PRINCIPAL_CHANGE_MODAL_DATA = 'PRINCIPAL_CHANGE_MODAL_DATA'
 const PAGE_SIZE = 10
 
@@ -33,6 +36,20 @@ function addListDataAction (payload = {}) {
   }
 }
 
+function getLibraryDataAction (body) {
+  return {
+    type    : PRINCIPAL_GET_LIBRARY_DATA,
+    payload : body
+  }
+}
+
+function addLibraryDataAction (payload = {}) {
+  return {
+    type    : PRINCIPAL_ADD_LIBRARY_DATA,
+    payload : payload
+  }
+}
+
 function getMaterialsAction (payload = {}) {
   return {
     type    : PRINCIPAL_GET_MATERIALS_DATA,
@@ -47,6 +64,13 @@ function addMaterialsAction (payload = {}) {
   }
 }
 
+function resetDataAction (payload = {}) {
+  return {
+    type    : PRINCIPAL_RESET_DATA,
+    payload : payload
+  }
+}
+
 function changeModalAction (payload = {}) {
   return {
     type    : PRINCIPAL_CHANGE_MODAL_DATA,
@@ -56,7 +80,9 @@ function changeModalAction (payload = {}) {
 
 export const actions = {
   getListDataAction,
+  getLibraryDataAction,
   getMaterialsAction,
+  resetDataAction,
   changeModalAction
 }
 
@@ -70,7 +96,8 @@ var initialState = Immutable.fromJS({
   },
   modal: {
     visible: false
-  }
+  },
+  workOrderInfo: {}
 })
 
 export default function PrincipalQuota (state = initialState, action) {
@@ -88,22 +115,23 @@ export default function PrincipalQuota (state = initialState, action) {
     },
     PRINCIPAL_ADD_LIST_DATA () {
       let { data } = action.payload
-      const { count, results, work_order_uid: workOrder, production_name: productionName, unit, writer, proofreader } = data
+      const { count, results } = data
       return state.mergeIn(
         ['pagination'], { total: count }
       ).merge({
-        workOrder,
-        productionName,
-        unit,
-        writer,
-        proofreader,
         list: results,
         loading: false
       })
     },
+    PRINCIPAL_ADD_LIBRARY_DATA () {
+      let { data } = action.payload
+      return state.merge({
+        workOrderInfo: data.results[0] || {}
+      })
+    },
     PRINCIPAL_ADD_MATERIALS_DATA () {
       let { data } = action.payload
-      const materials = _.map(data.materials, (item) => {
+      const materials = _.map(data.results, (item) => {
         return {
           value: item.id,
           label: item.name
@@ -111,6 +139,12 @@ export default function PrincipalQuota (state = initialState, action) {
       })
       return state.merge({
         materials: materials
+      })
+    },
+    PRINCIPAL_RESET_DATA () {
+      return state.merge({
+        workOrderInfo: {},
+        list: []
       })
     },
     PRINCIPAL_CHANGE_MODAL_DATA () {
@@ -132,9 +166,19 @@ export function *getListSaga (type, body) {
   while (true) {
     const { payload = {} } = yield take(PRINCIPAL_GET_LIST_DATA)
     const { callback, params = {} } = payload
-    const data = yield call(fetchAPI, apis.ProcessAPI.getPrincipalQuota, params)
+    const data = yield call(fetchAPI, apis.ProcessAPI.getPrincipalQuotas, params)
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
+  }
+}
+
+export function *getLibrarySaga (type, body) {
+  while (true) {
+    const { payload = {} } = yield take(PRINCIPAL_GET_LIBRARY_DATA)
+    const { callback, params = {} } = payload
+    const data = yield call(fetchAPI, apis.ProcessAPI.getQuotaList, params)
+    callback && callback(data)
+    yield put(addLibraryDataAction({ data: data }))
   }
 }
 
@@ -149,5 +193,6 @@ export function *getMaterialsSaga (type, body) {
 
 export const sagas = [
   getListSaga,
+  getLibrarySaga,
   getMaterialsSaga
 ]

@@ -29,13 +29,26 @@ export const menu = {
       icon: 'lock',
       processimport: '/process/process_import',
       process: '/process/process',
-      principalquota: '/process/principal_quota'
+      broughtinitems: '/process/bought_in_items',
+      firstfeedingitems: '/process/first_feeding_items',
+      cooperantitems: '/process/cooperant_items',
+      principalquota: '/process/principal_quota',
+      auxiliaryquota: '/process/auxiliary_quota',
+      weldingquota: '/process/welding_quota'
     },
     purchase: {
       icon: 'appstore',
       pendingorder: '/purchase/pending_order',
       material: '/purchase/material',
       purchaseorder: '/purchase/purchase_order'
+    },
+    inventory: {
+      icon: 'appstore',
+      weld: '/inventory/weld',
+      steel: '/inventory/steel',
+      brought_in: '/inventory/brought_in',
+      auxiliary: '/inventory/auxiliary',
+      basic_data: '/inventory/basic_data'
     }
   }
 }

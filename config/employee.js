@@ -51,8 +51,28 @@ const config = {
           "name": "工艺库",
           "children": [],
         }, {
+          "code": "menu.process.broughtinitems",
+          "name": "外购件明细",
+          "children": []
+        }, {
+          "code": "menu.process.firstfeedingitems",
+          "name": "先投件明细",
+          "children": []
+        }, {
+          "code": "menu.process.cooperantitems",
+          "name": "工序性协作件明细",
+          "children": []
+        }, {
           "code": "menu.process.principalquota",
           "name": "主材定额",
+          "children": []
+        }, {
+          "code": "menu.process.auxiliaryquota",
+          "name": "辅材定额",
+          "children": []
+        }, {
+          "code": "menu.process.weldingquota",
+          "name": "焊材定额",
           "children": []
         }
       ],
@@ -72,6 +92,34 @@ const config = {
         }, {
           "code": "menu.purchase.purchaseorder",
           "name": "订购单管理",
+          "children": []
+        }
+      ],
+    },
+    {
+      "code": "menu.inventory",
+      "name": "库存管理",
+      "children": [
+        {
+          "code": "menu.inventory.weld",
+          "name": "焊材库存管理",
+          "children": [],
+        }, {
+          "code": "menu.inventory.steel",
+          "name": "钢材库存管理",
+          "children": []
+        },
+        {
+          "code": "menu.inventory.brought_in",
+          "name": "外购件库存管理",
+          "children": []
+        },{
+          "code": "menu.inventory.auxiliary",
+          "name": "辅助工具库存管理",
+          "children": []
+        },{
+          "code": "menu.inventory.basic_data",
+          "name": "库存基础数据管理",
           "children": []
         }
       ],

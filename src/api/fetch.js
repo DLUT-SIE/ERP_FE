@@ -73,7 +73,9 @@ export default {
   request:(url, config) => {
     return fetch(url, config)
     .then(checkStatus)
-    .then((rps) => rps.json())
+    .then((rps) => {
+      return rps.status === 204 ? rps.text() : rps.json()
+    })
     .catch(handleError)
   }
 }

@@ -5,27 +5,60 @@ import './TableInfo.less'
 
 class TableInfo extends React.Component {
   render () {
-    const { workOrder, productionName, unit } = this.props
+    const { fieldsValue } = this.props
+    const { work_order_uid: workOrder, name, writer, quota_clerk: quotaClerk, statistician, proofreader } = fieldsValue
     return (
       <div className='table-info'>
         <Row
           type='flex'
           align='middle'
         >
-          <Col span={3}>工作令：{ workOrder }</Col>
-          <Col span={3}>产品名称：{ productionName }</Col>
-          <Col span={3}>单位：{ unit }</Col>
-          <Col span={2} offset={4}>工艺：</Col>
-          <Col span={2}>定额：</Col>
-          <Col span={2}>统计：</Col>
-          <Col span={2}>校对：</Col>
-          <Col span={3}>
-            <Button
-              className='trnsfercard-btn'
-              type='primary'
-            >
-              查看流转卡列表
-            </Button>
+          <Col span={4}>工作令：{ workOrder }</Col>
+          <Col span={4}>产品名称：{ name }</Col>
+          <Col span={3}>单位：公斤</Col>
+          <Col span={2} offset={5}>
+            工艺：
+            { writer ||
+              <Button
+                type='primary'
+                size='small'
+              >
+                签字
+              </Button>
+            }
+          </Col>
+          <Col span={2}>
+            定额：
+            { quotaClerk ||
+              <Button
+                type='primary'
+                size='small'
+              >
+                签字
+              </Button>
+            }
+          </Col>
+          <Col span={2}>
+            统计：
+            { statistician ||
+              <Button
+                type='primary'
+                size='small'
+              >
+                签字
+              </Button>
+            }
+          </Col>
+          <Col span={2}>
+            校对：
+            { proofreader ||
+              <Button
+                type='primary'
+                size='small'
+              >
+                签字
+              </Button>
+            }
           </Col>
         </Row>
       </div>
@@ -34,9 +67,7 @@ class TableInfo extends React.Component {
 }
 
 TableInfo.propTypes = {
-  workOrder: PropTypes.string.isRequired,
-  productionName: PropTypes.string.isRequired,
-  unit: PropTypes.string.isRequired
+  fieldsValue: PropTypes.object.isRequired
 }
 
 export default TableInfo

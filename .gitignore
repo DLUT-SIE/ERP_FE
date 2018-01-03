@@ -7,5 +7,6 @@ dist
 coverage
 outout
 .idea/
+dll
 
 output/

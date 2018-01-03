@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import QueryString from 'query-string'
+import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import util from 'utils'
 import fetchAPI from 'api'
@@ -12,6 +13,8 @@ import FilterBar from 'components/WorkOrderFilterBar'
 import CustomTable from 'components/CustomTable'
 import TableInfo from './TableInfo'
 import RouteModal from './RouteModal'
+import WeldModal from './WeldModal'
+import CardModal from './CreateTransferCardModal'
 import './Process.less'
 
 const columns = [
@@ -34,9 +37,21 @@ class ProcessImport extends React.Component {
   }
 
   componentDidMount () {
-    this.props.getListDataAction({
-      params: this._query()
-    })
+    const query = this._query()
+    if (query.work_order_uid !== undefined) {
+      this.props.getLibraryDataAction({
+        params: {
+          work_order_uid: query.work_order_uid
+        }
+      })
+      this.props.getListDataAction({
+        params: query
+      })
+    }
+  }
+
+  componentWillUnmount () {
+    this.props.resetDataAction()
   }
 
   buildColumns () {
@@ -75,12 +90,23 @@ class ProcessImport extends React.Component {
       },
       transferCard: {
         render: (text, record, index) => {
-          return (
+          return record.transfer_card_id ? (
             <Button
               type='primary'
               size='small'
             >
-              编辑
+              <Link to={`/process/process/transfer_card/transfer_card_detail/?id=${record.transfer_card_id}&category=${record.transfer_card_name}`}>
+                编辑
+              </Link>
+            </Button>
+          ) : (
+            <Button
+              type='primary'
+              size='small'
+              data-id={record.id}
+              onClick={this.handleOpenCardModal}
+            >
+              创建
             </Button>
           )
         }
@@ -91,6 +117,8 @@ class ProcessImport extends React.Component {
             <Button
               type='primary'
               size='small'
+              data-id={record.id}
+              onClick={this.handleOpenWeldModal}
             >
               添加
             </Button>
@@ -131,10 +159,19 @@ class ProcessImport extends React.Component {
     return filterQuery
   }
 
-  updatelist (query = this.props.location.query) {
-    this.props.getListDataAction({
-      params: query
-    })
+  updatelist (query = QueryString.parse(this.props.location.search)) {
+    if (query.work_order_uid !== undefined) {
+      this.props.getLibraryDataAction({
+        params: {
+          work_order_uid: query.work_order_uid
+        }
+      })
+      this.props.getListDataAction({
+        params: query
+      })
+    } else {
+      this.props.resetDataAction()
+    }
   }
 
   handleChangeTable = (pagination, filters, sorter) => {
@@ -143,92 +180,101 @@ class ProcessImport extends React.Component {
     })
   }
 
-  handleChange = (changeType) => {
-    let { routeType, index } = this.state
-    const { status } = this.props
-    const mydata = status.toJS()
-    const list = _.get(mydata, 'list', [])
-    const api = routeType === 'circulation' ? 'getCirculationRoute' : 'getProcessRoute'
-    if (changeType === 'previous') {
-      if (index === 0) {
-        message.warning('当前为第一条！')
-        return
-      }
-      index -= 1
-    } else {
-      if (index === list.length - 1) {
-        message.warning('当前为最后一条！')
-        return
-      }
-      index += 1
-    }
-    const processMaterialId = list[index].id
-    if (routeType === 'circulation') {
-      fetchAPI(apis.ProcessAPI[api], { process_material_id: processMaterialId }).then((repos) => {
-        this.setState({
-          index,
-          processMaterialId,
-          values: repos.routes
-        })
-      })
-    }
-  }
-
   handleOpenRouteModal = (e) => {
     let { processMaterial, index, routeType } = e.target.dataset
     processMaterial = JSON.parse(processMaterial)
     if (routeType === 'circulation') {
       fetchAPI(apis.ProcessAPI.getCirculationRoute, {
-        process_material_id: processMaterial.id
+        process_material: processMaterial.id
       }).then((repos) => {
-        this.setState({
+        this.props.changeRouteModalAction({
           routeType,
           index: +index,
           processMaterial,
           title: '流转路线编辑',
           label: '请输入流转路线并使用分号";"分割（如：DY;J;H）:',
-          routeVisible: true,
+          visible: true,
           number: 10,
           prefix: 'L',
-          selectList: CICULATION_ROUTE_LIST,
-          values: repos.routes
+          list: CICULATION_ROUTE_LIST,
+          fieldsValue: repos.results[0].circulation_routes,
+          routeId: +repos.results[0].id
         })
       })
     } else {
       fetchAPI(apis.ProcessAPI.getProcessRoute, {
-        process_material_id: processMaterial.id
+        process_material: processMaterial.id
       }).then((repos) => {
-        this.setState({
+        this.props.changeRouteModalAction({
           routeType,
-          index: index,
+          index: +index,
           processMaterial,
           title: '工序路线编辑',
           label: '请输入工序路线并使用分号";"分割（如：DY;J;H）:',
-          routeVisible: true,
+          visible: true,
           number: 12,
           prefix: '工序',
-          selectList: PROCESS_ROUTE_LIST,
-          values: repos.routes
+          list: PROCESS_ROUTE_LIST,
+          fieldsValue: repos.results[0].process_steps,
+          routeId: +repos.results[0].id
         })
       })
     }
   }
 
   handleCloseRouteModal = () => {
-    this.setState({
-      routeVisible: false
+    this.props.changeRouteModalAction({
+      visible: false
+    })
+  }
+
+  handleChange = (changeType) => {
+    const { status } = this.props
+    const mydata = status.toJS()
+    const list = _.get(mydata, 'list', [])
+    const routeModal = _.get(mydata, 'routeModal', {})
+    let { routeType, index } = routeModal
+    const api = routeType === 'circulation' ? 'getCirculationRoute' : 'getProcessRoute'
+    if (changeType === 'previous') {
+      if (index === 0) {
+        message.warning('当前为本页第一条！')
+        return
+      }
+      index -= 1
+    } else {
+      if (index === list.length - 1) {
+        message.warning('当前为本页最后一条！')
+        return
+      }
+      index += 1
+    }
+    const processMaterial = list[index]
+    fetchAPI(apis.ProcessAPI[api], {
+      process_material: processMaterial.id
+    }).then((repos) => {
+      const routes = routeType === 'circulation'
+        ? repos.results[0].circulation_routes
+        : repos.results[0].process_steps
+      this.props.changeRouteModalAction({
+        index,
+        processMaterial,
+        fieldsValue: routes,
+        routeId: +repos.results[0].id
+      })
     })
   }
 
   // 目前判断是否跨路线的方法有点笨，之后再想想优雅的方法
   handleSaveRoute = (fieldsValue) => {
+    const mydata = this.props.status.toJS()
+    const routeModal = _.get(mydata, 'routeModal', {})
+    let { routeType, routeId } = routeModal
     let result = []
     let count = 0
     let flag = true
-    const { routeType, processMaterial } = this.state
     _.forEach(fieldsValue, (value, key) => {
       const index = +key.split('-')[1]
-      result[index - 1] = +value
+      result[index - 1] = value ? +value : undefined
       count += value ? 1 : 0
     })
     _.forEach(result, (value, index) => {
@@ -238,41 +284,106 @@ class ProcessImport extends React.Component {
         return
       }
     })
-    if (flag) {
-      result = _.filter(result, (value) => {
-        return value !== undefined
-      })
+    if (!flag) {
+      return
     }
-    console.log('reult', result)
-    const api = routeType === 'circulation' ? 'saveCirculationRoute' : 'saveProcessRoute'
-    fetchAPI(apis.ProcessAPI[api], {
-      process_material_id: processMaterial.id,
-      routes: result
-    }).then((repos) => {
+    result = _.filter(result, (value) => {
+      return value !== undefined
+    })
+    const { url, method } = routeType === 'circulation'
+      ? apis.ProcessAPI['saveCirculationRoute']
+      : apis.ProcessAPI['saveProcessRoute']
+    const api = {
+      url: url(routeId),
+      method
+    }
+    const params = {}
+    if (routeType === 'circulation') {
+      params.circulation_routes = result
+    } else {
+      params.process_steps = result
+    }
+    fetchAPI(api, params).then((repos) => {
+      message.success('保存成功！')
       this.handleCloseRouteModal()
+    })
+  }
+
+  handleOpenWeldModal = (e) => {
+    const { id } = e.target.dataset
+    this.props.changeWeldModalAction({
+      id: +id,
+      visible: true
+    })
+  }
+
+  handleCloseWeldModal = () => {
+    this.props.changeWeldModalAction({
+      visible: false
+    })
+  }
+
+  handleSaveWeld = (fieldsValue) => {
+    console.log('handleSaveWeld', fieldsValue)
+  }
+
+  handleOpenCardModal = (e) => {
+    const { id } = e.currentTarget.dataset
+    this.props.changeCardModalAction({
+      visible: true,
+      id: +id
+    })
+  }
+
+  handleCloseCardModal = () => {
+    this.props.changeCardModalAction({
+      visible: false
+    })
+  }
+
+  handleCreateTransferCard = (fieldsValue) => {
+    fetchAPI(apis.ProcessAPI.addTransferCard, {
+      process_material: fieldsValue.id,
+      category: fieldsValue.category
+    }).then((repos) => {
+      this.handleCloseCardModal()
+      this.props.history.push({
+        pathname: '/process/process/transfer_card/transfer_card_detail',
+        search: `id=${repos.id}&category=${repos.category_name}`
+      })
     })
   }
 
   render () {
     const { status, location } = this.props
-    const { processMaterial, title, label, number, prefix, routeVisible, selectList, values } = this.state
     const query = QueryString.parse(location.search)
     const mydata = status.toJS()
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
-    const workOrder = _.get(mydata, 'workOrder', '')
-    const productionName = _.get(mydata, 'productionName', '')
-    const unit = _.get(mydata, 'unit', '')
+    const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
+    const routeModal = _.get(mydata, 'routeModal', {})
+    const weldModal = _.get(mydata, 'weldModal', {})
+    const cardModal = _.get(mydata, 'cardModal', {})
     return (
-      <div>
+      <div className='process'>
         <FilterBar
+          className='filterbar'
           fieldsValue={query}
           onSearch={this.handleSearch}
         />
+        { workOrderInfo.work_order_uid &&
+          <Button
+            className='transfercard-btn'
+            type='primary'
+            size='large'
+          >
+            <Link to={`/process/process/transfer_card/?work_order_uid=${workOrderInfo.work_order_uid}&name=${workOrderInfo.name}`}>
+              查看流转卡列表
+            </Link>
+          </Button>
+        }
         <TableInfo
-          workOrder={workOrder}
-          productionName={productionName}
-          unit={unit}
+          fieldsValue={workOrderInfo}
         />
         <CustomTable
           style={{ marginTop: 0 }}
@@ -281,21 +392,29 @@ class ProcessImport extends React.Component {
           loading={loading}
           pagination={false}
           size='middle'
+          rowClassName={(record, index) => record.part_number === 0 ? 'highlight-row' : ''}
           onChange={this.handleChangeTable}
         />
-        { routeVisible &&
+        { routeModal.visible &&
           <RouteModal
-            title={title}
-            label={label}
-            visible={routeVisible}
-            processMaterial={processMaterial}
-            number={number}
-            prefix={prefix}
-            list={selectList}
-            fieldsValue={values}
+            {...routeModal}
             onOk={this.handleSaveRoute}
             onCancel={this.handleCloseRouteModal}
             onChange={this.handleChange}
+          />
+        }
+        { weldModal.visible &&
+          <WeldModal
+            {...weldModal}
+            onOk={this.handleSaveWeld}
+            onCancel={this.handleCloseWeldModal}
+          />
+        }
+        { cardModal.visible &&
+          <CardModal
+            {...cardModal}
+            onOk={this.handleCreateTransferCard}
+            onCancel={this.handleCloseCardModal}
           />
         }
       </div>
@@ -307,7 +426,12 @@ ProcessImport.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
-  getListDataAction: PropTypes.func.isRequired
+  getListDataAction: PropTypes.func.isRequired,
+  getLibraryDataAction: PropTypes.func.isRequired,
+  resetDataAction: PropTypes.func.isRequired,
+  changeRouteModalAction: PropTypes.func.isRequired,
+  changeWeldModalAction: PropTypes.func.isRequired,
+  changeCardModalAction: PropTypes.func.isRequired
 }
 
 export default ProcessImport

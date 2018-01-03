@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import { Modal, Input, Button, Form } from 'antd'
+import { Modal, Input, Button, Form, Row, Col } from 'antd'
 
 import CustomSelect from 'components/CustomSelect'
 import './PrincipalQuotaModal.less'
@@ -9,8 +9,8 @@ import './PrincipalQuotaModal.less'
 const FormItem = Form.Item
 
 const formItemLayout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 12 }
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 }
 }
 const fieldsConfig = {
   size: {
@@ -24,16 +24,20 @@ const fieldsConfig = {
     }]
   },
   weight: {
-    rules: [{ required: true, message: '请输入单重！' }]
+    rules: [{
+      required: true, message: '请输入单重！'
+    }, {
+      pattern: /^(\d+)(\.\d+)?$/, message: '请输入整数或小数！'
+    }]
   },
   material: {
     rules: [{ required: true, message: '请选择材质！' }]
   },
   operative_norm: {
-    rules: [{ required: true, message: '请输入执行标准！' }]
+    // rules: [{ required: true, message: '请输入执行标准！' }]
   },
   status: {
-    rules: [{ required: true, message: '请输入供货状态！' }]
+    // rules: [{ required: true, message: '请输入供货状态！' }]
   }
 }
 
@@ -42,26 +46,22 @@ class PrincipalQuotaModal extends React.Component {
     super(props)
   }
 
-  handleChangeProcessMaterials = (e) => {
-    const type = e.target.dataset.type
-    const { onChange } = this.props
-    onChange & onChange(type)
-  }
-
   handleSave = () => {
     const { onOk, form, fieldsValue } = this.props
     form.validateFields((err, values) => {
       if (err) {
         return
       }
-      if (fieldsValue.id) {
-        values.id = fieldsValue.id
+      const params = {
+        size: values.size || '',
+        count: values.count ? +values.count : 0,
+        weight: values.weight ? +values.weight : 0,
+        operative_norm: values.operative_norm || '',
+        status: values.status || '',
+        remark: values.remark || '',
+        material: values.material ? +values.material : ''
       }
-      onOk && onOk({
-        ...values,
-        material: +values.material,
-        count: +values.count
-      })
+      onOk && onOk(fieldsValue.id, params)
     })
   }
 
@@ -73,8 +73,9 @@ class PrincipalQuotaModal extends React.Component {
       <Form>
         <Modal
           className='principal-quota-modal'
-          title={id ? '编辑工艺物料' : '添加工艺物料'}
+          title='主材信息卡'
           visible={visible}
+          width={800}
           onOk={this.handleSave}
           onCancel={onCancel}
           footer={[
@@ -111,58 +112,78 @@ class PrincipalQuotaModal extends React.Component {
             </Button>
           ]}
         >
-          <FormItem label='规格' {...formItemLayout}>
-            {
-              getFieldDecorator('size', fieldsConfig['size'])(
-                <Input placeholder='请输入规格' />
-              )
-            }
-          </FormItem>
-          <FormItem label='数量' {...formItemLayout}>
-            {
-              getFieldDecorator('count', fieldsConfig['count'])(
-                <Input placeholder='请输入数量' />
-              )
-            }
-          </FormItem>
-          <FormItem label='单重' {...formItemLayout}>
-            {
-              getFieldDecorator('weight', fieldsConfig['weight'])(
-                <Input placeholder='请输入单重' />
-              )
-            }
-          </FormItem>
-          <FormItem label='材质' {...formItemLayout}>
-            {
-              getFieldDecorator('material', fieldsConfig['material'])(
-                <CustomSelect
-                  placeholder='请输入材质'
-                  list={materials}
-                />
-              )
-            }
-          </FormItem>
-          <FormItem label='执行标准' {...formItemLayout}>
-            {
-              getFieldDecorator('operative_norm', fieldsConfig['operative_norm'])(
-                <Input placeholder='请输入执行标准' />
-              )
-            }
-          </FormItem>
-          <FormItem label='供货状态' {...formItemLayout}>
-            {
-              getFieldDecorator('status', fieldsConfig['status'])(
-                <Input placeholder='请输入供货状态' />
-              )
-            }
-          </FormItem>
-          <FormItem label='备注' {...formItemLayout}>
-            {
-              getFieldDecorator('remark', fieldsConfig['remark'])(
-                <Input placeholder='请输入备注' />
-              )
-            }
-          </FormItem>
+          <Row gutter={16}>
+            <Col span={8}>
+              <FormItem label='规格' {...formItemLayout}>
+                {
+                  getFieldDecorator('size', fieldsConfig['size'])(
+                    <Input placeholder='请输入规格' />
+                  )
+                }
+              </FormItem>
+            </Col>
+            <Col span={8}>
+              <FormItem label='数量' {...formItemLayout}>
+                {
+                  getFieldDecorator('count', fieldsConfig['count'])(
+                    <Input placeholder='请输入数量' />
+                  )
+                }
+              </FormItem>
+            </Col>
+            <Col span={8}>
+              <FormItem label='单重' {...formItemLayout}>
+                {
+                  getFieldDecorator('weight', fieldsConfig['weight'])(
+                    <Input placeholder='请输入单重' />
+                  )
+                }
+              </FormItem>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={8}>
+              <FormItem label='材质' {...formItemLayout}>
+                {
+                  getFieldDecorator('material', fieldsConfig['material'])(
+                    <CustomSelect
+                      placeholder='请选择材质'
+                      list={materials}
+                    />
+                  )
+                }
+              </FormItem>
+            </Col>
+            <Col span={8}>
+              <FormItem label='执行标准' {...formItemLayout}>
+                {
+                  getFieldDecorator('operative_norm', fieldsConfig['operative_norm'])(
+                    <Input placeholder='请输入执行标准' />
+                  )
+                }
+              </FormItem>
+            </Col>
+            <Col span={8}>
+              <FormItem label='供货状态' {...formItemLayout}>
+                {
+                  getFieldDecorator('status', fieldsConfig['status'])(
+                    <Input placeholder='请输入供货状态' />
+                  )
+                }
+              </FormItem>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={8}>
+              <FormItem label='备注' {...formItemLayout}>
+                {
+                  getFieldDecorator('remark', fieldsConfig['remark'])(
+                    <Input placeholder='请输入备注' />
+                  )
+                }
+              </FormItem>
+            </Col>
+          </Row>
         </Modal>
       </Form>
     )

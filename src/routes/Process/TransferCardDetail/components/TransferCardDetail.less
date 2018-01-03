@@ -1,0 +1,25 @@
+.transfer-card-detail{
+  .btn-group{
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .ant-upload-list{
+    display: none;
+  }
+}
+
+@media print {
+  body * {
+      visibility: hidden;
+  }
+  .transfer-card-table,
+  .transfer-card-table * {
+      visibility: visible;
+  }
+  .transfer-card-table {
+      position: absolute;
+      left: 0;
+      top: 0;
+  }
+}
