@@ -60,7 +60,6 @@ const config = {
     'react-redux',
     'react-router',
     'redux',
-    'rc-form',
     'lodash'
   ],
 
