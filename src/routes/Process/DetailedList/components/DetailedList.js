@@ -76,6 +76,10 @@ class DetailedList extends React.Component {
     }
   }
 
+  componentWillUnmount () {
+    this.props.resetDataAction()
+  }
+
   buildColumns () {
     return util.buildColumns(this._config.columns, {
       weight_alias: {
@@ -233,7 +237,7 @@ class DetailedList extends React.Component {
     return filterQuery
   }
 
-  updatelist (query = this.props.location.query) {
+  updatelist (query = QueryString.parse(this.props.location.search)) {
     if (query.work_order_uid !== undefined) {
       this.props.getLibraryDataAction({
         params: {

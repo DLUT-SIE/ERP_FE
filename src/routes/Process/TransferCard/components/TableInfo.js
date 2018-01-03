@@ -6,7 +6,7 @@ import './TableInfo.less'
 class TableInfo extends React.Component {
   render () {
     const { fieldsValue } = this.props
-    const { workOrder, productionName } = fieldsValue
+    const { work_order_uid: workOrder, name } = fieldsValue
     return (
       <div className='table-info'>
         <Row
@@ -14,7 +14,7 @@ class TableInfo extends React.Component {
           align='middle'
         >
           <Col span={3}>工作令：{ workOrder }</Col>
-          <Col span={3}>产品名称：{ productionName }</Col>
+          <Col span={3}>产品名称：{ name }</Col>
         </Row>
       </div>
     )

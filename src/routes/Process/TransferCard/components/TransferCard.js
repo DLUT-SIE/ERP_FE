@@ -20,12 +20,16 @@ class TransferCard extends React.Component {
     super(props)
     this.state = {}
     this._columns = this.buildColumns()
+    this._workOrderInfo = QueryString.parse(this.props.location.search)
   }
 
   componentDidMount () {
-    this.props.getListDataAction({
-      params: this._query()
-    })
+    const query = this._query()
+    if (query.work_order_uid !== undefined) {
+      this.props.getListDataAction({
+        params: this._query()
+      })
+    }
   }
 
   buildColumns () {
@@ -103,7 +107,8 @@ class TransferCard extends React.Component {
     return filterQuery
   }
 
-  updatelist (query = this.props.location.query) {
+  updatelist (query = QueryString.parse(this.props.location.search)) {
+    console.log('updatelist', query)
     this.props.getListDataAction({
       params: query
     })
@@ -121,7 +126,7 @@ class TransferCard extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
-    const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
+    const workOrderInfo = this._workOrderInfo
     return (
       <div>
         <TableInfo

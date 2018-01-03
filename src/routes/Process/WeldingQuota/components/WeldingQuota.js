@@ -15,7 +15,7 @@ import WeldingQuotaModal from './WeldingQuotaModal'
 import './WeldingQuota.less'
 
 const columns = [
-  'category', 'mark', 'size', 'operative_norm', 'quota', 'remark', 'action'
+  'category', 'material_name_welding', 'size', 'operative_norm', 'quota', 'remark', 'action'
 ]
 
 class WeldingQuota extends React.Component {
@@ -23,7 +23,7 @@ class WeldingQuota extends React.Component {
     super(props)
     this.state = {}
     this._columns = this.buildColumns()
-    this._category = DETAILED_TABLE_CATEGORY_MAP['焊材定额明细表']
+    this._category = DETAILED_TABLE_CATEGORY_MAP['焊材明细表']
   }
 
   componentDidMount () {
@@ -38,7 +38,12 @@ class WeldingQuota extends React.Component {
       this.props.getListDataAction({
         params: query
       })
+      this.props.getMaterialsAction({})
     }
+  }
+
+  componentWillUnmount () {
+    this.props.resetDataAction()
   }
 
   buildColumns () {
@@ -50,7 +55,7 @@ class WeldingQuota extends React.Component {
               <Button
                 type='primary'
                 size='small'
-                data-fields-value={JSON.stringify(record)}
+                data-id={record.id}
                 data-index={index}
                 onClick={this.handleOpenEditModal}
               >
@@ -93,12 +98,25 @@ class WeldingQuota extends React.Component {
     }
   }
 
+  fetchWeldingQuota (id, cb) {
+    const { url, method } = apis.ProcessAPI.getWeldingQuota
+    const api = {
+      url: url(id),
+      method
+    }
+    fetchAPI(api, {}).then((repos) => {
+      cb(repos)
+    })
+  }
+
   handleOpenEditModal = (e) => {
-    const { fieldsValue, index } = e.target.dataset
-    this.props.changeModalAction({
-      visible: true,
-      index: +index,
-      fieldsValue: JSON.parse(fieldsValue)
+    const { id, index } = e.target.dataset
+    this.fetchWeldingQuota(id, (repos) => {
+      this.props.changeModalAction({
+        visible: true,
+        index: +index,
+        fieldsValue: repos
+      })
     })
   }
 
@@ -135,10 +153,12 @@ class WeldingQuota extends React.Component {
       }
       index += 1
     }
-    changeModalAction({
-      visible: true,
-      index,
-      fieldsValue: list[index]
+    this.fetchWeldingQuota(list[index].id, (repos) => {
+      changeModalAction({
+        visible: true,
+        index,
+        fieldsValue: repos
+      })
     })
   }
 
@@ -207,7 +227,7 @@ class WeldingQuota extends React.Component {
     return filterQuery
   }
 
-  updatelist (query = this.props.location.query) {
+  updatelist (query = QueryString.parse(this.props.location.search)) {
     if (query.work_order_uid !== undefined) {
       this.props.getLibraryDataAction({
         params: {
@@ -236,8 +256,10 @@ class WeldingQuota extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
-    const workOrderInfo = _.get(mydata, 'workOrderInfo', '')
+    const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
     const modal = _.get(mydata, 'modal', {})
+    const materials = _.get(mydata, 'materials', [])
+    console.log('render', workOrderInfo, list)
     return (
       <div className='welding-quota'>
         <FilterBar
@@ -245,22 +267,24 @@ class WeldingQuota extends React.Component {
           fieldsValue={query}
           onSearch={this.handleSearch}
         />
-        <div className='add-btn'>
-          <Button
-            style={{ marginRight: 15 }}
-            type='primary'
-            size='large'
-            onClick={this.handleOpenAddModal}
-          >
-            添加
-          </Button>
-          <Button
-            size='large'
-            onClick={this.handleQuichAdd}
-          >
-            快捷生成
-          </Button>
-        </div>
+        { workOrderInfo.id &&
+          <div className='add-btn'>
+            <Button
+              style={{ marginRight: 15 }}
+              type='primary'
+              size='large'
+              onClick={this.handleOpenAddModal}
+            >
+              添加
+            </Button>
+            <Button
+              size='large'
+              onClick={this.handleQuichAdd}
+            >
+              快捷生成
+            </Button>
+          </div>
+        }
         <TableInfo
           fieldsValue={workOrderInfo}
         />
@@ -278,6 +302,7 @@ class WeldingQuota extends React.Component {
             onOk={this.handleSave}
             onCancel={this.handleCloseModal}
             onChange={this.handleChangeWeldingQuota}
+            materials={materials}
             {...modal}
           />
         }
@@ -292,6 +317,7 @@ WeldingQuota.propTypes = {
   status: PropTypes.object.isRequired,
   getLibraryDataAction: PropTypes.func.isRequired,
   getListDataAction: PropTypes.func.isRequired,
+  getMaterialsAction: PropTypes.func.isRequired,
   resetDataAction: PropTypes.func.isRequired,
   changeModalAction: PropTypes.func.isRequired
 }

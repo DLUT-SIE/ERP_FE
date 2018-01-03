@@ -158,11 +158,38 @@ export const PROCESS_ROUTE_LIST = [
     label: 'D'
   }
 ]
+
 export const TASK_PLAN_STATUS = [
   { value: 'true',
     label: '已完成' },
   { value: 'false',
     label: '未完成' }
+]
+export const TRANSFERCARD_CATEGORY_LIST = [
+  {
+    value: '0',
+    label: '筒体流转卡'
+  },
+  {
+    value: '1',
+    label: '封头流转卡'
+  },
+  {
+    value: '2',
+    label: '焊接试板流转卡'
+  },
+  {
+    value: '3',
+    label: '母材试板流转卡'
+  },
+  {
+    value: '4',
+    label: '受压元件流转卡'
+  },
+  {
+    value: '5',
+    label: '特别元件流转卡'
+  }
 ]
 export const MATERIAL_CATEGORY = [
   { value: 0,
@@ -244,6 +271,18 @@ export const PROCESS_DETAIL_STATUS = {
   ALLOCATION: 2,
   CONFIRMED: 3,
   INSPECTED: 4
+}
+
+export const MATERIAL_CATEGORY_MAP = {
+  '其他': 0,
+  '焊条': 1,
+  '焊丝': 2,
+  '焊带': 3,
+  '焊剂': 4,
+  '板材': 5,
+  '型材': 6,
+  '外购件': 7,
+  '辅助工具': 8
 }
 
 export const UNKNOW_COLUMN = {
@@ -440,14 +479,14 @@ export const COLUMNS = {
     dataIndex: 'use_ratio'
   },
   press_mark: {
-    title: '利用率',
+    title: '受压标记',
     key: 'press_mark',
     dataIndex: 'press_mark'
   },
   gross_weight: {
     title: '毛重(Kg)',
-    key: 'gross_weight',
-    dataIndex: 'gross_weight'
+    key: 'total_weight',
+    dataIndex: 'total_weight'
   },
   mark: {
     title: '牌号',
@@ -819,5 +858,10 @@ export const COLUMNS = {
     title: '分配组',
     key: 'work_group_name',
     dataIndex: 'work_group_name'
+  },
+  material_name_welding: {
+    title: '牌号',
+    key: 'material_name',
+    dataIndex: 'material_name'
   }
 }

@@ -125,12 +125,9 @@ export default function PrincipalQuota (state = initialState, action) {
     },
     PRINCIPAL_ADD_LIBRARY_DATA () {
       let { data } = action.payload
-      if (!data.results[0]) {
-        return state
-      }
-      return state.mergeIn(
-        ['workOrderInfo'], data.results[0]
-      )
+      return state.merge({
+        workOrderInfo: data.results[0] || {}
+      })
     },
     PRINCIPAL_ADD_MATERIALS_DATA () {
       let { data } = action.payload
@@ -169,7 +166,7 @@ export function *getListSaga (type, body) {
   while (true) {
     const { payload = {} } = yield take(PRINCIPAL_GET_LIST_DATA)
     const { callback, params = {} } = payload
-    const data = yield call(fetchAPI, apis.ProcessAPI.getPrincipalQuota, params)
+    const data = yield call(fetchAPI, apis.ProcessAPI.getPrincipalQuotas, params)
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }
