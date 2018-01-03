@@ -22,34 +22,15 @@ class TaskAllocationModal extends React.Component {
     this.state = {}
   }
   componentDidMount () {
-    console.log('props', this.props.fieldsValue)
-    // this.getGroupsByProcessName()
-    let groups = this.props.fieldsValue.select_work_groups
+    console.log('props', this.props.groups)
+    let groups = this.props.groups
     groups = groups.map((item) => {
       return { label: item.name, value: item.id }
     })
     this.setState({ groups: groups })
-    console.log('props', this.props.fieldsValue)
   }
-  // todo: 想要通过mount的时候请求工作组
-  /* getGroupsByProcessName () {
-    let { url, method } = apis.ProductionAPI.getProductionWorkGroup
-    let processName = this.props.fieldsValue.process_id
-    let param = `?process_name=${processName}`
-    let newUrl = url + param
-    const api = {
-      newUrl,
-      method
-    }
-    console.log('newUrl', api)
-    fetchAPI(api).then((repos) => {
-      console.log('repos', repos)
-      this.setState({ groups: repos.results })
-    })
-  } */
   handleSave = () => {
     const { onOk, form, fieldsValue } = this.props
-    console.log(fieldsValue)
     form.validateFields((err, values) => {
       if (err) {
         return
@@ -60,12 +41,10 @@ class TaskAllocationModal extends React.Component {
       if (values.work_group_name) {
         values.work_group = values.work_group_name
       }
-      console.log('values.work_group', values.work_group)
       onOk && onOk({
         ...values,
         count: +values.count
       })
-      console.log('values', values)
     })
   }
   render () {
@@ -134,12 +113,13 @@ TaskAllocationModal.propTypes = {
   fieldsValue: PropTypes.object.isRequired,
   onOk: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  form: PropTypes.object.isRequired
+  form: PropTypes.object.isRequired,
+  groups: PropTypes.array.isRequired
 }
 let makeFileds = function (fieldsValue) {
   let result = {}
   _.forEach(fieldsValue, (value, key) => {
-    result[key] = { value }
+    result[key] = Form.createFormField({ value })
   })
   return result
 }

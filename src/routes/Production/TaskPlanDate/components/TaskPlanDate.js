@@ -127,13 +127,10 @@ class ProductionPlan extends React.Component {
     let { url, method } = apis.ProductionAPI.updateProcessDetails
     url = url(fieldsValue.id)
     fieldsValue.status = PROCESS_DETAIL_STATUS.PLANED
-    // todo: 这里需要手动更新plan_status状态吗
-    fieldsValue.plan_status = true
     const api = {
       url,
       method
     }
-    console.log(fieldsValue)
     fetchAPI(api, fieldsValue).then((repos) => {
       this.handleCloseModal()
       message.success('修改成功！')

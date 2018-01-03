@@ -18,14 +18,16 @@ class TaskInfoTable extends React.Component {
   getRemarkInfo (status, confirmStatus, remark) {
     if (/* confirmStatus && */ status === PROCESS_DETAIL_STATUS.CONFIRMED) {
       return (
-        <Input placeholder='请输入检查内容' type='text' value={this.state.remark} onChange={this.handleChange} />
+        <Input placeholder='请输入检查内容' type='text' value={this.state.remark} onChange={this.handleChange} className='remark-input' />
       )
     } else {
+      console.log('remark', remark)
       return remark
     }
   }
   render () {
     const { taskInfo } = this.props
+    console.log('taskInfo', taskInfo)
     return (
       <table className='task-info-table'>
         <tbody>

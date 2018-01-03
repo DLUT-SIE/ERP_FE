@@ -22,6 +22,10 @@ export default{
     url: '/api/process_details/',
     method: 'GET'
   },
+  getProcessDetailItem: {
+    url: (id) => (`/api/process_details/${id}/`),
+    method: 'GET'
+  },
   getPlanStatusProcessDetail: {
     url: '/api/process_details/',
     method: 'GET'

@@ -115,12 +115,12 @@ ProductionPlanModal.propTypes = {
 let makeFileds = function (fieldsValue) {
   let result = {}
   _.forEach(fieldsValue, (value, key) => {
-    result[key] = { value }
+    result[key] = Form.createFormField({ value })
     if (key === 'plan_dt') {
       if (value) {
-        result[key] = {
+        result[key] = Form.createFormField({
           value: moment(value, 'YYYY-MM-DD')
-        }
+        })
       }
     }
   })

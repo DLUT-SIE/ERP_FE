@@ -8,7 +8,7 @@ import { Modal, Input, Button, Form } from 'antd'
 import './WarehouseModal.less'
 import { MATERIAL_CATEGORY } from 'const/index'
 import CustomSelect from 'components/CustomSelect'
-
+import { makeFields } from 'utils'
 const FormItem = Form.Item
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -112,17 +112,10 @@ WarehouseModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired
 }
-let makeFileds = function (fieldsValue) {
-  let result = {}
-  _.forEach(fieldsValue, (value, key) => {
-    result[key] = { value: value + '' }
-  })
-  return result
-}
 
 const WrappedForm = Form.create({
   mapPropsToFields (props) {
-    return makeFileds(props.fieldsValue)
+    return makeFields(props.fieldsValue)
   }
 })(WarehouseModal)
 

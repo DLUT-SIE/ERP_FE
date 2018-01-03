@@ -14,14 +14,6 @@ class ProductionPlanModal extends React.Component {
     super(props)
     this.state = {}
   }
-  componentDidMount () {
-    // this.getGroupsByProcessName()
-    let groups = this.props.fieldsValue.select_work_groups
-    groups = groups.map((item) => {
-      return { label: item.name, value: item.id }
-    })
-    this.setState({ groups: groups })
-  }
   handleSave = () => {
     const { onOk, form, fieldsValue } = this.props
     form.validateFields((err, values) => {
@@ -41,12 +33,12 @@ class ProductionPlanModal extends React.Component {
       console.log('values', values)
     })
   }
-  getFooter (status) {
+  getFooter = (status) => {
     if (status === PROCESS_DETAIL_STATUS.INSPECTED) {
       return [
         <Button
           key='back'
-          onClick={this.onCancel}
+          onClick={this.props.onCancel}
         >
           返回
         </Button>
@@ -62,7 +54,7 @@ class ProductionPlanModal extends React.Component {
         </Button>,
         <Button
           key='back'
-          onClick={this.onCancel}
+          onClick={this.props.onCancel}
         >
           返回
         </Button>
@@ -102,7 +94,7 @@ ProductionPlanModal.propTypes = {
 let makeFileds = function (fieldsValue) {
   let result = {}
   _.forEach(fieldsValue, (value, key) => {
-    result[key] = { value }
+    result[key] = Form.createFormField({ value })
   })
   return result
 }

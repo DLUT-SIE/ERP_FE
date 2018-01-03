@@ -89,7 +89,7 @@ FilterBar.propTypes = {
 let makeFields = function (fieldsValue) {
   let result = {}
   _.forEach(fieldsValue, (value, key) => {
-    result[key] = { value }
+    result[key] = Form.createFormField({ value })
   })
   return result
 }

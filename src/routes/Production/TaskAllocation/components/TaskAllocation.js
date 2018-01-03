@@ -61,6 +61,7 @@ class ProductionPlan extends React.Component {
               type='primary'
               size='small'
               data-fields-value={JSON.stringify(record)}
+              data-name={record.process_id}
               data-index={index}
               onClick={this.handleOpenEditModal}
             >
@@ -78,12 +79,28 @@ class ProductionPlan extends React.Component {
       ...searchValue
     })
   }
+  fetchGroupInfo = (processName, cb) => {
+    let { url, method } = apis.ProductionAPI.getProductionWorkGroup
+    let param = `?process_name=${processName}`
+    url = url + param
+    const api = {
+      url,
+      method
+    }
+    console.log(api)
+    fetchAPI(api).then((repos) => {
+      cb(repos.results)
+    })
+  }
   handleOpenEditModal = (e) => {
-    const { fieldsValue, index } = e.target.dataset
-    this.props.changeModalAction({
-      visible: true,
-      index: +index,
-      fieldsValue: JSON.parse(fieldsValue)
+    const { fieldsValue, index, name } = e.target.dataset
+    this.fetchGroupInfo(name, (repos) => {
+      this.props.changeModalAction({
+        visible: true,
+        index: +index,
+        fieldsValue: JSON.parse(fieldsValue),
+        groups: repos
+      })
     })
   }
   handleRedo = (e) => {
@@ -95,9 +112,7 @@ class ProductionPlan extends React.Component {
       method
     }
     let values = {}
-    values.id = +id
     values.status = PROCESS_DETAIL_STATUS.PLANED
-    values.work_group = null
     console.log(values)
     fetchAPI(api, values).then((repos) => {
       this.handleCloseModal()
@@ -151,7 +166,6 @@ class ProductionPlan extends React.Component {
     }
     fieldsValue.status = PROCESS_DETAIL_STATUS.ALLOCATION
     fieldsValue.allocation_status = true
-    console.log(fieldsValue)
     fetchAPI(api, fieldsValue).then((repos) => {
       this.handleCloseModal()
       message.success('修改成功！')
@@ -171,8 +185,6 @@ class ProductionPlan extends React.Component {
     const query = QueryString.parse(location.search)
     const mydata = status.toJS()
     const list = _.get(mydata, 'list', [])
-    console.log('list', list)
-    // list.work_group_list = { work_group: list.work_group, select_work_groups: list.select_work_groups }
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
     const modal = _.get(mydata, 'modal', {})

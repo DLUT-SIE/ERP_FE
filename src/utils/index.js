@@ -1,7 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
 import { COLUMNS, UNKNOW_COLUMN } from 'const'
-import { Select } from 'antd'
+import { Select, Form } from 'antd'
+import moment from 'moment'
 
 const Option = Select.Option
 
@@ -76,6 +77,21 @@ let util = {
       )
     })
   }
+}
+
+export const makeFields = (fieldsValue) => {
+  let result = {}
+  _.forEach(fieldsValue, (value, key) => {
+    result[key] = Form.createFormField({ value })
+    if (key === 'create_dt_start' || key === 'create_dt_end') {
+      if (value) {
+        result[key] = Form.createFormField({
+          value: moment(value, 'YYYY-MM-DD')
+        })
+      }
+    }
+  })
+  return result
 }
 
 export default util

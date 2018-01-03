@@ -90,12 +90,12 @@ FilterBar.propTypes = {
 let makeFields = function (fieldsValue) {
   let result = {}
   _.forEach(fieldsValue, (value, key) => {
-    result[key] = { value }
+    result[key] = Form.createFormField({ value })
     if (key === 'plan_start_time' || key === 'plan_end_time') {
       if (value) {
-        result[key] = {
+        result[key] = Form.createFormField({
           value: moment(value, 'YYYY-MM-DD')
-        }
+        })
       }
     }
   })

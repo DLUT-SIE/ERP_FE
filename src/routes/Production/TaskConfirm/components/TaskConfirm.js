@@ -48,7 +48,7 @@ class ProductionPlan extends React.Component {
               <Button
                 type='primary'
                 size='small'
-                data-fields-value={JSON.stringify(record)}
+                data-id={record.id}
                 data-index={index}
                 onClick={this.handleOpenEditModal}
               >
@@ -60,7 +60,7 @@ class ProductionPlan extends React.Component {
               <Button
                 type='primary'
                 size='small'
-                data-fields-value={JSON.stringify(record)}
+                data-id={record.id}
                 data-index={index}
                 onClick={this.handleOpenEditModal}
               >
@@ -107,12 +107,24 @@ class ProductionPlan extends React.Component {
       })
     })
   }
+  fetchProcessDetailItem = (id, cb) => {
+    const { url, method } = apis.ProductionAPI.getProcessDetailItem
+    const api = {
+      url: url(id),
+      method
+    }
+    fetchAPI(api, {}).then((repos) => {
+      cb(repos)
+    })
+  }
   handleOpenEditModal = (e) => {
-    const { fieldsValue, index } = e.target.dataset
-    this.props.changeModalAction({
-      visible: true,
-      index: +index,
-      fieldsValue: JSON.parse(fieldsValue)
+    const { id, index } = e.target.dataset
+    this.fetchProcessDetailItem(id, (repos) => {
+      this.props.changeModalAction({
+        visible: true,
+        index: +index,
+        fieldsValue: repos
+      })
     })
   }
 
@@ -178,7 +190,6 @@ class ProductionPlan extends React.Component {
     const query = QueryString.parse(location.search)
     const mydata = status.toJS()
     const list = _.get(mydata, 'list', [])
-    console.log('list', list)
     // list.work_group_list = { work_group: list.work_group, select_work_groups: list.select_work_groups }
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
