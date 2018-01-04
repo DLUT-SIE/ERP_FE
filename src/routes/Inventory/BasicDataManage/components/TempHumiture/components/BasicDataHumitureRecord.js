@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import QueryString from 'query-string'
-import util from 'utils'
+import util, { makeFields } from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 import { Button, message, Form, Input } from 'antd'
@@ -124,17 +124,10 @@ BasicDataHumitureRecord.propTypes = {
   getListDataAction: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired
 }
-let makeFileds = function (fieldsValue) {
-  let result = {}
-  _.forEach(fieldsValue, (value, key) => {
-    result[key] = { value: value + '' }
-  })
-  return result
-}
 
 const WrappedForm = Form.create({
   mapPropsToFields (props) {
-    return makeFileds(props.fieldsValue)
+    return makeFields(props.fieldsValue)
   }
 })(BasicDataHumitureRecord)
 

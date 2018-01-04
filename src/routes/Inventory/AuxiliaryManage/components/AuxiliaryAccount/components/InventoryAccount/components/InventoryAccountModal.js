@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { Modal, Input, Button, Form, Row, Col, Select } from 'antd'
 import './InventoryAccountModal.less'
-import util from 'utils'
+import util, { makeFields } from 'utils'
 import moment from 'moment'
 
 import CustomTable from 'components/CustomTable'
@@ -148,17 +148,10 @@ HumitureRecordModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired
 }
-let makeFileds = function (fieldsValue) {
-  let result = {}
-  _.forEach(fieldsValue, (value, key) => {
-    result[key] = { value: value + '' }
-  })
-  return result
-}
 
 const WrappedForm = Form.create({
   mapPropsToFields (props) {
-    return makeFileds(props.fieldsValue)
+    return makeFields(props.fieldsValue)
   }
 })(HumitureRecordModal)
 
