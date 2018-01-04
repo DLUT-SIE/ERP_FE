@@ -459,10 +459,10 @@ export const COLUMNS = {
     key: 'uid',
     dataIndex: 'uid'
   },
-  create_date: {
+  purchase_order_create_dt: {
     title: '创建时间',
-    key: 'create_date',
-    dataIndex: 'create_date'
+    key: 'create_dt',
+    dataIndex: 'create_dt'
   },
   part_drawing_number: {
     title: '零件图号',
@@ -789,5 +789,20 @@ export const COLUMNS = {
     title: '牌号',
     key: 'material_name',
     dataIndex: 'material_name'
+  },
+  sub_order: {
+    title: '工作令编号',
+    key: 'sub_order',
+    dataIndex: 'sub_order'
+  },
+  name_and_spec: {
+    title: '名称及规格',
+    key: 'name_and_spec',
+    dataIndex: 'name_and_spec'
+  },
+  order_status: {
+    title: '状态',
+    key: 'order_status',
+    dataIndex: 'order_status'
   }
 }
