@@ -29,6 +29,7 @@ export const menu = {
       icon: 'lock',
       processimport: '/process/process_import',
       process: '/process/process',
+      weldingseam: '/process/welding_seam',
       broughtinitems: '/process/bought_in_items',
       firstfeedingitems: '/process/first_feeding_items',
       cooperantitems: '/process/cooperant_items',

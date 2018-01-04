@@ -55,6 +55,22 @@ export default {
     url: '/api/quota_lists/',
     method: 'GET'
   },
+  getWeldingSeams: {
+    url: '/api/welding_seams/',
+    method: 'GET'
+  },
+  getWeldingSeam: {
+    url: (id) => (`/api/welding_seams/${id}/`),
+    method: 'GET'
+  },
+  updateWeldingSeam: {
+    url: (id) => (`/api/welding_seams/${id}/`),
+    method: 'PATCH'
+  },
+  addWeldingSeam: {
+    url: '/api/welding_seams/',
+    method: 'POST'
+  },
   getBoughtInItems: {
     url: '/api/bought_in_items/',
     method: 'GET'

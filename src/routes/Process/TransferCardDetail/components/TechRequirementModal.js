@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
+import { makeFields } from 'utils'
 import { Modal, Input, Form } from 'antd'
 
 const FormItem = Form.Item
@@ -64,17 +64,9 @@ TechRequirementModal.propTypes = {
   form: PropTypes.object.isRequired
 }
 
-let makeFileds = function (fieldsValue) {
-  let result = {}
-  _.forEach(fieldsValue, (value, key) => {
-    result[key] = { value: value + '' }
-  })
-  return result
-}
-
 const WrappedForm = Form.create({
   mapPropsToFields (props) {
-    return makeFileds(props.fieldsValue)
+    return makeFields(props.fieldsValue)
   }
 })(TechRequirementModal)
 

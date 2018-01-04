@@ -12,6 +12,21 @@ const _findItem = (list = [], value, key = 'name') => {
   })
 }
 
+export const makeFields = (fieldsValue) => {
+  let result = {}
+  _.forEach(fieldsValue, (value, key) => {
+    result[key] = Form.createFormField({ value })
+    if (key === 'create_dt_start' || key === 'create_dt_end') {
+      if (value) {
+        result[key] = Form.createFormField({
+          value: moment(value, 'YYYY-MM-DD')
+        })
+      }
+    }
+  })
+  return result
+}
+
 let util = {
   findItem (list = [], value, key = 'name') {
     if (_.isArray(value)) {
@@ -77,21 +92,6 @@ let util = {
       )
     })
   }
-}
-
-export const makeFields = (fieldsValue) => {
-  let result = {}
-  _.forEach(fieldsValue, (value, key) => {
-    result[key] = Form.createFormField({ value })
-    if (key === 'create_dt_start' || key === 'create_dt_end') {
-      if (value) {
-        result[key] = Form.createFormField({
-          value: moment(value, 'YYYY-MM-DD')
-        })
-      }
-    }
-  })
-  return result
 }
 
 export default util

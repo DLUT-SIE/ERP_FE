@@ -1,5 +1,6 @@
 import { put, call, take } from 'redux-saga/effects'
 import Immutable from 'immutable'
+import _ from 'lodash'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 
@@ -11,6 +12,8 @@ const PROCESS_GET_LIST_DATA = 'PROCESS_GET_LIST_DATA'
 const PROCESS_ADD_LIST_DATA = 'PROCESS_ADD_LIST_DATA'
 const PROCESS_GET_LIBRARY_DATA = 'PROCESS_GET_LIBRARY_DATA'
 const PROCESS_ADD_LIBRARY_DATA = 'PROCESS_ADD_LIBRARY_DATA'
+const PROCESS_GET_MATERIALS_DATA = 'PROCESS_GET_MATERIALS_DATA'
+const PROCESS_ADD_MATERIALS_DATA = 'PROCESS_ADD_MATERIALS_DATA'
 const PROCESS_RESET_DATA = 'PROCESS_RESET_DATA'
 const PROCESS_CHANGE_ROUTE_MODAL = 'PROCESS_CHANGE_ROUTE_MODAL'
 const PROCESS_CHANGE_WELD_MODAL = 'PROCESS_CHANGE_WELD_MODAL'
@@ -48,6 +51,20 @@ function addLibraryDataAction (payload = {}) {
   }
 }
 
+function getMaterialsAction (payload = {}) {
+  return {
+    type    : PROCESS_GET_MATERIALS_DATA,
+    payload : payload
+  }
+}
+
+function addMaterialsAction (payload = {}) {
+  return {
+    type    : PROCESS_ADD_MATERIALS_DATA,
+    payload : payload
+  }
+}
+
 function resetDataAction (payload = {}) {
   return {
     type    : PROCESS_RESET_DATA,
@@ -80,6 +97,7 @@ export const actions = {
   getListDataAction,
   addListDataAction,
   getLibraryDataAction,
+  getMaterialsAction,
   resetDataAction,
   changeRouteModalAction,
   changeWeldModalAction,
@@ -98,7 +116,7 @@ var initialState = Immutable.fromJS({
   routeModal: {
     visible: false
   },
-  weldModal: {
+  weldingSeamModal: {
     visible: false
   },
   cardModal: {
@@ -128,6 +146,25 @@ export default function Process (state = initialState, action) {
         workOrderInfo: data.results[0] || {}
       })
     },
+    PROCESS_ADD_MATERIALS_DATA () {
+      let { weldingMaterials, fluxMaterials } = action.payload
+      weldingMaterials = _.map(weldingMaterials.results, (item) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
+      })
+      fluxMaterials = _.map(fluxMaterials.results, (item) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
+      })
+      return state.merge({
+        weldingMaterials,
+        fluxMaterials
+      })
+    },
     PROCESS_RESET_DATA () {
       return state.merge({
         workOrderInfo: {},
@@ -138,7 +175,7 @@ export default function Process (state = initialState, action) {
       return state.mergeIn(['routeModal'], action.payload)
     },
     PROCESS_CHANGE_WELD_MODAL () {
-      return state.mergeIn(['weldModal'], action.payload)
+      return state.mergeIn(['weldingSeamModal'], action.payload)
     },
     PROCESS_CHANGE_CARD_MODAL () {
       return state.mergeIn(['cardModal'], action.payload)
@@ -178,7 +215,20 @@ export function *getLibrarySaga (type, body) {
   }
 }
 
+export function *getMaterialsSaga (type, body) {
+  while (true) {
+    const { payload = {} } = yield take(PROCESS_GET_MATERIALS_DATA)
+    const { params = {} } = payload
+    const [ weldingMaterials, fluxMaterials ] = yield [
+      call(fetchAPI, apis.ProcessAPI.getWeldingMaterials, params),
+      call(fetchAPI, apis.ProcessAPI.getFluxMaterials, params)
+    ]
+    yield put(addMaterialsAction({ weldingMaterials, fluxMaterials }))
+  }
+}
+
 export const sagas = [
   getListSaga,
-  getLibrarySaga
+  getLibrarySaga,
+  getMaterialsSaga
 ]

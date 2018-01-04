@@ -8,14 +8,14 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const WELDING_GET_LIST_DATA = 'WELDING_GET_LIST_DATA'
-const WELDING_ADD_LIST_DATA = 'WELDING_ADD_LIST_DATA'
-const WELDING_GET_LIBRARY_DATA = 'WELDING_GET_LIBRARY_DATA'
-const WELDING_ADD_LIBRARY_DATA = 'WELDING_ADD_LIBRARY_DATA'
-const WELDING_GET_MATERIALS_DATA = 'WELDING_GET_MATERIALS_DATA'
-const WELDING_ADD_MATERIALS_DATA = 'WELDING_ADD_MATERIALS_DATA'
-const WELDING_RESET_DATA = 'WELDING_RESET_DATA'
-const WELDING_CHANGE_MODAL = 'WELDING_CHANGE_MODAL'
+const WELDINGSEAM_GET_LIST_DATA = 'WELDINGSEAM_GET_LIST_DATA'
+const WELDINGSEAM_ADD_LIST_DATA = 'WELDINGSEAM_ADD_LIST_DATA'
+const WELDINGSEAM_GET_LIBRARY_DATA = 'WELDINGSEAM_GET_LIBRARY_DATA'
+const WELDINGSEAM_ADD_LIBRARY_DATA = 'WELDINGSEAM_ADD_LIBRARY_DATA'
+const WELDINGSEAM_GET_MATERIALS_DATA = 'WELDINGSEAM_GET_MATERIALS_DATA'
+const WELDINGSEAM_ADD_MATERIALS_DATA = 'WELDINGSEAM_ADD_MATERIALS_DATA'
+const WELDINGSEAM_RESET_DATA = 'WELDINGSEAM_RESET_DATA'
+const WELDINGSEAM_CHANGE_WELDINGSEAM_MODAL = 'WELDINGSEAM_CHANGE_WELDINGSEAM_MODAL'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -24,56 +24,56 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : WELDING_GET_LIST_DATA,
+    type    : WELDINGSEAM_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : WELDING_ADD_LIST_DATA,
+    type    : WELDINGSEAM_ADD_LIST_DATA,
     payload : payload
   }
 }
 
 function getLibraryDataAction (body) {
   return {
-    type    : WELDING_GET_LIBRARY_DATA,
+    type    : WELDINGSEAM_GET_LIBRARY_DATA,
     payload : body
   }
 }
 
 function addLibraryDataAction (payload = {}) {
   return {
-    type    : WELDING_ADD_LIBRARY_DATA,
+    type    : WELDINGSEAM_ADD_LIBRARY_DATA,
     payload : payload
   }
 }
 
 function getMaterialsAction (payload = {}) {
   return {
-    type    : WELDING_GET_MATERIALS_DATA,
+    type    : WELDINGSEAM_GET_MATERIALS_DATA,
     payload : payload
   }
 }
 
 function addMaterialsAction (payload = {}) {
   return {
-    type    : WELDING_ADD_MATERIALS_DATA,
+    type    : WELDINGSEAM_ADD_MATERIALS_DATA,
     payload : payload
   }
 }
 
 function resetDataAction (payload = {}) {
   return {
-    type    : WELDING_RESET_DATA,
+    type    : WELDINGSEAM_RESET_DATA,
     payload : payload
   }
 }
 
-function changeModalAction (payload = {}) {
+function changeWeldingSeamModalAction (payload = {}) {
   return {
-    type    : WELDING_CHANGE_MODAL,
+    type    : WELDINGSEAM_CHANGE_WELDINGSEAM_MODAL,
     payload : payload
   }
 }
@@ -83,7 +83,7 @@ export const actions = {
   getLibraryDataAction,
   getMaterialsAction,
   resetDataAction,
-  changeModalAction
+  changeWeldingSeamModalAction
 }
 
 // ------------------------------------
@@ -94,16 +94,15 @@ var initialState = Immutable.fromJS({
   pagination: {
     pageSize: 10
   },
-  modal: {
+  weldingSeamModal: {
     visible: false
   },
-  workOrderInfo: {},
-  list: []
+  workOrderInfo: {}
 })
 
-export default function WeldingQuota (state = initialState, action) {
+export default function WeldingSeam (state = initialState, action) {
   var map = {
-    WELDING_GET_LIST_DATA () {
+    WELDINGSEAM_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -114,7 +113,7 @@ export default function WeldingQuota (state = initialState, action) {
         'loading', true
       )
     },
-    WELDING_ADD_LIST_DATA () {
+    WELDINGSEAM_ADD_LIST_DATA () {
       let { data } = action.payload
       const { count, results } = data
       return state.mergeIn(
@@ -124,32 +123,39 @@ export default function WeldingQuota (state = initialState, action) {
         loading: false
       })
     },
-    WELDING_ADD_LIBRARY_DATA () {
+    WELDINGSEAM_ADD_LIBRARY_DATA () {
       let { data } = action.payload
       return state.merge({
         workOrderInfo: data.results[0] || {}
       })
     },
-    WELDING_ADD_MATERIALS_DATA () {
-      let { data } = action.payload
-      const materials = _.map(data.results, (item) => {
+    WELDINGSEAM_ADD_MATERIALS_DATA () {
+      let { weldingMaterials, fluxMaterials } = action.payload
+      weldingMaterials = _.map(weldingMaterials.results, (item) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
+      })
+      fluxMaterials = _.map(fluxMaterials.results, (item) => {
         return {
           value: item.id,
           label: item.name
         }
       })
       return state.merge({
-        materials: materials
+        weldingMaterials,
+        fluxMaterials
       })
     },
-    WELDING_RESET_DATA () {
+    WELDINGSEAM_RESET_DATA () {
       return state.merge({
         workOrderInfo: {},
         list: []
       })
     },
-    WELDING_CHANGE_MODAL () {
-      return state.mergeIn(['modal'], action.payload)
+    WELDINGSEAM_CHANGE_WELDINGSEAM_MODAL () {
+      return state.mergeIn(['weldingSeamModal'], action.payload)
     }
   }
 
@@ -165,30 +171,33 @@ export default function WeldingQuota (state = initialState, action) {
 // ------------------------------------
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(WELDING_GET_LIST_DATA)
+    const { payload = {} } = yield take(WELDINGSEAM_GET_LIST_DATA)
     const { callback, params = {} } = payload
-    const data = yield call(fetchAPI, apis.ProcessAPI.getWeldingQuotas, params)
+    const data = yield call(fetchAPI, apis.ProcessAPI.getWeldingSeams, params)
     callback && callback(data)
-    yield put(addListDataAction({ data: data }))
+    yield put(addListDataAction({ data }))
   }
 }
 
 export function *getLibrarySaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(WELDING_GET_LIBRARY_DATA)
+    const { payload = {} } = yield take(WELDINGSEAM_GET_LIBRARY_DATA)
     const { callback, params = {} } = payload
     const data = yield call(fetchAPI, apis.ProcessAPI.getQuotaList, params)
     callback && callback(data)
-    yield put(addLibraryDataAction({ data: data }))
+    yield put(addLibraryDataAction({ data }))
   }
 }
 
 export function *getMaterialsSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(WELDING_GET_MATERIALS_DATA)
+    const { payload = {} } = yield take(WELDINGSEAM_GET_MATERIALS_DATA)
     const { params = {} } = payload
-    const data = yield call(fetchAPI, apis.ProcessAPI.getTotalWeldingMaterials, params)
-    yield put(addMaterialsAction({ data: data }))
+    const [ weldingMaterials, fluxMaterials ] = yield [
+      call(fetchAPI, apis.ProcessAPI.getWeldingMaterials, params),
+      call(fetchAPI, apis.ProcessAPI.getFluxMaterials, params)
+    ]
+    yield put(addMaterialsAction({ weldingMaterials, fluxMaterials }))
   }
 }
 

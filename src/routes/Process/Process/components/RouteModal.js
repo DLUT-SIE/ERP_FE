@@ -212,7 +212,7 @@ RouteModal.propTypes = {
   form: PropTypes.object.isRequired
 }
 
-let makeFileds = function (props) {
+let makeFields = function (props) {
   const { number, fieldsValue } = props
   let result = {}
   for (let i = 0; i < number; i++) {
@@ -226,7 +226,7 @@ let makeFileds = function (props) {
 
 const WrappedForm = Form.create({
   mapPropsToFields (props) {
-    return makeFileds(props)
+    return makeFields(props)
   }
 })(RouteModal)
 

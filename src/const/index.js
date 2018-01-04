@@ -204,42 +204,42 @@ export const MATERIAL_CATEGORY = [
 
 export const WELD_POSITION_LIST = [
   {
-    value: 'FLUSH_WELD',
+    value: 0,
     label: '平焊'
   },
   {
-    value: 'HORIZONTAL_WELD',
+    value: 1,
     label: '横焊'
   },
   {
-    value: 'OVERHEAD_WELD',
+    value: 2,
     label: '仰焊'
   },
   {
-    value: 'VERTICAL_WELD',
+    value: 3,
     label: '立向上焊'
   },
   {
-    value: 'WIDE_WELD',
+    value: 4,
     label: '全位置焊'
   }
 ]
 
 export const WELD_METHOD_LIST = [
   {
-    value: 'SMAW',
+    value: 0,
     label: '焊条电弧焊'
   },
   {
-    value: 'SAW',
+    value: 1,
     label: '埋弧焊'
   },
   {
-    value: 'GMAW',
+    value: 2,
     label: '气体保护焊'
   },
   {
-    value: 'GTAW',
+    value: 3,
     label: '氩弧焊'
   }
 ]
@@ -652,6 +652,111 @@ export const COLUMNS = {
     title: '状态',
     key: 'pretty_status',
     dataIndex: 'pretty_status'
+  },
+  weld_uid: {
+    title: '焊缝编号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
+  seam_type: {
+    title: '焊缝类型',
+    key: 'seam_type',
+    dataIndex: 'seam_type'
+  },
+  weld_method: {
+    title: '焊接方法',
+    key: 'weld_method',
+    dataIndex: 'weld_method'
+  },
+  length: {
+    title: '焊缝长度',
+    key: 'length',
+    dataIndex: 'length'
+  },
+  bm_1: {
+    title: '母材材质1',
+    key: 'bm_1',
+    dataIndex: 'bm_1'
+  },
+  bm_thick_1: {
+    title: '母材厚度1',
+    key: 'bm_thick_1',
+    dataIndex: 'bm_thick_1'
+  },
+  wm_1: {
+    title: '焊丝/焊条1',
+    key: 'wm_1',
+    dataIndex: 'wm_1'
+  },
+  ws_1: {
+    title: '规格1',
+    key: 'ws_1',
+    dataIndex: 'ws_1'
+  },
+  wt_1: {
+    title: '焊材厚度1',
+    key: 'wt_1',
+    dataIndex: 'wt_1'
+  },
+  weight_1: {
+    title: '焊材重量1',
+    key: 'weight_1',
+    dataIndex: 'weight_1'
+  },
+  wf_1: {
+    title: '焊剂1',
+    key: 'wf_1',
+    dataIndex: 'wf_1'
+  },
+  wf_weight_1: {
+    title: '焊剂重量1',
+    key: 'wf_weight_1',
+    dataIndex: 'wf_weight_1'
+  },
+  bm_2: {
+    title: '母材材质2',
+    key: 'bm_2',
+    dataIndex: 'bm_2'
+  },
+  bm_thick_2: {
+    title: '母材厚度2',
+    key: 'bm_thick_2',
+    dataIndex: 'bm_thick_2'
+  },
+  wm_2: {
+    title: '焊丝/焊条2',
+    key: 'wm_2',
+    dataIndex: 'wm_2'
+  },
+  ws_2: {
+    title: '规格2',
+    key: 'ws_2',
+    dataIndex: 'ws_2'
+  },
+  wt_2: {
+    title: '焊材厚度2',
+    key: 'wt_2',
+    dataIndex: 'wt_2'
+  },
+  weight_2: {
+    title: '焊材重量2',
+    key: 'weight_2',
+    dataIndex: 'weight_2'
+  },
+  wf_2: {
+    title: '焊剂2',
+    key: 'wf_2',
+    dataIndex: 'wf_2'
+  },
+  wf_weight_2: {
+    title: '焊剂重量2',
+    key: 'wf_weight_2',
+    dataIndex: 'wf_weight_2'
+  },
+  add: {
+    title: '添加',
+    key: 'add',
+    dataIndex: 'add'
   },
   material_name_in_quota: {
     title: '材质',
