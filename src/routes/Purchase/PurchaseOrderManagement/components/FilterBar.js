@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
+import { makeFields } from 'utils'
 import { Form, Input, Button } from 'antd'
 import { PURCHASE_ORDER_STATUS_LIST } from 'const'
 
@@ -37,7 +37,7 @@ class FilterBar extends React.Component {
         onSubmit={this.handleSubmit}
       >
         <FormItem>
-          {getFieldDecorator('status')(
+          {getFieldDecorator('status', { initialValue: 0 })(
             <CustomSelect
               placeholder='请选择订购单状态'
               list={PURCHASE_ORDER_STATUS_LIST}
@@ -67,14 +67,6 @@ class FilterBar extends React.Component {
 FilterBar.propTypes = {
   form: PropTypes.object.isRequired,
   onSearch: PropTypes.func.isRequired
-}
-
-let makeFields = function (fieldsValue) {
-  let result = {}
-  _.forEach(fieldsValue, (value, key) => {
-    result[key] = { value }
-  })
-  return result
 }
 
 const WrappedForm = Form.create({

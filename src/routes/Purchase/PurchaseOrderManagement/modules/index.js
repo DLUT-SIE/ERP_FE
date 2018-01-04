@@ -8,7 +8,7 @@ import { apis } from 'api/config'
 // ------------------------------------
 
 const PURCHASEORDERMANAG_GET_LIST_DATA = 'PURCHASEORDERMANAG_GET_LIST_DATA'
-const PURCHASEORDERMANAG_ADD_LIST_DATA = 'PURCHASEORDER_ADDMANAG_LIST_DATA'
+const PURCHASEORDERMANAG_ADD_LIST_DATA = 'PURCHASEORDERMANAG_ADD_LIST_DATA'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -44,7 +44,7 @@ var initialState = Immutable.fromJS({
   }
 })
 
-export default function PurchaseOrder (state = initialState, action) {
+export default function PurchaseOrderManagement (state = initialState, action) {
   var map = {
     PURCHASEORDERMANAG_GET_LIST_DATA () {
       let { params = {} } = action.payload
@@ -83,11 +83,9 @@ export function *getListSaga (type, body) {
   while (true) {
     const { payload = {} } = yield take(PURCHASEORDERMANAG_GET_LIST_DATA)
     const { callback, params } = payload
-    const [ data ] = yield [
-      call(fetchAPI, apis.PurchaseAPI.getPurchaseOrders, params)
-    ]
+    const data = yield call(fetchAPI, apis.PurchaseAPI.getPurchaseOrders, params)
     callback && callback(data)
-    yield put(addListDataAction({ data }))
+    yield put(addListDataAction({ data: data }))
   }
 }
 

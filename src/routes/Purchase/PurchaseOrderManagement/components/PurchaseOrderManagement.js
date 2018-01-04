@@ -6,7 +6,7 @@ import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 import { Link } from 'react-router-dom'
-import { Button, Popconfirm, message } from 'antd'
+import { Button, Popconfirm, message, Divider } from 'antd'
 
 import FilterBar from './FilterBar.js'
 import CustomTable from 'components/CustomTable'
@@ -39,11 +39,11 @@ class PurchaseOrderManagement extends React.Component {
                 size='small'
                 data-id={record.id}
               >
-                <Link to=''>
+                <Link to={`/purchase/purchase_order_management/purchase_order/?purchase_order=${record.id}`}>
                   查看
                 </Link>
               </Button>
-              <span className='ant-divider' />
+              <Divider type='vertical' />
               { record.status === 0 &&
                 <Popconfirm
                   title='确定删除吗？'
@@ -97,7 +97,8 @@ class PurchaseOrderManagement extends React.Component {
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
     return Object.assign({
-      page: 1
+      page: 1,
+      status: 0
     }, oldQuery, query)
   }
 
