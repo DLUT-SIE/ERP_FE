@@ -442,10 +442,10 @@ WeldingSeamModal.propTypes = {
   form: PropTypes.object.isRequired
 }
 
-let makeFileds = function (fieldsValue) {
+let makeFields = function (fieldsValue) {
   let result = {}
   for (let key in fieldsValue) {
-    result[key] = { value: fieldsValue[key] + '' }
+    result[key] = Form.createFormField({ value: fieldsValue[key] + '' })
   }
   // _.forEach(fieldsValue, (value, key) => {
   //   result[key] = { value: value + '' }
@@ -455,7 +455,7 @@ let makeFileds = function (fieldsValue) {
 
 const WrappedForm = Form.create({
   mapPropsToFields (props) {
-    return makeFileds(props.fieldsValue)
+    return makeFields(props.fieldsValue)
   }
 })(WeldingSeamModal)
 
