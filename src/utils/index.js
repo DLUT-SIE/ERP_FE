@@ -1,7 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
 import { COLUMNS, UNKNOW_COLUMN } from 'const'
-import { Select } from 'antd'
+import { Select, Form } from 'antd'
+import moment from 'moment'
 
 const Option = Select.Option
 
@@ -9,6 +10,21 @@ const _findItem = (list = [], value, key = 'name') => {
   return list.find((item, index) => {
     return '' + item[key] === '' + value
   })
+}
+
+export const makeFields = (fieldsValue) => {
+  let result = {}
+  _.forEach(fieldsValue, (value, key) => {
+    result[key] = Form.createFormField({ value })
+    if (key === 'create_dt_start' || key === 'create_dt_end') {
+      if (value) {
+        result[key] = Form.createFormField({
+          value: moment(value, 'YYYY-MM-DD')
+        })
+      }
+    }
+  })
+  return result
 }
 
 let util = {
@@ -19,6 +35,16 @@ let util = {
       })
     }
     return _findItem(list, value, key)
+  },
+  str2bool (value = '') {
+    switch (value.toLowerCase()) {
+      case 'true':
+        return true
+      case 'false':
+        return false
+      default:
+        return undefined
+    }
   },
   str2num (value) {
     return _.isArray(value) ? value.map(util.str2num) : (

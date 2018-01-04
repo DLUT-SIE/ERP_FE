@@ -6,6 +6,7 @@ import ProcessImport from './ProcessImport'
 import Process from './Process'
 import TransferCardDetail from './TransferCardDetail'
 import TransferCard from './TransferCard'
+import WeldingSeam from './WeldingSeam'
 import DetailedList from './DetailedList'
 import PrincipalQuota from './PrincipalQuota'
 import AuxiliaryQuota from './AuxiliaryQuota'
@@ -31,6 +32,11 @@ const childRoutes = [
     path: 'process',
     breadcrumbName: '工艺库',
     component: Process
+  },
+  {
+    path: 'welding_seam',
+    breadcrumbName: '焊缝明细',
+    component: WeldingSeam
   },
   {
     path: 'bought_in_items',

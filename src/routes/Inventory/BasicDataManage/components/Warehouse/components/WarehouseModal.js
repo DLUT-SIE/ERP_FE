@@ -8,7 +8,7 @@ import { Modal, Input, Button, Form } from 'antd'
 import './WarehouseModal.less'
 import { MATERIAL_CATEGORY } from 'const/index'
 import CustomSelect from 'components/CustomSelect'
-
+import { makeFields } from 'utils'
 const FormItem = Form.Item
 const formItemLayout = {
   labelCol: { span: 8 },
@@ -20,10 +20,10 @@ const fieldsConfig = {
     rules:[{ required: true, message:'请输入库房名称' }]
   },
   location: {
-    rules:[{ required: true, message:'请输入库房名称' }]
+    rules:[{ required: true, message:'请输入库房位置' }]
   },
   category: {
-    rules:[{ required: true, message:'请输入库房名称' }]
+    rules:[{ required: true, message:'请输入材料类别' }]
   }
 }
 class WarehouseModal extends React.Component {
@@ -112,17 +112,10 @@ WarehouseModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired
 }
-let makeFileds = function (fieldsValue) {
-  let result = {}
-  _.forEach(fieldsValue, (value, key) => {
-    result[key] = { value: value + '' }
-  })
-  return result
-}
 
 const WrappedForm = Form.create({
   mapPropsToFields (props) {
-    return makeFileds(props.fieldsValue)
+    return makeFields(props.fieldsValue)
   }
 })(WarehouseModal)
 

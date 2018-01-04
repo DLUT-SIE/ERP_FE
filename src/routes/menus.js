@@ -29,6 +29,7 @@ export const menu = {
       icon: 'lock',
       processimport: '/process/process_import',
       process: '/process/process',
+      weldingseam: '/process/welding_seam',
       broughtinitems: '/process/bought_in_items',
       firstfeedingitems: '/process/first_feeding_items',
       cooperantitems: '/process/cooperant_items',
@@ -49,6 +50,16 @@ export const menu = {
       brought_in: '/inventory/brought_in',
       auxiliary: '/inventory/auxiliary',
       basic_data: '/inventory/basic_data'
+    },
+    production: {
+      icon: 'appstore',
+      production_plan: '/production/production_plan',
+      ledgers: '/production/ledgers',
+      departments: '/production/departments',
+      query_work_hours: '/production/query_work_hours',
+      task_plan_date: `/production/task_plan_date/?allocation_status=${false}&confirm_status=${false}`,
+      task_allocation: `/production/task_allocation/?plan_status=${true}&confirm_status=${false}`,
+      task_confirm: `/production/task_confirm/?allocation_status=${true}`
     }
   }
 }

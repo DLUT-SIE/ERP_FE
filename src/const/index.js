@@ -158,6 +158,13 @@ export const PROCESS_ROUTE_LIST = [
     label: 'D'
   }
 ]
+
+export const TASK_PLAN_STATUS = [
+  { value: 'true',
+    label: '已完成' },
+  { value: 'false',
+    label: '未完成' }
+]
 export const TRANSFERCARD_CATEGORY_LIST = [
   {
     value: '0',
@@ -197,43 +204,51 @@ export const MATERIAL_CATEGORY = [
 
 export const WELD_POSITION_LIST = [
   {
-    value: 'FLUSH_WELD',
+    value: 0,
     label: '平焊'
   },
   {
-    value: 'HORIZONTAL_WELD',
+    value: 1,
     label: '横焊'
   },
   {
-    value: 'OVERHEAD_WELD',
+    value: 2,
     label: '仰焊'
   },
   {
-    value: 'VERTICAL_WELD',
+    value: 3,
     label: '立向上焊'
   },
   {
-    value: 'WIDE_WELD',
+    value: 4,
     label: '全位置焊'
   }
 ]
 
 export const WELD_METHOD_LIST = [
   {
-    value: 'SMAW',
+    value: 0,
     label: '焊条电弧焊'
   },
   {
-    value: 'SAW',
+    value: 1,
     label: '埋弧焊'
   },
   {
-    value: 'GMAW',
+    value: 2,
     label: '气体保护焊'
   },
   {
-    value: 'GTAW',
+    value: 3,
     label: '氩弧焊'
+  }
+]
+export const PRODUCTION_STATUS = [
+  { value: 1,
+    label: '必保' },
+  {
+    value: 0,
+    label: '在制'
   }
 ]
 
@@ -249,6 +264,13 @@ export const DETAILED_TABLE_CATEGORY_MAP = {
   '焊材明细表': 8,
   '流转卡表': 9,
   '工艺库表': 10
+}
+export const PROCESS_DETAIL_STATUS = {
+  NOT_PLAN: 0,
+  PLANED: 1,
+  ALLOCATION: 2,
+  CONFIRMED: 3,
+  INSPECTED: 4
 }
 
 export const MATERIAL_CATEGORY_MAP = {
@@ -664,6 +686,111 @@ export const COLUMNS = {
     key: 'pretty_status',
     dataIndex: 'pretty_status'
   },
+  weld_uid: {
+    title: '焊缝编号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
+  seam_type: {
+    title: '焊缝类型',
+    key: 'seam_type',
+    dataIndex: 'seam_type'
+  },
+  weld_method: {
+    title: '焊接方法',
+    key: 'weld_method',
+    dataIndex: 'weld_method'
+  },
+  length: {
+    title: '焊缝长度',
+    key: 'length',
+    dataIndex: 'length'
+  },
+  bm_1: {
+    title: '母材材质1',
+    key: 'bm_1',
+    dataIndex: 'bm_1'
+  },
+  bm_thick_1: {
+    title: '母材厚度1',
+    key: 'bm_thick_1',
+    dataIndex: 'bm_thick_1'
+  },
+  wm_1: {
+    title: '焊丝/焊条1',
+    key: 'wm_1',
+    dataIndex: 'wm_1'
+  },
+  ws_1: {
+    title: '规格1',
+    key: 'ws_1',
+    dataIndex: 'ws_1'
+  },
+  wt_1: {
+    title: '焊材厚度1',
+    key: 'wt_1',
+    dataIndex: 'wt_1'
+  },
+  weight_1: {
+    title: '焊材重量1',
+    key: 'weight_1',
+    dataIndex: 'weight_1'
+  },
+  wf_1: {
+    title: '焊剂1',
+    key: 'wf_1',
+    dataIndex: 'wf_1'
+  },
+  wf_weight_1: {
+    title: '焊剂重量1',
+    key: 'wf_weight_1',
+    dataIndex: 'wf_weight_1'
+  },
+  bm_2: {
+    title: '母材材质2',
+    key: 'bm_2',
+    dataIndex: 'bm_2'
+  },
+  bm_thick_2: {
+    title: '母材厚度2',
+    key: 'bm_thick_2',
+    dataIndex: 'bm_thick_2'
+  },
+  wm_2: {
+    title: '焊丝/焊条2',
+    key: 'wm_2',
+    dataIndex: 'wm_2'
+  },
+  ws_2: {
+    title: '规格2',
+    key: 'ws_2',
+    dataIndex: 'ws_2'
+  },
+  wt_2: {
+    title: '焊材厚度2',
+    key: 'wt_2',
+    dataIndex: 'wt_2'
+  },
+  weight_2: {
+    title: '焊材重量2',
+    key: 'weight_2',
+    dataIndex: 'weight_2'
+  },
+  wf_2: {
+    title: '焊剂2',
+    key: 'wf_2',
+    dataIndex: 'wf_2'
+  },
+  wf_weight_2: {
+    title: '焊剂重量2',
+    key: 'wf_weight_2',
+    dataIndex: 'wf_weight_2'
+  },
+  add: {
+    title: '添加',
+    key: 'add',
+    dataIndex: 'add'
+  },
   material_name_in_quota: {
     title: '材质',
     key: 'material_name',
@@ -784,6 +911,91 @@ export const COLUMNS = {
     title: '材料类别',
     key: 'pretty_category',
     dataIndex: 'pretty_category'
+  },
+  delivery_dt: {
+    title: '交货日期',
+    key: 'delivery_dt',
+    dataIndex: 'delivery_dt'
+  },
+  product: {
+    title: '产品名称',
+    key: 'product',
+    dataIndex: 'product'
+  },
+  production_count: {
+    title: '数量（台数）',
+    key: 'count',
+    dataIndex: 'count'
+  },
+  output_value: {
+    title: '产值（万元）',
+    key: 'output_value',
+    dataIndex: 'output_value'
+  },
+  output: {
+    title: '产量（吨）',
+    key: 'output',
+    dataIndex: 'output'
+  },
+  plan_dt: {
+    title: '计划年月',
+    key: 'plan_dt',
+    dataIndex: 'plan_dt'
+  },
+  work_order: {
+    title: '工作令',
+    key: 'work_order',
+    dataIndex: 'work_order'
+  },
+  remarks: {
+    title: '备注',
+    key: 'remarks',
+    dataIndex: 'remarks'
+  },
+  status_description: {
+    title: '状态',
+    key: 'status_description',
+    dataIndex: 'status_description'
+  },
+  material_index: {
+    title: '工作票号',
+    key: 'material_index',
+    dataIndex: 'material_index'
+  },
+  process_id: {
+    title: '工序编号',
+    key: 'process_id',
+    dataIndex: 'process_id'
+  },
+  process_name: {
+    title: '工序',
+    key: 'process_name',
+    dataIndex: 'process_name'
+  },
+  work_hour: {
+    title: '工时',
+    key: 'work_hour',
+    dataIndex: 'work_hour'
+  },
+  estimated_start_dt: {
+    title: '计划开始时间',
+    key: 'estimated_start_dt',
+    dataIndex: 'estimated_start_dt'
+  },
+  estimated_finish_dt: {
+    title: '计划结束时间',
+    key: 'estimated_finish_dt',
+    dataIndex: 'estimated_finish_dt'
+  },
+  work_group_list: {
+    title: '分配组',
+    key: 'work_group_list',
+    dataIndex: 'work_group_list'
+  },
+  work_group_name: {
+    title: '分配组',
+    key: 'work_group_name',
+    dataIndex: 'work_group_name'
   },
   material_name_welding: {
     title: '牌号',

@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
 import { Form, Button, DatePicker } from 'antd'
 import './FilterBar.less'
 import moment from 'moment'
+import { makeFields } from 'utils'
 
 const FormItem = Form.Item
 
@@ -73,21 +73,6 @@ FilterBar.propTypes = {
   form: PropTypes.object.isRequired,
   onSearch: PropTypes.func.isRequired,
   onAddClick: PropTypes.func.isRequired
-}
-
-let makeFields = function (fieldsValue) {
-  let result = {}
-  _.forEach(fieldsValue, (value, key) => {
-    result[key] = { value }
-    if (key === 'create_dt_start' || key === 'create_dt_end') {
-      if (value) {
-        result[key] = {
-          value: moment(value, 'YYYY-MM-DD')
-        }
-      }
-    }
-  })
-  return result
 }
 
 const WrappedForm = Form.create({

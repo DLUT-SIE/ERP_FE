@@ -15,7 +15,7 @@ const WELDING_ADD_LIBRARY_DATA = 'WELDING_ADD_LIBRARY_DATA'
 const WELDING_GET_MATERIALS_DATA = 'WELDING_GET_MATERIALS_DATA'
 const WELDING_ADD_MATERIALS_DATA = 'WELDING_ADD_MATERIALS_DATA'
 const WELDING_RESET_DATA = 'WELDING_RESET_DATA'
-const WELDING_CHANGE_MODAL_DATA = 'WELDING_CHANGE_MODAL_DATA'
+const WELDING_CHANGE_MODAL = 'WELDING_CHANGE_MODAL'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -73,7 +73,7 @@ function resetDataAction (payload = {}) {
 
 function changeModalAction (payload = {}) {
   return {
-    type    : WELDING_CHANGE_MODAL_DATA,
+    type    : WELDING_CHANGE_MODAL,
     payload : payload
   }
 }
@@ -148,7 +148,7 @@ export default function WeldingQuota (state = initialState, action) {
         list: []
       })
     },
-    WELDING_CHANGE_MODAL_DATA () {
+    WELDING_CHANGE_MODAL () {
       return state.mergeIn(['modal'], action.payload)
     }
   }

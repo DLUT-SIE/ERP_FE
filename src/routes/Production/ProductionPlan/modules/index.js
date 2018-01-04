@@ -7,8 +7,9 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const PENDING_GET_LIST_DATA = 'PENDING_GET_LIST_DATA'
-const PENDING_ADD_LIST_DATA = 'PENDING_ADD_LIST_DATA'
+const PRODUCTION_PLAN_GET_LIST_DATA = 'PRODUCTION_PLAN_GET_LIST_DATA'
+const PRODUCTION_PLAN_ADD_LIST_DATA = 'PRODUCTION_PLAN_ADD_LIST_DATA'
+const PRODUCTION_PLAN_CHANGE_MODAL_DATA = 'PRODUCTION_PLAN_CHANGE_MODAL_DATA'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -17,21 +18,28 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : PENDING_GET_LIST_DATA,
+    type    : PRODUCTION_PLAN_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : PENDING_ADD_LIST_DATA,
+    type    : PRODUCTION_PLAN_ADD_LIST_DATA,
+    payload : payload
+  }
+}
+function changeModalAction (payload = {}) {
+  return {
+    type    : PRODUCTION_PLAN_CHANGE_MODAL_DATA,
     payload : payload
   }
 }
 
 export const actions = {
   getListDataAction,
-  addListDataAction
+  addListDataAction,
+  changeModalAction
 }
 
 // ------------------------------------
@@ -41,12 +49,15 @@ var initialState = Immutable.fromJS({
   loading: false,
   pagination: {
     pageSize: 10
+  },
+  modal: {
+    visible: false
   }
 })
 
-export default function PendingOrder (state = initialState, action) {
+export default function ProductionPlan (state = initialState, action) {
   var map = {
-    PENDING_GET_LIST_DATA () {
+    PRODUCTION_PLAN_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -57,15 +68,17 @@ export default function PendingOrder (state = initialState, action) {
         'loading', true
       )
     },
-    PENDING_ADD_LIST_DATA () {
-      let { list } = action.payload
+    PRODUCTION_PLAN_ADD_LIST_DATA () {
+      let { data } = action.payload
       return state.mergeIn(
-        ['pagination'],
-        /* { total: list.count } */
+        ['pagination'], { total: data.count }
       ).merge({
-        list: list,
+        list: data.results,
         loading: false
       })
+    },
+    PRODUCTION_PLAN_CHANGE_MODAL_DATA () {
+      return state.mergeIn(['modal'], action.payload)
     }
   }
 
@@ -82,13 +95,11 @@ export default function PendingOrder (state = initialState, action) {
 
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(PENDING_GET_LIST_DATA)
+    const { payload = {} } = yield take(PRODUCTION_PLAN_GET_LIST_DATA)
     const { callback, params } = payload
-    const [ list ] = yield [
-      call(fetchAPI, apis.getPendingOrderList, params)
-    ]
-    callback && callback(list.order_id)
-    yield put(addListDataAction({ list: list.order_id }))
+    const data = yield call(fetchAPI, apis.ProductionAPI.getProductionPlan, params)
+    callback && callback(data)
+    yield put(addListDataAction({ data: data }))
   }
 }
 

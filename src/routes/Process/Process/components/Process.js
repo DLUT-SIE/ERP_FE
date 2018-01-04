@@ -13,7 +13,7 @@ import FilterBar from 'components/WorkOrderFilterBar'
 import CustomTable from 'components/CustomTable'
 import TableInfo from './TableInfo'
 import RouteModal from './RouteModal'
-import WeldModal from './WeldModal'
+import WeldingSeamModal from 'components/WeldingSeamModal'
 import CardModal from './CreateTransferCardModal'
 import './Process.less'
 
@@ -26,17 +26,15 @@ class ProcessImport extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      title: '',
-      label: '',
-      routeVisible: false,
-      number: 0,
-      prefix: '',
       selectList: []
     }
     this._columns = this.buildColumns()
   }
 
   componentDidMount () {
+    this.props.getMaterialsAction({
+      params: {}
+    })
     const query = this._query()
     if (query.work_order_uid !== undefined) {
       this.props.getLibraryDataAction({
@@ -118,7 +116,7 @@ class ProcessImport extends React.Component {
               type='primary'
               size='small'
               data-id={record.id}
-              onClick={this.handleOpenWeldModal}
+              onClick={this.handleOpenWeldingSeamModal}
             >
               添加
             </Button>
@@ -309,24 +307,6 @@ class ProcessImport extends React.Component {
     })
   }
 
-  handleOpenWeldModal = (e) => {
-    const { id } = e.target.dataset
-    this.props.changeWeldModalAction({
-      id: +id,
-      visible: true
-    })
-  }
-
-  handleCloseWeldModal = () => {
-    this.props.changeWeldModalAction({
-      visible: false
-    })
-  }
-
-  handleSaveWeld = (fieldsValue) => {
-    console.log('handleSaveWeld', fieldsValue)
-  }
-
   handleOpenCardModal = (e) => {
     const { id } = e.currentTarget.dataset
     this.props.changeCardModalAction({
@@ -354,6 +334,33 @@ class ProcessImport extends React.Component {
     })
   }
 
+  handleOpenWeldingSeamModal = (e) => {
+    const { id } = e.target.dataset
+    this.props.changeWeldModalAction({
+      id: +id,
+      visible: true,
+      fieldsValue: {}
+    })
+  }
+
+  handleCloseWeldingSeamModal = () => {
+    this.props.changeWeldModalAction({
+      visible: false
+    })
+  }
+
+  handleSaveWeld = (weldSeamId, fieldsValue) => {
+    const mydata = this.props.status.toJS()
+    const weldingSeamModal = _.get(mydata, 'weldingSeamModal', {})
+    fetchAPI(apis.ProcessAPI.addWeldingSeam, {
+      process_material: weldingSeamModal.id,
+      ...fieldsValue
+    }).then((repos) => {
+      message.success('添加成功！')
+      this.handleCloseWeldingSeamModal()
+    })
+  }
+
   render () {
     const { status, location } = this.props
     const query = QueryString.parse(location.search)
@@ -362,8 +369,10 @@ class ProcessImport extends React.Component {
     const loading = _.get(mydata, 'loading')
     const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
     const routeModal = _.get(mydata, 'routeModal', {})
-    const weldModal = _.get(mydata, 'weldModal', {})
+    const weldingSeamModal = _.get(mydata, 'weldingSeamModal', {})
     const cardModal = _.get(mydata, 'cardModal', {})
+    const weldingMaterials = _.get(mydata, 'weldingMaterials', {})
+    const fluxMaterials = _.get(mydata, 'fluxMaterials', {})
     return (
       <div className='process'>
         <FilterBar
@@ -403,18 +412,21 @@ class ProcessImport extends React.Component {
             onChange={this.handleChange}
           />
         }
-        { weldModal.visible &&
-          <WeldModal
-            {...weldModal}
-            onOk={this.handleSaveWeld}
-            onCancel={this.handleCloseWeldModal}
-          />
-        }
         { cardModal.visible &&
           <CardModal
             {...cardModal}
             onOk={this.handleCreateTransferCard}
             onCancel={this.handleCloseCardModal}
+          />
+        }
+        { weldingSeamModal.visible &&
+          <WeldingSeamModal
+            {...weldingSeamModal}
+            fieldsValue={{}}
+            weldingMaterials={weldingMaterials}
+            fluxMaterials={fluxMaterials}
+            onOk={this.handleSaveWeld}
+            onCancel={this.handleCloseWeldingSeamModal}
           />
         }
       </div>
@@ -428,6 +440,7 @@ ProcessImport.propTypes = {
   status: PropTypes.object.isRequired,
   getListDataAction: PropTypes.func.isRequired,
   getLibraryDataAction: PropTypes.func.isRequired,
+  getMaterialsAction: PropTypes.func.isRequired,
   resetDataAction: PropTypes.func.isRequired,
   changeRouteModalAction: PropTypes.func.isRequired,
   changeWeldModalAction: PropTypes.func.isRequired,

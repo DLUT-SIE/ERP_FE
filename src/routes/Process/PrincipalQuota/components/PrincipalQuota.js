@@ -27,6 +27,9 @@ class PrincipalQuota extends React.Component {
   }
 
   componentDidMount () {
+    this.props.getMaterialsAction({
+      params: {}
+    })
     const query = this._query()
     if (query.work_order_uid !== undefined) {
       this.props.getLibraryDataAction({
@@ -37,9 +40,6 @@ class PrincipalQuota extends React.Component {
       })
       this.props.getListDataAction({
         params: query
-      })
-      this.props.getMaterialsAction({
-        params: {}
       })
     }
   }
@@ -158,7 +158,7 @@ class PrincipalQuota extends React.Component {
     this.fetchPrincipalQuota(list[index].id, (repos) => {
       changeModalAction({
         visible: true,
-        index: +index,
+        index,
         fieldsValue: repos
       })
     })
