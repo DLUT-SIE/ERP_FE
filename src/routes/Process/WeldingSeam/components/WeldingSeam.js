@@ -250,7 +250,6 @@ class WeldingSeam extends React.Component {
           <Button
             className='check-btn'
             type='primary'
-            size='large'
             onClick={this.handleOpenAddModal}
           >
             查看焊接工艺规程
@@ -272,7 +271,7 @@ class WeldingSeam extends React.Component {
           loading={loading}
           pagination={pagination}
           size='middle'
-          scroll={{ x: 2000 }}
+          scroll={{ x: 2500 }}
           onChange={this.handleChangeTable}
         />
         { weldingSeamModal.visible &&

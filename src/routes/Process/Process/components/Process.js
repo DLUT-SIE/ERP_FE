@@ -384,7 +384,6 @@ class ProcessImport extends React.Component {
           <Button
             className='transfercard-btn'
             type='primary'
-            size='large'
           >
             <Link to={`/process/process/transfer_card/?work_order_uid=${workOrderInfo.work_order_uid}&name=${workOrderInfo.name}`}>
               查看流转卡列表
