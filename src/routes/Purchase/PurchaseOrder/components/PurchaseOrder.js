@@ -3,15 +3,16 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
-import fetchAPI from 'api'
-import { apis } from 'api/config'
-import { Button, Popconfirm, message } from 'antd'
+// import fetchAPI from 'api'
+// import { apis } from 'api/config'
+import { Button } from 'antd'
 
-import FilterBar from './FilterBar.js'
+import PurchaseOrderInfo from './PurchaseOrderInfo'
 import CustomTable from 'components/CustomTable'
 
 const columns = [
-  'uid', 'create_date', 'action'
+  'uid', 'ticket_number', 'name_and_spec', 'drawing_number', 'material', 'count',
+  'piece_weight', 'total_weight', 'remark', 'order_status', 'action'
 ]
 
 class PurchaseOrder extends React.Component {
@@ -19,6 +20,7 @@ class PurchaseOrder extends React.Component {
     super(props)
     this.state = {}
     this._columns = this.buildColumns()
+    this._id = QueryString.parse(props.location.search).id
   }
 
   componentDidMount () {
@@ -29,56 +31,24 @@ class PurchaseOrder extends React.Component {
 
   buildColumns () {
     return util.buildColumns(columns, {
+      name_and_spec: {
+        render: (text, record, index) => {
+          return `${record.name}/${record.spec}`
+        }
+      },
       action: {
         render: (text, record, index) => {
           return (
-            <div>
-              <Button
-                type='primary'
-                size='small'
-                data-id={record.id}
-              >
-                查看
-              </Button>
-              <span className='ant-divider' />
-              <Popconfirm
-                title='确定删除吗？'
-                onConfirm={this.handleDelete(record.id)}
-                okText='确定'
-                cancelText='取消'
-              >
-                <Button
-                  type='danger'
-                  size='small'
-                >
-                  删除
-                </Button>
-              </Popconfirm>
-            </div>
+            <Button
+              type='primary'
+              size='small'
+              data-id={record.id}
+            >
+              修改
+            </Button>
           )
         }
       }
-    })
-  }
-
-  handleDelete = (id) => {
-    return (e) => {
-      const { url, method } = apis.PurchaseAPI.deletePurchaseOrder
-      const api = {
-        url: url(id),
-        method
-      }
-      fetchAPI(api, { id: id }).then((repos) => {
-        message.success('删除成功！')
-        this.updatelist()
-      })
-    }
-  }
-
-  handleSearch = (searchValue) => {
-    this.updateQuery({
-      page: 1,
-      ...searchValue
     })
   }
 
@@ -119,17 +89,15 @@ class PurchaseOrder extends React.Component {
   }
 
   render () {
-    const { status, location } = this.props
-    const query = QueryString.parse(location.search)
-    const mydata = status.toJS()
+    const mydata = this.props.status.toJS()
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
+    const purchaseOrderInfo = _.get(mydata, 'purchaseOrderInfo', {})
     return (
       <div>
-        <FilterBar
-          fieldsValue={query}
-          onSearch={this.handleSearch}
+        <PurchaseOrderInfo
+          fieldsValue={purchaseOrderInfo}
         />
         <CustomTable
           dataSource={list}

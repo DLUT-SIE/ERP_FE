@@ -9,6 +9,7 @@ import { apis } from 'api/config'
 
 const PURCHASEORDER_GET_LIST_DATA = 'PURCHASEORDER_GET_LIST_DATA'
 const PURCHASEORDER_ADD_LIST_DATA = 'PURCHASEORDER_ADD_LIST_DATA'
+const PAGE_SIZE = 10
 
 // ------------------------------------
 // Actions
@@ -46,16 +47,23 @@ var initialState = Immutable.fromJS({
 export default function PurchaseOrder (state = initialState, action) {
   var map = {
     PURCHASEORDER_GET_LIST_DATA () {
-      return state.set(
+      let { params = {} } = action.payload
+      return state.mergeIn(
+        ['pagination'], {
+          current: +(params.page || 1),
+          pageSize: +(params.limit || PAGE_SIZE)
+        }
+      ).set(
         'loading', true
       )
     },
     PURCHASEORDER_ADD_LIST_DATA () {
       let { data } = action.payload
-      const { results } = data
-      return state.merge({
-        list: results,
-        loading: false
+      return state.mergeIn(
+        ['pagination'], { total: data.total }
+      ).merge({
+        loading: false,
+        list: data.results
       })
     }
   }
@@ -78,7 +86,7 @@ export function *getListSaga (type, body) {
     const [ data ] = yield [
       call(fetchAPI, apis.PurchaseAPI.getPurchaseOrders, params)
     ]
-    callback && callback(data.results)
+    callback && callback(data)
     yield put(addListDataAction({ data }))
   }
 }
