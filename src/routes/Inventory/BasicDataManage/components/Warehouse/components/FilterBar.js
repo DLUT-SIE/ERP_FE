@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { Form, Button, Input } from 'antd'
 import './FilterBar.less'
-import moment from 'moment'
 import { MATERIAL_CATEGORY } from 'const/index'
 import CustomSelect from 'components/CustomSelect'
 
@@ -85,16 +84,9 @@ FilterBar.propTypes = {
 let makeFields = function (fieldsValue) {
   let result = {}
   _.forEach(fieldsValue, (value, key) => {
-    result[key] = { value }
-    if (key === 'create_dt_start' || key === 'create_dt_end') {
-      if (value) {
-        result[key] = {
-          value: moment(value, 'YYYY-MM-DD')
-        }
-      }
-    }
+    result[key] = Form.createFormField({ value })
     if (key === 'category') {
-      result[key] = 0
+      result[key] = Form.createFormField({ value: 0 })
     }
   })
   return result

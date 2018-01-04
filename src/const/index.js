@@ -158,6 +158,13 @@ export const PROCESS_ROUTE_LIST = [
     label: 'D'
   }
 ]
+
+export const TASK_PLAN_STATUS = [
+  { value: 'true',
+    label: '已完成' },
+  { value: 'false',
+    label: '未完成' }
+]
 export const TRANSFERCARD_CATEGORY_LIST = [
   {
     value: '0',
@@ -236,6 +243,14 @@ export const WELD_METHOD_LIST = [
     label: '氩弧焊'
   }
 ]
+export const PRODUCTION_STATUS = [
+  { value: 1,
+    label: '必保' },
+  {
+    value: 0,
+    label: '在制'
+  }
+]
 
 export const DETAILED_TABLE_CATEGORY_MAP = {
   '辅材定额明细表': 0,
@@ -249,6 +264,13 @@ export const DETAILED_TABLE_CATEGORY_MAP = {
   '焊材明细表': 8,
   '流转卡表': 9,
   '工艺库表': 10
+}
+export const PROCESS_DETAIL_STATUS = {
+  NOT_PLAN: 0,
+  PLANED: 1,
+  ALLOCATION: 2,
+  CONFIRMED: 3,
+  INSPECTED: 4
 }
 
 export const MATERIAL_CATEGORY_MAP = {
@@ -751,6 +773,91 @@ export const COLUMNS = {
     title: '材料类别',
     key: 'pretty_category',
     dataIndex: 'pretty_category'
+  },
+  delivery_dt: {
+    title: '交货日期',
+    key: 'delivery_dt',
+    dataIndex: 'delivery_dt'
+  },
+  product: {
+    title: '产品名称',
+    key: 'product',
+    dataIndex: 'product'
+  },
+  production_count: {
+    title: '数量（台数）',
+    key: 'count',
+    dataIndex: 'count'
+  },
+  output_value: {
+    title: '产值（万元）',
+    key: 'output_value',
+    dataIndex: 'output_value'
+  },
+  output: {
+    title: '产量（吨）',
+    key: 'output',
+    dataIndex: 'output'
+  },
+  plan_dt: {
+    title: '计划年月',
+    key: 'plan_dt',
+    dataIndex: 'plan_dt'
+  },
+  work_order: {
+    title: '工作令',
+    key: 'work_order',
+    dataIndex: 'work_order'
+  },
+  remarks: {
+    title: '备注',
+    key: 'remarks',
+    dataIndex: 'remarks'
+  },
+  status_description: {
+    title: '状态',
+    key: 'status_description',
+    dataIndex: 'status_description'
+  },
+  material_index: {
+    title: '工作票号',
+    key: 'material_index',
+    dataIndex: 'material_index'
+  },
+  process_id: {
+    title: '工序编号',
+    key: 'process_id',
+    dataIndex: 'process_id'
+  },
+  process_name: {
+    title: '工序',
+    key: 'process_name',
+    dataIndex: 'process_name'
+  },
+  work_hour: {
+    title: '工时',
+    key: 'work_hour',
+    dataIndex: 'work_hour'
+  },
+  estimated_start_dt: {
+    title: '计划开始时间',
+    key: 'estimated_start_dt',
+    dataIndex: 'estimated_start_dt'
+  },
+  estimated_finish_dt: {
+    title: '计划结束时间',
+    key: 'estimated_finish_dt',
+    dataIndex: 'estimated_finish_dt'
+  },
+  work_group_list: {
+    title: '分配组',
+    key: 'work_group_list',
+    dataIndex: 'work_group_list'
+  },
+  work_group_name: {
+    title: '分配组',
+    key: 'work_group_name',
+    dataIndex: 'work_group_name'
   },
   material_name_welding: {
     title: '牌号',
