@@ -6,7 +6,7 @@ import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 import { DETAILED_TABLE_CATEGORY_MAP } from 'const'
-import { Button, Popconfirm, message } from 'antd'
+import { Button, Popconfirm, message, Divider } from 'antd'
 
 import FilterBar from 'components/WorkOrderFilterBar'
 import CustomTable from 'components/CustomTable'
@@ -63,7 +63,7 @@ class PrincipalQuota extends React.Component {
               >
                 编辑
               </Button>
-              <span className='ant-divider' />
+              <Divider type='vertical' />
               <Popconfirm
                 title='确定删除吗？'
                 onConfirm={this.handleDelete(record.id)}
@@ -270,7 +270,6 @@ class PrincipalQuota extends React.Component {
           <Button
             className='add-btn'
             type='primary'
-            size='large'
             onClick={this.handleOpenAddModal}
           >
             添加

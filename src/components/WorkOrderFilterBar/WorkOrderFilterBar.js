@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
+import { makeFields } from 'utils'
 import { Form, Input, Button } from 'antd'
 import './WorkOrderFilterBar.less'
 
@@ -59,14 +59,6 @@ WorkOrderFilterBar.propTypes = {
   form: PropTypes.object.isRequired,
   className: PropTypes.string,
   onSearch: PropTypes.func.isRequired
-}
-
-let makeFields = function (fieldsValue) {
-  let result = {}
-  _.forEach(fieldsValue, (value, key) => {
-    result[key] = { value }
-  })
-  return result
 }
 
 const WrappedForm = Form.create({
