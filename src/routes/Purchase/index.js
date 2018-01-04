@@ -8,6 +8,11 @@ import _ from 'lodash'
 
 const childRoutes = [
   {
+    path: 'purchase_order_management/purchase_order',
+    breadcrumbName: '订购单',
+    component: PurchaseOrder
+  },
+  {
     path: 'material',
     breadcrumbName: '物料汇总',
     component: MaterialSummary
@@ -21,11 +26,6 @@ const childRoutes = [
     path: 'purchase_order_management',
     breadcrumbName: '订购单管理',
     component: PurchaseOrderManagement
-  },
-  {
-    path: 'purchase_order',
-    breadcrumbName: '订购单',
-    component: PurchaseOrder
   }
 ]
 

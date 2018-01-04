@@ -1007,14 +1007,49 @@ export const COLUMNS = {
     key: 'sub_order',
     dataIndex: 'sub_order'
   },
-  name_and_spec: {
-    title: '名称及规格',
-    key: 'name_and_spec',
-    dataIndex: 'name_and_spec'
+  ticket_number_order: {
+    title: '票号',
+    key: 'process_material.ticket_number',
+    dataIndex: 'process_material.ticket_number'
   },
-  order_status: {
-    title: '状态',
-    key: 'order_status',
-    dataIndex: 'order_status'
+  name_order: {
+    title: '名称',
+    key: 'process_material.name',
+    dataIndex: 'process_material.name'
+  },
+  spec_order: {
+    title: '名称及规格',
+    key: 'process_material.spec',
+    dataIndex: 'process_material.spec'
+  },
+  drawing_number_order: {
+    title: '图号',
+    key: 'process_material.drawing_number',
+    dataIndex: 'process_material.drawing_number'
+  },
+  material_order: {
+    title: '材质',
+    key: 'process_material.material',
+    dataIndex: 'process_material.material'
+  },
+  count_order: {
+    title: '数量',
+    key: 'process_material.count',
+    dataIndex: 'process_material.count'
+  },
+  piece_weight_order: {
+    title: '单重',
+    key: 'process_material.piece_weight',
+    dataIndex: 'process_material.piece_weight'
+  },
+  total_weight_order: {
+    title: '总重',
+    key: 'process_material.total_weight',
+    dataIndex: 'process_material.total_weight'
+  },
+  remark_order: {
+    title: '备注',
+    key: 'process_material.remark',
+    dataIndex: 'process_material.remark'
   }
 }

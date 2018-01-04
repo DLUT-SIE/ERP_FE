@@ -86,7 +86,7 @@ const config = {
             "name": "物料汇总",
             "children": [],
         }, {
-            "code": "menu.purchase.purchaseorder",
+            "code": "menu.purchase.purchaseordermanagement",
             "name": "订购单管理",
             "children": []
         }],
