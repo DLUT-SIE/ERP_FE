@@ -22,5 +22,9 @@ export default {
   updateProcurementMaterial: {
     url: (id) => (`/api/procurement_materials/${id}/`),
     method: 'PATCH'
+  },
+  mergeMaterials: {
+    url: '/api/merge_materials/',
+    method: 'POST'
   }
 }

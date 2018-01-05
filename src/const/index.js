@@ -1018,7 +1018,7 @@ export const COLUMNS = {
     dataIndex: 'process_material.name'
   },
   spec_order: {
-    title: '名称及规格',
+    title: '规格',
     key: 'process_material.spec',
     dataIndex: 'process_material.spec'
   },
@@ -1043,13 +1043,18 @@ export const COLUMNS = {
     dataIndex: 'process_material.piece_weight'
   },
   total_weight_order: {
-    title: '总重',
-    key: 'process_material.total_weight',
-    dataIndex: 'process_material.total_weight'
+    title: '采购(Kg)',
+    key: 'total_weight',
+    dataIndex: 'total_weight'
   },
   remark_order: {
     title: '备注',
     key: 'process_material.remark',
     dataIndex: 'process_material.remark'
+  },
+  finished: {
+    title: '是否结束',
+    key: 'finished',
+    dataIndex: 'finished'
   }
 }

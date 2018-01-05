@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
+import util from 'utils'
 import moment from 'moment'
 import { Modal, Row, Col, Form, DatePicker } from 'antd'
 
@@ -33,7 +34,7 @@ class EditModal extends React.Component {
         return
       }
       onOk && onOk(fieldsValue.id, {
-        delivery_dt: values.delivery_dt && moment(fieldsValue.delivery_dt).format('YYYY-MM-DD')
+        delivery_dt: values.delivery_dt && moment(values.delivery_dt).format('YYYY-MM-DDThh:mm')
       })
     })
   }
@@ -56,7 +57,11 @@ class EditModal extends React.Component {
               <FormItem label='交货日期' {...formItemLayout}>
                 {
                   getFieldDecorator('delivery_dt', fieldsConfig['delivery_dt'])(
-                    <DatePicker format={dateFormat} placeholder='请选择交货日期' />
+                    <DatePicker
+                      format={dateFormat}
+                      placeholder='请选择交货日期'
+                      disabledDate={util.disabledDate}
+                    />
                   )
                 }
               </FormItem>
