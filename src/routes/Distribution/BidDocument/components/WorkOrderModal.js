@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { SELL_TYPE_LIST } from 'const'
 import { Form, Modal, Input } from 'antd'
-import _ from 'lodash'
+import { makeFields } from 'utils'
 
 import CustomSelect from 'components/CustomSelect'
 import './WorkOrderModal.less'
@@ -120,14 +120,6 @@ WorkOrderModal.propTypes = {
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
   form: PropTypes.object
-}
-
-let makeFields = function (fieldsValue) {
-  let result = {}
-  _.forEach(fieldsValue, (value, key) => {
-    result[key] = { value }
-  })
-  return result
 }
 
 const WrappedForm = Form.create({

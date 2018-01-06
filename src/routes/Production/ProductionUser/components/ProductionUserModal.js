@@ -73,7 +73,7 @@ class ProductionUserModal extends React.Component {
         >
           <FormItem label='用户名'{...formItemLayout} >
             {
-              <Input disabled value={this.state.first_name}/>
+              <Input disabled value={this.state.first_name} />
             }
           </FormItem>
           <FormItem label='所属工作组' {...formItemLayout}>

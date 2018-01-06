@@ -40,7 +40,6 @@ class AddBar extends React.Component {
         <FormItem>
           <Button
             type='primary'
-            size='large'
             htmlType='submit'
             onClick={this.handleSubmit}
           >
@@ -49,7 +48,6 @@ class AddBar extends React.Component {
         </FormItem>
         <FormItem>
           <Button
-            size='large'
             onClick={onQuickAdd}
           >
             快捷生成

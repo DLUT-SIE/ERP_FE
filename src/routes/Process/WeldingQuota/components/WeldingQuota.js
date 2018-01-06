@@ -6,7 +6,7 @@ import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 import { DETAILED_TABLE_CATEGORY_MAP } from 'const'
-import { Button, Popconfirm, message } from 'antd'
+import { Button, Popconfirm, message, Divider } from 'antd'
 
 import FilterBar from 'components/WorkOrderFilterBar'
 import CustomTable from 'components/CustomTable'
@@ -27,6 +27,7 @@ class WeldingQuota extends React.Component {
   }
 
   componentDidMount () {
+    this.props.getMaterialsAction({})
     const query = this._query()
     if (query.work_order_uid !== undefined) {
       this.props.getLibraryDataAction({
@@ -38,7 +39,6 @@ class WeldingQuota extends React.Component {
       this.props.getListDataAction({
         params: query
       })
-      this.props.getMaterialsAction({})
     }
   }
 
@@ -61,7 +61,7 @@ class WeldingQuota extends React.Component {
               >
                 编辑
               </Button>
-              <span className='ant-divider' />
+              <Divider type='vertical' />
               <Popconfirm
                 title='确定删除吗？'
                 onConfirm={this.handleDelete(record.id)}
@@ -259,7 +259,6 @@ class WeldingQuota extends React.Component {
     const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
     const modal = _.get(mydata, 'modal', {})
     const materials = _.get(mydata, 'materials', [])
-    console.log('render', workOrderInfo, list)
     return (
       <div className='welding-quota'>
         <FilterBar
@@ -272,7 +271,6 @@ class WeldingQuota extends React.Component {
             <Button
               style={{ marginRight: 15 }}
               type='primary'
-              size='large'
               onClick={this.handleOpenAddModal}
             >
               添加

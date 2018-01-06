@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
-import { Button, Upload, message } from 'antd'
+import { Button, Upload, message, Divider } from 'antd'
 import { Link } from 'react-router-dom'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
@@ -45,7 +45,7 @@ class ProcessImport extends React.Component {
                   查 看
                 </Link>
               </Button>
-              <span className='ant-divider' />
+              <Divider type='vertical' />
               <Upload
                 name='file'
                 accept='.xlsx, .xls, .xlsm'
@@ -60,7 +60,7 @@ class ProcessImport extends React.Component {
                   导入
                 </Button>
               </Upload>
-              <span className='ant-divider' />
+              <Divider type='vertical' />
               <Button
                 type='primary'
                 size='small'

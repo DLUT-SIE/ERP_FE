@@ -6,24 +6,26 @@ import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 import { DETAILED_TABLE_CATEGORY_MAP } from 'const'
-import { Button, Popconfirm, message, Divider } from 'antd'
+import { Button, Checkbox, message } from 'antd'
 
 import FilterBar from 'components/WorkOrderFilterBar'
 import CustomTable from 'components/CustomTable'
 import TableInfo from 'components/TableInfo'
-import PrincipalQuotaModal from './PrincipalQuotaModal'
-import './PrincipalQuota.less'
+import WeldingSeamModal from 'components/WeldingSeamModal'
+import './WeldingSeam.less'
 
 const columns = [
-  'size', 'count', 'weight', 'total_weight', 'material_name_in_quota', 'operative_norm', 'status', 'remark', 'action'
+  'add', 'part_drawing_number', 'uid', 'ticket_number', 'seam_type', 'weld_method', 'length', 'bm_1', 'bm_thick_1', 'wm_1',
+  'ws_1', 'wt_1', 'weight_1', 'wf_1', 'wf_weight_1', 'bm_2', 'bm_thick_2', 'wm_2', 'ws_2', 'wt_2', 'weight_2', 'wf_2',
+  'wf_weight_2', 'remark', 'action'
 ]
 
-class PrincipalQuota extends React.Component {
+class WeldingSeam extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
     this._columns = this.buildColumns()
-    this._category = DETAILED_TABLE_CATEGORY_MAP['主材定额明细表']
+    this._category = DETAILED_TABLE_CATEGORY_MAP['焊缝明细表']
   }
 
   componentDidMount () {
@@ -50,7 +52,29 @@ class PrincipalQuota extends React.Component {
 
   buildColumns () {
     return util.buildColumns(columns, {
+      add: {
+        fixed: 'left',
+        width: 100,
+        render: (text, record, index) => {
+          return record.status ? '已添加' : (
+            <Checkbox
+              onChange={this.handleChangeCheckbox(record.id)}
+            />
+          )
+        }
+      },
+      weld_method: {
+        render: (text, record, index) => {
+          return `${record.weld_method_1} + ${record.weld_method_2}`
+        }
+      },
+      remark: {
+        fixed: 'right',
+        width: 120
+      },
       action: {
+        fixed: 'right',
+        width: 120,
         render: (text, record, index) => {
           return (
             <span>
@@ -59,24 +83,10 @@ class PrincipalQuota extends React.Component {
                 size='small'
                 data-id={record.id}
                 data-index={index}
-                onClick={this.handleOpenEditModal}
+                onClick={this.handleOpenWeldingSeamModal}
               >
                 编辑
               </Button>
-              <Divider type='vertical' />
-              <Popconfirm
-                title='确定删除吗？'
-                onConfirm={this.handleDelete(record.id)}
-                okText='确定'
-                cancelText='取消'
-              >
-                <Button
-                  type='danger'
-                  size='small'
-                >
-                  删除
-                </Button>
-              </Popconfirm>
             </span>
           )
         }
@@ -84,24 +94,16 @@ class PrincipalQuota extends React.Component {
     })
   }
 
-  handleDelete = (id) => {
+  handleChangeCheckbox = (id) => {
     return (e) => {
-      const { url, method } = apis.ProcessAPI.deletePrincipalQuota
-      const api = {
-        url: url(id),
-        method
-      }
-      fetchAPI(api, {}).then((repos) => {
-        message.success('删除成功！')
-        this.props.getListDataAction({
-          params: this._query()
-        })
-      })
+      console.log('handleChangeCheckbox', e.target)
+      const { checked } = e.target
+      console.log('checked', checked)
     }
   }
 
-  fetchPrincipalQuota (id, cb) {
-    const { url, method } = apis.ProcessAPI.getPrincipalQuota
+  fetchWeldingSeam (id, cb) {
+    const { url, method } = apis.ProcessAPI.getWeldingSeam
     const api = {
       url: url(id),
       method
@@ -111,10 +113,10 @@ class PrincipalQuota extends React.Component {
     })
   }
 
-  handleOpenEditModal = (e) => {
+  handleOpenWeldingSeamModal = (e) => {
     const { id, index } = e.target.dataset
-    this.fetchPrincipalQuota(id, (repos) => {
-      this.props.changeModalAction({
+    this.fetchWeldingSeam(id, (repos) => {
+      this.props.changeWeldingSeamModalAction({
         visible: true,
         index: +index,
         fieldsValue: repos
@@ -122,26 +124,19 @@ class PrincipalQuota extends React.Component {
     })
   }
 
-  handleOpenAddModal = () => {
-    this.props.changeModalAction({
-      visible: true,
-      fieldsValue: {}
-    })
-  }
-
-  handleCloseModal = (e) => {
-    this.props.changeModalAction({
+  handleCloseWeldingSeamModal = (e) => {
+    this.props.changeWeldingSeamModalAction({
       visible: false
     })
   }
 
-  handleChangePrincipalQuota = (e) => {
+  handleChangeWeldingSeam = (e) => {
     const { type } = e.target.dataset
-    const { status, changeModalAction } = this.props
+    const { status, changeWeldingSeamModalAction } = this.props
     const mydata = status.toJS()
-    const modal = _.get(mydata, 'modal', [])
+    const weldingSeamModal = _.get(mydata, 'weldingSeamModal', [])
     const list = _.get(mydata, 'list', [])
-    let { index } = modal
+    let { index } = weldingSeamModal
     if (type === 'previous') {
       if (index === 0) {
         message.warning('本条已为当前页第一条！')
@@ -155,8 +150,9 @@ class PrincipalQuota extends React.Component {
       }
       index += 1
     }
-    this.fetchPrincipalQuota(list[index].id, (repos) => {
-      changeModalAction({
+    console.log('handleChangeWeldingSeam', list, index)
+    this.fetchWeldingSeam(list[index].id, (repos) => {
+      changeWeldingSeamModalAction({
         visible: true,
         index,
         fieldsValue: repos
@@ -164,34 +160,17 @@ class PrincipalQuota extends React.Component {
     })
   }
 
-  handleSave = (id, fieldsValue) => {
-    if (id) {
-      const { url, method } = apis.ProcessAPI.updatePincipalQuota
-      const api = {
-        url: url(id),
-        method
-      }
-      fetchAPI(api, fieldsValue).then((repos) => {
-        message.success('修改成功！')
-        this.handleCloseModal()
-        this.props.getListDataAction({
-          params: this._query()
-        })
-      })
-      return
+  handleSaveWeldingSeam = (id, fieldsValue) => {
+    const { url, method } = apis.ProcessAPI.updateWeldingSeam
+    const api = {
+      url: url(id),
+      method
     }
-    const mydata = this.props.status.toJS()
-    const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
-    fetchAPI(apis.ProcessAPI.addPincipalQuota, {
-      ...fieldsValue,
-      quota_list: workOrderInfo.id
-    }).then((repos) => {
-      message.success('添加成功！')
-      this.handleCloseModal()
+    fetchAPI(api, fieldsValue).then((repos) => {
+      message.success('修改成功！')
+      this.handleCloseWeldingSeamModal()
       this.props.getListDataAction({
-        params: this._query({
-          page: 1
-        })
+        params: this._query()
       })
     })
   }
@@ -257,24 +236,31 @@ class PrincipalQuota extends React.Component {
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
     const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
-    const materials = _.get(mydata, 'materials', {})
-    const modal = _.get(mydata, 'modal', {})
+    const weldingSeamModal = _.get(mydata, 'weldingSeamModal', {})
+    const weldingMaterials = _.get(mydata, 'weldingMaterials', {})
+    const fluxMaterials = _.get(mydata, 'fluxMaterials', {})
     return (
-      <div className='principal-quota'>
+      <div className='welding-seam'>
         <FilterBar
           className='filterbar'
           fieldsValue={query}
           onSearch={this.handleSearch}
         />
-        { workOrderInfo.id &&
+        <div className='add-btn'>
           <Button
-            className='add-btn'
+            className='check-btn'
             type='primary'
             onClick={this.handleOpenAddModal}
           >
-            添加
+            查看焊接工艺规程
           </Button>
-        }
+          <Button
+            size='large'
+            onClick={this.handleQuichAdd}
+          >
+            添加至焊接接头
+          </Button>
+        </div>
         <TableInfo
           fieldsValue={workOrderInfo}
         />
@@ -285,15 +271,17 @@ class PrincipalQuota extends React.Component {
           loading={loading}
           pagination={pagination}
           size='middle'
+          scroll={{ x: 2500 }}
           onChange={this.handleChangeTable}
         />
-        { modal.visible &&
-          <PrincipalQuotaModal
-            onOk={this.handleSave}
-            onCancel={this.handleCloseModal}
-            onChange={this.handleChangePrincipalQuota}
-            materials={materials}
-            {...modal}
+        { weldingSeamModal.visible &&
+          <WeldingSeamModal
+            {...weldingSeamModal}
+            weldingMaterials={weldingMaterials}
+            fluxMaterials={fluxMaterials}
+            onOk={this.handleSaveWeldingSeam}
+            onCancel={this.handleCloseWeldingSeamModal}
+            onChange={this.handleChangeWeldingSeam}
           />
         }
       </div>
@@ -301,15 +289,15 @@ class PrincipalQuota extends React.Component {
   }
 }
 
-PrincipalQuota.propTypes = {
+WeldingSeam.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   getLibraryDataAction: PropTypes.func.isRequired,
-  getListDataAction: PropTypes.func.isRequired,
   getMaterialsAction: PropTypes.func.isRequired,
   resetDataAction: PropTypes.func.isRequired,
-  changeModalAction: PropTypes.func.isRequired
+  getListDataAction: PropTypes.func.isRequired,
+  changeWeldingSeamModalAction: PropTypes.func.isRequired
 }
 
-export default PrincipalQuota
+export default WeldingSeam
