@@ -58,7 +58,8 @@ export const menu = {
       query_work_hours: '/production/query_work_hours',
       task_plan_date: `/production/task_plan_date/?allocation_status=${false}&confirm_status=${false}`,
       task_allocation: `/production/task_allocation/?plan_status=${true}&confirm_status=${false}`,
-      task_confirm: `/production/task_confirm/?allocation_status=${true}`
+      task_confirm: `/production/task_confirm/?allocation_status=${true}`,
+      production_users: '/production/production_users'
     }
   }
 }

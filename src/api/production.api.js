@@ -37,5 +37,25 @@ export default{
   getProductionWorkGroup: {
     url: '/api/production_work_groups/',
     method: 'GET'
+  },
+  getProductionUsers: {
+    url: '/api/production_users/',
+    method: 'GET'
+  },
+  deleteProductionUser: {
+    url: (id) => (`/api/production_users/${id}/`),
+    method: 'DELETE'
+  },
+  updateProductionUserGroup: {
+    url: (id) => (`/api/production_users/${id}/`),
+    method: 'PATCH'
+  },
+  getNonProductionUsers: {
+    url: '/api/users/non_production_users/',
+    method: 'GET'
+  },
+  createProductionUsers: {
+    url: '/api/production_users/',
+    method: 'POST'
   }
 }

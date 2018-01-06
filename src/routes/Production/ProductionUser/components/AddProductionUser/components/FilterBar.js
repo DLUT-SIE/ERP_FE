@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import { Link } from 'react-router-dom'
 import { Form, Button, Input } from 'antd'
 import './FilterBar.less'
 const FormItem = Form.Item
@@ -28,33 +27,23 @@ class FilterBar extends React.Component {
     const { getFieldDecorator } = form
     return (
       <Form
-        className='production-user-filterbar'
+        className='add-production-user-filterbar'
         layout='inline'
         onSubmit={this.handleSubmit}
       >
         <FormItem>
           {getFieldDecorator('first_name')(
-            <Input className='input' placeholder='姓名' />
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('work_group_name')(
-            <Input className='input' placeholder='工作组' />
+            <Input className='input' placeholder='用户姓名' />
           )}
         </FormItem>
         <FormItem>
           <Button
             type='primary'
+            size='small'
             icon='search'
-            htmlType='submit'
             onClick={this.handleSubmit}
           >
             查询
-          </Button>
-        </FormItem>
-        <FormItem className='float-right'>
-          <Button type='primary' >
-            <Link to='/production/create_production_user'>添加人员</Link>
           </Button>
         </FormItem>
       </Form>
@@ -71,7 +60,12 @@ let makeFields = function (fieldsValue) {
   let result = {}
   _.forEach(fieldsValue, (value, key) => {
     result[key] = Form.createFormField({ value })
+    // todo: 需要增加一个过滤器
+    if (key === 'first_name') {
+      result[key] = Form.createFormField({ value })
+    }
   })
+  // result.first_name = fieldsValue.user.first_name
   return result
 }
 

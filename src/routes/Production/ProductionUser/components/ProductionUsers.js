@@ -2,19 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
-import moment from 'moment'
 import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
-import { Button, message } from 'antd'
+import { Button, message, Divider, Popconfirm } from 'antd'
 
 import FilterBar from './FilterBar'
-import TaskAllocationModal from './TaskAllocationModal'
+import ProductionUserModal from './ProductionUserModal'
 import CustomTable from 'components/CustomTable'
-import { PROCESS_DETAIL_STATUS } from 'const'
 
 const columns = [
-  'material_index', 'work_order_uid', 'process_id', 'process_name', 'work_hour', 'estimated_start_dt', 'estimated_finish_dt', 'work_group_name', 'action'
+  'first_name', 'work_group_name', 'action'
 ]
 
 class ProductionPlan extends React.Component {
@@ -31,42 +29,39 @@ class ProductionPlan extends React.Component {
   }
   buildColumns () {
     return util.buildColumns(columns, {
-      estimated_start_dt: {
+      first_name: {
         render: (text, record, index) => {
-          return record.estimated_start_dt && moment(record.estimated_start_dt).format('YYYY-MM-DD')
-        }
-      },
-      estimated_finish_dt: {
-        render: (text, record, index) => {
-          return record.estimated_finish_dt && moment(record.estimated_finish_dt).format('YYYY-MM-DD')
+          return record.user.first_name
         }
       },
       action: {
         render: (text, record, index) => {
-          if (record.status === PROCESS_DETAIL_STATUS.ALLOCATION) {
-            return (
+          return (
+            <span>
               <Button
                 type='primary'
                 size='small'
-                data-id={record.id}
+                data-fields-value={JSON.stringify(record)}
                 data-index={index}
-                onClick={this.handleRedo}
+                onClick={this.handleOpenEditModal}
               >
-                撤销
+                编辑
               </Button>
-            )
-          }
-          return (
-            <Button
-              type='primary'
-              size='small'
-              data-fields-value={JSON.stringify(record)}
-              data-name={record.process_id}
-              data-index={index}
-              onClick={this.handleOpenEditModal}
-            >
-              编辑
-            </Button>
+              <Divider type='vertical' />
+              <Popconfirm
+                title='确定删除吗？'
+                onConfirm={this.handleDelete(record.id)}
+                okText='确定'
+                cancelText='取消'
+                >
+                <Button
+                  type='danger'
+                  size='small'
+                >
+                  删除
+                </Button>
+              </Popconfirm>
+            </span>
           )
         }
       }
@@ -81,13 +76,10 @@ class ProductionPlan extends React.Component {
   }
   fetchGroupInfo = (processName, cb) => {
     let { url, method } = apis.ProductionAPI.getProductionWorkGroup
-    let param = `?process_name=${processName}`
-    url = url + param
     const api = {
       url,
       method
     }
-    console.log(api)
     fetchAPI(api).then((repos) => {
       cb(repos.results)
     })
@@ -103,31 +95,28 @@ class ProductionPlan extends React.Component {
       })
     })
   }
-  handleRedo = (e) => {
-    const { id } = e.target.dataset
-    let { url, method } = apis.ProductionAPI.updateProcessDetails
-    url = url(id)
-    const api = {
-      url,
-      method
-    }
-    let values = {}
-    values.status = PROCESS_DETAIL_STATUS.PLANED
-    console.log(values)
-    fetchAPI(api, values).then((repos) => {
-      this.handleCloseModal()
-      message.success('修改成功！')
-      this.props.getListDataAction({
-        params: this._query()
+  handleDelete = (id) => {
+    return (e) => {
+      let { url, method } = apis.ProductionAPI.deleteProductionUser
+      url = url(id)
+      const api = {
+        url,
+        method
+      }
+      console.log(api)
+      fetchAPI(api).then(() => {
+        message.success('删除成功！')
+        this.props.getListDataAction({
+          params: this._query()
+        })
       })
-    })
+    }
   }
   handleCloseModal = (e) => {
     this.props.changeModalAction({
       visible: false
     })
   }
-
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
     return Object.assign({
@@ -158,15 +147,13 @@ class ProductionPlan extends React.Component {
     })
   }
   handleSave = (fieldsValue) => {
-    let { url, method } = apis.ProductionAPI.updateProcessDetails
+    let { url, method } = apis.ProductionAPI.updateProductionUserGroup
     url = url(fieldsValue.id)
     const api = {
       url,
       method
     }
-    fieldsValue.status = PROCESS_DETAIL_STATUS.ALLOCATION
-    fieldsValue.allocation_status = true
-    fetchAPI(api, fieldsValue).then((repos) => {
+    fetchAPI(api, fieldsValue).then(() => {
       this.handleCloseModal()
       message.success('修改成功！')
       this.props.getListDataAction({
@@ -193,7 +180,6 @@ class ProductionPlan extends React.Component {
         <FilterBar
           fieldsValue={query}
           onSearch={this.handleSearch}
-          onAddClick={this.handleAddRecords}
         />
         <CustomTable
           dataSource={list}
@@ -204,7 +190,7 @@ class ProductionPlan extends React.Component {
           onChange={this.handleChangeTable}
         />
         { modal.visible &&
-          <TaskAllocationModal
+          <ProductionUserModal
             onOk={this.handleSave}
             onCancel={this.handleCloseModal}
             {...modal}

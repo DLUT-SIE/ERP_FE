@@ -863,5 +863,25 @@ export const COLUMNS = {
     title: '牌号',
     key: 'material_name',
     dataIndex: 'material_name'
+  },
+  first_name: {
+    title: '姓名',
+    key: 'first_name',
+    dataIndex: 'first_name'
+  },
+  phone: {
+    title: '电话',
+    key: 'phone',
+    dataIndex: 'phone'
+  },
+  mobile: {
+    title: '移动电话',
+    key: 'mobile',
+    dataIndex: 'mobile'
+  },
+  gender: {
+    title: '性别',
+    key: 'gender',
+    dataIndex: 'gender'
   }
 }
