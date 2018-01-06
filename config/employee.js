@@ -145,8 +145,14 @@ const config = {
           "code": "menu.production.task_confirm",
           "name": "任务完成确认",
           "children": []
-        }],
+        },{
+          "code": "menu.production.production_users",
+          "name": "生产用户管理",
+          "children": []
+              }
+        ],
     }]
+
 }
 
 module.exports = JSON.stringify(config);

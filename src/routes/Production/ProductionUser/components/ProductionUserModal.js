@@ -5,9 +5,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { Modal, Input, Button, Form } from 'antd'
-import './TaskAllocationModal.less'
-// import fetchAPI from 'api'
-// import { apis } from 'api/config'
+import './ProductionUserModal.less'
 import CustomSelect from 'components/CustomSelect'
 
 const FormItem = Form.Item
@@ -16,18 +14,17 @@ const formItemLayout = {
   wrapperCol: { span: 12 }
 }
 
-class TaskAllocationModal extends React.Component {
+class ProductionUserModal extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
   }
   componentDidMount () {
-    console.log('props', this.props.groups)
     let groups = this.props.groups
     groups = groups.map((item) => {
       return { label: item.name, value: item.id }
     })
-    this.setState({ groups: groups })
+    this.setState({ groups: groups, first_name: this.props.fieldsValue.user.first_name })
   }
   handleSave = () => {
     const { onOk, form, fieldsValue } = this.props
@@ -53,7 +50,7 @@ class TaskAllocationModal extends React.Component {
     return (
       <Form>
         <Modal
-          className='task-allocation-modal'
+          className='production-user-modal'
           title='编辑工作组'
           visible={visible}
           onOk={this.handleSave}
@@ -74,31 +71,15 @@ class TaskAllocationModal extends React.Component {
             </Button>
           ]}
         >
-          <FormItem label='工作票号'{...formItemLayout} >
+          <FormItem label='用户名'{...formItemLayout} >
             {
-              getFieldDecorator('material_index')(
-                <Input disabled />
-              )
+              <Input disabled value={this.state.first_name} />
             }
           </FormItem>
-          <FormItem label='工作令'{...formItemLayout} >
-            {
-              getFieldDecorator('work_order_uid')(
-                <Input disabled />
-              )
-            }
-          </FormItem>
-          <FormItem label='工序号'{...formItemLayout} >
-            {
-              getFieldDecorator('process_id')(
-                <Input disabled />
-              )
-            }
-          </FormItem>
-          <FormItem label='分配组' {...formItemLayout}>
+          <FormItem label='所属工作组' {...formItemLayout}>
             {
               getFieldDecorator('work_group_name')(
-                <CustomSelect placeholder='请选择分配的工作组' list={this.state.groups}
+                <CustomSelect placeholder='请选择所属工作组' list={this.state.groups}
                 />
               )
             }
@@ -108,7 +89,7 @@ class TaskAllocationModal extends React.Component {
     )
   }
 }
-TaskAllocationModal.propTypes = {
+ProductionUserModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   fieldsValue: PropTypes.object.isRequired,
   onOk: PropTypes.func.isRequired,
@@ -128,6 +109,6 @@ const WrappedForm = Form.create({
   mapPropsToFields (props) {
     return makeFileds(props.fieldsValue)
   }
-})(TaskAllocationModal)
+})(ProductionUserModal)
 
 export default WrappedForm
