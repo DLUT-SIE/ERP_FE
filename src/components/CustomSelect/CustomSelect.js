@@ -133,7 +133,6 @@ class CustomSelect extends React.Component {
         className='select custom-select'
         placeholder={placeholder}
         showSearch
-        size='large'
         notFoundContent='没有找到'
         filterOption={util.selectFilter('children')}
         {...this.props}

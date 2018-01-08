@@ -285,6 +285,29 @@ export const MATERIAL_CATEGORY_MAP = {
   '辅助工具': 8
 }
 
+export const PURCHASE_ORDER_STATUS_LIST = [
+  {
+    value: 0,
+    label: '创建中订购单'
+  },
+  {
+    value: 1,
+    label: '创建完成订购单'
+  },
+  {
+    value: 2,
+    label: '审核通过订购单'
+  },
+  {
+    value: 3,
+    label: '批准通过订购单'
+  },
+  {
+    value: 4,
+    label: '已终止历史订购单'
+  }
+]
+
 export const UNKNOW_COLUMN = {
   title: '未知标题',
   dataIndex: 'unkow_column',
@@ -452,6 +475,16 @@ export const COLUMNS = {
     title: '供货状态',
     key: 'status',
     dataIndex: 'status'
+  },
+  purchase_order_uid: {
+    title: '订购单单号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
+  purchase_order_create_dt: {
+    title: '创建时间',
+    key: 'create_dt',
+    dataIndex: 'create_dt'
   },
   part_drawing_number: {
     title: '零件图号',
@@ -968,6 +1001,66 @@ export const COLUMNS = {
     title: '牌号',
     key: 'material_name',
     dataIndex: 'material_name'
+  },
+  sub_order: {
+    title: '工作令编号',
+    key: 'sub_order',
+    dataIndex: 'sub_order'
+  },
+  ticket_number_order: {
+    title: '票号',
+    key: 'process_material.ticket_number',
+    dataIndex: 'process_material.ticket_number'
+  },
+  name_order: {
+    title: '名称',
+    key: 'process_material.name',
+    dataIndex: 'process_material.name'
+  },
+  spec_order: {
+    title: '规格',
+    key: 'process_material.spec',
+    dataIndex: 'process_material.spec'
+  },
+  drawing_number_order: {
+    title: '图号',
+    key: 'process_material.drawing_number',
+    dataIndex: 'process_material.drawing_number'
+  },
+  material_order: {
+    title: '材质',
+    key: 'process_material.material',
+    dataIndex: 'process_material.material'
+  },
+  count_order: {
+    title: '数量',
+    key: 'process_material.count',
+    dataIndex: 'process_material.count'
+  },
+  piece_weight_order: {
+    title: '单重',
+    key: 'process_material.piece_weight',
+    dataIndex: 'process_material.piece_weight'
+  },
+  weight_order: {
+    title: '单重(Kg)',
+    key: 'weight',
+    dataIndex: 'weight'
+  },
+  total_weight_order: {
+    title: '采购(Kg)',
+    key: 'total_weight',
+    dataIndex: 'total_weight'
+  },
+  remark_order: {
+    title: '备注',
+    key: 'process_material.remark',
+    dataIndex: 'process_material.remark'
+  },
+  finished: {
+    title: '是否结束',
+    key: 'finished',
+    dataIndex: 'finished'
   },
   first_name: {
     title: '姓名',
