@@ -10,15 +10,18 @@ import { Button, Input, Checkbox, message } from 'antd'
 import PurchaseOrderInfo from './PurchaseOrderInfo'
 import CustomTable from 'components/CustomTable'
 import EditModal from './EditModal'
+import PurchaseOrderRawTable from './PurchaseOrderRawTable'
+import PurchaseOrderNormalTable from './PurchaseOrderNormalTable'
+import PurchaseOrderWeldTable from './PurchaseOrderWeldTable'
 import './PurchaseOrder.less'
 
 const { TextArea } = Input
-const columns = [
+const columnsCommon = [
   'sub_order', 'ticket_number_order', 'name_order', 'spec_order', 'drawing_number_order', 'material_order', 'count_order',
   'weight', 'total_weight', 'remark_order', 'delivery_dt', 'action'
 ]
 const columnsCategory0 = [
-  'add', 'sub_order', 'name_order', 'material_order', 'spec_order', 'count_order', 'total_weight_order',
+  'add', 'sub_order', 'name_order', 'material_order', 'spec_order', 'count_order', 'weight_order', 'total_weight_order',
   'remark_order', 'finished', 'action'
 ]
 
@@ -30,8 +33,9 @@ class PurchaseOrder extends React.Component {
       techRequirement: '',
       checkedList: []
     }
-    this._columns = []
-    this._id = +QueryString.parse(props.location.search).purchase_order
+    const query = QueryString.parse(props.location.search)
+    this._id = +query.purchase_order
+    this._status = +query.status
   }
 
   componentDidMount () {
@@ -39,16 +43,18 @@ class PurchaseOrder extends React.Component {
       params: {
         id: this._id
       },
-      callback: (repos) => {
+      callback: (purchaseOrder) => {
         this.setState({
-          techRequirement: repos.tech_requirement
+          techRequirement: purchaseOrder.tech_requirement
         })
-        const column = repos.category === 0 ? columnsCategory0 : columns
-        this._columns = this.buildColumns(column)
+        this.props.getListDataAction({
+          params: this._query(),
+          callback: (procurementMaterials) => {
+            const columns = this.buildColumns(purchaseOrder.category === 0 ? columnsCategory0 : columnsCommon)
+            this.props.addListDataAction({ data: procurementMaterials, columns })
+          }
+        })
       }
-    })
-    this.props.getListDataAction({
-      params: this._query()
     })
   }
 
@@ -217,56 +223,82 @@ class PurchaseOrder extends React.Component {
     const pagination = _.get(mydata, 'pagination', {})
     const purchaseOrderInfo = _.get(mydata, 'purchaseOrderInfo', {})
     const editModal = _.get(mydata, 'editModal', {})
+    const columns = _.get(mydata, 'columns', [])
     const { textAreaDisabled, techRequirement } = this.state
-    return (
-      <div className='purchase-order'>
-        <PurchaseOrderInfo
-          fieldsValue={purchaseOrderInfo}
-        />
-        { purchaseOrderInfo.category === 0 &&
-          <Button
-            className='merge-btn'
-            type='primary'
-            onClick={this.handleMergeMaterial}
-          >
-            物料合并
-          </Button>
-        }
-        <CustomTable
-          style={{ marginTop: 0 }}
-          dataSource={list}
-          columns={this._columns}
-          loading={loading}
-          pagination={pagination}
-          size='middle'
-          onChange={this.handleChangeTable}
-        />
-        <TextArea
-          className='tech-requirement-textarea'
-          rows={5}
-          value={techRequirement}
-          onChange={this.handleChangeTextArea}
-          disabled={textAreaDisabled}
-        />
-        <div className='btn-area'>
-          <Button
-            className='edit-btn'
-            type='primary'
-            onClick={this.handleEditTechRequirement}
-          >
-            {textAreaDisabled ? '填写技术要求' : '保存'}
-          </Button>
-          <Button type='primary'>完成订购单</Button>
-        </div>
-        { editModal.visible &&
-          <EditModal
-            {...editModal}
-            onOk={this.handleSaveProcurementMaterials}
-            onCancel={this.handleCloseEditModal}
+    const status = this._status
+    if (status === 0) {
+      return (
+        <div className='purchase-order'>
+          <PurchaseOrderInfo
+            fieldsValue={purchaseOrderInfo}
           />
-        }
-      </div>
-    )
+          { purchaseOrderInfo.category === 0 &&
+            <Button
+              className='merge-btn'
+              type='primary'
+              onClick={this.handleMergeMaterial}
+            >
+              物料合并
+            </Button>
+          }
+          <CustomTable
+            style={{ marginTop: 0 }}
+            dataSource={list}
+            columns={columns}
+            loading={loading}
+            pagination={pagination}
+            size='middle'
+            onChange={this.handleChangeTable}
+          />
+          <TextArea
+            className='tech-requirement-textarea'
+            rows={5}
+            value={techRequirement}
+            onChange={this.handleChangeTextArea}
+            disabled={textAreaDisabled}
+          />
+          <div className='btn-area'>
+            <Button
+              className='edit-btn'
+              type='primary'
+              onClick={this.handleEditTechRequirement}
+            >
+              {textAreaDisabled ? '填写技术要求' : '保存'}
+            </Button>
+            <Button type='primary'>完成订购单</Button>
+          </div>
+          { editModal.visible &&
+            <EditModal
+              {...editModal}
+              category={purchaseOrderInfo.category}
+              onOk={this.handleSaveProcurementMaterials}
+              onCancel={this.handleCloseEditModal}
+            />
+          }
+        </div>
+      )
+    } else if (purchaseOrderInfo.category === 0) {
+      return (
+        <PurchaseOrderRawTable
+          purchaseOrderInfo={purchaseOrderInfo}
+          list={list}
+        />
+      )
+    } else if (purchaseOrderInfo.category === 1) {
+      return (
+        <PurchaseOrderNormalTable
+          purchaseOrderInfo={purchaseOrderInfo}
+          list={list}
+        />
+      )
+    } else {
+      return (
+        <PurchaseOrderWeldTable
+          purchaseOrderInfo={purchaseOrderInfo}
+          list={list}
+        />
+      )
+    }
   }
 }
 
@@ -276,6 +308,7 @@ PurchaseOrder.propTypes = {
   status: PropTypes.object.isRequired,
   getPurchaseOrderAction: PropTypes.func.isRequired,
   getListDataAction: PropTypes.func.isRequired,
+  addListDataAction: PropTypes.func.isRequired,
   changeEditModalAction: PropTypes.func.isRequired
 }
 

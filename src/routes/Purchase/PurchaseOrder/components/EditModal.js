@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import util from 'utils'
 import moment from 'moment'
-import { Modal, Row, Col, Form, DatePicker } from 'antd'
+import { Modal, Input, Row, Col, Form, DatePicker } from 'antd'
 
 // import './EditModal.less'
 
@@ -19,6 +19,13 @@ const fieldsConfig = {
     rules: [{
       required: true, message: '请选择交货日期！'
     }]
+  },
+  weight: {
+    rules: [{
+      required: true, message: '请输入单重(Kg)！'
+    }, {
+      pattern: /^(\d+)(\.\d+)?$/, message: '请输入有效整数或小数！'
+    }]
   }
 }
 
@@ -28,19 +35,23 @@ class EditModal extends React.Component {
   }
 
   handleSave = () => {
-    const { onOk, form, fieldsValue } = this.props
+    const { onOk, form, fieldsValue, category } = this.props
     form.validateFields((err, values) => {
       if (err) {
         return
       }
-      onOk && onOk(fieldsValue.id, {
-        delivery_dt: values.delivery_dt && moment(values.delivery_dt).format('YYYY-MM-DDThh:mm')
-      })
+      let params = {}
+      if (category !== 0) {
+        params.delivery_dt = values.delivery_dt && moment(values.delivery_dt).format('YYYY-MM-DDThh:mm')
+      } else {
+        params.weight = values.weight || 0
+      }
+      onOk && onOk(fieldsValue.id, params)
     })
   }
 
   render () {
-    const { visible, form, onCancel } = this.props
+    const { visible, category, form, onCancel } = this.props
     const { getFieldDecorator } = form
     return (
       <Form>
@@ -52,21 +63,34 @@ class EditModal extends React.Component {
           onOk={this.handleSave}
           onCancel={onCancel}
         >
-          <Row gutter={16}>
-            <Col span={8}>
-              <FormItem label='交货日期' {...formItemLayout}>
-                {
-                  getFieldDecorator('delivery_dt', fieldsConfig['delivery_dt'])(
-                    <DatePicker
-                      format={dateFormat}
-                      placeholder='请选择交货日期'
-                      disabledDate={util.disabledDate}
-                    />
-                  )
-                }
-              </FormItem>
-            </Col>
-          </Row>
+          { category !== 0
+            ? <Row gutter={16}>
+              <Col span={8}>
+                <FormItem label='交货日期' {...formItemLayout}>
+                  {
+                    getFieldDecorator('delivery_dt', fieldsConfig['delivery_dt'])(
+                      <DatePicker
+                        format={dateFormat}
+                        placeholder='请选择交货日期'
+                        disabledDate={util.disabledDate}
+                      />
+                    )
+                  }
+                </FormItem>
+              </Col>
+            </Row>
+            : <Row gutter={16}>
+              <Col span={8}>
+                <FormItem label='单重(Kg)' {...formItemLayout}>
+                  {
+                    getFieldDecorator('weight', fieldsConfig['weight'])(
+                      <Input placeholder='请输入单重(Kg)' />
+                    )
+                  }
+                </FormItem>
+              </Col>
+            </Row>
+          }
         </Modal>
       </Form>
     )
@@ -76,6 +100,7 @@ class EditModal extends React.Component {
 EditModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   fieldsValue: PropTypes.object.isRequired,
+  category: PropTypes.number.isRequired,
   onOk: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired

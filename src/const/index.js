@@ -1042,6 +1042,11 @@ export const COLUMNS = {
     key: 'process_material.piece_weight',
     dataIndex: 'process_material.piece_weight'
   },
+  weight_order: {
+    title: '单重(Kg)',
+    key: 'weight',
+    dataIndex: 'weight'
+  },
   total_weight_order: {
     title: '采购(Kg)',
     key: 'total_weight',

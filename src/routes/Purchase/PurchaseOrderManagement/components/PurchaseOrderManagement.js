@@ -39,14 +39,14 @@ class PurchaseOrderManagement extends React.Component {
                 size='small'
                 data-id={record.id}
               >
-                <Link to={`/purchase/purchase_order_management/purchase_order/?purchase_order=${record.id}`}>
+                <Link to={`/purchase/purchase_order_management/purchase_order/?purchase_order=${record.id}&status=${record.status}`}>
                   查看
                 </Link>
               </Button>
               <Divider type='vertical' />
               { record.status === 0 &&
                 <Popconfirm
-                  title='确定删除吗？'
+                  title='确定删除该订购单吗？'
                   onConfirm={this.handleDelete(record.id)}
                   okText='确定'
                   cancelText='取消'
@@ -60,31 +60,25 @@ class PurchaseOrderManagement extends React.Component {
                 </Popconfirm>
               }
               { record.status === 1 &&
-                <Button
-                  size='small'
+                <Popconfirm
+                  title='确定完成该订购单吗？'
+                  onConfirm={this.handleFinishPurchaseOrder(record.id)}
+                  okText='确定'
+                  cancelText='取消'
                 >
-                  完成
-                </Button>
+                  <Button
+                    type='primary'
+                    size='small'
+                  >
+                    完成
+                  </Button>
+                </Popconfirm>
               }
             </div>
           )
         }
       }
     })
-  }
-
-  handleDelete = (id) => {
-    return (e) => {
-      const { url, method } = apis.PurchaseAPI.deletePurchaseOrder
-      const api = {
-        url: url(id),
-        method
-      }
-      fetchAPI(api).then((repos) => {
-        message.success('删除成功！')
-        this.updatelist()
-      })
-    }
   }
 
   handleSearch = (searchValue) => {
@@ -129,6 +123,34 @@ class PurchaseOrderManagement extends React.Component {
     this.updateQuery({
       page: pagination.current > 1 ? pagination.current : ''
     })
+  }
+
+  handleDelete = (id) => {
+    return (e) => {
+      const { url, method } = apis.PurchaseAPI.deletePurchaseOrder
+      const api = {
+        url: url(id),
+        method
+      }
+      fetchAPI(api).then((repos) => {
+        message.success('删除成功！')
+        this.updatelist()
+      })
+    }
+  }
+
+  handleFinishPurchaseOrder = (id) => {
+    return (e) => {
+      const { url, method } = apis.PurchaseAPI.updatePurchaseOrder
+      const api = {
+        url: url(id),
+        method
+      }
+      fetchAPI(api).then((repos) => {
+        message.success('操作成功！')
+        this.updatelist()
+      })
+    }
   }
 
   render () {

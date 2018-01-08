@@ -41,7 +41,8 @@ var initialState = Immutable.fromJS({
   loading: false,
   pagination: {
     pageSize: 10
-  }
+  },
+  columns: []
 })
 
 export default function PurchaseOrderManagement (state = initialState, action) {

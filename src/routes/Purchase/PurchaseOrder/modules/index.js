@@ -1,5 +1,6 @@
 import { put, call, take } from 'redux-saga/effects'
 import Immutable from 'immutable'
+import _ from 'lodash'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 
@@ -68,6 +69,7 @@ var initialState = Immutable.fromJS({
   pagination: {
     pageSize: 10
   },
+  columns: [],
   purchaseOrderInfo: {},
   editModal: {
     visible: false
@@ -94,13 +96,17 @@ export default function PurchaseOrder (state = initialState, action) {
       )
     },
     PURCHASEORDER_ADD_LIST_DATA () {
-      let { data } = action.payload
-      return state.mergeIn(
-        ['pagination'], { total: data.total }
-      ).merge({
+      let { data, columns } = action.payload
+      const params = {
         loading: false,
         list: data.results
-      })
+      }
+      if (!_.isUndefined(columns)) {
+        params.columns = columns
+      }
+      return state.mergeIn(
+        ['pagination'], { total: data.total }
+      ).merge(params)
     },
     PURCHASEORDER_CHANGE_EDIT_MODAL () {
       return state.mergeIn(['editModal'], action.payload)
