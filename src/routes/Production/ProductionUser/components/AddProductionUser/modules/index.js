@@ -7,9 +7,9 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const PRODUCTION_USER_GET_LIST_DATA = 'PRODUCTION_USER_GET_LIST_DATA'
-const PRODUCTION_USER_ADD_LIST_DATA = 'PRODUCTION_USER_ADD_LIST_DATA'
-const PRODUCTION_USER_CHANGE_MODAL_DATA = 'PRODUCTION_USER_CHANGE_MODAL_DATA'
+const ADD_PRODUCTION_USER_GET_LIST_DATA = 'ADD_PRODUCTION_USER_GET_LIST_DATA'
+const ADD_PRODUCTION_USER_ADD_LIST_DATA = 'ADD_PRODUCTION_USER_ADD_LIST_DATA'
+const ADD_PRODUCTION_USER_CHANGE_MODAL_DATA = 'ADD_PRODUCTION_USER_CHANGE_MODAL_DATA'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -18,20 +18,20 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : PRODUCTION_USER_GET_LIST_DATA,
+    type    : ADD_PRODUCTION_USER_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : PRODUCTION_USER_ADD_LIST_DATA,
+    type    : ADD_PRODUCTION_USER_ADD_LIST_DATA,
     payload : payload
   }
 }
 function changeModalAction (payload = {}) {
   return {
-    type    :PRODUCTION_USER_CHANGE_MODAL_DATA,
+    type    :ADD_PRODUCTION_USER_CHANGE_MODAL_DATA,
     payload : payload
   }
 }
@@ -55,9 +55,9 @@ var initialState = Immutable.fromJS({
   }
 })
 
-export default function ProductionUsers (state = initialState, action) {
+export default function AddProductionUser (state = initialState, action) {
   var map = {
-    PRODUCTION_USER_GET_LIST_DATA () {
+    ADD_PRODUCTION_USER_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -68,7 +68,7 @@ export default function ProductionUsers (state = initialState, action) {
         'loading', true
       )
     },
-    PRODUCTION_USER_ADD_LIST_DATA () {
+    ADD_PRODUCTION_USER_ADD_LIST_DATA () {
       let { data } = action.payload
       return state.mergeIn(
         ['pagination'], { total: data.count }
@@ -77,7 +77,7 @@ export default function ProductionUsers (state = initialState, action) {
         loading: false
       })
     },
-    PRODUCTION_USER_CHANGE_MODAL_DATA () {
+    ADD_PRODUCTION_USER_CHANGE_MODAL_DATA () {
       return state.mergeIn(['modal'], action.payload)
     }
   }
@@ -95,9 +95,9 @@ export default function ProductionUsers (state = initialState, action) {
 
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(PRODUCTION_USER_GET_LIST_DATA)
+    const { payload = {} } = yield take(ADD_PRODUCTION_USER_GET_LIST_DATA)
     const { callback, params } = payload
-    const data = yield call(fetchAPI, apis.ProductionAPI.getProductionUsers, params)
+    const data = yield call(fetchAPI, apis.ProductionAPI.getNonProductionUsers, params)
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }

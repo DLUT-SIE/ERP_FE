@@ -2,19 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
-import moment from 'moment'
 import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
-import { Button, message, Popconfirm, Divider } from 'antd'
+import { Button, message } from 'antd'
 
 import FilterBar from './FilterBar'
-import ProductionPlanModal from './ProductionPlanModal'
 import CustomTable from 'components/CustomTable'
 
 const columns = [
-  'work_order', 'client', 'delivery_dt', 'product', 'production_count', 'output_value', 'output',
-  'remarks', 'status_description', 'plan_dt', 'action'
+  'first_name', 'phone', 'mobile', 'gender', 'action'
 ]
 
 class ProductionPlan extends React.Component {
@@ -31,39 +28,33 @@ class ProductionPlan extends React.Component {
   }
   buildColumns () {
     return util.buildColumns(columns, {
-      plan_dt: {
+      phone: {
         render: (text, record, index) => {
-          return moment(record.plan_dt).format('YYYY-MM-DD')
+          return record.info.phone
+        }
+      },
+      mobile: {
+        render: (text, record, index) => {
+          return record.info.mobile
+        }
+      },
+      gender: {
+        render: (text, record, index) => {
+          return record.info.gender
         }
       },
       action: {
         render: (text, record, index) => {
           return (
-            <span>
-              <Button
-                type='primary'
-                size='small'
-                data-fields-value={JSON.stringify(record)}
-                data-index={index}
-                onClick={this.handleOpenEditModal}
-              >
-              修改
+            <Button
+              type='primary'
+              size='small'
+              data-id={record.info.id}
+              data-index={index}
+              onClick={this.handleAddUser}
+            >
+            添加
             </Button>
-              <Divider type='vertical' />
-              <Popconfirm
-                title='确定删除吗？'
-                onConfirm={this.handleDelete(record.id)}
-                okText='确定'
-                cancelText='取消'
-              >
-                <Button
-                  type='primary'
-                  size='small'
-                >
-                  删除
-                </Button>
-              </Popconfirm>
-            </span>
           )
         }
       }
@@ -76,35 +67,23 @@ class ProductionPlan extends React.Component {
       ...searchValue
     })
   }
-  handleOpenEditModal = (e) => {
-    const { fieldsValue, index } = e.target.dataset
-    this.props.changeModalAction({
-      visible: true,
-      index: +index,
-      fieldsValue: JSON.parse(fieldsValue)
-    })
-  }
-  handleDelete = (id) => {
-    return (e) => {
-      fetchAPI(apis.ProductionAPI.deleteProductionPlan, { id: id }).then((repos) => {
-        message.success('删除成功！')
-        this.updatelist()
-      })
+  handleAddUser = (e) => {
+    let { url, method } = apis.ProductionAPI.createProductionUsers
+    const { id } = e.target.dataset
+    const api = {
+      url,
+      method
     }
-  }
-  handleAddRecords = (e) => {
-    this.props.changeModalAction({
-      visible: true,
-      fieldsValue: {}
+    let values = {
+      user_info: id
+    }
+    fetchAPI(api, values).then((repos) => {
+      message.success('修改成功！')
+      this.props.getListDataAction({
+        params: this._query()
+      })
     })
   }
-
-  handleCloseModal = (e) => {
-    this.props.changeModalAction({
-      visible: false
-    })
-  }
-
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
     return Object.assign({
@@ -134,23 +113,6 @@ class ProductionPlan extends React.Component {
       params: query
     })
   }
-  handleSave = (fieldsValue) => {
-    let { url, method } = apis.ProductionAPI.updateProductionPlan
-    console.log(fieldsValue)
-    url = url(fieldsValue.id)
-    const api = {
-      url,
-      method
-    }
-    fetchAPI(api, fieldsValue).then((repos) => {
-      this.handleCloseModal()
-      message.success('修改成功！')
-      this.props.getListDataAction({
-        params: this._query()
-      })
-    })
-    // todo: 后台，新建逻辑
-  }
   handleChangeTable = (pagination, filters, sorter) => {
     this.updateQuery({
       page: pagination.current > 1 ? pagination.current : ''
@@ -164,7 +126,6 @@ class ProductionPlan extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
-    const modal = _.get(mydata, 'modal', {})
     return (
       <div>
         <FilterBar
@@ -180,13 +141,6 @@ class ProductionPlan extends React.Component {
           size='middle'
           onChange={this.handleChangeTable}
         />
-        { modal.visible &&
-          <ProductionPlanModal
-            onOk={this.handleSave}
-            onCancel={this.handleCloseModal}
-            {...modal}
-          />
-        }
       </div>
     )
   }
@@ -196,8 +150,7 @@ ProductionPlan.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
-  getListDataAction: PropTypes.func.isRequired,
-  changeModalAction: PropTypes.func.isRequired
+  getListDataAction: PropTypes.func.isRequired
 }
 
 export default ProductionPlan

@@ -8,6 +8,8 @@ import ProductionPlan from './ProductionPlan'
 import TaskPlanDate from './TaskPlanDate'
 import TaskAllocation from './TaskAllocation'
 import TaskConfirm from './TaskConfirm'
+import ProductionUsers from './ProductionUser'
+import AddProductionUser from './ProductionUser/components/AddProductionUser'
 
 const childRoutes = [
   {
@@ -29,6 +31,16 @@ const childRoutes = [
     path: 'task_confirm',
     breadcrumbName: '任务完成确认',
     component: TaskConfirm
+  },
+  {
+    path: 'production_users',
+    breadcrumbName: '生产人员管理',
+    component: ProductionUsers
+  },
+  {
+    path: 'create_production_user',
+    breadcrumbName: '添加生产人员',
+    component: AddProductionUser
   }
 ]
 
