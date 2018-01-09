@@ -349,7 +349,7 @@ class ProcessImport extends React.Component {
     })
   }
 
-  handleSaveWeld = (weldSeamId, fieldsValue) => {
+  handleSaveWeldSeam = (weldSeamId, fieldsValue) => {
     const mydata = this.props.status.toJS()
     const weldingSeamModal = _.get(mydata, 'weldingSeamModal', {})
     fetchAPI(apis.ProcessAPI.addWeldingSeam, {
@@ -383,7 +383,7 @@ class ProcessImport extends React.Component {
         { workOrderInfo.work_order_uid &&
           <Button
             className='transfercard-btn'
-            type='primary'
+            type='success'
           >
             <Link to={`/process/process/transfer_card/?work_order_uid=${workOrderInfo.work_order_uid}&name=${workOrderInfo.name}`}>
               查看流转卡列表
@@ -424,7 +424,7 @@ class ProcessImport extends React.Component {
             fieldsValue={{}}
             weldingMaterials={weldingMaterials}
             fluxMaterials={fluxMaterials}
-            onOk={this.handleSaveWeld}
+            onOk={this.handleSaveWeldSeam}
             onCancel={this.handleCloseWeldingSeamModal}
           />
         }

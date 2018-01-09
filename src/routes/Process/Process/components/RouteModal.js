@@ -216,10 +216,10 @@ let makeFields = function (props) {
   const { number, fieldsValue } = props
   let result = {}
   for (let i = 0; i < number; i++) {
-    result[`${routePrefix}${i + 1}`] = { value: undefined }
+    result[`${routePrefix}${i + 1}`] = Form.createFormField({ value: undefined })
   }
   _.forEach(fieldsValue, (value, index) => {
-    result[`${routePrefix}${index + 1}`] = { value: value + '' }
+    result[`${routePrefix}${index + 1}`] = Form.createFormField({ value: value + '' })
   })
   return result
 }
