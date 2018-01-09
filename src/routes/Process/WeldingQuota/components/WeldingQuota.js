@@ -277,6 +277,7 @@ class WeldingQuota extends React.Component {
             </Button>
             <Button
               size='large'
+              type='success'
               onClick={this.handleQuichAdd}
             >
               快捷生成
