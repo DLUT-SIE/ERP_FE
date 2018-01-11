@@ -91,6 +91,10 @@ let util = {
         </Option>
       )
     })
+  },
+  disabledDate (current) {
+    // Can not select days before today and today
+    return current && current.valueOf() < Date.now()
   }
 }
 
