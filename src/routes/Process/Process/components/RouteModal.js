@@ -24,12 +24,12 @@ class RouteModal extends React.Component {
     const items = []
     for (let i = 1; i <= number; i++) {
       items.push(
-        <Col span={2} key={i}>
+        <Col span={3} key={i}>
           <FormItem label={`${prefix}${i}`}>
             {getFieldDecorator(`${routePrefix}${i}`)(
               <CustomSelect
                 allowClear
-                style={{ width: 60 }}
+                style={{ width: 100 }}
                 list={list}
                 placeholder='----'
               />
@@ -221,6 +221,7 @@ let makeFields = function (props) {
   _.forEach(fieldsValue, (value, index) => {
     result[`${routePrefix}${index + 1}`] = Form.createFormField({ value: value + '' })
   })
+  console.log('makeFields', result)
   return result
 }
 

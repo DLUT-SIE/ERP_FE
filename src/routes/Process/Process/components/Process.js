@@ -288,20 +288,16 @@ class ProcessImport extends React.Component {
     result = _.filter(result, (value) => {
       return value !== undefined
     })
-    const { url, method } = routeType === 'circulation'
-      ? apis.ProcessAPI['saveCirculationRoute']
-      : apis.ProcessAPI['saveProcessRoute']
-    const api = {
-      url: url(routeId),
-      method
-    }
+    const api = routeType === 'circulation'
+      ? apis.ProcessAPI.saveCirculationRoute
+      : apis.ProcessAPI.saveProcessRoute
     const params = {}
     if (routeType === 'circulation') {
       params.circulation_routes = result
     } else {
       params.process_steps = result
     }
-    fetchAPI(api, params).then((repos) => {
+    fetchAPI(api, params, { id: routeId }).then((repos) => {
       message.success('保存成功！')
       this.handleCloseRouteModal()
     })

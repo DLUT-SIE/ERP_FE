@@ -147,12 +147,7 @@ class WeldingSeam extends React.Component {
   }
 
   fetchWeldingSeam (id, cb) {
-    const { url, method } = apis.ProcessAPI.getWeldingSeam
-    const api = {
-      url: url(id),
-      method
-    }
-    fetchAPI(api, {}).then((repos) => {
+    fetchAPI(apis.ProcessAPI.getWeldingSeam, {}, { id }).then((repos) => {
       cb(repos)
     })
   }
@@ -204,12 +199,7 @@ class WeldingSeam extends React.Component {
   }
 
   handleSaveWeldingSeam = (id, fieldsValue) => {
-    const { url, method } = apis.ProcessAPI.updateWeldingSeam
-    const api = {
-      url: url(id),
-      method
-    }
-    fetchAPI(api, fieldsValue).then((repos) => {
+    fetchAPI(apis.ProcessAPI.updateWeldingSeam, fieldsValue, { id }).then((repos) => {
       message.success('修改成功！')
       this.handleCloseWeldingSeamModal()
       this.props.getListDataAction({

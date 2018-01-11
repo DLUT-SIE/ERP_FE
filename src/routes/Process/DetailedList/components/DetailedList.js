@@ -146,12 +146,7 @@ class DetailedList extends React.Component {
   }
 
   handleSave = (id, fieldsValue) => {
-    const { url, method } = apis.ProcessAPI[this._config.updateApi]
-    const api = {
-      url: url(id),
-      method
-    }
-    fetchAPI(api, fieldsValue).then((repos) => {
+    fetchAPI(apis.ProcessAPI[this._config.updateApi], fieldsValue, { id }).then((repos) => {
       message.success('修改成功！')
       this.handleCloseModal()
       this.props.getListDataAction({
@@ -217,12 +212,7 @@ class DetailedList extends React.Component {
 
   handleDelete = (id) => {
     return (e) => {
-      const { url, method } = apis.ProcessAPI[this._config.deleteApi]
-      const api = {
-        url: url(id),
-        method
-      }
-      fetchAPI(api, {}).then((repos) => {
+      fetchAPI(apis.ProcessAPI[this._config.deleteApi], {}, { id }).then((repos) => {
         message.success('删除成功！')
         this.props.getListDataAction({
           api: this._config.getApi,

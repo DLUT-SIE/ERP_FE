@@ -86,12 +86,7 @@ class PrincipalQuota extends React.Component {
 
   handleDelete = (id) => {
     return (e) => {
-      const { url, method } = apis.ProcessAPI.deletePrincipalQuota
-      const api = {
-        url: url(id),
-        method
-      }
-      fetchAPI(api, {}).then((repos) => {
+      fetchAPI(apis.ProcessAPI.deletePrincipalQuota, {}, { id }).then((repos) => {
         message.success('删除成功！')
         this.props.getListDataAction({
           params: this._query()
@@ -101,12 +96,7 @@ class PrincipalQuota extends React.Component {
   }
 
   fetchPrincipalQuota (id, cb) {
-    const { url, method } = apis.ProcessAPI.getPrincipalQuota
-    const api = {
-      url: url(id),
-      method
-    }
-    fetchAPI(api, {}).then((repos) => {
+    fetchAPI(apis.ProcessAPI.getPrincipalQuota, {}, { id }).then((repos) => {
       cb(repos)
     })
   }
@@ -166,12 +156,7 @@ class PrincipalQuota extends React.Component {
 
   handleSave = (id, fieldsValue) => {
     if (id) {
-      const { url, method } = apis.ProcessAPI.updatePincipalQuota
-      const api = {
-        url: url(id),
-        method
-      }
-      fetchAPI(api, fieldsValue).then((repos) => {
+      fetchAPI(apis.ProcessAPI.updatePincipalQuota, fieldsValue, { id }).then((repos) => {
         message.success('修改成功！')
         this.handleCloseModal()
         this.props.getListDataAction({
