@@ -8,7 +8,7 @@ const project = require('../config/project.config')
 const compress = require('compression')
 const bodyParser = require('body-parser')
 const proxy = require('http-proxy-middleware')
-const querystring = require('querystring')
+// const querystring = require('querystring')
 const proxyConfig = require('./proxy.config')
 const routes = require('./routes')
 const app = express()
@@ -29,8 +29,8 @@ const createProxySetting = function (url) {
       'X-Requested-With': 'XMLHttpRequest'
     },
     onProxyReq: function (proxyReq, req) {
-      if (req.method === 'POST' && req.body) {
-        const bodyData = querystring.stringify(req.body)
+      if (req.method !== 'GET' && req.body) {
+        const bodyData = JSON.stringify(req.body)
         proxyReq.write(bodyData)
       }
     }
@@ -70,20 +70,6 @@ if (project.env === 'development') {
     app.use(item.url, proxy(createProxySetting(item.target)))
   })
 
-  // app.use('/os/*', proxy({
-  //   target: 'http://10.6.131.79:18844',
-  //   changeOrigin: true,
-  //   headers: {
-  //     Accept: 'application/json',
-  //     'X-Requested-With': 'XMLHttpRequest'
-  //   },
-  //   onProxyReq: function (proxyReq, req) {
-  //     if (req.method === 'POST' && req.body) {
-  //       const bodyData = querystring.stringify(req.body)
-  //       proxyReq.write(bodyData)
-  //     }
-  //   }
-  // }))
   // Serve static assets from ~/public since Webpack is unaware of
   // these files. This middleware doesn't need to be enabled outside
   // of development since this directory will be copied into ~/dist

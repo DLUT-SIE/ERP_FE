@@ -116,12 +116,7 @@ export function *getCardSaga (type, body) {
   while (true) {
     const { payload = {} } = yield take(TRANSCARDDETAIL_GET_CARD_DATA)
     const { callback, params, id } = payload
-    const { url, method } = apis.ProcessAPI.getTransferCard
-    const api = {
-      url: url(id),
-      method
-    }
-    const data = yield call(fetchAPI, api, params)
+    const data = yield call(fetchAPI, apis.ProcessAPI.getTransferCard, params, { id })
     callback && callback(data)
     yield put(addCardDataAction({ data }))
   }

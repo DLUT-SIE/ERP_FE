@@ -288,20 +288,16 @@ class ProcessImport extends React.Component {
     result = _.filter(result, (value) => {
       return value !== undefined
     })
-    const { url, method } = routeType === 'circulation'
-      ? apis.ProcessAPI['saveCirculationRoute']
-      : apis.ProcessAPI['saveProcessRoute']
-    const api = {
-      url: url(routeId),
-      method
-    }
+    const api = routeType === 'circulation'
+      ? apis.ProcessAPI.saveCirculationRoute
+      : apis.ProcessAPI.saveProcessRoute
     const params = {}
     if (routeType === 'circulation') {
       params.circulation_routes = result
     } else {
       params.process_steps = result
     }
-    fetchAPI(api, params).then((repos) => {
+    fetchAPI(api, params, { id: routeId }).then((repos) => {
       message.success('保存成功！')
       this.handleCloseRouteModal()
     })
@@ -349,7 +345,7 @@ class ProcessImport extends React.Component {
     })
   }
 
-  handleSaveWeld = (weldSeamId, fieldsValue) => {
+  handleSaveWeldSeam = (weldSeamId, fieldsValue) => {
     const mydata = this.props.status.toJS()
     const weldingSeamModal = _.get(mydata, 'weldingSeamModal', {})
     fetchAPI(apis.ProcessAPI.addWeldingSeam, {
@@ -383,7 +379,7 @@ class ProcessImport extends React.Component {
         { workOrderInfo.work_order_uid &&
           <Button
             className='transfercard-btn'
-            type='primary'
+            type='success'
           >
             <Link to={`/process/process/transfer_card/?work_order_uid=${workOrderInfo.work_order_uid}&name=${workOrderInfo.name}`}>
               查看流转卡列表
@@ -424,7 +420,7 @@ class ProcessImport extends React.Component {
             fieldsValue={{}}
             weldingMaterials={weldingMaterials}
             fluxMaterials={fluxMaterials}
-            onOk={this.handleSaveWeld}
+            onOk={this.handleSaveWeldSeam}
             onCancel={this.handleCloseWeldingSeamModal}
           />
         }

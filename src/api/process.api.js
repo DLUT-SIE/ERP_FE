@@ -12,11 +12,11 @@ export default {
     method: 'GET'
   },
   saveCirculationRoute: {
-    url: (id) => (`/api/circulation_routes/${id}/`),
+    url: '/api/circulation_routes/:id/',
     method: 'PATCH'
   },
   saveProcessRoute: {
-    url: (id) => (`/api/process_routes/${id}/`),
+    url: '/api/process_routes/:id/',
     method: 'PATCH'
   },
   getCirculationRoute: {
@@ -32,11 +32,11 @@ export default {
     method: 'GET'
   },
   getTransferCard: {
-    url: (id) => (`/api/transfer_cards/${id}/`),
+    url: '/api/transfer_cards/:id/',
     method: 'GET'
   },
   updateTransferCard: {
-    url: (id) => (`/api/transfer_cards/${id}/`),
+    url: '/api/transfer_cards/:id/',
     method: 'PATCH'
   },
   addTransferCard: {
@@ -44,7 +44,7 @@ export default {
     method: 'POST'
   },
   deleteTransferCard: {
-    url: (id) => (`/api/transfer_cards/${id}/`),
+    url: '/api/transfer_cards/:id/',
     method: 'DELETE'
   },
   getTransferCardProcess: {
@@ -60,23 +60,35 @@ export default {
     method: 'GET'
   },
   getWeldingSeam: {
-    url: (id) => (`/api/welding_seams/${id}/`),
+    url: '/api/welding_seams/:id/',
     method: 'GET'
   },
   updateWeldingSeam: {
-    url: (id) => (`/api/welding_seams/${id}/`),
+    url: '/api/welding_seams/:id/',
     method: 'PATCH'
   },
   addWeldingSeam: {
     url: '/api/welding_seams/',
     method: 'POST'
   },
+  getWeldingProcessSpecifications: {
+    url: '/api/welding_process_specifications/',
+    method: 'GET'
+  },
+  addWeldingJointProcessAnalyses: {
+    url: '/api/welding_joint_process_analyses/',
+    method: 'POST'
+  },
+  getWeldingCertifications: {
+    url: '/api/welding_certifications/',
+    method: 'GET'
+  },
   getBoughtInItems: {
     url: '/api/bought_in_items/',
     method: 'GET'
   },
   updateBoughtInItems: {
-    url: (id) => (`/api/bought_in_items/${id}/`),
+    url: '/api/bought_in_items/:id/',
     method: 'PATCH'
   },
   addBoughtInItems: {
@@ -84,7 +96,7 @@ export default {
     method: 'POST'
   },
   deleteBoughtInItems: {
-    url: (id) => (`/api/bought_in_items/${id}/`),
+    url: '/api/bought_in_items/:id/',
     method: 'DELETE'
   },
   getFirstFeedingItems: {
@@ -92,7 +104,7 @@ export default {
     method: 'GET'
   },
   updateFirstFeedingItems: {
-    url: (id) => (`/api/first_feeding_items/${id}/`),
+    url: '/api/first_feeding_items/:id/',
     method: 'PATCH'
   },
   addFirstFeedingItems: {
@@ -100,7 +112,7 @@ export default {
     method: 'POST'
   },
   deleteFirstFeedingItems: {
-    url: (id) => (`/api/first_feeding_items/${id}/`),
+    url: '/api/first_feeding_items/:id/',
     method: 'DELETE'
   },
   getCoperantItems: {
@@ -108,7 +120,7 @@ export default {
     method: 'GET'
   },
   updateCoperantItems: {
-    url: (id) => (`/api/cooperant_items/${id}/`),
+    url: '/api/cooperant_items/:id/',
     method: 'PATCH'
   },
   addCoperantItems: {
@@ -116,7 +128,7 @@ export default {
     method: 'POST'
   },
   deleteCoperantItems: {
-    url: (id) => (`/api/cooperant_items/${id}/`),
+    url: '/api/cooperant_items/:id/',
     method: 'DELETE'
   },
   getPrincipalQuotas: {
@@ -124,11 +136,11 @@ export default {
     method: 'GET'
   },
   getPrincipalQuota: {
-    url: (id) => (`/api/principal_quota_items/${id}/`),
+    url: '/api/principal_quota_items/:id/',
     method: 'GET'
   },
   updatePincipalQuota: {
-    url: (id) => (`/api/principal_quota_items/${id}/`),
+    url: '/api/principal_quota_items/:id/',
     method: 'PATCH'
   },
   addPincipalQuota: {
@@ -136,7 +148,7 @@ export default {
     method: 'POST'
   },
   deletePrincipalQuota: {
-    url: (id) => (`/api/principal_quota_items/${id}/`),
+    url: '/api/principal_quota_items/:id/',
     method: 'DELETE'
   },
   getMaterials: {
@@ -160,11 +172,11 @@ export default {
     method: 'GET'
   },
   getAuxiliaryQuota: {
-    url: (id) => (`/api/auxiliary_quota_items/${id}/`),
+    url: '/api/auxiliary_quota_items/:id/',
     method: 'GET'
   },
   updateAuxiliaryQuota: {
-    url: (id) => (`/api/auxiliary_quota_items/${id}/`),
+    url: '/api/auxiliary_quota_items/:id/',
     method: 'PATCH'
   },
   addAuxiliaryQuota: {
@@ -172,7 +184,7 @@ export default {
     method: 'POST'
   },
   deleteAuxiliaryQuota: {
-    url: (id) => (`/api/auxiliary_quota_items/${id}/`),
+    url: '/api/auxiliary_quota_items/:id/',
     method: 'DELETE'
   },
   getWeldingQuotas: {
@@ -180,11 +192,11 @@ export default {
     method: 'GET'
   },
   getWeldingQuota: {
-    url: (id) => (`/api/welding_quota_items/${id}/`),
+    url: '/api/welding_quota_items/:id/',
     method: 'GET'
   },
   updateWeldingQuota: {
-    url: (id) => (`/api/welding_quota_items/${id}/`),
+    url: '/api/welding_quota_items/:id/',
     method: 'PATCH'
   },
   addWeldingQuota: {
@@ -192,7 +204,7 @@ export default {
     method: 'POST'
   },
   deleteWeldingQuota: {
-    url: (id) => (`/api/welding_quota_items/${id}/`),
+    url: '/api/welding_quota_items/:id/',
     method: 'DELETE'
   }
 }

@@ -138,7 +138,7 @@ class WeldingSeamModal extends React.Component {
           className='weld-modal'
           title='焊缝信息卡'
           visible={visible}
-          width={1000}
+          width={1200}
           onOk={this.handleSave}
           onCancel={onCancel}
           footer={[
@@ -445,7 +445,7 @@ WeldingSeamModal.propTypes = {
 let makeFields = function (fieldsValue) {
   let result = {}
   for (let key in fieldsValue) {
-    result[key] = Form.createFormField({ value: fieldsValue[key] + '' })
+    result[key] = Form.createFormField({ value: fieldsValue[key] ? fieldsValue[key] + '' : undefined })
   }
   // _.forEach(fieldsValue, (value, key) => {
   //   result[key] = { value: value + '' }
