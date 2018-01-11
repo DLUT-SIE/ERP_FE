@@ -71,6 +71,18 @@ export default {
     url: '/api/welding_seams/',
     method: 'POST'
   },
+  getWeldingProcessSpecifications: {
+    url: '/api/welding_process_specifications/',
+    method: 'GET'
+  },
+  addWeldingJointProcessAnalyses: {
+    url: '/api/welding_joint_process_analyses/',
+    method: 'POST'
+  },
+  getWeldingCertifications: {
+    url: '/api/welding_certifications/',
+    method: 'GET'
+  },
   getBoughtInItems: {
     url: '/api/bought_in_items/',
     method: 'GET'

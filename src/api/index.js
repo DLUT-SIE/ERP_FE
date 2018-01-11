@@ -2,7 +2,7 @@ import fetch from './fetch'
 import _ from 'lodash'
 import querystring from 'querystring'
 
-export default function fetchAPI (api, body, rest, multipartFormData = true) {
+export default function fetchAPI (api, body, rest, multipartFormData = false) {
   let { url, method } = api
   let config = {
     headers: {
@@ -30,8 +30,8 @@ export default function fetchAPI (api, body, rest, multipartFormData = true) {
       }
       config.body = formData
     } else {
-      config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-      config.body = querystring.stringify(body)
+      config.headers['Content-Type'] = 'application/json'
+      config.body = JSON.stringify(body)
     }
   }
   return fetch.request(url, config)
