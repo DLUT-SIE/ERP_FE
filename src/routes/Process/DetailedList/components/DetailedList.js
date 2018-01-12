@@ -106,13 +106,20 @@ class DetailedList extends React.Component {
       },
       action: {
         render: (text, record, index) => {
+          const fieldsValue = this._listType === 'cooperant_items'
+            ? {
+              collaborative_content: record.collaborative_content
+            }
+            : {
+              remark: record.remark
+            }
           return (
             <span>
               <Button
                 type='primary'
                 size='small'
                 data-id={record.id}
-                data-field-value={this._listType === 'cooperant_items' ? record.collaborative_content : record.remark}
+                data-fields-value={JSON.stringify(fieldsValue)}
                 onClick={this.handleOpenModal}
               >
                 编辑
@@ -138,65 +145,8 @@ class DetailedList extends React.Component {
     })
   }
 
-  handleDelete = (id) => {
-    return (e) => {
-      const { url, method } = apis.ProcessAPI[this._config.deleteApi]
-      const api = {
-        url: url(id),
-        method
-      }
-      fetchAPI(api, {}).then((repos) => {
-        message.success('删除成功！')
-        this.props.getListDataAction({
-          api: this._config.getApi,
-          params: this._query()
-        })
-      })
-    }
-  }
-
-  handleOpenModal = (e) => {
-    const { id, fieldValue } = e.target.dataset
-    this.props.changeModalAction({
-      visible: true,
-      id: +id,
-      fieldValue: fieldValue
-    })
-  }
-
-  handleCloseModal = (e) => {
-    this.props.changeModalAction({
-      visible: false
-    })
-  }
-
-  handleAdd = (fieldsValue) => {
-    const mydata = this.props.status.toJS()
-    const workOrderInfo = _.get(mydata, 'workOrderInfo', '')
-    fetchAPI(apis.ProcessAPI[this._config['addApi']], {
-      work_order_uid: workOrderInfo.work_order_uid,
-      ticket_number: +fieldsValue.ticket_number,
-      quota_list: workOrderInfo.id
-    }).then((repos) => {
-      message.success('添加成功！')
-      this.props.getListDataAction({
-        api: this._config.getApi,
-        params: this._query()
-      })
-    })
-  }
-
-  handleQuichAdd = () => {
-    console.log('handleQuichAdd')
-  }
-
   handleSave = (id, fieldsValue) => {
-    const { url, method } = apis.ProcessAPI[this._config.updateApi]
-    const api = {
-      url: url(id),
-      method
-    }
-    fetchAPI(api, fieldsValue).then((repos) => {
+    fetchAPI(apis.ProcessAPI[this._config.updateApi], fieldsValue, { id }).then((repos) => {
       message.success('修改成功！')
       this.handleCloseModal()
       this.props.getListDataAction({
@@ -258,6 +208,53 @@ class DetailedList extends React.Component {
     this.updateQuery({
       page: pagination.current > 1 ? pagination.current : ''
     })
+  }
+
+  handleDelete = (id) => {
+    return (e) => {
+      fetchAPI(apis.ProcessAPI[this._config.deleteApi], {}, { id }).then((repos) => {
+        message.success('删除成功！')
+        this.props.getListDataAction({
+          api: this._config.getApi,
+          params: this._query()
+        })
+      })
+    }
+  }
+
+  handleOpenModal = (e) => {
+    const { id, fieldsValue } = e.target.dataset
+    this.props.changeModalAction({
+      visible: true,
+      id: +id,
+      fieldsValue: JSON.parse(fieldsValue)
+    })
+  }
+
+  handleCloseModal = (e) => {
+    this.props.changeModalAction({
+      visible: false
+    })
+  }
+
+  handleAdd = (fieldsValue) => {
+    const mydata = this.props.status.toJS()
+    const workOrderInfo = _.get(mydata, 'workOrderInfo', '')
+    fetchAPI(apis.ProcessAPI[this._config['addApi']], {
+      work_order_uid: workOrderInfo.work_order_uid,
+      ticket_number: +fieldsValue.ticket_number,
+      quota_list: workOrderInfo.id
+    }).then((repos) => {
+      message.success('添加成功！')
+      this.props.getListDataAction({
+        api: this._config.getApi,
+        params: this._query()
+      })
+    })
+  }
+
+  handleQuichAdd = () => {
+    console.log('handleQuichAdd')
   }
 
   render () {

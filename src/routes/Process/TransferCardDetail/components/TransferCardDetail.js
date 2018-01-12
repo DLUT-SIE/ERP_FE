@@ -109,14 +109,7 @@ class TransferCardDetail extends React.Component {
   }
 
   uploadImage = (file) => {
-    const { url, method } = apis.ProcessAPI.updateTransferCard
-    const api = {
-      url: url(this._id),
-      method
-    }
-    fetchAPI(api, {
-      path: file.file
-    }).then(() => {
+    fetchAPI(apis.ProcessAPI.updateTransferCard, { path: file.file }, { id: this._id }).then(() => {
       message.success('上传成功')
       this.props.getCardDataAction({
         id: this._id
@@ -148,12 +141,7 @@ class TransferCardDetail extends React.Component {
   }
 
   handleEditCard = (fieldsValue) => {
-    const { url, method } = apis.ProcessAPI.updateTransferCard
-    const api = {
-      url: url(this._id),
-      method
-    }
-    fetchAPI(api, fieldsValue).then((repos) => {
+    fetchAPI(apis.ProcessAPI.updateTransferCard, fieldsValue, { id: this._id }).then((repos) => {
       message.success('修改成功！')
       this.handleCloseCardModal()
       this.props.getCardDataAction({

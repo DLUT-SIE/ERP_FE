@@ -285,6 +285,17 @@ export const MATERIAL_CATEGORY_MAP = {
   '辅助工具': 8
 }
 
+export const PROC_QUAL_INDEX_LIST = [
+  {
+    value: 0,
+    label: 'RH24-13-09'
+  },
+  {
+    value: 1,
+    label: 'RH24-13-36'
+  }
+]
+
 export const PURCHASE_ORDER_STATUS_LIST = [
   {
     value: 0,
@@ -691,15 +702,25 @@ export const COLUMNS = {
     key: 'uid',
     dataIndex: 'uid'
   },
+  weld_position_name: {
+    title: '焊接位置',
+    key: 'weld_position_name',
+    dataIndex: 'weld_position_name'
+  },
   seam_type: {
     title: '焊缝类型',
     key: 'seam_type',
     dataIndex: 'seam_type'
   },
-  weld_method: {
-    title: '焊接方法',
-    key: 'weld_method',
-    dataIndex: 'weld_method'
+  weld_method_1_name: {
+    title: '焊接方法1',
+    key: 'weld_method_1_name',
+    dataIndex: 'weld_method_1_name'
+  },
+  weld_method_2_name: {
+    title: '焊接方法2',
+    key: 'weld_method_2_name',
+    dataIndex: 'weld_method_2_name'
   },
   length: {
     title: '焊缝长度',
@@ -716,10 +737,10 @@ export const COLUMNS = {
     key: 'bm_thick_1',
     dataIndex: 'bm_thick_1'
   },
-  wm_1: {
+  wm_1_name: {
     title: '焊丝/焊条1',
-    key: 'wm_1',
-    dataIndex: 'wm_1'
+    key: 'wm_1_name',
+    dataIndex: 'wm_1_name'
   },
   ws_1: {
     title: '规格1',
@@ -736,10 +757,10 @@ export const COLUMNS = {
     key: 'weight_1',
     dataIndex: 'weight_1'
   },
-  wf_1: {
+  wf_1_name: {
     title: '焊剂1',
-    key: 'wf_1',
-    dataIndex: 'wf_1'
+    key: 'wf_1_name',
+    dataIndex: 'wf_1_name'
   },
   wf_weight_1: {
     title: '焊剂重量1',
@@ -756,10 +777,10 @@ export const COLUMNS = {
     key: 'bm_thick_2',
     dataIndex: 'bm_thick_2'
   },
-  wm_2: {
+  wm_2_name: {
     title: '焊丝/焊条2',
-    key: 'wm_2',
-    dataIndex: 'wm_2'
+    key: 'wm_2_name',
+    dataIndex: 'wm_2_name'
   },
   ws_2: {
     title: '规格2',
@@ -776,10 +797,10 @@ export const COLUMNS = {
     key: 'weight_2',
     dataIndex: 'weight_2'
   },
-  wf_2: {
+  wf_2_name: {
     title: '焊剂2',
-    key: 'wf_2',
-    dataIndex: 'wf_2'
+    key: 'wf_2_name',
+    dataIndex: 'wf_2_name'
   },
   wf_weight_2: {
     title: '焊剂重量2',

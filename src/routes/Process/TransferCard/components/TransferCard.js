@@ -70,13 +70,7 @@ class TransferCard extends React.Component {
 
   handleDelete = (id) => {
     return (e) => {
-      let { url, method } = apis.ProcessAPI.deleteTransferCard
-      url = url(id)
-      const api = {
-        url,
-        method
-      }
-      fetchAPI(api, { id: id }).then((repos) => {
+      fetchAPI(apis.ProcessAPI.deleteTransferCard, {}, { id }).then((repos) => {
         message.success('删除成功！')
         this.updatelist()
       })

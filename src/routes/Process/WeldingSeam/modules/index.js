@@ -16,6 +16,7 @@ const WELDINGSEAM_GET_MATERIALS_DATA = 'WELDINGSEAM_GET_MATERIALS_DATA'
 const WELDINGSEAM_ADD_MATERIALS_DATA = 'WELDINGSEAM_ADD_MATERIALS_DATA'
 const WELDINGSEAM_RESET_DATA = 'WELDINGSEAM_RESET_DATA'
 const WELDINGSEAM_CHANGE_WELDINGSEAM_MODAL = 'WELDINGSEAM_CHANGE_WELDINGSEAM_MODAL'
+const WELDINGSEAM_CHANGE_WELDINGJOINT_MODAL = 'WELDINGSEAM_CHANGE_WELDINGJOINT_MODAL'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -78,12 +79,20 @@ function changeWeldingSeamModalAction (payload = {}) {
   }
 }
 
+function changeWeldingJointModalAction (payload = {}) {
+  return {
+    type    : WELDINGSEAM_CHANGE_WELDINGJOINT_MODAL,
+    payload : payload
+  }
+}
+
 export const actions = {
   getListDataAction,
   getLibraryDataAction,
   getMaterialsAction,
   resetDataAction,
-  changeWeldingSeamModalAction
+  changeWeldingSeamModalAction,
+  changeWeldingJointModalAction
 }
 
 // ------------------------------------
@@ -97,7 +106,11 @@ var initialState = Immutable.fromJS({
   weldingSeamModal: {
     visible: false
   },
-  workOrderInfo: {}
+  weldingJointModal: {
+    visible: false
+  },
+  workOrderInfo: {},
+  weldProSpeci: {}
 })
 
 export default function WeldingSeam (state = initialState, action) {
@@ -124,9 +137,15 @@ export default function WeldingSeam (state = initialState, action) {
       })
     },
     WELDINGSEAM_ADD_LIBRARY_DATA () {
-      let { data } = action.payload
+      const { quotaData, weldProSpeciData, weldCertifiData } = action.payload
+      const weldCertifiList = _.map(weldCertifiData.results, (item) => ({
+        value: item.id,
+        label: item.name
+      }))
       return state.merge({
-        workOrderInfo: data.results[0] || {}
+        workOrderInfo: quotaData.results[0] || {},
+        weldProSpeci: weldProSpeciData.results[0] || {},
+        weldCertifiList
       })
     },
     WELDINGSEAM_ADD_MATERIALS_DATA () {
@@ -156,6 +175,9 @@ export default function WeldingSeam (state = initialState, action) {
     },
     WELDINGSEAM_CHANGE_WELDINGSEAM_MODAL () {
       return state.mergeIn(['weldingSeamModal'], action.payload)
+    },
+    WELDINGSEAM_CHANGE_WELDINGJOINT_MODAL () {
+      return state.mergeIn(['weldingJointModal'], action.payload)
     }
   }
 
@@ -183,9 +205,15 @@ export function *getLibrarySaga (type, body) {
   while (true) {
     const { payload = {} } = yield take(WELDINGSEAM_GET_LIBRARY_DATA)
     const { callback, params = {} } = payload
-    const data = yield call(fetchAPI, apis.ProcessAPI.getQuotaList, params)
-    callback && callback(data)
-    yield put(addLibraryDataAction({ data }))
+    const [ quotaData, weldProSpeciData, weldCertifiData ] = yield [
+      call(fetchAPI, apis.ProcessAPI.getQuotaList, params),
+      call(fetchAPI, apis.ProcessAPI.getWeldingProcessSpecifications, {
+        work_order_uid: params.work_order_uid
+      }),
+      call(fetchAPI, apis.ProcessAPI.getWeldingCertifications)
+    ]
+    callback && callback(quotaData)
+    yield put(addLibraryDataAction({ quotaData, weldProSpeciData, weldCertifiData }))
   }
 }
 
