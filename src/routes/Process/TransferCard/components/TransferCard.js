@@ -4,7 +4,7 @@ import QueryString from 'query-string'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import util from 'utils'
-import { Button, Popconfirm, message } from 'antd'
+import { Button, Popconfirm, message, Divider } from 'antd'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 
@@ -47,7 +47,7 @@ class TransferCard extends React.Component {
                   查看
                 </Link>
               </Button>
-              <span className='ant-divider' />
+              <Divider type='vertical' />
               <Popconfirm
                 title='确定删除吗？'
                 onConfirm={this.handleDelete(record.id)}

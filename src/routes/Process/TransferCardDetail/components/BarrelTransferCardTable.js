@@ -14,8 +14,8 @@ class BarrelTransferCardTable extends React.Component {
   }
 
   getProcessTr = () => {
-    const { processList, cardInfo } = this.props
-    const pageSize = cardInfo.current === 1 ? FIRST_PAGE_SIZE : PAGE_SIZE
+    const { processList, currentPage } = this.props
+    const pageSize = currentPage === 1 ? FIRST_PAGE_SIZE : PAGE_SIZE
     while (processList.length < pageSize) {
       processList.push({})
     }
@@ -365,6 +365,7 @@ class BarrelTransferCardTable extends React.Component {
 
 BarrelTransferCardTable.propTypes = {
   cardInfo: PropTypes.object.isRequired,
+  currentPage: PropTypes.number.isRequired,
   pagination: PropTypes.object.isRequired,
   processList: PropTypes.array.isRequired
 }

@@ -222,6 +222,7 @@ class TransferCardDetail extends React.Component {
         { (cardInfo.category === '筒体流转卡' || cardInfo.category === '封头流转卡') &&
           <BarrelTransferCardTable
             cardInfo={cardInfo}
+            currentPage={pagination.current}
             pagination={pagination}
             processList={processList}
           />
