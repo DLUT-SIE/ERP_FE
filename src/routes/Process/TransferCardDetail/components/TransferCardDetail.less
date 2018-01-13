@@ -11,15 +11,18 @@
 
 @media print {
   body * {
-      visibility: hidden;
+    visibility: hidden;
   }
   .transfer-card-table,
   .transfer-card-table * {
-      visibility: visible;
+    visibility: visible;
+  }
+  .transfer-card-table .process-operation-area{
+    visibility: hidden;
   }
   .transfer-card-table {
-      position: absolute;
-      left: 0;
-      top: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
   }
 }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { Button } from 'antd'
 
+import TransferCardProcessTr from './TransferCardProcessTr'
 import './TransferCardTable.less'
 
 const PAGE_SIZE = 7
@@ -12,33 +13,28 @@ class PressContainerTransferCardTable extends React.Component {
     super(props)
   }
 
-  getControlTr = () => {
-    const { processList } = this.props
+  componentWillMount () {
+    this.initProcessList()
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.initProcessList(nextProps)
+  }
+
+  initProcessList (props = this.props) {
+    const { processList } = props
+    if (processList.length === 0) {
+      processList.push({
+        index: 0
+      })
+    }
     while (processList.length < PAGE_SIZE) {
       processList.push({})
     }
-    const processTrs = _.map(processList, (process, index) => {
-      return (
-        <tr className='control-unit-tr' key={index}>
-          <td className='order-td'>
-            {process.index}
-          </td>
-          <td className='process-td' colSpan={6}>
-            {process.detail}
-          </td>
-          <td className='group-td' colSpan={3} />
-          <td className='operator-td' colSpan={2} />
-          <td className='first-date-td' colSpan={2} />
-          <td className='checker-td' colSpan={3} />
-          <td className='second-date-td' />
-        </tr>
-      )
-    })
-    return processTrs
   }
 
   render () {
-    const { cardInfo, pagination } = this.props
+    const { cardInfo, pagination, processList, onEdit, onDelete, onMove } = this.props
     const { current, totalPage } = pagination
     return (
       <table className='transfer-card-table'>
@@ -184,7 +180,17 @@ class PressContainerTransferCardTable extends React.Component {
             </td>
           </tr>
           {
-            this.getControlTr()
+            _.map(processList, (process, index) => (
+              <TransferCardProcessTr
+                key={index}
+                type='pressContainer'
+                process={process}
+                index={index}
+                onEdit={onEdit}
+                onDelete={onDelete}
+                onMove={onMove}
+              />
+            ))
           }
           <tr className='sign-tr'>
             <td className='mark-td' colSpan={2} />
@@ -309,7 +315,10 @@ class PressContainerTransferCardTable extends React.Component {
 PressContainerTransferCardTable.propTypes = {
   cardInfo: PropTypes.object.isRequired,
   pagination: PropTypes.object.isRequired,
-  processList: PropTypes.array.isRequired
+  processList: PropTypes.array.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onMove: PropTypes.func.isRequired
 }
 
 export default PressContainerTransferCardTable

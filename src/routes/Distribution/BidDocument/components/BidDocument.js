@@ -269,13 +269,7 @@ class BidDocument extends React.Component {
   }
 
   handleSaveCheck = (values) => {
-    let { url, method } = apis.Distribution.saveCheckDocument
-    url = url(values.id)
-    const api = {
-      url,
-      method
-    }
-    fetchAPI(api, values.fieldsValue).then((repos) => {
+    fetchAPI(apis.Distribution.saveCheckDocument, values.fieldsValue, { id: values.id }).then((repos) => {
       message.success('审核成功！')
       this.handleCloseCheckModal()
       this.fetchProductionList(this._query({}, 'page1'))

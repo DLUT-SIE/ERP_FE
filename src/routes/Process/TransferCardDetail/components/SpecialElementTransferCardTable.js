@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { Button } from 'antd'
 
+import CardProcessThead from './CardProcessThead'
+import CardProcessThead2 from './CardProcessThead2'
+import TransferCardProcessTr from './TransferCardProcessTr'
 import './TransferCardTable.less'
 
 const PAGE_SIZE = 10
@@ -12,35 +15,28 @@ class SpecialElementTransferCardTable extends React.Component {
     super(props)
   }
 
-  getProcessTr = () => {
-    const { processList } = this.props
+  componentWillMount () {
+    this.initProcessList()
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.initProcessList(nextProps)
+  }
+
+  initProcessList (props = this.props) {
+    const { processList } = props
+    if (processList.length === 0) {
+      processList.push({
+        index: 0
+      })
+    }
     while (processList.length < PAGE_SIZE) {
       processList.push({})
     }
-    const processTrs = _.map(processList, (process, index) => {
-      return (
-        <tr className='process-tr' key={index}>
-          <td className='order-td'>
-            {process.index}
-          </td>
-          <td className='process-td'>
-            {process.name}
-          </td>
-          <td className='process-request-value-td' colSpan={14}>
-            {process.detail}
-          </td>
-          <td className='name-td' colSpan={4} />
-          <td className='first-date-td' colSpan={2} />
-          <td className='name-td' colSpan={3} />
-          <td className='second-date-td' />
-        </tr>
-      )
-    })
-    return processTrs
   }
 
   render () {
-    const { cardInfo, pagination } = this.props
+    const { cardInfo, pagination, processList, onEdit, onDelete, onMove } = this.props
     const { current, totalPage } = pagination
     return (
       <table className='transfer-card-table'>
@@ -164,39 +160,20 @@ class SpecialElementTransferCardTable extends React.Component {
               {cardInfo.circulation_routes.join(', ')}
             </td>
           </tr>
-          <tr className='process-tr'>
-            <td className='order-td' rowSpan={2}>
-              序 号
-            </td>
-            <td className='process-td' rowSpan={2}>
-              工 序
-            </td>
-            <td className='process-request-td' colSpan={14} rowSpan={2}>
-              <b>工 艺 过 程 及 技 术 要 求</b>
-            </td>
-            <td className='operator-td' colSpan={6}>
-              操 作 者
-            </td>
-            <td className='checker-td' colSpan={4}>
-              检 查 者
-            </td>
-          </tr>
-          <tr className='process-tr'>
-            <td className='name-td' colSpan={4}>
-              姓 名
-            </td>
-            <td className='first-date-td' colSpan={2}>
-              日 期
-            </td>
-            <td className='name-td' colSpan={3}>
-              姓 名
-            </td>
-            <td className='second-date-td'>
-              日 期
-            </td>
-          </tr>
+          <CardProcessThead />
+          <CardProcessThead2 />
           {
-            this.getProcessTr()
+            _.map(processList, (process, index) => (
+              <TransferCardProcessTr
+                key={index}
+                type='specialElement'
+                process={process}
+                index={index}
+                onEdit={onEdit}
+                onDelete={onDelete}
+                onMove={onMove}
+              />
+            ))
           }
           <tr className='sign-tr'>
             <td className='mark-td' />
@@ -321,7 +298,10 @@ class SpecialElementTransferCardTable extends React.Component {
 SpecialElementTransferCardTable.propTypes = {
   cardInfo: PropTypes.object.isRequired,
   pagination: PropTypes.object.isRequired,
-  processList: PropTypes.array.isRequired
+  processList: PropTypes.array.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onMove: PropTypes.func.isRequired
 }
 
 export default SpecialElementTransferCardTable

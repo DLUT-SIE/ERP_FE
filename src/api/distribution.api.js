@@ -20,7 +20,7 @@ export default {
     method: 'POST'
   },
   saveCheckDocument: {
-    url: (id) => (`/api/bidding_documents/${id}/`),
+    url: '/api/bidding_documents/:id/',
     method: 'PATCH'
   }
 }
