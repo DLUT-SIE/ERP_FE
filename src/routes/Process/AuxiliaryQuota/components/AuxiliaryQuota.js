@@ -85,12 +85,7 @@ class AuxiliaryQuota extends React.Component {
 
   handleDelete = (id) => {
     return (e) => {
-      const { url, method } = apis.ProcessAPI.deleteAuxiliaryQuota
-      const api = {
-        url: url(id),
-        method
-      }
-      fetchAPI(api, {}).then((repos) => {
+      fetchAPI(apis.ProcessAPI.deleteAuxiliaryQuota, {}, { id }).then((repos) => {
         message.success('删除成功！')
         this.props.getListDataAction({
           params: this._query()
@@ -100,12 +95,7 @@ class AuxiliaryQuota extends React.Component {
   }
 
   fetchAuxiliaryQuota (id, cb) {
-    const { url, method } = apis.ProcessAPI.getAuxiliaryQuota
-    const api = {
-      url: url(id),
-      method
-    }
-    fetchAPI(api, {}).then((repos) => {
+    fetchAPI(apis.ProcessAPI.getAuxiliaryQuota, {}, { id }).then((repos) => {
       cb(repos)
     })
   }
@@ -176,12 +166,7 @@ class AuxiliaryQuota extends React.Component {
   }
 
   handleSave = (id, fieldsValue) => {
-    const { url, method } = apis.ProcessAPI.updateAuxiliaryQuota
-    const api = {
-      url: url(id),
-      method
-    }
-    fetchAPI(api, fieldsValue).then((repos) => {
+    fetchAPI(apis.ProcessAPI.updateAuxiliaryQuota, fieldsValue, { id }).then((repos) => {
       message.success('修改成功！')
       this.handleCloseModal()
       this.props.getListDataAction({

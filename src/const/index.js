@@ -334,6 +334,40 @@ export const MATERIAL_CATEGORY_MAP = {
   '辅助工具': 8
 }
 
+export const PROC_QUAL_INDEX_LIST = [
+  {
+    value: 0,
+    label: 'RH24-13-09'
+  },
+  {
+    value: 1,
+    label: 'RH24-13-36'
+  }
+]
+
+export const PURCHASE_ORDER_STATUS_LIST = [
+  {
+    value: 0,
+    label: '创建中订购单'
+  },
+  {
+    value: 1,
+    label: '创建完成订购单'
+  },
+  {
+    value: 2,
+    label: '审核通过订购单'
+  },
+  {
+    value: 3,
+    label: '批准通过订购单'
+  },
+  {
+    value: 4,
+    label: '已终止历史订购单'
+  }
+]
+
 export const UNKNOW_COLUMN = {
   title: '未知标题',
   dataIndex: 'unkow_column',
@@ -506,6 +540,16 @@ export const COLUMNS = {
     title: '供货状态',
     key: 'status',
     dataIndex: 'status'
+  },
+  purchase_order_uid: {
+    title: '订购单单号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
+  purchase_order_create_dt: {
+    title: '创建时间',
+    key: 'create_dt',
+    dataIndex: 'create_dt'
   },
   part_drawing_number: {
     title: '零件图号',
@@ -727,15 +771,25 @@ export const COLUMNS = {
     key: 'uid',
     dataIndex: 'uid'
   },
+  weld_position_name: {
+    title: '焊接位置',
+    key: 'weld_position_name',
+    dataIndex: 'weld_position_name'
+  },
   seam_type: {
     title: '焊缝类型',
     key: 'seam_type',
     dataIndex: 'seam_type'
   },
-  weld_method: {
-    title: '焊接方法',
-    key: 'weld_method',
-    dataIndex: 'weld_method'
+  weld_method_1_name: {
+    title: '焊接方法1',
+    key: 'weld_method_1_name',
+    dataIndex: 'weld_method_1_name'
+  },
+  weld_method_2_name: {
+    title: '焊接方法2',
+    key: 'weld_method_2_name',
+    dataIndex: 'weld_method_2_name'
   },
   length: {
     title: '焊缝长度',
@@ -752,10 +806,10 @@ export const COLUMNS = {
     key: 'bm_thick_1',
     dataIndex: 'bm_thick_1'
   },
-  wm_1: {
+  wm_1_name: {
     title: '焊丝/焊条1',
-    key: 'wm_1',
-    dataIndex: 'wm_1'
+    key: 'wm_1_name',
+    dataIndex: 'wm_1_name'
   },
   ws_1: {
     title: '规格1',
@@ -772,10 +826,10 @@ export const COLUMNS = {
     key: 'weight_1',
     dataIndex: 'weight_1'
   },
-  wf_1: {
+  wf_1_name: {
     title: '焊剂1',
-    key: 'wf_1',
-    dataIndex: 'wf_1'
+    key: 'wf_1_name',
+    dataIndex: 'wf_1_name'
   },
   wf_weight_1: {
     title: '焊剂重量1',
@@ -792,10 +846,10 @@ export const COLUMNS = {
     key: 'bm_thick_2',
     dataIndex: 'bm_thick_2'
   },
-  wm_2: {
+  wm_2_name: {
     title: '焊丝/焊条2',
-    key: 'wm_2',
-    dataIndex: 'wm_2'
+    key: 'wm_2_name',
+    dataIndex: 'wm_2_name'
   },
   ws_2: {
     title: '规格2',
@@ -812,10 +866,10 @@ export const COLUMNS = {
     key: 'weight_2',
     dataIndex: 'weight_2'
   },
-  wf_2: {
+  wf_2_name: {
     title: '焊剂2',
-    key: 'wf_2',
-    dataIndex: 'wf_2'
+    key: 'wf_2_name',
+    dataIndex: 'wf_2_name'
   },
   wf_weight_2: {
     title: '焊剂重量2',
@@ -1042,6 +1096,67 @@ export const COLUMNS = {
     title: '材料牌号',
     key: 'material',
     dataIndex: 'material'
+  },
+  sub_order: {
+    title: '工作令编号',
+    key: 'sub_order',
+    dataIndex: 'sub_order'
+  },
+  ticket_number_order: {
+    title: '票号',
+    key: 'process_material.ticket_number',
+    dataIndex: 'process_material.ticket_number'
+  },
+  name_order: {
+    title: '名称',
+    key: 'process_material.name',
+    dataIndex: 'process_material.name'
+  },
+  spec_order: {
+    title: '规格',
+    key: 'process_material.spec',
+    dataIndex: 'process_material.spec'
+  },
+  drawing_number_order: {
+    title: '图号',
+    key: 'process_material.drawing_number',
+    dataIndex: 'process_material.drawing_number'
+  },
+  material_order: {
+    title: '材质',
+    key: 'process_material.material',
+    dataIndex: 'process_material.material'
+  },
+  count_order: {
+    title: '数量',
+    key: 'process_material.count',
+    dataIndex: 'process_material.count'
+  },
+  piece_weight_order: {
+    title: '单重',
+    key: 'process_material.piece_weight',
+    dataIndex: 'process_material.piece_weight'
+  },
+  weight_order: {
+    title: '单重(Kg)',
+    key: 'weight',
+    dataIndex: 'weight'
+  },
+  total_weight_order: {
+    title: '采购(Kg)',
+    key: 'total_weight',
+    dataIndex: 'total_weight'
+  },
+  remark_order: {
+    title: '备注',
+    key: 'process_material.remark',
+    dataIndex: 'process_material.remark'
+  },
+  finished: {
+    title: '是否结束',
+    key: 'finished',
+    dataIndex: 'finished'
+
   },
   first_name: {
     title: '姓名',

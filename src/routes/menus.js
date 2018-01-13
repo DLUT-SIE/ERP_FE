@@ -41,7 +41,7 @@ export const menu = {
       icon: 'appstore',
       pendingorder: '/purchase/pending_order',
       material: '/purchase/material',
-      purchaseorder: '/purchase/purchase_order'
+      purchaseordermanagement: '/purchase/purchase_order_management'
     },
     inventory: {
       icon: 'appstore',

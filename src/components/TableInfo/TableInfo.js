@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import _ from 'lodash'
 import { Button, Row, Col } from 'antd'
 import './TableInfo.less'
 
@@ -22,6 +23,7 @@ class TableInfo extends React.Component {
               <Button
                 type='primary'
                 size='small'
+                disabled={_.isUndefined(workOrder)}
               >
                 签字
               </Button>
@@ -33,6 +35,7 @@ class TableInfo extends React.Component {
               <Button
                 type='primary'
                 size='small'
+                disabled={_.isUndefined(workOrder)}
               >
                 签字
               </Button>

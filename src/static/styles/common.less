@@ -13,10 +13,19 @@
   color: #108ee9;
 }
 
+.ant-select-dropdown-menu-item:hover, .ant-select-dropdown-menu-item-active{
+  background-color: @select-dropdown-menu-hover!important;
+}
+
 .container {
   // 重写ant-select 和 cascader样式
   .select, .cascader{
     width: @select-width;
+  }
+  .ant-select{
+    &:hover{
+      background-color: @select-item-over-bg;
+    }
   }
   .ant-table-thead{
     th{
@@ -71,9 +80,9 @@ button.ant-btn.ant-btn-danger {
 }
 
 button.ant-btn.ant-btn-success {
-  background-color: #00a854;
+  background-color: #369a68;
   color: #fff;
-  border-color: #00a854;
+  border-color: #277950;
   &[disabled] {
     color: rgba(0,0,0,.25);
     background-color: #f7f7f7;

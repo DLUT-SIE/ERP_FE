@@ -12,18 +12,22 @@ import FilterBar from 'components/WorkOrderFilterBar'
 import CustomTable from 'components/CustomTable'
 import TableInfo from 'components/TableInfo'
 import WeldingSeamModal from 'components/WeldingSeamModal'
+import WeldingJointModal from './WeldingJointModal'
 import './WeldingSeam.less'
 
 const columns = [
-  'add', 'part_drawing_number', 'uid', 'ticket_number', 'seam_type', 'weld_method', 'length', 'bm_1', 'bm_thick_1', 'wm_1',
-  'ws_1', 'wt_1', 'weight_1', 'wf_1', 'wf_weight_1', 'bm_2', 'bm_thick_2', 'wm_2', 'ws_2', 'wt_2', 'weight_2', 'wf_2',
+  'add', 'part_drawing_number', 'uid', 'ticket_number', 'seam_type', 'weld_position_name', 'weld_method_1_name',
+  'weld_method_2_name', 'length', 'bm_1', 'bm_thick_1', 'wm_1_name', 'ws_1', 'wt_1', 'weight_1', 'wf_1_name', 'wf_weight_1',
+  'bm_2', 'bm_thick_2', 'wm_2_name', 'ws_2', 'wt_2', 'weight_2', 'wf_2_name',
   'wf_weight_2', 'remark', 'action'
 ]
 
 class WeldingSeam extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      checkedList: []
+    }
     this._columns = this.buildColumns()
     this._category = DETAILED_TABLE_CATEGORY_MAP['焊缝明细表']
   }
@@ -56,16 +60,11 @@ class WeldingSeam extends React.Component {
         fixed: 'left',
         width: 100,
         render: (text, record, index) => {
-          return record.status ? '已添加' : (
+          return record.added_welding_joint ? '已添加' : (
             <Checkbox
-              onChange={this.handleChangeCheckbox(record.id)}
+              onChange={this.handleChangeCheckbox(record)}
             />
           )
-        }
-      },
-      weld_method: {
-        render: (text, record, index) => {
-          return `${record.weld_method_1} + ${record.weld_method_2}`
         }
       },
       remark: {
@@ -91,87 +90,6 @@ class WeldingSeam extends React.Component {
           )
         }
       }
-    })
-  }
-
-  handleChangeCheckbox = (id) => {
-    return (e) => {
-      console.log('handleChangeCheckbox', e.target)
-      const { checked } = e.target
-      console.log('checked', checked)
-    }
-  }
-
-  fetchWeldingSeam (id, cb) {
-    const { url, method } = apis.ProcessAPI.getWeldingSeam
-    const api = {
-      url: url(id),
-      method
-    }
-    fetchAPI(api, {}).then((repos) => {
-      cb(repos)
-    })
-  }
-
-  handleOpenWeldingSeamModal = (e) => {
-    const { id, index } = e.target.dataset
-    this.fetchWeldingSeam(id, (repos) => {
-      this.props.changeWeldingSeamModalAction({
-        visible: true,
-        index: +index,
-        fieldsValue: repos
-      })
-    })
-  }
-
-  handleCloseWeldingSeamModal = (e) => {
-    this.props.changeWeldingSeamModalAction({
-      visible: false
-    })
-  }
-
-  handleChangeWeldingSeam = (e) => {
-    const { type } = e.target.dataset
-    const { status, changeWeldingSeamModalAction } = this.props
-    const mydata = status.toJS()
-    const weldingSeamModal = _.get(mydata, 'weldingSeamModal', [])
-    const list = _.get(mydata, 'list', [])
-    let { index } = weldingSeamModal
-    if (type === 'previous') {
-      if (index === 0) {
-        message.warning('本条已为当前页第一条！')
-        return
-      }
-      index -= 1
-    } else {
-      if (index === list.length - 1) {
-        message.warning('本条已为当前页的最后一条！')
-        return
-      }
-      index += 1
-    }
-    console.log('handleChangeWeldingSeam', list, index)
-    this.fetchWeldingSeam(list[index].id, (repos) => {
-      changeWeldingSeamModalAction({
-        visible: true,
-        index,
-        fieldsValue: repos
-      })
-    })
-  }
-
-  handleSaveWeldingSeam = (id, fieldsValue) => {
-    const { url, method } = apis.ProcessAPI.updateWeldingSeam
-    const api = {
-      url: url(id),
-      method
-    }
-    fetchAPI(api, fieldsValue).then((repos) => {
-      message.success('修改成功！')
-      this.handleCloseWeldingSeamModal()
-      this.props.getListDataAction({
-        params: this._query()
-      })
     })
   }
 
@@ -228,6 +146,156 @@ class WeldingSeam extends React.Component {
     })
   }
 
+  fetchWeldingSeam (id, cb) {
+    fetchAPI(apis.ProcessAPI.getWeldingSeam, {}, { id }).then((repos) => {
+      cb(repos)
+    })
+  }
+
+  handleOpenWeldingSeamModal = (e) => {
+    const { id, index } = e.target.dataset
+    this.fetchWeldingSeam(id, (repos) => {
+      this.props.changeWeldingSeamModalAction({
+        visible: true,
+        index: +index,
+        fieldsValue: repos
+      })
+    })
+  }
+
+  handleCloseWeldingSeamModal = (e) => {
+    this.props.changeWeldingSeamModalAction({
+      visible: false
+    })
+  }
+
+  handleChangeWeldingSeam = (e) => {
+    const { type } = e.target.dataset
+    const { status, changeWeldingSeamModalAction } = this.props
+    const mydata = status.toJS()
+    const weldingSeamModal = _.get(mydata, 'weldingSeamModal', [])
+    const list = _.get(mydata, 'list', [])
+    let { index } = weldingSeamModal
+    if (type === 'previous') {
+      if (index === 0) {
+        message.warning('本条已为当前页第一条！')
+        return
+      }
+      index -= 1
+    } else {
+      if (index === list.length - 1) {
+        message.warning('本条已为当前页的最后一条！')
+        return
+      }
+      index += 1
+    }
+    this.fetchWeldingSeam(list[index].id, (repos) => {
+      changeWeldingSeamModalAction({
+        visible: true,
+        index,
+        fieldsValue: repos
+      })
+    })
+  }
+
+  handleSaveWeldingSeam = (id, fieldsValue) => {
+    fetchAPI(apis.ProcessAPI.updateWeldingSeam, fieldsValue, { id }).then((repos) => {
+      message.success('修改成功！')
+      this.handleCloseWeldingSeamModal()
+      this.props.getListDataAction({
+        params: this._query()
+      })
+    })
+  }
+
+  handleChangeCheckbox = (record) => {
+    return (e) => {
+      const { checked } = e.target
+      let { checkedList } = this.state
+      if (checked) {
+        checkedList.push(record)
+      } else {
+        checkedList = _.filter(checkedList, (item) => {
+          return item.id !== record.id
+        })
+      }
+      this.setState({
+        checkedList
+      })
+    }
+  }
+
+  equalFieldsAddToWeldingJoint (weldingSeam) {
+    return {
+      weld_position_name: weldingSeam.weld_position_name,
+      weld_method_1_name: weldingSeam.weld_method_1_name,
+      weld_method_2_name: weldingSeam.weld_method_2_name,
+      bm_1: weldingSeam.bm_1,
+      bm_2: weldingSeam.bm_2,
+      bm_thick_1: weldingSeam.bm_thick_1,
+      bm_thick_2: weldingSeam.bm_thick_2
+    }
+  }
+
+  canAddToWeldingJoint (checkedList) {
+    if (!checkedList.length) {
+      message.warning('请先选择需要添加的焊缝！')
+      return false
+    }
+    const firstWeldingSeam = checkedList[0]
+    const allEqual = _.every(checkedList, this.equalFieldsAddToWeldingJoint(firstWeldingSeam))
+    if (!allEqual) {
+      message.error('所选焊缝不能合并！')
+      return false
+    }
+    return true
+  }
+
+  handleOpenWeldingJointModal = () => {
+    const { checkedList } = this.state
+    if (this.canAddToWeldingJoint(checkedList)) {
+      const firstWeldingSeam = checkedList[0]
+      const equalFields = this.equalFieldsAddToWeldingJoint(firstWeldingSeam)
+      const jointIndex = _.map(checkedList, (item) => (item.uid)).join(',')
+      this.props.changeWeldingJointModalAction({
+        visible: true,
+        fieldsValue: {
+          ...equalFields,
+          remark: firstWeldingSeam.remark,
+          joint_index: jointIndex
+        }
+      })
+    }
+  }
+
+  handleCloseWeldingJointModal = () => {
+    this.props.changeWeldingJointModalAction({
+      visible: false
+    })
+  }
+
+  handleAddWeldingJoint = (fieldsValue) => {
+    const { checkedList } = this.state
+    const mydata = this.props.status.toJS()
+    const weldProSpeci = _.get(mydata, 'weldProSpeci', [])
+    const weldingSeams = _.map(checkedList, (item) => {
+      return item.id
+    })
+    fetchAPI(apis.ProcessAPI.addWeldingJointProcessAnalyses, {
+      welding_seams: weldingSeams,
+      spec: weldProSpeci.id,
+      ...fieldsValue
+    }).then((repos) => {
+      message.success('添加成功！')
+      this.handleCloseWeldingJointModal()
+      this.updatelist()
+    })
+  }
+
+  handleCheckWeldingProcessSpecification = () => {
+    console.log('')
+  }
+
   render () {
     const { status, location } = this.props
     const query = QueryString.parse(location.search)
@@ -237,8 +305,10 @@ class WeldingSeam extends React.Component {
     const pagination = _.get(mydata, 'pagination', {})
     const workOrderInfo = _.get(mydata, 'workOrderInfo', {})
     const weldingSeamModal = _.get(mydata, 'weldingSeamModal', {})
+    const weldingJointModal = _.get(mydata, 'weldingJointModal', {})
     const weldingMaterials = _.get(mydata, 'weldingMaterials', {})
     const fluxMaterials = _.get(mydata, 'fluxMaterials', {})
+    const weldCertifiList = _.get(mydata, 'weldCertifiList', {})
     return (
       <div className='welding-seam'>
         <FilterBar
@@ -246,21 +316,23 @@ class WeldingSeam extends React.Component {
           fieldsValue={query}
           onSearch={this.handleSearch}
         />
-        <div className='add-btn'>
-          <Button
-            className='check-btn'
-            type='primary'
-            onClick={this.handleOpenAddModal}
-          >
-            查看焊接工艺规程
-          </Button>
-          <Button
-            size='large'
-            onClick={this.handleQuichAdd}
-          >
-            添加至焊接接头
-          </Button>
-        </div>
+        { workOrderInfo.id &&
+          <div className='add-btn'>
+            <Button
+              className='check-btn'
+              type='primary'
+              onClick={this.handleCheckWeldingProcessSpecification}
+            >
+              查看焊接工艺规程
+            </Button>
+            <Button
+              type='success'
+              onClick={this.handleOpenWeldingJointModal}
+            >
+              添加至焊接接头
+            </Button>
+          </div>
+        }
         <TableInfo
           fieldsValue={workOrderInfo}
         />
@@ -284,6 +356,14 @@ class WeldingSeam extends React.Component {
             onChange={this.handleChangeWeldingSeam}
           />
         }
+        { weldingJointModal.visible &&
+          <WeldingJointModal
+            {...weldingJointModal}
+            weldCertifiList={weldCertifiList}
+            onOk={this.handleAddWeldingJoint}
+            onCancel={this.handleCloseWeldingJointModal}
+          />
+        }
       </div>
     )
   }
@@ -297,7 +377,8 @@ WeldingSeam.propTypes = {
   getMaterialsAction: PropTypes.func.isRequired,
   resetDataAction: PropTypes.func.isRequired,
   getListDataAction: PropTypes.func.isRequired,
-  changeWeldingSeamModalAction: PropTypes.func.isRequired
+  changeWeldingSeamModalAction: PropTypes.func.isRequired,
+  changeWeldingJointModalAction: PropTypes.func.isRequired
 }
 
 export default WeldingSeam

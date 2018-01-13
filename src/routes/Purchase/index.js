@@ -2,9 +2,16 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import MaterialSummary from './MaterialSummary'
 import PendingOrder from './PendingOrder'
+import PurchaseOrderManagement from './PurchaseOrderManagement'
+import PurchaseOrder from './PurchaseOrder'
 import _ from 'lodash'
 
 const childRoutes = [
+  {
+    path: 'purchase_order_management/purchase_order',
+    breadcrumbName: '订购单',
+    component: PurchaseOrder
+  },
   {
     path: 'material',
     breadcrumbName: '物料汇总',
@@ -14,6 +21,11 @@ const childRoutes = [
     path: 'pending_order',
     breadcrumbName: '待处理工作令',
     component: PendingOrder
+  },
+  {
+    path: 'purchase_order_management',
+    breadcrumbName: '订购单管理',
+    component: PurchaseOrderManagement
   }
 ]
 
