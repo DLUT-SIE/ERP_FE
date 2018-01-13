@@ -11,6 +11,7 @@ const TRANSCARDDETAIL_ADD_CARD_DATA = 'TRANSCARDDETAIL_ADD_CARD_DATA'
 const TRANSCARDDETAIL_GET_PROCESS_DATA = 'TRANSCARDDETAIL_GET_PROCESS_DATA'
 const TRANSCARDDETAIL_ADD_PROCESS_DATA = 'TRANSCARDDETAIL_ADD_PROCESS_DATA'
 const TRANSCARDDETAIL_CHANGE_CARD_MODAL = 'TRANSCARDDETAIL_CHANGE_CARD_MODAL'
+const TRANSCARDDETAIL_CHANGE_CARD_PROCESS_MODAL = 'TRANSCARDDETAIL_CHANGE_CARD_PROCESS_MODAL'
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -49,10 +50,18 @@ function changeCardModalAction (payload) {
   }
 }
 
+function changeCardProcessModalAction (payload) {
+  return {
+    type: TRANSCARDDETAIL_CHANGE_CARD_PROCESS_MODAL,
+    payload: payload
+  }
+}
+
 export const actions = {
   getCardDataAction,
   getProcessDataAction,
-  changeCardModalAction
+  changeCardModalAction,
+  changeCardProcessModalAction
 }
 
 // ------------------------------------
@@ -65,6 +74,9 @@ var initialState = Immutable.fromJS({
   },
   processList: [],
   cardModal: {
+    visible: false
+  },
+  cardProcessModal: {
     visible: false
   }
 })
@@ -99,6 +111,9 @@ export default function TransferCardDetail (state = initialState, action) {
     },
     TRANSCARDDETAIL_CHANGE_CARD_MODAL () {
       return state.mergeIn(['cardModal'], action.payload)
+    },
+    TRANSCARDDETAIL_CHANGE_CARD_PROCESS_MODAL () {
+      return state.mergeIn(['cardProcessModal'], action.payload)
     }
   }
 
@@ -128,7 +143,8 @@ export function *getProcessSaga (type, body) {
     const { callback, params } = payload
     const data = yield call(fetchAPI, apis.ProcessAPI.getTransferCardProcess, {
       offset: params.offset,
-      limit: params.limit
+      limit: params.limit,
+      transfer_card: params.transfer_card
     })
     callback && callback(data)
     yield put(addProcessDataAction({ data, firstPageSize: params.firstPageSize, pageSize: params.pageSize }))

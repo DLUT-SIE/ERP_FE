@@ -51,6 +51,18 @@ export default {
     url: '/api/transfer_card_processes/',
     method: 'GET'
   },
+  updateTransferCardProcess: {
+    url: '/api/transfer_card_processes/:id/',
+    method: 'PATCH'
+  },
+  addTransferCardProcess: {
+    url: '/api/transfer_card_processes/',
+    method: 'POST'
+  },
+  deleteTransferCardProcess: {
+    url: '/api/transfer_card_processes/:id/',
+    method: 'DELETE'
+  },
   getQuotaList: {
     url: '/api/quota_lists/',
     method: 'GET'
