@@ -2,9 +2,9 @@
  * Created by lh on 2017/12/11.
  */
 import React from 'react'
-import { SteelAccountSubMenus } from '../../../../components/SubMenus'
+import { SteelAccountSubMenus } from 'components/SubMenus/SubMenus'
 import { Row, Col } from 'antd'
-import MenuItem from '../../../../components/MenuItem'
+import MenuItem from 'components/SubMenus/MenuItem'
 import './MenuPanel.less'
 
 class MenuPanel extends React.Component {

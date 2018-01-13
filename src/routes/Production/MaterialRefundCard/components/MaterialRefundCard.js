@@ -5,17 +5,24 @@ import _ from 'lodash'
 import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
-import { Button, message, Divider, Popconfirm } from 'antd'
+import { Button, message } from 'antd'
+import moment from 'moment'
+import { MATERIAL_REFUND_CARD_TYPE } from 'const'
 
 import FilterBar from './FilterBar'
-import ProductionUserModal from './ProductionUserModal'
+import MaterialRefundCardModal from './MaterialRefundCardModal'
 import CustomTable from 'components/CustomTable'
 
 const columns = [
-  'first_name', 'work_group_name', 'action'
+  'refund_uid', 'sub_order_uid', 'apply_uid', 'create_dt', 'pretty_status', 'action'
 ]
-
-class ProductionUsers extends React.Component {
+const mapRequest = {
+  welding_material_refund_cards: apis.ProductionAPI.getWeldingMaterialRefundCardDetails,
+  steel_material_refund_cards: apis.ProductionAPI.getSteelMaterialRefundCardDetails,
+  bought_in_component_refund_cards: apis.ProductionAPI.getBroughtInMaterialRefundCardDetails,
+  auxiliary_material_refund_cards: apis.ProductionAPI.getAuxiliaryMaterialRefundCardDetails
+}
+class MaterialApplyCard extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -23,15 +30,20 @@ class ProductionUsers extends React.Component {
   }
 
   componentDidMount () {
+    console.log(this._query())
+    let params = this._query()
+    if (_.isUndefined(params.category)) {
+      this.setState({ category: MATERIAL_REFUND_CARD_TYPE.WELD })
+    }
     this.props.getListDataAction({
       params: this._query()
     })
   }
   buildColumns () {
     return util.buildColumns(columns, {
-      first_name: {
+      create_dt:{
         render: (text, record, index) => {
-          return record.user.first_name
+          return moment(record.create_dt).format('YYYY-MM-DD')
         }
       },
       action: {
@@ -41,26 +53,13 @@ class ProductionUsers extends React.Component {
               <Button
                 type='primary'
                 size='small'
-                data-fields-value={JSON.stringify(record)}
+                data-id={record.id}
                 data-index={index}
+                data-category={this.state.category}
                 onClick={this.handleOpenEditModal}
               >
-                编辑
+                查看
               </Button>
-              <Divider type='vertical' />
-              <Popconfirm
-                title='确定删除吗？'
-                onConfirm={this.handleDelete(record.id)}
-                okText='确定'
-                cancelText='取消'
-                >
-                <Button
-                  type='danger'
-                  size='small'
-                >
-                  删除
-                </Button>
-              </Popconfirm>
             </span>
           )
         }
@@ -69,49 +68,39 @@ class ProductionUsers extends React.Component {
   }
 
   handleSearch = (searchValue) => {
+    let _searchValue = { ...searchValue }
+    let { category } = _searchValue
+    this.setState({ category: category })
     this.updateQuery({
       page: 1,
       ...searchValue
     })
   }
-  fetchGroupInfo = (processName, cb) => {
-    let { url, method } = apis.ProductionAPI.getProductionWorkGroup
+  fetchDetails = (category, id, cb) => {
+    let { url, method } = mapRequest[category]
+    url = url(id)
     const api = {
       url,
       method
     }
     fetchAPI(api).then((repos) => {
-      cb(repos.results)
+      cb(repos)
     })
   }
   handleOpenEditModal = (e) => {
-    const { fieldsValue, index, name } = e.target.dataset
-    this.fetchGroupInfo(name, (repos) => {
+    const { index, category, id } = e.target.dataset
+    this.fetchDetails(category, id, (repos) => {
+      let values = repos
+      values.create_dt = moment(repos.create_dt).format('YYYY-MM-DD')
       this.props.changeModalAction({
         visible: true,
         index: +index,
-        fieldsValue: JSON.parse(fieldsValue),
-        groups: repos
+        details: values,
+        category: category
       })
     })
   }
-  handleDelete = (id) => {
-    return (e) => {
-      let { url, method } = apis.ProductionAPI.deleteProductionUser
-      url = url(id)
-      const api = {
-        url,
-        method
-      }
-      console.log(api)
-      fetchAPI(api).then(() => {
-        message.success('删除成功！')
-        this.props.getListDataAction({
-          params: this._query()
-        })
-      })
-    }
-  }
+
   handleCloseModal = (e) => {
     this.props.changeModalAction({
       visible: false
@@ -190,7 +179,7 @@ class ProductionUsers extends React.Component {
           onChange={this.handleChangeTable}
         />
         { modal.visible &&
-          <ProductionUserModal
+          <MaterialRefundCardModal
             onOk={this.handleSave}
             onCancel={this.handleCloseModal}
             {...modal}
@@ -201,7 +190,7 @@ class ProductionUsers extends React.Component {
   }
 }
 
-ProductionUsers.propTypes = {
+MaterialApplyCard.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
@@ -209,4 +198,4 @@ ProductionUsers.propTypes = {
   changeModalAction: PropTypes.func.isRequired
 }
 
-export default ProductionUsers
+export default MaterialApplyCard

@@ -149,7 +149,15 @@ const config = {
           "code": "menu.production.production_users",
           "name": "生产用户管理",
           "children": []
-              }
+        },{
+          "code": "menu.production.material_apply_card",
+          "name": "材料领用卡",
+          "children": []
+        },{
+          "code": "menu.production.material_refund_card",
+          "name": "材料退库卡",
+          "children": []
+        }
         ],
     }]
 
