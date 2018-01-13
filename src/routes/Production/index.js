@@ -10,6 +10,10 @@ import TaskAllocation from './TaskAllocation'
 import TaskConfirm from './TaskConfirm'
 import ProductionUsers from './ProductionUser'
 import AddProductionUser from './ProductionUser/components/AddProductionUser'
+import MaterialApplyCard from './MaterialApplyCard'
+import AddWeldingApplyCard from './MaterialApplyCard/components/AddApllyCard'
+import MaterialRefundCard from './MaterialRefundCard'
+import AddMaterialRefundCard from './MaterialRefundCard/components/AddRefundCard'
 
 const childRoutes = [
   {
@@ -41,6 +45,26 @@ const childRoutes = [
     path: 'create_production_user',
     breadcrumbName: '添加生产人员',
     component: AddProductionUser
+  },
+  {
+    path: 'material_apply_card/create_material_apply_card',
+    breadcrumbName: '领用卡新建',
+    component: AddWeldingApplyCard
+  },
+  {
+    path: 'material_apply_card',
+    breadcrumbName: '材料领用卡',
+    component: MaterialApplyCard
+  },
+  {
+    path: 'material_refund_card',
+    breadcrumbName: '材料退库卡',
+    component: MaterialRefundCard
+  },
+  {
+    path: 'material_refund_card/create_material_refund_card',
+    breadcrumbName: '退库卡新建',
+    component: AddMaterialRefundCard
   }
 ]
 

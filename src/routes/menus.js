@@ -60,7 +60,9 @@ export const menu = {
       task_plan_date: `/production/task_plan_date/?allocation_status=${false}&confirm_status=${false}`,
       task_allocation: `/production/task_allocation/?plan_status=${true}&confirm_status=${false}`,
       task_confirm: `/production/task_confirm/?allocation_status=${true}`,
-      production_users: '/production/production_users'
+      production_users: '/production/production_users',
+      material_apply_card: '/production/material_apply_card',
+      material_refund_card: '/production/material_refund_card'
     }
   }
 }

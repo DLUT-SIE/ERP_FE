@@ -181,4 +181,27 @@ const BasicDataSubMenus = [
   }
 ]
 
+export const MatertialApplyCards = [
+  {
+    icon: 'check-square-o',
+    path: '/production/material_apply_card/welding',
+    breadcrumbName: '焊材领用卡'
+  },
+  {
+    icon: 'check-square-o',
+    path: '/production/material_apply_card/steel',
+    breadcrumbName: '钢材领用卡'
+  },
+  {
+    icon: 'check-square-o',
+    path: '/production/material_apply_card/brought_in',
+    breadcrumbName: '外购件领用卡'
+  },
+  {
+    icon: 'check-square-o',
+    path: '/production/material_apply_card/auxiliary',
+    breadcrumbName: '辅材领用卡'
+  }
+]
+
 export { WeldSubMenus, WeldAccountSubMenus, SteelSubMenus, SteelAccountSubMenus, BroughtInSubMenus, BroughtInAccountSubMenus, AuxiliarySubMenus, AuxiliaryAccountMenus, BasicDataSubMenus }

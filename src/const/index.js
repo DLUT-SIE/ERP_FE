@@ -251,7 +251,56 @@ export const PRODUCTION_STATUS = [
     label: '在制'
   }
 ]
-
+export const MATERIAL_APPLY_CARD = [
+  {
+    value: 'welding_material_apply_cards',
+    label: '焊材'
+  }, {
+    value: 'steel_material_apply_cards',
+    label: '钢材'
+  }, {
+    value: 'bought_in_component_apply_cards',
+    label: '外购件'
+  }, {
+    value: 'auxiliary_material_apply_cards',
+    label: '辅材'
+  }
+]
+export const MATERIAL_REFUND_CARD = [
+  {
+    value: 'welding_material_refund_cards',
+    label: '焊材'
+  }, {
+    value: 'steel_material_refund_cards',
+    label: '钢材'
+  }, {
+    value: 'bought_in_component_refund_cards',
+    label: '外购件'
+  }
+]
+export const MATERIAL_APPLY_CARD_TYPE = {
+  WELD: 'welding_material_apply_cards',
+  STEEL: 'steel_material_apply_cards',
+  BROUGHT_IN: 'bought_in_component_apply_cards',
+  AUXILIARY: 'auxiliary_material_apply_cards'
+}
+export const MATERIAL_REFUND_CARD_TYPE = {
+  WELD: 'welding_material_refund_cards',
+  STEEL: 'steel_material_refund_cards',
+  BROUGHT_IN: 'bought_in_component_refund_cards'
+}
+// todo: 主材定额，外购件明细，工序性外协明细暂时不知对应的领用单类型
+export const DETAILED_TYPE = [{
+  value: 4,
+  label: '焊材定额'
+}, {
+  value: 1,
+  label: '辅材定额'
+}, {
+  value: 3,
+  label: '外购件定额'
+}
+]
 export const DETAILED_TABLE_CATEGORY_MAP = {
   '辅材定额明细表': 0,
   '主材定额明细表': 1,
@@ -345,6 +394,11 @@ export const COLUMNS = {
   },
   material: {
     title: '材质',
+    key: 'material',
+    dataIndex: 'material'
+  },
+  material_num:{
+    title: '材料牌号',
     key: 'material',
     dataIndex: 'material'
   },
@@ -533,6 +587,11 @@ export const COLUMNS = {
     key: 'uid',
     dataIndex: 'uid'
   },
+  common_work_uid: {
+    title: '工作令编号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
   create_dt:{
     title: '日期',
     key: 'create_dt',
@@ -593,8 +652,18 @@ export const COLUMNS = {
     key: 'id',
     dataIndex: 'id'
   },
+  refund_uid: {
+    title: '退库单编号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
   refund_pretty_status: {
     title: '退库单状态',
+    key: 'pretty_status',
+    dataIndex: 'pretty_status'
+  },
+  apply_card_pretty_status: {
+    title: '领用单状态',
     key: 'pretty_status',
     dataIndex: 'pretty_status'
   },
@@ -968,6 +1037,11 @@ export const COLUMNS = {
     title: '牌号',
     key: 'material_name',
     dataIndex: 'material_name'
+  },
+  material_brand: {
+    title: '材料牌号',
+    key: 'material',
+    dataIndex: 'material'
   },
   first_name: {
     title: '姓名',

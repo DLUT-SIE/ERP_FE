@@ -57,5 +57,101 @@ export default{
   createProductionUsers: {
     url: '/api/production_users/',
     method: 'POST'
+  },
+  getWeldingMaterialApplyCards: {
+    url : '/api/welding_material_apply_cards/',
+    method: 'GET'
+  },
+  getSteelMaterialApplyCards: {
+    url : '/api/steel_material_apply_cards/',
+    method: 'GET'
+  },
+  getBroughtInMaterialApplyCards: {
+    url : '/api/bought_in_component_apply_cards/',
+    method: 'GET'
+  },
+  getAuxiliaryMaterialApplyCards: {
+    url : '/api/auxiliary_material_apply_cards/',
+    method: 'GET'
+  },
+  createWeldingMaterialApplyCards: {
+    url : '/api/welding_material_apply_cards/',
+    method: 'POST'
+  },
+  createSteelMaterialApplyCards: {
+    url : '/api/steel_material_apply_cards/',
+    method: 'POST'
+  },
+  createBroughtInMaterialApplyCards: {
+    url : '/api/bought_in_component_apply_cards/',
+    method: 'POST'
+  },
+  createAuxiliaryMaterialApplyCards: {
+    url : '/api/auxiliary_material_apply_cards/',
+    method: 'POST'
+  },
+  getWeldingMaterialApplyCardDetails: {
+    url: (id) => (`/api/welding_material_apply_cards/${id}/`),
+    method: 'GET'
+  },
+  getSteelMaterialApplyCardDetails: {
+    url: (id) => (`/api/steel_material_apply_cards/${id}/`),
+    method: 'GET'
+  },
+  getBroughtInMaterialApplyCardDetails: {
+    url: (id) => (`/api/bought_in_component_apply_cards/${id}/`),
+    method: 'GET'
+  },
+  getAuxiliaryMaterialApplyCardDetails: {
+    url: (id) => (`/api/auxiliary_material_apply_cards/${id}/`),
+    method: 'GET'
+  },
+  getWeldingQuotaItems: {
+    url : '/api/welding_quota_items/production/',
+    method: 'GET'
+  },
+  getBroughtInItems: {
+    url : '/api/bought_in_items/production/',
+    method: 'GET'
+  },
+  getAuxiliaryQuotaItems: {
+    url : '/api/auxiliary_quota_items/production/',
+    method: 'GET'
+  },
+  getProcurementMaterial: {
+    url : '/api/procurement_materials/production/',
+    method: 'GET'
+  },
+  getWeldingMaterialRefundCards: {
+    url : '/api/welding_material_refund_cards/',
+    method: 'GET'
+  },
+  getSteelMaterialRefundCards: {
+    url : '/api/steel_material_refund_cards/',
+    method: 'GET'
+  },
+  getBroughtInMaterialRefundCards: {
+    url : '/api/bought_in_component_refund_cards/',
+    method: 'GET'
+  },
+  /* getAuxiliaryMaterialRefundCards: {
+    url : '/api/auxiliary_material_refund_cards/',
+    method: 'GET'
+  }, */
+  getWeldingMaterialRefundCardDetails: {
+    url: (id) => (`/api/welding_material_refund_cards/${id}/`),
+    method: 'GET'
+  },
+  getSteelMaterialRefundCardDetails: {
+    url: (id) => (`/api/steel_material_refund_details/${id}/`),
+    method: 'GET'
+  },
+  getBroughtInMaterialRefundCardDetails: {
+    url: (id) => (`/api/bought_in_component_refund_details/${id}/`),
+    method: 'GET'
+  },
+  getAuxiliaryMaterialRefundCardDetails: {
+    url: (id) => (`/api/auxiliary_material_refund_cards/${id}/`),
+    method: 'GET'
   }
 }
