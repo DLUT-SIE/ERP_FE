@@ -120,7 +120,7 @@ class PurchaseOrder extends React.Component {
     return filterQuery
   }
 
-  updatelist (query = this.props.location.query) {
+  updatelist (query = QueryString.parse(this.props.location.search)) {
     this.props.getListDataAction({
       params: query
     })
@@ -176,12 +176,7 @@ class PurchaseOrder extends React.Component {
   }
 
   handleSaveProcurementMaterials = (id, fieldsValue) => {
-    const { url, method } = apis.PurchaseAPI.updateProcurementMaterial
-    const api = {
-      url: url(id),
-      method
-    }
-    fetchAPI(api, fieldsValue).then((repos) => {
+    fetchAPI(apis.PurchaseAPI.updateProcurementMaterial, fieldsValue, { id }).then((repos) => {
       this.handleCloseEditModal()
       message.success('修改成功！')
       this.updatelist()
@@ -202,12 +197,10 @@ class PurchaseOrder extends React.Component {
         textAreaDisabled: !this.state.textAreaDisabled
       })
     } else {
-      const { url, method } = apis.PurchaseAPI.updatePurchaseOrder
-      const api = {
-        url: url(this._id),
-        method
-      }
-      fetchAPI(api, { tech_requirement: techRequirement }).then((repos) => {
+      fetchAPI(apis.PurchaseAPI.updatePurchaseOrder,
+        { tech_requirement: techRequirement },
+        { id: this._id }
+      ).then((repos) => {
         message.success('保存成功！')
         this.setState({
           textAreaDisabled: true
