@@ -12,11 +12,11 @@ export default {
     method: 'GET'
   },
   getWeldHumitureRecordDetail: {
-    url: (id) => (`/api/welding_material_humiture_records/${id}/`),
+    url: '/api/welding_material_humiture_records/:id/',
     method: 'GET'
   },
   updateWeldHumitureRecord: {
-    url: (id) => (`/api/welding_material_humiture_records/${id}/`),
+    url: '/api/welding_material_humiture_records/:id/',
     method: 'PATCH'
   },
   createWeldHumitureRecord: {
@@ -40,11 +40,11 @@ export default {
     method: 'GET'
   },
   getWeldInventoryAccountDetail: {
-    url: (id) => (`/api/welding_material_inventory_ledgers/${id}/`),
+    url: '/api/welding_material_inventory_ledgers/:id/',
     method: 'GET'
   },
   updateWeldInventoryAccount: {
-    url: (id) => (`/api/welding_material_inventory_ledgers/${id}/`),
+    url: '/api/welding_material_inventory_ledgers/:id/',
     method: 'PATCH'
   },
   getSteelEntry: {
@@ -76,11 +76,11 @@ export default {
     method: 'GET'
   },
   getSteelInventoryAccountDetail: {
-    url: (id) => (`/api/steel_material_inventory_ledgers/${id}/`),
+    url: '/api/steel_material_inventory_ledgers/:id/',
     method: 'GET'
   },
   updateSteelInventoryAccount: {
-    url: (id) => (`/api/steel_material_inventory_ledgers/${id}/`),
+    url: '/api/steel_material_inventory_ledgers/:id/',
     method: 'PATCH'
   },
   getBroughtInEntry: {
@@ -132,11 +132,11 @@ export default {
     method: 'GET'
   },
   getWarehouseRecordsDetail: {
-    url: (id) => (`/api/warehouses/${id}/`),
+    url: '/api/warehouses/:id/',
     method: 'GET'
   },
   updateWarehouseRecord: {
-    url: (id) => (`/api/warehouses/${id}/`),
+    url: '/api/warehouses/:id/',
     method: 'PATCH'
   },
   deleteWarehouseRecord: {

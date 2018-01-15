@@ -43,19 +43,13 @@ class BasicDataHumitureRecord extends React.Component {
     return util.buildColumns(columns, {})
   }
 
-  updatelist (query = this.props.location.query) {
+  updatelist (query = QueryString.parse(this.props.location.search)) {
     this.props.getListDataAction({
       params: query
     })
   }
   handleSave = (fieldsValue) => {
-    let { url, method } = apis.InventoryAPI.updateWeldHumitureRecord
-    url = url(fieldsValue.id)
-    const api = {
-      url,
-      method
-    }
-    fetchAPI(api, fieldsValue).then((repos) => {
+    fetchAPI(apis.InventoryAPI.updateWeldHumitureRecord, fieldsValue, { id: fieldsValue.id }).then((repos) => {
       this.handleCloseModal()
       message.success('修改成功！')
       this.props.getListDataAction({
