@@ -1177,5 +1177,30 @@ export const COLUMNS = {
     title: '性别',
     key: 'gender',
     dataIndex: 'gender'
+  },
+  uid_material_sub_applies: {
+    title: '单据编号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
+  production: {
+    title: '产品名称',
+    key: 'production',
+    dataIndex: 'production'
+  },
+  figure_code: {
+    title: '图号',
+    key: 'figure_code',
+    dataIndex: 'figure_code'
+  },
+  applicant_material_sub_applies: {
+    title: '申请人',
+    key: 'applicant',
+    dataIndex: 'applicant'
+  },
+  reason: {
+    title: '备注',
+    key: 'reason',
+    dataIndex: 'reason'
   }
 }

@@ -89,6 +89,10 @@ const config = {
             "code": "menu.purchase.purchaseordermanagement",
             "name": "订购单管理",
             "children": []
+        }, {
+            "code": "menu.purchase.materialsub",
+            "name": "材料代用",
+            "children": []
         }],
     }, {
         "code": "menu.inventory",
