@@ -92,15 +92,8 @@ class ProductionPlan extends React.Component {
     })
   }
   handleConfirm = (e) => {
-    let { url, method } = apis.ProductionAPI.updateProcessDetails
     const { id } = e.target.dataset
-    url = url(id)
-    // fieldsValue.status = 3
-    const api = {
-      url,
-      method
-    }
-    fetchAPI(api, { status: PROCESS_DETAIL_STATUS.CONFIRMED, confirm_status: true }).then((repos) => {
+    fetchAPI(apis.ProductionAPI.updateProcessDetails, { status: PROCESS_DETAIL_STATUS.CONFIRMED, confirm_status: true }, { id: id }).then((repos) => {
       message.success('修改成功！')
       this.props.getListDataAction({
         params: this._query()
@@ -108,12 +101,7 @@ class ProductionPlan extends React.Component {
     })
   }
   fetchProcessDetailItem = (id, cb) => {
-    const { url, method } = apis.ProductionAPI.getProcessDetailItem
-    const api = {
-      url: url(id),
-      method
-    }
-    fetchAPI(api, {}).then((repos) => {
+    fetchAPI(apis.ProductionAPI.getProcessDetailItem, null, id).then((repos) => {
       cb(repos)
     })
   }
@@ -158,20 +146,13 @@ class ProductionPlan extends React.Component {
     return filterQuery
   }
 
-  updatelist (query = this.props.location.query) {
+  updatelist (query = QueryString.parse(this.props.location.search)) {
     this.props.getListDataAction({
       params: query
     })
   }
   handleSave = (fieldsValue) => {
-    let { url, method } = apis.ProductionAPI.updateProcessDetails
-    console.log('handleSave', fieldsValue)
-    url = url(fieldsValue.id)
-    const api = {
-      url,
-      method
-    }
-    fetchAPI(api, fieldsValue).then((repos) => {
+    fetchAPI(apis.ProductionAPI.updateProcessDetails, fieldsValue, { id: fieldsValue.id }).then((repos) => {
       this.handleCloseModal()
       message.success('修改成功！')
       this.props.getListDataAction({

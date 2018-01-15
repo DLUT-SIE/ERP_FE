@@ -77,13 +77,7 @@ class MaterialApplyCard extends React.Component {
     })
   }
   fetchDetails = (category, id, cb) => {
-    let { url, method } = mapRequest[category]
-    url = url(id)
-    const api = {
-      url,
-      method
-    }
-    fetchAPI(api).then((repos) => {
+    fetchAPI(mapRequest[category], null, { id: id }).then((repos) => {
       cb(repos)
     })
   }
@@ -130,7 +124,7 @@ class MaterialApplyCard extends React.Component {
     return filterQuery
   }
 
-  updatelist (query = this.props.location.query) {
+  updatelist (query = QueryString.parse(this.props.location.search)) {
     this.props.getListDataAction({
       params: query
     })

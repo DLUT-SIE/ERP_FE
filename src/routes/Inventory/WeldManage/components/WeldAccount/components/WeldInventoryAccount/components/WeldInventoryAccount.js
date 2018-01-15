@@ -63,13 +63,7 @@ class WeldEntryAccount extends React.Component {
   // update
   handleOpenEditModal = (e) => {
     const { id } = e.target.dataset
-    let { url, method } = apis.InventoryAPI.getWeldInventoryAccountDetail
-    url = url(id)
-    const api = {
-      url,
-      method
-    }
-    fetchAPI(api, id).then((resp) => {
+    fetchAPI(apis.InventoryAPI.getWeldInventoryAccountDetail, null, { id: id }).then((resp) => {
       this.props.changeModalAction({
         visible: true,
         fieldsValue: resp
@@ -80,13 +74,7 @@ class WeldEntryAccount extends React.Component {
   // need update
   handleSave = (fieldsValue) => {
     if (fieldsValue.id) {
-      let { url, method } = apis.InventoryAPI.updateWeldInventoryAccount
-      url = url(fieldsValue.id)
-      const api = {
-        url,
-        method
-      }
-      fetchAPI(api, fieldsValue).then((repos) => {
+      fetchAPI(apis.InventoryAPI.updateWeldInventoryAccount, fieldsValue, { id: fieldsValue.id }).then((repos) => {
         this.handleCloseModal()
         message.success('修改成功！')
         this.props.getListDataAction({
@@ -124,7 +112,7 @@ class WeldEntryAccount extends React.Component {
     return filterQuery
   }
 
-  updatelist (query = this.props.location.query) {
+  updatelist (query = QueryString.parse(this.props.location.search)) {
     this.props.getListDataAction({
       params: query
     })
