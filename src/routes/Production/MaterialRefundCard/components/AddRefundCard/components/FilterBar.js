@@ -30,12 +30,17 @@ class FilterBar extends React.Component {
       })
     })
   }
-
+  onSelectChange = (value) => {
+    const { onRefundTypeChange } = this.props
+    onRefundTypeChange(value)
+  }
   handleSearch = (e) => {
     e.preventDefault()
     const { onSearch, form } = this.props
     form.validateFields(() => {
       let fieldsValue = form.getFieldsValue()
+      fieldsValue.status = 4
+      fieldsValue.fields = 'id,uid,specification,actual_count,material_mark'
       onSearch && onSearch({
         ...fieldsValue
       })
@@ -60,7 +65,7 @@ class FilterBar extends React.Component {
           {getFieldDecorator('category', {
             initialValue: MATERIAL_REFUND_CARD_TYPE.WELD,
             rules:[{ required: true, message:'请选择材料类型' }] })(
-              <CustomSelect list={MATERIAL_REFUND_CARD} placeholder='请选择材料类型' />
+              <CustomSelect list={MATERIAL_REFUND_CARD} placeholder='请选择材料类型' onChange={this.onSelectChange} />
           )}
         </FormItem>
         <FormItem>
@@ -80,7 +85,8 @@ class FilterBar extends React.Component {
 
 FilterBar.propTypes = {
   form: PropTypes.object.isRequired,
-  onSearch: PropTypes.func.isRequired
+  onSearch: PropTypes.func.isRequired,
+  onRefundTypeChange: PropTypes.func.isRequired
 }
 
 let makeFields = function (fieldsValue) {
