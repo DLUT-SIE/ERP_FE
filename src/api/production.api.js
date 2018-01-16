@@ -153,5 +153,29 @@ export default{
   getAuxiliaryMaterialRefundCardDetails: {
     url: '/api/auxiliary_material_refund_cards/:id/',
     method: 'GET'
+  },
+  getWeldingMaterialCompletedApplyCards: {
+    url: '/api/welding_material_apply_cards/',
+    method: 'GET'
+  },
+  getSteelMaterialCompletedApplyCards: {
+    url: '/api/steel_material_apply_cards/',
+    method: 'GET'
+  },
+  getBroughtInMaterialCompletedApplyCards: {
+    url: '/api/bought_in_component_apply_cards/',
+    method: 'GET'
+  },
+  createWeldingMaterialRefundCards: {
+    url: '/api/welding_material_refund_cards/',
+    method: 'POST'
+  },
+  createSteelMaterialRefundCards: {
+    url: '/api/steel_material_refund_cards/',
+    method: 'POST'
+  },
+  createBroughtInMaterialRefundCards: {
+    url: '/api/bought_in_component_refund_cards/',
+    method: 'POST'
   }
 }

@@ -96,8 +96,7 @@ export default function RefundCard (state = initialState, action) {
 const mapRequest = {
   welding_material_refund_cards: apis.ProductionAPI.getWeldingMaterialRefundCards,
   steel_material_refund_cards: apis.ProductionAPI.getSteelMaterialRefundCards,
-  bought_in_component_refund_cards: apis.ProductionAPI.getBroughtInMaterialRefundCards,
-  auxiliary_material_refund_cards: apis.ProductionAPI.getAuxiliaryMaterialRefundCards
+  bought_in_component_refund_cards: apis.ProductionAPI.getBroughtInMaterialRefundCards
 }
 export function *getListSaga (type, body) {
   while (true) {

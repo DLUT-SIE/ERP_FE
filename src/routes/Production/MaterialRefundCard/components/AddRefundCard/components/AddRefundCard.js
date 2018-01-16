@@ -2,51 +2,75 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
+import { Radio, Button } from 'antd'
 import util from 'utils'
 
 import FilterBar from './FilterBar'
 import CustomTable from 'components/CustomTable'
+import fetchAPI from 'api'
+import { apis } from 'api/config'
 
 const columns = [
-  // 'common_work_uid', 'ticket_number', 'name', 'spec', 'material_num', 'count'
-  'material_mark', 'size', 'specification', 'quota' // 根据焊材定额目前的返回值随便写的一些字段
+  'radio', 'common_uid', 'common_material_mark', 'specification', 'refund_count', 'action'
 ]
-
+const mapRequest = {
+  welding_material_refund_cards: apis.ProductionAPI.createWeldingMaterialRefundCards,
+  steel_material_refund_cards: apis.ProductionAPI.createSteelMaterialRefundCards,
+  bought_in_component_refund_cards: apis.ProductionAPI.createBroughtInMaterialRefundCards
+}
 class AddRefundCard extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
     this._columns = this.buildColumns()
-    this.rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        this.setState({ addLists: selectedRowKeys })
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
-      },
-      getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User' // Column configuration not to be checked
-      })
-    }
   }
 
   componentDidMount () {
-    this.props.getListDataAction({
-      params: this._query()
-    })
   }
   buildColumns () {
     return util.buildColumns(columns, {
+      radio : {
+        render: (text, record, index) => {
+          return <Radio value={record.id} checked />
+        }
+      },
+      action: {
+        render: (text, record, index) => {
+          return <Button
+            type='primary'
+            size='small'
+            data-id={record.id}
+            data-count={record.actual_count}
+            onClick={this.handleAddRefunds}>添加</Button>
+        }
+      }
     })
   }
-
+  handleAddRefunds = (e) => {
+    const { id, count } = e.target.dataset
+    let category = this.state.category
+    if (_.isUndefined(category)) {
+      category = 'welding_material_refund_cards'
+    }
+    let detailObj = {}
+    detailObj[id] = count
+    let values = {
+      apply_card: id,
+      details_dict: detailObj
+    }
+    fetchAPI(mapRequest[category], values)
+  }
   handleSearch = (searchValue) => {
+    if (!_.isUndefined(searchValue.category)) {
+      this.setState({ category: searchValue.category })
+    }
     this.updateQuery({
       page: 1,
       ...searchValue
     })
   }
-  handleAddRecords = () => {
-    console.log(this.state.addLists)
-    // todo: 获取工作令和id列表以后，在FilterBar中根据category创建相应领用单
+  handleRefundTypeChange = (value) => {
+    this.setState({ category: value })
   }
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
@@ -94,7 +118,7 @@ class AddRefundCard extends React.Component {
         <FilterBar
           fieldsValue={query}
           onSearch={this.handleSearch}
-          onAddClick={this.handleAddRecords}
+          onRefundTypeChange={this.handleRefundTypeChange}
         />
         <CustomTable
           rowSelection={this.rowSelection}
