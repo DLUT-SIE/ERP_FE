@@ -5,17 +5,20 @@ import util from 'utils'
 import _ from 'lodash'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
+import { Link } from 'react-router-dom'
 import { Button, Divider, Popconfirm, message } from 'antd'
 
 import FilterBar from './FilterBar'
 import CustomTable from 'components/CustomTable'
+import MaterialSubApplyModal from './MaterialSubApplyModal'
+import './MaterialSubApply.less'
 
 const columns = [
   'uid_material_sub_applies', 'work_order', 'production', 'figure_code', 'applicant_material_sub_applies',
   'reason', 'action'
 ]
 
-class MaterialSub extends React.Component {
+class MaterialSubApply extends React.Component {
   constructor (props) {
     super(props)
     this._columns = this.buildColumns()
@@ -36,9 +39,10 @@ class MaterialSub extends React.Component {
               <Button
                 type='primary'
                 size='small'
-                data-id={record.id}
               >
-                查看
+                <Link to={`/purchase/material_sub_apply/material_sub_apply_detail/?id=${record.id}`}>
+                  查看
+                </Link>
               </Button>
               <Divider type='vertical' />
               <Popconfirm
@@ -115,6 +119,37 @@ class MaterialSub extends React.Component {
     }
   }
 
+  handleOpenModal = (e) => {
+    this.props.changeModalAction({
+      visible: true
+    })
+  }
+
+  handleCloseModal = (e) => {
+    this.props.changeModalAction({
+      visible: false
+    })
+  }
+
+  handleChangeApply = (apply, list) => {
+    this.props.changeModalAction({
+      apply: apply,
+      itemList: list
+    })
+  }
+
+  handleSaveMaterialSubApply = (apply, itemList) => {
+    fetchAPI(apis.PurchaseAPI.addMaterialSubApply, {
+      ...apply,
+      sub_apply_items: itemList,
+      applicant: 13 // 后续实现登陆后需要删除该字段
+    }).then((repos) => {
+      message.success('创建成功！')
+      this.handleCloseModal()
+      this.updatelist
+    })
+  }
+
   render () {
     const { status, location } = this.props
     const query = QueryString.parse(location.search)
@@ -122,12 +157,20 @@ class MaterialSub extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
+    const modal = _.get(mydata, 'modal', {})
     return (
-      <div>
+      <div className='material-sub'>
         <FilterBar
           fieldsValue={query}
           onSearch={this.handleSearch}
         />
+        <Button
+          className='add-btn'
+          type='success'
+          onClick={this.handleOpenModal}
+        >
+          新建材料代用
+        </Button>
         <CustomTable
           dataSource={list}
           columns={this._columns}
@@ -136,16 +179,25 @@ class MaterialSub extends React.Component {
           size='middle'
           onChange={this.handleChangeTable}
         />
+        { modal.visible &&
+          <MaterialSubApplyModal
+            {...modal}
+            onOk={this.handleSaveMaterialSubApply}
+            onCancel={this.handleCloseModal}
+            onChange={this.handleChangeApply}
+          />
+        }
       </div>
     )
   }
 }
 
-MaterialSub.propTypes = {
+MaterialSubApply.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
-  getListDataAction: PropTypes.func.isRequired
+  getListDataAction: PropTypes.func.isRequired,
+  changeModalAction: PropTypes.func.isRequired
 }
 
-export default MaterialSub
+export default MaterialSubApply

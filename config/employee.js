@@ -18,19 +18,19 @@ const config = {
             "name": "产品",
             "children": [],
         }, {
-            "code": "menu.distribution.productionSend",
+            "code": "menu.distribution.production_send",
             "name": "生产科下发",
             "children": [],
         }, {
-            "code": "menu.distribution.processSend",
+            "code": "menu.distribution.process_send",
             "name": "工艺科下发",
             "children": []
         }, {
-            "code": "menu.distribution.procurementSend",
+            "code": "menu.distribution.procurement_send",
             "name": "采购科下发",
             "children": []
         }, {
-            "code": "menu.distribution.bidDocument",
+            "code": "menu.distribution.bid_document",
             "name": "招标文件审核",
             "children": []
         }],
@@ -38,7 +38,7 @@ const config = {
         "code": "menu.process",
         "name": "工艺管理",
         "children": [{
-            "code": "menu.process.processimport",
+            "code": "menu.process.process_import",
             "name": "工艺库导入",
             "children": [],
         }, {
@@ -46,31 +46,31 @@ const config = {
             "name": "工艺库",
             "children": [],
         }, {
-            "code": "menu.process.weldingseam",
+            "code": "menu.process.welding_seam",
             "name": "焊缝明细",
             "children": [],
         }, {
-            "code": "menu.process.broughtinitems",
+            "code": "menu.process.brought_in_items",
             "name": "外购件明细",
             "children": []
         }, {
-            "code": "menu.process.firstfeedingitems",
+            "code": "menu.process.first_feeding_items",
             "name": "先投件明细",
             "children": []
         }, {
-            "code": "menu.process.cooperantitems",
+            "code": "menu.process.cooperant_items",
             "name": "工序性协作件明细",
             "children": []
         }, {
-            "code": "menu.process.principalquota",
+            "code": "menu.process.principal_quota",
             "name": "主材定额",
             "children": []
         }, {
-            "code": "menu.process.auxiliaryquota",
+            "code": "menu.process.auxiliary_quota",
             "name": "辅材定额",
             "children": []
         }, {
-            "code": "menu.process.weldingquota",
+            "code": "menu.process.welding_quota",
             "name": "焊材定额",
             "children": []
         }],
@@ -78,7 +78,7 @@ const config = {
         "code": "menu.purchase",
         "name": "采购管理",
         "children": [{
-            "code": "menu.purchase.pendingorder",
+            "code": "menu.purchase.pending_order",
             "name": "待处理工作令",
             "children": [],
         }, {
@@ -86,11 +86,11 @@ const config = {
             "name": "物料汇总",
             "children": [],
         }, {
-            "code": "menu.purchase.purchaseordermanagement",
+            "code": "menu.purchase.purchase_order_management",
             "name": "订购单管理",
             "children": []
         }, {
-            "code": "menu.purchase.materialsub",
+            "code": "menu.purchase.material_sub_apply",
             "name": "材料代用",
             "children": []
         }],

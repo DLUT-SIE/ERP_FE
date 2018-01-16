@@ -35,6 +35,10 @@ export default {
     url: '/api/material_sub_applies/:id/',
     method: 'GET'
   },
+  addMaterialSubApply: {
+    url: '/api/material_sub_applies/',
+    method: 'POST'
+  },
   updateMaterialSubApplies: {
     url: '/api/material_sub_applies/:id/',
     method: 'PATCH'

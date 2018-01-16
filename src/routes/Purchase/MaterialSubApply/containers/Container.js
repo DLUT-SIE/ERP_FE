@@ -1,14 +1,14 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { actions } from '../modules'
-import MaterialSub from '../components/MaterialSub'
+import MaterialSubApply from '../components/MaterialSubApply'
 
 const mapDispatchToProps = {
   ...actions
 }
 
 const mapStateToProps = (state) => ({
-  status: state.materialSub
+  status: state.materialSubApply
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MaterialSub))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MaterialSubApply))
