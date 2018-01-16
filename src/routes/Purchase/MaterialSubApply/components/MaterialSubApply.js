@@ -141,8 +141,7 @@ class MaterialSubApply extends React.Component {
   handleSaveMaterialSubApply = (apply, itemList) => {
     fetchAPI(apis.PurchaseAPI.addMaterialSubApply, {
       ...apply,
-      sub_apply_items: itemList,
-      applicant: 13 // 后续实现登陆后需要删除该字段
+      sub_apply_items: itemList
     }).then((repos) => {
       message.success('创建成功！')
       this.handleCloseModal()

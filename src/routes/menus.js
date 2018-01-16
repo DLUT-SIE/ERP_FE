@@ -43,6 +43,7 @@ export const menu = {
       material: '/purchase/material',
       purchase_order_management: '/purchase/purchase_order_management',
       material_sub_apply: '/purchase/material_sub_apply'
+      // material_sub_apply_detail: '/purchase/material_sub_apply/material_sub_apply_detail'
     },
     inventory: {
       icon: 'appstore',

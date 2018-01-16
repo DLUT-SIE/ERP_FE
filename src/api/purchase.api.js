@@ -46,5 +46,17 @@ export default {
   deleteMaterialSubApplies: {
     url: '/api/material_sub_applies/:id/',
     method: 'DELETE'
+  },
+  addMaterialSubApplyItems: {
+    url: '/api/material_sub_apply_items/',
+    method: 'POST'
+  },
+  updateMaterialSubApplyItems: {
+    url: '/api/material_sub_apply_items/:id/',
+    method: 'PATCH'
+  },
+  deleteMaterialSubApplyItems: {
+    url: '/api/material_sub_apply_items/:id/',
+    method: 'DELETE'
   }
 }

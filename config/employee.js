@@ -93,7 +93,7 @@ const config = {
             "code": "menu.purchase.material_sub_apply",
             "name": "材料代用",
             "children": []
-        }],
+        }]
     }, {
         "code": "menu.inventory",
         "name": "库存管理",
