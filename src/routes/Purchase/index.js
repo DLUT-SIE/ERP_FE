@@ -4,6 +4,8 @@ import MaterialSummary from './MaterialSummary'
 import PendingOrder from './PendingOrder'
 import PurchaseOrderManagement from './PurchaseOrderManagement'
 import PurchaseOrder from './PurchaseOrder'
+import MaterialSubApply from './MaterialSubApply'
+import MaterialSubApplyDetail from './MaterialSubApplyDetail'
 import _ from 'lodash'
 
 const childRoutes = [
@@ -26,6 +28,16 @@ const childRoutes = [
     path: 'purchase_order_management',
     breadcrumbName: '订购单管理',
     component: PurchaseOrderManagement
+  },
+  {
+    path: 'material_sub_apply/material_sub_apply_detail',
+    breadcrumbName: '材料代用申请单',
+    component: MaterialSubApplyDetail
+  },
+  {
+    path: 'material_sub_apply',
+    breadcrumbName: '材料代用',
+    component: MaterialSubApply
   }
 ]
 

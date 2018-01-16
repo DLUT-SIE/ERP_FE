@@ -1,24 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import QueryString from 'query-string'
-import _ from 'lodash'
 import util from 'utils'
+import _ from 'lodash'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 import { Link } from 'react-router-dom'
-import { Button, Popconfirm, message, Divider } from 'antd'
+import { Button, Divider, Popconfirm, message } from 'antd'
 
-import FilterBar from './FilterBar.js'
+import FilterBar from './FilterBar'
 import CustomTable from 'components/CustomTable'
+import MaterialSubApplyModal from './MaterialSubApplyModal'
+import './MaterialSubApply.less'
 
 const columns = [
-  'purchase_order_uid', 'purchase_order_create_dt', 'action'
+  'uid_material_sub_applies', 'work_order', 'production', 'figure_code', 'applicant_material_sub_applies',
+  'reason', 'action'
 ]
 
-class PurchaseOrderManagement extends React.Component {
+class MaterialSubApply extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {}
     this._columns = this.buildColumns()
   }
 
@@ -37,43 +39,25 @@ class PurchaseOrderManagement extends React.Component {
               <Button
                 type='primary'
                 size='small'
-                data-id={record.id}
               >
-                <Link to={`/purchase/purchase_order_management/purchase_order/?purchase_order=${record.id}&status=${record.status}`}>
+                <Link to={`/purchase/material_sub_apply/material_sub_apply_detail/?id=${record.id}`}>
                   查看
                 </Link>
               </Button>
               <Divider type='vertical' />
-              { record.status === 0 &&
-                <Popconfirm
-                  title='确定删除该订购单吗？'
-                  onConfirm={this.handleDelete(record.id)}
-                  okText='确定'
-                  cancelText='取消'
+              <Popconfirm
+                title='确定删除吗？'
+                onConfirm={this.handleDelete(record.id)}
+                okText='确定'
+                cancelText='取消'
+              >
+                <Button
+                  type='danger'
+                  size='small'
                 >
-                  <Button
-                    type='danger'
-                    size='small'
-                  >
-                    删除
-                  </Button>
-                </Popconfirm>
-              }
-              { record.status === 1 &&
-                <Popconfirm
-                  title='确定完成该订购单吗？'
-                  onConfirm={this.handleFinishPurchaseOrder(record.id)}
-                  okText='确定'
-                  cancelText='取消'
-                >
-                  <Button
-                    type='primary'
-                    size='small'
-                  >
-                    完成
-                  </Button>
-                </Popconfirm>
-              }
+                  删除
+                </Button>
+              </Popconfirm>
             </div>
           )
         }
@@ -91,8 +75,7 @@ class PurchaseOrderManagement extends React.Component {
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
     return Object.assign({
-      page: 1,
-      status: 0
+      page: 1
     }, oldQuery, query)
   }
 
@@ -127,20 +110,43 @@ class PurchaseOrderManagement extends React.Component {
 
   handleDelete = (id) => {
     return (e) => {
-      fetchAPI(apis.PurchaseAPI.deletePurchaseOrder, {}, { id }).then((repos) => {
+      fetchAPI(apis.PurchaseAPI.deleteMaterialSubApplies, {}, { id }).then((repos) => {
         message.success('删除成功！')
-        this.updatelist()
+        this.props.getListDataAction({
+          params: this._query()
+        })
       })
     }
   }
 
-  handleFinishPurchaseOrder = (id) => {
-    return (e) => {
-      fetchAPI(apis.PurchaseAPI.updatePurchaseOrder, {}, { id }).then((repos) => {
-        message.success('操作成功！')
-        this.updatelist()
-      })
-    }
+  handleOpenModal = (e) => {
+    this.props.changeModalAction({
+      visible: true
+    })
+  }
+
+  handleCloseModal = (e) => {
+    this.props.changeModalAction({
+      visible: false
+    })
+  }
+
+  handleChangeApply = (apply, list) => {
+    this.props.changeModalAction({
+      apply: apply,
+      itemList: list
+    })
+  }
+
+  handleSaveMaterialSubApply = (apply, itemList) => {
+    fetchAPI(apis.PurchaseAPI.addMaterialSubApply, {
+      ...apply,
+      sub_apply_items: itemList
+    }).then((repos) => {
+      message.success('创建成功！')
+      this.handleCloseModal()
+      this.updatelist
+    })
   }
 
   render () {
@@ -150,12 +156,20 @@ class PurchaseOrderManagement extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
+    const modal = _.get(mydata, 'modal', {})
     return (
-      <div>
+      <div className='material-sub'>
         <FilterBar
           fieldsValue={query}
           onSearch={this.handleSearch}
         />
+        <Button
+          className='add-btn'
+          type='success'
+          onClick={this.handleOpenModal}
+        >
+          新建材料代用
+        </Button>
         <CustomTable
           dataSource={list}
           columns={this._columns}
@@ -164,16 +178,25 @@ class PurchaseOrderManagement extends React.Component {
           size='middle'
           onChange={this.handleChangeTable}
         />
+        { modal.visible &&
+          <MaterialSubApplyModal
+            {...modal}
+            onOk={this.handleSaveMaterialSubApply}
+            onCancel={this.handleCloseModal}
+            onChange={this.handleChangeApply}
+          />
+        }
       </div>
     )
   }
 }
 
-PurchaseOrderManagement.propTypes = {
+MaterialSubApply.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
-  getListDataAction: PropTypes.func.isRequired
+  getListDataAction: PropTypes.func.isRequired,
+  changeModalAction: PropTypes.func.isRequired
 }
 
-export default PurchaseOrderManagement
+export default MaterialSubApply

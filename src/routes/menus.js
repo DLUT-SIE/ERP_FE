@@ -20,28 +20,30 @@ export const menu = {
     distribution: {
       icon: 'appstore-o',
       production: '/distribution/production',
-      productionSend: '/distribution/production_send',
-      processSend: '/distribution/process_send',
-      procurementSend: '/distribution/procurement_send',
-      bidDocument: '/distribution/bid_document'
+      production_send: '/distribution/production_send',
+      process_send: '/distribution/process_send',
+      procurement_send: '/distribution/procurement_send',
+      bid_document: '/distribution/bid_document'
     },
     process: {
       icon: 'lock',
-      processimport: '/process/process_import',
+      process_import: '/process/process_import',
       process: '/process/process',
-      weldingseam: '/process/welding_seam',
-      broughtinitems: '/process/bought_in_items',
-      firstfeedingitems: '/process/first_feeding_items',
-      cooperantitems: '/process/cooperant_items',
-      principalquota: '/process/principal_quota',
-      auxiliaryquota: '/process/auxiliary_quota',
-      weldingquota: '/process/welding_quota'
+      welding_seam: '/process/welding_seam',
+      brought_in_items: '/process/bought_in_items',
+      first_feeding_items: '/process/first_feeding_items',
+      cooperant_items: '/process/cooperant_items',
+      principal_quota: '/process/principal_quota',
+      auxiliary_quota: '/process/auxiliary_quota',
+      welding_quota: '/process/welding_quota'
     },
     purchase: {
       icon: 'appstore',
-      pendingorder: '/purchase/pending_order',
+      pending_order: '/purchase/pending_order',
       material: '/purchase/material',
-      purchaseordermanagement: '/purchase/purchase_order_management'
+      purchase_order_management: '/purchase/purchase_order_management',
+      material_sub_apply: '/purchase/material_sub_apply'
+      // material_sub_apply_detail: '/purchase/material_sub_apply/material_sub_apply_detail'
     },
     inventory: {
       icon: 'appstore',

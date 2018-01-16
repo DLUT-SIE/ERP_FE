@@ -253,10 +253,6 @@ class DetailedList extends React.Component {
     })
   }
 
-  handleQuichAdd = () => {
-    console.log('handleQuichAdd')
-  }
-
   render () {
     const { status, location } = this.props
     const query = QueryString.parse(location.search)
@@ -276,7 +272,6 @@ class DetailedList extends React.Component {
         { workOrderInfo.id &&
           <AddBar
             onAdd={this.handleAdd}
-            onQuickAdd={this.handleQuichAdd}
           />
         }
         <TableInfo
