@@ -24,7 +24,7 @@ class AddBar extends React.Component {
   }
 
   render () {
-    const { form, onQuickAdd } = this.props
+    const { form } = this.props
     return (
       <Form
         layout='inline'
@@ -39,18 +39,11 @@ class AddBar extends React.Component {
         </FormItem>
         <FormItem>
           <Button
-            type='primary'
+            type='success'
             htmlType='submit'
             onClick={this.handleSubmit}
           >
             添加
-          </Button>
-        </FormItem>
-        <FormItem>
-          <Button
-            onClick={onQuickAdd}
-          >
-            快捷生成
           </Button>
         </FormItem>
       </Form>
@@ -60,8 +53,7 @@ class AddBar extends React.Component {
 
 AddBar.propTypes = {
   form: PropTypes.object.isRequired,
-  onAdd: PropTypes.func.isRequired,
-  onQuickAdd: PropTypes.func.isRequired
+  onAdd: PropTypes.func.isRequired
 }
 
 const WrappedForm = Form.create()(AddBar)

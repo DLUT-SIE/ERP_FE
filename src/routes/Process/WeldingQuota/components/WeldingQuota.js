@@ -152,10 +152,6 @@ class WeldingQuota extends React.Component {
     })
   }
 
-  handleQuichAdd = () => {
-    console.log('handleQuichAdd')
-  }
-
   handleSave = (id, fieldsValue) => {
     if (id) {
       fetchAPI(apis.ProcessAPI.updateWeldingQuota, fieldsValue, { id }).then((repos) => {
@@ -252,22 +248,13 @@ class WeldingQuota extends React.Component {
           onSearch={this.handleSearch}
         />
         { workOrderInfo.id &&
-          <div className='add-btn'>
-            <Button
-              style={{ marginRight: 15 }}
-              type='primary'
-              onClick={this.handleOpenAddModal}
-            >
-              添加
-            </Button>
-            <Button
-              size='large'
-              type='success'
-              onClick={this.handleQuichAdd}
-            >
-              快捷生成
-            </Button>
-          </div>
+          <Button
+            className='add-btn'
+            type='success'
+            onClick={this.handleOpenAddModal}
+          >
+            添加
+          </Button>
         }
         <TableInfo
           fieldsValue={workOrderInfo}
