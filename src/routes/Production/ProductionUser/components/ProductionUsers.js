@@ -97,14 +97,7 @@ class ProductionUsers extends React.Component {
   }
   handleDelete = (id) => {
     return (e) => {
-      let { url, method } = apis.ProductionAPI.deleteProductionUser
-      url = url(id)
-      const api = {
-        url,
-        method
-      }
-      console.log(api)
-      fetchAPI(api).then(() => {
+      fetchAPI(apis.ProductionAPI.deleteProductionUser, null, { id: id }).then(() => {
         message.success('删除成功！')
         this.props.getListDataAction({
           params: this._query()
@@ -141,19 +134,13 @@ class ProductionUsers extends React.Component {
     return filterQuery
   }
 
-  updatelist (query = this.props.location.query) {
+  updatelist (query = QueryString.parse(this.props.location.search)) {
     this.props.getListDataAction({
       params: query
     })
   }
   handleSave = (fieldsValue) => {
-    let { url, method } = apis.ProductionAPI.updateProductionUserGroup
-    url = url(fieldsValue.id)
-    const api = {
-      url,
-      method
-    }
-    fetchAPI(api, fieldsValue).then(() => {
+    fetchAPI(apis.ProductionAPI.updateProductionUserGroup, fieldsValue, { id: fieldsValue.id }).then(() => {
       this.handleCloseModal()
       message.success('修改成功！')
       this.props.getListDataAction({

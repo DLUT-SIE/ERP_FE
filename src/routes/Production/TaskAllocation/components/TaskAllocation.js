@@ -105,16 +105,10 @@ class ProductionPlan extends React.Component {
   }
   handleRedo = (e) => {
     const { id } = e.target.dataset
-    let { url, method } = apis.ProductionAPI.updateProcessDetails
-    url = url(id)
-    const api = {
-      url,
-      method
-    }
     let values = {}
     values.status = PROCESS_DETAIL_STATUS.PLANED
     console.log(values)
-    fetchAPI(api, values).then((repos) => {
+    fetchAPI(apis.ProductionAPI.updateProcessDetails, values, { id: id }).then((repos) => {
       this.handleCloseModal()
       message.success('修改成功！')
       this.props.getListDataAction({
@@ -152,21 +146,15 @@ class ProductionPlan extends React.Component {
     return filterQuery
   }
 
-  updatelist (query = this.props.location.query) {
+  updatelist (query = QueryString.parse(this.props.location.search)) {
     this.props.getListDataAction({
       params: query
     })
   }
   handleSave = (fieldsValue) => {
-    let { url, method } = apis.ProductionAPI.updateProcessDetails
-    url = url(fieldsValue.id)
-    const api = {
-      url,
-      method
-    }
     fieldsValue.status = PROCESS_DETAIL_STATUS.ALLOCATION
     fieldsValue.allocation_status = true
-    fetchAPI(api, fieldsValue).then((repos) => {
+    fetchAPI(apis.ProductionAPI.updateProcessDetails, fieldsValue, { id: fieldsValue.id }).then((repos) => {
       this.handleCloseModal()
       message.success('修改成功！')
       this.props.getListDataAction({

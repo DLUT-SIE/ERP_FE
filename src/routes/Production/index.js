@@ -57,14 +57,14 @@ const childRoutes = [
     component: MaterialApplyCard
   },
   {
-    path: 'material_refund_card',
-    breadcrumbName: '材料退库卡',
-    component: MaterialRefundCard
-  },
-  {
     path: 'material_refund_card/create_material_refund_card',
     breadcrumbName: '退库卡新建',
     component: AddMaterialRefundCard
+  },
+  {
+    path: 'material_refund_card',
+    breadcrumbName: '材料退库卡',
+    component: MaterialRefundCard
   }
 ]
 

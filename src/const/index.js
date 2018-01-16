@@ -661,6 +661,11 @@ export const COLUMNS = {
     key: 'material_mark',
     dataIndex: 'material_mark'
   },
+  common_material_mark: {
+    title: '材料牌号',
+    key: 'material_mark',
+    dataIndex: 'material_mark'
+  },
   model: {
     title: '型号',
     key: 'model',
@@ -1202,5 +1207,14 @@ export const COLUMNS = {
     title: '备注',
     key: 'reason',
     dataIndex: 'reason'
+  },
+  refund_count: {
+    title: '数量',
+    key: 'actual_count',
+    dataIndex: 'actual_count'
+  },
+  radio: {
+    key: 'radio',
+    dataIndex: 'radio'
   }
 }

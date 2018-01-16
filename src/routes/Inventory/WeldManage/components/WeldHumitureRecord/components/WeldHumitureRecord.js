@@ -65,13 +65,7 @@ class WeldHumitureRecord extends React.Component {
   }
   handleOpenEditModal = (e) => {
     const { id } = e.target.dataset
-    let { url, method } = apis.InventoryAPI.getWeldHumitureRecordDetail
-    url = url(id)
-    const api = {
-      url,
-      method
-    }
-    fetchAPI(api, id).then((resp) => {
+    fetchAPI(apis.InventoryAPI.getWeldHumitureRecordDetail, null, { id: id }).then((resp) => {
       this.props.changeModalAction({
         visible: true,
         fieldsValue: resp
@@ -116,20 +110,14 @@ class WeldHumitureRecord extends React.Component {
     return filterQuery
   }
 
-  updatelist (query = this.props.location.query) {
+  updatelist (query = QueryString.parse(this.props.location.search)) {
     this.props.getListDataAction({
       params: query
     })
   }
   handleSave = (fieldsValue) => {
     if (fieldsValue.id) {
-      let { url, method } = apis.InventoryAPI.updateWeldHumitureRecord
-      url = url(fieldsValue.id)
-      const api = {
-        url,
-        method
-      }
-      fetchAPI(api, fieldsValue).then((repos) => {
+      fetchAPI(apis.InventoryAPI.updateWeldHumitureRecord, fieldsValue, { id : fieldsValue.id }).then((repos) => {
         this.handleCloseModal()
         message.success('修改成功！')
         this.props.getListDataAction({

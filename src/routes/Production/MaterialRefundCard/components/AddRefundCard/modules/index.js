@@ -8,8 +8,8 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const ADD_WELD_APPLY_CARD_GET_LIST_DATA = 'ADD_WELD_APPLY_CARD_GET_LIST_DATA'
-const ADD_WELD_APPLY_CARD_ADD_LIST_DATA = 'ADD_WELD_APPLY_CARD_ADD_LIST_DATA'
+const ADD_REFUND_CARD_GET_LIST_DATA = 'ADD_REFUND_CARD_GET_LIST_DATA'
+const ADD_REFUND_CARD_ADD_LIST_DATA = 'ADD_REFUND_CARD_ADD_LIST_DATA'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -18,14 +18,14 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : ADD_WELD_APPLY_CARD_GET_LIST_DATA,
+    type    : ADD_REFUND_CARD_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : ADD_WELD_APPLY_CARD_ADD_LIST_DATA,
+    type    : ADD_REFUND_CARD_ADD_LIST_DATA,
     payload : payload
   }
 }
@@ -45,9 +45,9 @@ var initialState = Immutable.fromJS({
   }
 })
 
-export default function AddWeldApplyCardUser (state = initialState, action) {
+export default function AddRefundCardUser (state = initialState, action) {
   var map = {
-    ADD_WELD_APPLY_CARD_GET_LIST_DATA () {
+    ADD_REFUND_CARD_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -58,7 +58,7 @@ export default function AddWeldApplyCardUser (state = initialState, action) {
         'loading', true
       )
     },
-    ADD_WELD_APPLY_CARD_ADD_LIST_DATA () {
+    ADD_REFUND_CARD_ADD_LIST_DATA () {
       let { data } = action.payload
       return state.mergeIn(
         ['pagination'], { total: data.count }
@@ -80,20 +80,19 @@ export default function AddWeldApplyCardUser (state = initialState, action) {
 // Sagas
 // ------------------------------------
 const mapRequest = {
-  '4': apis.ProductionAPI.getWeldingQuotaItems,
-  '1': apis.ProductionAPI.getAuxiliaryQuotaItems,
-  '3': apis.ProductionAPI.getBroughtInItems
+  welding_material_refund_cards: apis.ProductionAPI.getWeldingMaterialCompletedApplyCards,
+  steel_material_refund_cards: apis.ProductionAPI.getSteelMaterialCompletedApplyCards,
+  bought_in_component_refund_cards: apis.ProductionAPI.getBroughtInMaterialCompletedApplyCards
 }
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(ADD_WELD_APPLY_CARD_GET_LIST_DATA)
+    const { payload = {} } = yield take(ADD_REFUND_CARD_GET_LIST_DATA)
     const { callback, params } = payload
-    let detailType = mapRequest[params.detail_type]
-    console.log('params', params)
-    if (_.isUndefined(detailType)) {
-      detailType = apis.ProductionAPI.getWeldingQuotaItems
+    let category = mapRequest[params.category]
+    if (_.isUndefined(category)) {
+      category = apis.ProductionAPI.getWeldingMaterialCompletedApplyCards
     }
-    const data = yield call(fetchAPI, detailType, params)
+    const data = yield call(fetchAPI, category, params)
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }

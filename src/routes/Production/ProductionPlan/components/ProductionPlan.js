@@ -129,20 +129,13 @@ class ProductionPlan extends React.Component {
     return filterQuery
   }
 
-  updatelist (query = this.props.location.query) {
+  updatelist (query = QueryString.parse(this.props.location.search)) {
     this.props.getListDataAction({
       params: query
     })
   }
   handleSave = (fieldsValue) => {
-    let { url, method } = apis.ProductionAPI.updateProductionPlan
-    console.log(fieldsValue)
-    url = url(fieldsValue.id)
-    const api = {
-      url,
-      method
-    }
-    fetchAPI(api, fieldsValue).then((repos) => {
+    fetchAPI(apis.ProductionAPI.updateProductionPlan, fieldsValue, { id: fieldsValue.id }).then((repos) => {
       this.handleCloseModal()
       message.success('修改成功！')
       this.props.getListDataAction({
