@@ -52,7 +52,9 @@ class Supplier extends React.Component {
               type='primary'
               size='small'
             >
-              上传
+              <Link to={`/purchase/supplier/supplier_document/?id=${record.id}&uid=${record.uid}`}>
+                上传
+              </Link>
             </Button>
           )
         }

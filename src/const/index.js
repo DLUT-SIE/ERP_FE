@@ -1388,5 +1388,20 @@ export const COLUMNS = {
     title: '单位',
     key: 'unit',
     dataIndex: 'unit'
+  },
+  file_name: {
+    title: '文件名称',
+    key: 'file_name',
+    dataIndex: 'file_name'
+  },
+  file_size: {
+    title: '文件大小',
+    key: 'file_size',
+    dataIndex: 'file_size'
+  },
+  upload_dt: {
+    title: '上传时间',
+    key: 'upload_dt',
+    dataIndex: 'upload_dt'
   }
 }

@@ -102,5 +102,17 @@ export default {
   deleteSupplierQuotation: {
     url: '/api/supplier_quotations/:id/',
     method: 'DELETE'
+  },
+  getSupplierDocuments: {
+    url: '/api/supplier_documents/',
+    method: 'GET'
+  },
+  addSupplierDocument: {
+    url: '/api/supplier_documents/',
+    method: 'POST'
+  },
+  deleteSupplierDocument: {
+    url: '/api/supplier_documents/:id/',
+    method: 'DELETE'
   }
 }
