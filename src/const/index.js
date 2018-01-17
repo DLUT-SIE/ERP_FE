@@ -368,6 +368,53 @@ export const PURCHASE_ORDER_STATUS_LIST = [
   }
 ]
 
+export const BIDDING_SHEET_STATUS_LIST = [
+  {
+    value: 0,
+    label: '标单创建'
+  },
+  {
+    value: 1,
+    label: '供应商选择'
+  },
+  {
+    value: 2,
+    label: '招标申请选择'
+  },
+  {
+    value: 3,
+    label: '招标申请填写'
+  },
+  {
+    value: 4,
+    label: '招标中'
+  },
+  {
+    value: 5,
+    label: '中标确认'
+  },
+  {
+    value: 6,
+    label: '进程跟踪'
+  },
+  {
+    value: 7,
+    label: '标单检验'
+  },
+  {
+    value: 8,
+    label: '标单入库'
+  },
+  {
+    value: 9,
+    label: '标单完成'
+  },
+  {
+    value: 10,
+    label: '标单终止'
+  }
+]
+
 export const UNKNOW_COLUMN = {
   title: '未知标题',
   dataIndex: 'unkow_column',
@@ -1216,5 +1263,52 @@ export const COLUMNS = {
   radio: {
     key: 'radio',
     dataIndex: 'radio'
+  },
+  bidding_sheet_uid: {
+    title: '标单',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
+  bidding_sheet_status: {
+    title: '当前状态',
+    key: 'status_name',
+    dataIndex: 'status_name'
+  },
+  history: {
+    title: '查看历史',
+    key: 'history'
+  },
+  change_status: {
+    title: '更改状态',
+    key: 'change_status'
+  },
+  original_status: {
+    title: '更改前状态',
+    key: 'original_status',
+    dataIndex: 'original_status'
+  },
+  new_status: {
+    title: '更改后状态',
+    key: 'new_status',
+    dataIndex: 'new_status'
+  },
+  change_dt: {
+    title: '更改日期',
+    key: 'change_dt',
+    dataIndex: 'change_dt'
+  },
+  change_user: {
+    title: '执行人',
+    key: 'change_user',
+    dataIndex: 'change_user'
+  },
+  change_type: {
+    title: '更改类型',
+    key: 'change_type'
+  },
+  reason_bidding_sheet: {
+    title: '更改原因',
+    key: 'reason',
+    dataIndex: 'reason'
   }
 }

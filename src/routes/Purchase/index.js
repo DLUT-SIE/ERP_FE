@@ -6,6 +6,8 @@ import PurchaseOrderManagement from './PurchaseOrderManagement'
 import PurchaseOrder from './PurchaseOrder'
 import MaterialSubApply from './MaterialSubApply'
 import MaterialSubApplyDetail from './MaterialSubApplyDetail'
+import StatusBackTrack from './StatusBackTrack'
+import StatusHistory from './StatusHistory'
 import _ from 'lodash'
 
 const childRoutes = [
@@ -38,6 +40,16 @@ const childRoutes = [
     path: 'material_sub_apply',
     breadcrumbName: '材料代用',
     component: MaterialSubApply
+  },
+  {
+    path: 'status_back_track/status_history',
+    breadcrumbName: '状态更改历史',
+    component: StatusHistory
+  },
+  {
+    path: 'status_back_track',
+    breadcrumbName: '状态回溯',
+    component: StatusBackTrack
   }
 ]
 

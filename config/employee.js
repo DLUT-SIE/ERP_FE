@@ -93,6 +93,10 @@ const config = {
             "code": "menu.purchase.material_sub_apply",
             "name": "材料代用",
             "children": []
+        }, {
+            "code": "menu.purchase.status_back_track",
+            "name": "状态回溯",
+            "children": []
         }]
     }, {
         "code": "menu.inventory",

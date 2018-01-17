@@ -58,5 +58,17 @@ export default {
   deleteMaterialSubApplyItems: {
     url: '/api/material_sub_apply_items/:id/',
     method: 'DELETE'
+  },
+  getBiddingSheets: {
+    url: '/api/bidding_sheets/',
+    method: 'GET'
+  },
+  getStatusChanges: {
+    url: '/api/status_changes/',
+    method: 'GET'
+  },
+  addStatusChanges: {
+    url: '/api/status_changes/',
+    method: 'POST'
   }
 }
