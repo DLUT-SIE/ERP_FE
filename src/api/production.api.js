@@ -18,6 +18,14 @@ export default{
     url: '/api/production_plans/:id/',
     method: 'PATCH'
   },
+  getNonProductionPlan: {
+    url: '/api/work_orders/non_production_plans/',
+    method: 'GET'
+  },
+  createProductionPlan: {
+    url: '/api/production_plans/',
+    method: 'POST'
+  },
   getProcessDetail: {
     url: '/api/process_details/',
     method: 'GET'
@@ -177,5 +185,17 @@ export default{
   createBroughtInMaterialRefundCards: {
     url: '/api/bought_in_component_refund_cards/',
     method: 'POST'
+  },
+  getSubMaterialLedgers: {
+    url: '/api/sub_material_ledgers/',
+    method: 'GET'
+  },
+  getSubMaterialLedgerDetail: {
+    url: '/api/sub_material_ledgers/:id/',
+    method: 'GET'
+  },
+  updateSubMaterialLedger: {
+    url: '/api/sub_material_ledgers/:id/',
+    method: 'PATCH'
   }
 }

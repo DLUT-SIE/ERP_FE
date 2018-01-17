@@ -244,10 +244,10 @@ export const WELD_METHOD_LIST = [
   }
 ]
 export const PRODUCTION_STATUS = [
-  { value: 1,
+  { value: 0,
     label: '必保' },
   {
-    value: 0,
+    value: 1,
     label: '在制'
   }
 ]
@@ -1191,5 +1191,25 @@ export const COLUMNS = {
   radio: {
     key: 'radio',
     dataIndex: 'radio'
+  },
+  process_part_number: {
+    title: '件号',
+    key: 'process_material.part_number',
+    dataIndex: 'process_material.part_number'
+  },
+  process_parent_drawing_number: {
+    title: '部件图号',
+    key: 'process_material.parent_drawing_number',
+    dataIndex: 'process_material.parent_drawing_number'
+  },
+  process_piece_weight: {
+    title: '净重',
+    key: 'process_material.piece_weight',
+    dataIndex: 'process_material.piece_weight'
+  },
+  process_total_weight: {
+    title: '净重',
+    key: 'process_material.total_weight',
+    dataIndex: 'process_material.total_weight'
   }
 }
