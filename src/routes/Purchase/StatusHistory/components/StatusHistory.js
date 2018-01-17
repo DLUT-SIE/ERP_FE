@@ -8,7 +8,7 @@ import CustomTable from 'components/CustomTable'
 import './StatusHistory.less'
 
 const columns = [
-  'original_status', 'new_status', 'change_dt', 'change_user', 'change_type', 'reason_bidding_sheet'
+  'pretty_original_status', 'pretty_new_status', 'change_dt', 'change_user', 'change_type', 'reason_bidding_sheet'
 ]
 
 class StatusHistory extends React.Component {
