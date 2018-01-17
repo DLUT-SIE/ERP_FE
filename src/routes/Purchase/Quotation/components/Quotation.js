@@ -5,21 +5,23 @@ import _ from 'lodash'
 import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
-import { Link } from 'react-router-dom'
 import { Button, Divider, Popconfirm, message } from 'antd'
 
 import CustomTable from 'components/CustomTable'
-import SupplierModal from './SupplierModal'
-import './Supplier.less'
+import QuotationModal from './QuotationModal'
+import './Quotation.less'
 
 const columns = [
-  'supplier_uid', 'supplier_name', 'supplier_file', 'quotation', 'upload_supplier_file', 'action'
+  'inventory_type', 'name_spec', 'material_mark_quotation', 'unit_price', 'unit', 'action'
 ]
 
-class Supplier extends React.Component {
+class Quotation extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
+    const query = QueryString.parse(this.props.location.search)
+    this._id = +query.id
+    this._uid = +query.uid
     this._columns = this.buildColumns()
   }
 
@@ -31,41 +33,15 @@ class Supplier extends React.Component {
 
   buildColumns () {
     return util.buildColumns(columns, {
-      quotation: {
-        render: (text, record, index) => {
-          return (
-            <Button
-              type='primary'
-              size='small'
-            >
-              <Link to={`/purchase/supplier/quotation/?id=${record.id}&uid=${record.uid}`}>
-                报价
-              </Link>
-            </Button>
-          )
-        }
-      },
-      upload_supplier_file: {
-        render: (text, record, index) => {
-          return (
-            <Button
-              type='primary'
-              size='small'
-            >
-              上传
-            </Button>
-          )
-        }
-      },
       action: {
         render: (text, record, index) => {
           return (
-            <div>
+            <span>
               <Button
                 type='primary'
                 size='small'
                 data-fields-value={JSON.stringify(record)}
-                onClick={this.handleOpenSupplierModal}
+                onClick={this.handleOpenModal}
               >
                 编辑
               </Button>
@@ -83,7 +59,7 @@ class Supplier extends React.Component {
                   删除
                 </Button>
               </Popconfirm>
-            </div>
+            </span>
           )
         }
       }
@@ -93,7 +69,8 @@ class Supplier extends React.Component {
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
     return Object.assign({
-      page: 1
+      page: 1,
+      id: this._id
     }, oldQuery, query)
   }
 
@@ -126,32 +103,35 @@ class Supplier extends React.Component {
     })
   }
 
-  handleOpenSupplierModal = (e) => {
+  handleOpenModal = (e) => {
     let { fieldsValue } = e.target.dataset
     fieldsValue = fieldsValue ? JSON.parse(fieldsValue) : {}
-    this.props.changeSupplierModalAction({
+    this.props.changeModalAction({
       visible: true,
-      fieldsValue
+      fieldsValue: fieldsValue
     })
   }
 
-  handleCloseSupplierModal = () => {
-    this.props.changeSupplierModalAction({
+  handleCloseModal = (e) => {
+    this.props.changeModalAction({
       visible: false
     })
   }
 
-  handleSaveSupplier = (id, fieldsValue) => {
+  handleSaveQuotation = (id, fieldsValue) => {
     if (_.isUndefined(id)) {
-      fetchAPI(apis.PurchaseAPI.addSupplier, fieldsValue).then((repos) => {
+      fetchAPI(apis.PurchaseAPI.addSupplierQuotation, {
+        ...fieldsValue,
+        supplier: this._id
+      }).then((repos) => {
         message.success('添加成功！')
-        this.handleCloseSupplierModal()
+        this.handleCloseModal()
         this.updatelist()
       })
     } else {
-      fetchAPI(apis.PurchaseAPI.updateSupplier, fieldsValue, { id }).then((repos) => {
+      fetchAPI(apis.PurchaseAPI.updateSupplierQuotation, fieldsValue, { id }).then((repos) => {
         message.success('编辑成功！')
-        this.handleCloseSupplierModal()
+        this.handleCloseModal()
         this.updatelist()
       })
     }
@@ -159,7 +139,7 @@ class Supplier extends React.Component {
 
   handleDelete = (id) => {
     return (e) => {
-      fetchAPI(apis.PurchaseAPI.deleteSupplier, {}, { id }).then((repos) => {
+      fetchAPI(apis.PurchaseAPI.deleteSupplierQuotation, {}, { id }).then((repos) => {
         message.success('删除成功！')
         this.props.getListDataAction({
           params: this._query()
@@ -174,15 +154,16 @@ class Supplier extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
-    const supplierModal = _.get(mydata, 'supplierModal', {})
+    const modal = _.get(mydata, 'modal', {})
     return (
-      <div className='supplier'>
+      <div className='quotation'>
+        <h1 className='title'>供应商编号：{this._uid}</h1>
         <Button
-          type='success'
           className='add-btn'
-          onClick={this.handleOpenSupplierModal}
+          type='success'
+          onClick={this.handleOpenModal}
         >
-          添加供应商
+          添加
         </Button>
         <CustomTable
           dataSource={list}
@@ -192,11 +173,11 @@ class Supplier extends React.Component {
           size='middle'
           onChange={this.handleChangeTable}
         />
-        { supplierModal.visible &&
-          <SupplierModal
-            {...supplierModal}
-            onOk={this.handleSaveSupplier}
-            onCancel={this.handleCloseSupplierModal}
+        { modal.visible &&
+          <QuotationModal
+            {...modal}
+            onOk={this.handleSaveQuotation}
+            onCancel={this.handleCloseModal}
           />
         }
       </div>
@@ -204,12 +185,12 @@ class Supplier extends React.Component {
   }
 }
 
-Supplier.propTypes = {
+Quotation.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   getListDataAction: PropTypes.func.isRequired,
-  changeSupplierModalAction: PropTypes.func.isRequired
+  changeModalAction: PropTypes.func.isRequired
 }
 
-export default Supplier
+export default Quotation

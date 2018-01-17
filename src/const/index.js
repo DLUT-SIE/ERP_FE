@@ -415,6 +415,37 @@ export const BIDDING_SHEET_STATUS_LIST = [
   }
 ]
 
+export const MATERIAL_CATEGORY_LIST = [
+  {
+    value: -1,
+    label: '未设置'
+  },
+  {
+    value: 0,
+    label: '主材定额'
+  },
+  {
+    value: 1,
+    label: '辅材定额'
+  },
+  {
+    value: 2,
+    label: '先投件明细'
+  },
+  {
+    value: 3,
+    label: '外购件明细'
+  },
+  {
+    value: 4,
+    label: '焊材定额'
+  },
+  {
+    value: 5,
+    label: '工序性外协明细'
+  }
+]
+
 export const UNKNOW_COLUMN = {
   title: '未知标题',
   dataIndex: 'unkow_column',
@@ -1332,5 +1363,30 @@ export const COLUMNS = {
   upload_supplier_file: {
     title: '上传文件',
     key: 'upload_supplier_file'
+  },
+  inventory_type: {
+    title: '库存',
+    key: 'inventory_type',
+    dataIndex: 'inventory_type'
+  },
+  name_spec: {
+    title: '名称及规格',
+    key: 'name_spec',
+    dataIndex: 'name_spec'
+  },
+  material_mark_quotation: {
+    title: '材质',
+    key: 'material_mark',
+    dataIndex: 'material_mark'
+  },
+  unit_price: {
+    title: '单价',
+    key: 'unit_price',
+    dataIndex: 'unit_price'
+  },
+  unit: {
+    title: '单位',
+    key: 'unit',
+    dataIndex: 'unit'
   }
 }
