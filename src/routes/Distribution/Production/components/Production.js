@@ -29,10 +29,10 @@ class Production extends React.Component {
   }
 
   uploadFile = (file) => {
-    fetchAPI(apis.Distribution.uploadBidFile, {
+    fetchAPI(apis.DistributionAPI.uploadBidFile, {
       path: file.file,
       ...file.data
-    }).then(() => {
+    }, {}, true).then(() => {
       message.success('上传成功')
       this.updatelist()
     })
