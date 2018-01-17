@@ -3,21 +3,24 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
+import fetchAPI from 'api'
+import { apis } from 'api/config'
+import { Button, Popconfirm, message, Upload } from 'antd'
 
 import CustomTable from 'components/CustomTable'
-import './StatusHistory.less'
+import './SupplierDocument.less'
 
 const columns = [
-  'pretty_original_status', 'pretty_new_status', 'change_dt', 'change_user', 'change_type', 'reason_bidding_sheet'
+  'file_name', 'file_size', 'upload_dt', 'action'
 ]
 
-class StatusHistory extends React.Component {
+class SupplierDocument extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
     const query = QueryString.parse(this.props.location.search)
     this._id = +query.id
-    this._uid = query.uid
+    this._uid = +query.uid
     this._columns = this.buildColumns()
   }
 
@@ -29,21 +32,27 @@ class StatusHistory extends React.Component {
 
   buildColumns () {
     return util.buildColumns(columns, {
-      change_dt: {
+      upload_dt: {
         render: (text, record, index) => {
-          return record.change_dt && record.change_dt.split('T')[0]
+          return record.upload_dt && record.upload_dt.split('T')[0]
         }
       },
-      change_type: {
+      action: {
         render: (text, record, index) => {
-          return record.normal_change ? (
-            <span className='normal-change'>
-              正常更改
-            </span>
-          ) : (
-            <span className='force-change'>
-              强制更改
-            </span>
+          return (
+            <Popconfirm
+              title='确定删除吗？'
+              onConfirm={this.handleDelete(record.id)}
+              okText='确定'
+              cancelText='取消'
+            >
+              <Button
+                type='danger'
+                size='small'
+              >
+                删除
+              </Button>
+            </Popconfirm>
           )
         }
       }
@@ -54,7 +63,7 @@ class StatusHistory extends React.Component {
     const oldQuery = QueryString.parse(this.props.location.search)
     return Object.assign({
       page: 1,
-      bidding_sheet: this._id
+      supplier: this._id
     }, oldQuery, query)
   }
 
@@ -87,15 +96,49 @@ class StatusHistory extends React.Component {
     })
   }
 
+  handleDelete = (id) => {
+    return (e) => {
+      fetchAPI(apis.PurchaseAPI.deleteSupplierDocument, {}, { id }).then((repos) => {
+        message.success('删除成功！')
+        this.props.getListDataAction({
+          params: this._query()
+        })
+      })
+    }
+  }
+
+  uploadFile = (file) => {
+    fetchAPI(apis.PurchaseAPI.addSupplierDocument, {
+      path: file.file,
+      ...file.data
+    }, {}, true).then(() => {
+      message.success('上传成功')
+      this.updatelist()
+    })
+  }
+
   render () {
     const { status } = this.props
     const mydata = status.toJS()
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
+    const data = { supplier: this._id }
     return (
-      <div className='status-history'>
-        <h1>标单标号：{this._uid}</h1>
+      <div className='supplier-document'>
+        <h1 className='title'>供应商编号：{this._uid}</h1>
+        <Upload
+          className='add-btn'
+          name='file'
+          data={data}
+          customRequest={this.uploadFile}
+        >
+          <Button
+            type='success'
+          >
+            上传供应商文件
+          </Button>
+        </Upload>
         <CustomTable
           dataSource={list}
           columns={this._columns}
@@ -109,11 +152,11 @@ class StatusHistory extends React.Component {
   }
 }
 
-StatusHistory.propTypes = {
+SupplierDocument.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   getListDataAction: PropTypes.func.isRequired
 }
 
-export default StatusHistory
+export default SupplierDocument

@@ -269,7 +269,7 @@ class BidDocument extends React.Component {
   }
 
   handleSaveCheck = (values) => {
-    fetchAPI(apis.Distribution.saveCheckDocument, values.fieldsValue, { id: values.id }).then((repos) => {
+    fetchAPI(apis.DistributionAPI.saveCheckDocument, values.fieldsValue, { id: values.id }).then((repos) => {
       message.success('审核成功！')
       this.handleCloseCheckModal()
       this.fetchProductionList(this._query({}, 'page1'))
@@ -277,7 +277,7 @@ class BidDocument extends React.Component {
   }
 
   handleSaveWorkOrder = (fieldsValue) => {
-    fetchAPI(apis.Distribution.saveWorkOrder, fieldsValue).then((repos) => {
+    fetchAPI(apis.DistributionAPI.saveWorkOrder, fieldsValue).then((repos) => {
       if (repos.id !== undefined) {
         message.success('工作令生成成功！')
         this.handleCloseWorkOrderModal()

@@ -3,20 +3,20 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
-import { Button, Upload, message, Divider } from 'antd'
-import { Link } from 'react-router-dom'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
+import { Link } from 'react-router-dom'
+import { Button, message } from 'antd'
 
-import FilterBar from 'components/WorkOrderFilterBar'
+import FilterBar from './FilterBar.js'
 import CustomTable from 'components/CustomTable'
-import './ProcessImport.less'
+import StatusModal from './StatusModal'
 
 const columns = [
-  'work_order_uid', 'production_name', 'action'
+  'bidding_sheet_uid', 'bidding_sheet_status', 'history', 'change_status'
 ]
 
-class ProcessImport extends React.Component {
+class StatusBackTrack extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -31,65 +31,35 @@ class ProcessImport extends React.Component {
 
   buildColumns () {
     return util.buildColumns(columns, {
-      action: {
+      history: {
         render: (text, record, index) => {
           return (
-            <div>
-              <Button
-                type='primary'
-                size='small'
-                data-id={record.id}
-                disabled={record.status === 0}
-              >
-                <Link to={`/process/process/?work_order_uid=${record.work_order_uid}`}>
-                  查 看
-                </Link>
-              </Button>
-              <Divider type='vertical' />
-              <Upload
-                name='file'
-                accept='.xlsx, .xls, .xlsm'
-                data={{ id: record.id }}
-                customRequest={this.uploadFile}
-              >
-                <Button
-                  type='primary'
-                  size='small'
-                  disabled={record.status === 2}
-                >
-                  导入
-                </Button>
-              </Upload>
-              <Divider type='vertical' />
-              <Button
-                type='primary'
-                size='small'
-                data-id={record.id}
-                disabled={record.status !== 1}
-                onClick={this.handleProof}
-              >
-                审核
-              </Button>
-            </div>
+            <Button
+              type='primary'
+              size='small'
+            >
+              <Link to={`/purchase/status_back_track/status_history/?uid=${record.uid}&id=${record.id}`}>
+                查看
+              </Link>
+            </Button>
+          )
+        }
+      },
+      change_status: {
+        render: (text, record, index) => {
+          return (
+            <Button
+              type='success'
+              size='small'
+              data-fields-value={JSON.stringify(record)}
+              onClick={this.handleOpenStatusModal}
+            >
+              更改状态
+            </Button>
           )
         }
       }
     })
-  }
-
-  uploadFile = (file) => {
-    fetchAPI(apis.ProcessAPI.uploadProcessLibrary, {
-      file: file.file,
-      ...file.data
-    }, {}, true).then(() => {
-      message.success('上传成功')
-      this.updatelist()
-    })
-  }
-
-  handleProof = (e) => {
-    const { id } = e.target.dataset
-    console.log('handleProof', id)
   }
 
   handleSearch = (searchValue) => {
@@ -135,6 +105,34 @@ class ProcessImport extends React.Component {
     })
   }
 
+  handleOpenStatusModal = (e) => {
+    let { fieldsValue } = e.target.dataset
+    fieldsValue = JSON.parse(fieldsValue)
+    this.props.changeStatusModalAction({
+      visible: true,
+      fieldsValue: {
+        bidding_sheet_id: fieldsValue.id,
+        bidding_sheet: fieldsValue.uid,
+        original_status_id: fieldsValue.status,
+        original_status: fieldsValue.status_name
+      }
+    })
+  }
+
+  handleCloseStatusModal = () => {
+    this.props.changeStatusModalAction({
+      visible: false
+    })
+  }
+
+  handleSaveStatusChange = (fieldsValue) => {
+    fetchAPI(apis.PurchaseAPI.addStatusChanges, fieldsValue).then((repos) => {
+      message.success('更改成功！')
+      this.handleCloseStatusModal()
+      this.updatelist()
+    })
+  }
+
   render () {
     const { status, location } = this.props
     const query = QueryString.parse(location.search)
@@ -142,8 +140,9 @@ class ProcessImport extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
+    const modal = _.get(mydata, 'modal', {})
     return (
-      <div className='process-import'>
+      <div>
         <FilterBar
           fieldsValue={query}
           onSearch={this.handleSearch}
@@ -156,16 +155,24 @@ class ProcessImport extends React.Component {
           size='middle'
           onChange={this.handleChangeTable}
         />
+        { modal.visible &&
+          <StatusModal
+            {...modal}
+            onOk={this.handleSaveStatusChange}
+            onCancel={this.handleCloseStatusModal}
+          />
+        }
       </div>
     )
   }
 }
 
-ProcessImport.propTypes = {
+StatusBackTrack.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
-  getListDataAction: PropTypes.func.isRequired
+  getListDataAction: PropTypes.func.isRequired,
+  changeStatusModalAction: PropTypes.func.isRequired
 }
 
-export default ProcessImport
+export default StatusBackTrack

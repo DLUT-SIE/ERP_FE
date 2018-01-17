@@ -70,5 +70,49 @@ export default {
   addStatusChanges: {
     url: '/api/status_changes/',
     method: 'POST'
+  },
+  getSuppliers: {
+    url: '/api/suppliers/',
+    method: 'GET'
+  },
+  addSupplier: {
+    url: '/api/suppliers/',
+    method: 'POST'
+  },
+  updateSupplier: {
+    url: '/api/suppliers/:id/',
+    method: 'PATCH'
+  },
+  deleteSupplier: {
+    url: '/api/suppliers/:id/',
+    method: 'DELETE'
+  },
+  getSupplierQuotations: {
+    url: '/api/supplier_quotations/',
+    method: 'GET'
+  },
+  addSupplierQuotation: {
+    url: '/api/supplier_quotations/',
+    method: 'POST'
+  },
+  updateSupplierQuotation: {
+    url: '/api/supplier_quotations/:id/',
+    method: 'PATCH'
+  },
+  deleteSupplierQuotation: {
+    url: '/api/supplier_quotations/:id/',
+    method: 'DELETE'
+  },
+  getSupplierDocuments: {
+    url: '/api/supplier_documents/',
+    method: 'GET'
+  },
+  addSupplierDocument: {
+    url: '/api/supplier_documents/',
+    method: 'POST'
+  },
+  deleteSupplierDocument: {
+    url: '/api/supplier_documents/:id/',
+    method: 'DELETE'
   }
 }

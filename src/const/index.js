@@ -415,6 +415,37 @@ export const BIDDING_SHEET_STATUS_LIST = [
   }
 ]
 
+export const MATERIAL_CATEGORY_LIST = [
+  {
+    value: -1,
+    label: '未设置'
+  },
+  {
+    value: 0,
+    label: '主材定额'
+  },
+  {
+    value: 1,
+    label: '辅材定额'
+  },
+  {
+    value: 2,
+    label: '先投件明细'
+  },
+  {
+    value: 3,
+    label: '外购件明细'
+  },
+  {
+    value: 4,
+    label: '焊材定额'
+  },
+  {
+    value: 5,
+    label: '工序性外协明细'
+  }
+]
+
 export const UNKNOW_COLUMN = {
   title: '未知标题',
   dataIndex: 'unkow_column',
@@ -1282,15 +1313,15 @@ export const COLUMNS = {
     title: '更改状态',
     key: 'change_status'
   },
-  original_status: {
+  pretty_original_status: {
     title: '更改前状态',
-    key: 'original_status',
-    dataIndex: 'original_status'
+    key: 'pretty_original_status',
+    dataIndex: 'pretty_original_status'
   },
-  new_status: {
+  pretty_new_status: {
     title: '更改后状态',
-    key: 'new_status',
-    dataIndex: 'new_status'
+    key: 'pretty_new_status',
+    dataIndex: 'pretty_new_status'
   },
   change_dt: {
     title: '更改日期',
@@ -1310,5 +1341,67 @@ export const COLUMNS = {
     title: '更改原因',
     key: 'reason',
     dataIndex: 'reason'
+  },
+  supplier_uid: {
+    title: '供应商编号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
+  supplier_name: {
+    title: '供应商名称',
+    key: 'name',
+    dataIndex: 'name'
+  },
+  supplier_file: {
+    title: '相关文件下载',
+    key: 'supplier_file'
+  },
+  quotation: {
+    title: '报价',
+    key: 'quotation'
+  },
+  upload_supplier_file: {
+    title: '上传文件',
+    key: 'upload_supplier_file'
+  },
+  inventory_type: {
+    title: '库存',
+    key: 'inventory_type',
+    dataIndex: 'inventory_type'
+  },
+  name_spec: {
+    title: '名称及规格',
+    key: 'name_spec',
+    dataIndex: 'name_spec'
+  },
+  material_mark_quotation: {
+    title: '材质',
+    key: 'material_mark',
+    dataIndex: 'material_mark'
+  },
+  unit_price: {
+    title: '单价',
+    key: 'unit_price',
+    dataIndex: 'unit_price'
+  },
+  unit: {
+    title: '单位',
+    key: 'unit',
+    dataIndex: 'unit'
+  },
+  file_name: {
+    title: '文件名称',
+    key: 'file_name',
+    dataIndex: 'file_name'
+  },
+  file_size: {
+    title: '文件大小',
+    key: 'file_size',
+    dataIndex: 'file_size'
+  },
+  upload_dt: {
+    title: '上传时间',
+    key: 'upload_dt',
+    dataIndex: 'upload_dt'
   }
 }

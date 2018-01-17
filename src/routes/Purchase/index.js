@@ -8,6 +8,10 @@ import MaterialSubApply from './MaterialSubApply'
 import MaterialSubApplyDetail from './MaterialSubApplyDetail'
 import StatusBackTrack from './StatusBackTrack'
 import StatusHistory from './StatusHistory'
+import MaterialExecution from './MaterialExecution'
+import Supplier from './Supplier'
+import Quotation from './Quotation'
+import SupplierDocument from './SupplierDocument'
 import _ from 'lodash'
 
 const childRoutes = [
@@ -50,6 +54,26 @@ const childRoutes = [
     path: 'status_back_track',
     breadcrumbName: '状态回溯',
     component: StatusBackTrack
+  },
+  {
+    path: 'material_execution',
+    breadcrumbName: '材料执行',
+    component: MaterialExecution
+  },
+  {
+    path: 'supplier/quotation',
+    breadcrumbName: '报价管理',
+    component: Quotation
+  },
+  {
+    path: 'supplier/supplier_document',
+    breadcrumbName: '供应商文件',
+    component: SupplierDocument
+  },
+  {
+    path: 'supplier',
+    breadcrumbName: '供应商管理',
+    component: Supplier
   }
 ]
 

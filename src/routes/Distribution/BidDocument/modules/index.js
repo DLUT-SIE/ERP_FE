@@ -153,7 +153,7 @@ export function *getProductionListSaga (type, body) {
   while (true) {
     const { payload = {} } = yield take(BIDDOCUMENT_GET_PRODUCTION_LIST_DATA)
     const { callback, params } = payload
-    const data = yield call(fetchAPI, apis.Distribution.getProFileList, params)
+    const data = yield call(fetchAPI, apis.DistributionAPI.getProFileList, params)
     callback && callback()
     yield put(addProductionListDataAction({ data: data }))
   }
@@ -163,7 +163,7 @@ export function *getWorkOrderListSaga (type, body) {
   while (true) {
     const { payload = {} } = yield take(BIDDOCUMENT_GET_WORKORDER_LIST_DATA)
     const { callback, params } = payload
-    const data = yield call(fetchAPI, apis.Distribution.getWorkOrderList, params)
+    const data = yield call(fetchAPI, apis.DistributionAPI.getWorkOrderList, params)
     callback && callback()
     yield put(addWorkOrderListDataAction({ data: data }))
   }

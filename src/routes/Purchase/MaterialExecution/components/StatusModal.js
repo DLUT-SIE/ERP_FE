@@ -92,7 +92,7 @@ class StatusModal extends React.Component {
               </FormItem>
             </Col>
           </Row>
-          <Row gutter={16}>
+          <Row>
             <Col span={24}>
               <FormItem label='回溯原因' {...formItemLayoutReason}>
                 {

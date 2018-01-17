@@ -7,8 +7,9 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const DEPARTMENTSEND_GET_LIST_DATA = 'DEPARTMENTSEND_GET_LIST_DATA'
-const DEPARTMENTSEND_ADD_LIST_DATA = 'DEPARTMENTSEND_ADD_LIST_DATA'
+const SUPPLIER_GET_LIST_DATA = 'SUPPLIER_GET_LIST_DATA'
+const SUPPLIER_ADD_LIST_DATA = 'SUPPLIER_ADD_LIST_DATA'
+const SUPPLIER_CHANGE_SUPPLIER_MODAL = 'SUPPLIER_CHANGE_SUPPLIER_MODAL'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -17,21 +18,29 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : DEPARTMENTSEND_GET_LIST_DATA,
+    type    : SUPPLIER_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : DEPARTMENTSEND_ADD_LIST_DATA,
+    type    : SUPPLIER_ADD_LIST_DATA,
+    payload : payload
+  }
+}
+
+function changeSupplierModalAction (payload = {}) {
+  return {
+    type    : SUPPLIER_CHANGE_SUPPLIER_MODAL,
     payload : payload
   }
 }
 
 export const actions = {
   getListDataAction,
-  addListDataAction
+  addListDataAction,
+  changeSupplierModalAction
 }
 
 // ------------------------------------
@@ -41,12 +50,15 @@ var initialState = Immutable.fromJS({
   loading: false,
   pagination: {
     pageSize: 10
+  },
+  supplierModal: {
+    visible: false
   }
 })
 
-export default function DepartmentSend (state = initialState, action) {
+export default function Supplier (state = initialState, action) {
   var map = {
-    DEPARTMENTSEND_GET_LIST_DATA () {
+    SUPPLIER_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -57,14 +69,17 @@ export default function DepartmentSend (state = initialState, action) {
         'loading', true
       )
     },
-    DEPARTMENTSEND_ADD_LIST_DATA () {
+    SUPPLIER_ADD_LIST_DATA () {
       let { data } = action.payload
       return state.mergeIn(
-        ['pagination'], { total: data.count }
+        ['pagination'], { total: data.total }
       ).merge({
-        list: data.results,
-        loading: false
+        loading: false,
+        list: data.results
       })
+    },
+    SUPPLIER_CHANGE_SUPPLIER_MODAL () {
+      return state.mergeIn(['supplierModal'], action.payload)
     }
   }
 
@@ -81,9 +96,9 @@ export default function DepartmentSend (state = initialState, action) {
 
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(DEPARTMENTSEND_GET_LIST_DATA)
+    const { payload = {} } = yield take(SUPPLIER_GET_LIST_DATA)
     const { callback, params } = payload
-    const data = yield call(fetchAPI, apis.DistributionAPI.getProFileList, params)
+    const data = yield call(fetchAPI, apis.PurchaseAPI.getSuppliers, params)
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }
