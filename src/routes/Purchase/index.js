@@ -8,6 +8,8 @@ import MaterialSubApply from './MaterialSubApply'
 import MaterialSubApplyDetail from './MaterialSubApplyDetail'
 import StatusBackTrack from './StatusBackTrack'
 import StatusHistory from './StatusHistory'
+import MaterialExecution from './MaterialExecution'
+import Supplier from './Supplier'
 import _ from 'lodash'
 
 const childRoutes = [
@@ -50,6 +52,16 @@ const childRoutes = [
     path: 'status_back_track',
     breadcrumbName: '状态回溯',
     component: StatusBackTrack
+  },
+  {
+    path: 'material_execution',
+    breadcrumbName: '材料执行',
+    component: MaterialExecution
+  },
+  {
+    path: 'supplier',
+    breadcrumbName: '供应商管理',
+    component: Supplier
   }
 ]
 

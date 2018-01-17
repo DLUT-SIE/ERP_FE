@@ -97,6 +97,14 @@ const config = {
             "code": "menu.purchase.status_back_track",
             "name": "状态回溯",
             "children": []
+        }, {
+            "code": "menu.purchase.material_execution",
+            "name": "材料执行",
+            "children": []
+        }, {
+            "code": "menu.purchase.supplier",
+            "name": "供应商管理",
+            "children": []
         }]
     }, {
         "code": "menu.inventory",

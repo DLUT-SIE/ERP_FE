@@ -1282,15 +1282,15 @@ export const COLUMNS = {
     title: '更改状态',
     key: 'change_status'
   },
-  original_status: {
+  pretty_original_status: {
     title: '更改前状态',
-    key: 'original_status',
-    dataIndex: 'original_status'
+    key: 'pretty_original_status',
+    dataIndex: 'pretty_original_status'
   },
-  new_status: {
+  pretty_new_status: {
     title: '更改后状态',
-    key: 'new_status',
-    dataIndex: 'new_status'
+    key: 'pretty_new_status',
+    dataIndex: 'pretty_new_status'
   },
   change_dt: {
     title: '更改日期',
@@ -1310,5 +1310,27 @@ export const COLUMNS = {
     title: '更改原因',
     key: 'reason',
     dataIndex: 'reason'
+  },
+  supplier_uid: {
+    title: '供应商编号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
+  supplier_name: {
+    title: '供应商名称',
+    key: 'name',
+    dataIndex: 'name'
+  },
+  supplier_file: {
+    title: '相关文件下载',
+    key: 'supplier_file'
+  },
+  quotation: {
+    title: '报价',
+    key: 'quotation'
+  },
+  upload_supplier_file: {
+    title: '上传文件',
+    key: 'upload_supplier_file'
   }
 }

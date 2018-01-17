@@ -43,7 +43,9 @@ export const menu = {
       material: '/purchase/material',
       purchase_order_management: '/purchase/purchase_order_management',
       material_sub_apply: '/purchase/material_sub_apply',
-      status_back_track: '/purchase/status_back_track'
+      status_back_track: '/purchase/status_back_track',
+      material_execution: '/purchase/material_execution',
+      supplier: '/purchase/supplier'
     },
     inventory: {
       icon: 'appstore',
