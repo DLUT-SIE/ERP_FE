@@ -1478,5 +1478,20 @@ export const COLUMNS = {
     title: '应付金额',
     key: 'prepaid_amounts',
     dataIndex: 'prepaid_amounts'
+  },
+  submitter: {
+    title: '用户',
+    key: 'submitter',
+    dataIndex: 'submitter'
+  },
+  amount: {
+    title: '金额',
+    key: 'amount',
+    dataIndex: 'amount'
+  },
+  submit_dt: {
+    title: '提交日期',
+    key: 'submit_dt',
+    dataIndex: 'submit_dt'
   }
 }

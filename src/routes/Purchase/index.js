@@ -13,6 +13,7 @@ import Supplier from './Supplier'
 import Quotation from './Quotation'
 import SupplierDocument from './SupplierDocument'
 import Contract from './Contract'
+import ContractDetail from './ContractDetail'
 import _ from 'lodash'
 
 const childRoutes = [
@@ -75,6 +76,11 @@ const childRoutes = [
     path: 'supplier',
     breadcrumbName: '供应商管理',
     component: Supplier
+  },
+  {
+    path: 'contract/contract_detail',
+    breadcrumbName: '已付金额明细',
+    component: ContractDetail
   },
   {
     path: 'contract',
