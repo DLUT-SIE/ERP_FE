@@ -74,7 +74,7 @@ export default function MaterialSubApply (state = initialState, action) {
     MATERIALSUBAPPLY_ADD_LIST_DATA () {
       let { data } = action.payload
       return state.mergeIn(
-        ['pagination'], { total: data.total }
+        ['pagination'], { total: data.count }
       ).merge({
         list: data.results,
         loading: false

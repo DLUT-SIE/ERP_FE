@@ -7,8 +7,8 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const PURCHASEORDERMANAG_GET_LIST_DATA = 'PURCHASEORDERMANAG_GET_LIST_DATA'
-const PURCHASEORDERMANAG_ADD_LIST_DATA = 'PURCHASEORDERMANAG_ADD_LIST_DATA'
+const CONTRACTDETAIL_GET_LIST_DATA = 'CONTRACTDETAIL_GET_LIST_DATA'
+const CONTRACTDETAIL_ADD_LIST_DATA = 'CONTRACTDETAIL_ADD_LIST_DATA'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -17,14 +17,14 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : PURCHASEORDERMANAG_GET_LIST_DATA,
+    type    : CONTRACTDETAIL_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : PURCHASEORDERMANAG_ADD_LIST_DATA,
+    type    : CONTRACTDETAIL_ADD_LIST_DATA,
     payload : payload
   }
 }
@@ -41,13 +41,12 @@ var initialState = Immutable.fromJS({
   loading: false,
   pagination: {
     pageSize: 10
-  },
-  columns: []
+  }
 })
 
-export default function PurchaseOrderManagement (state = initialState, action) {
+export default function ContractDetail (state = initialState, action) {
   var map = {
-    PURCHASEORDERMANAG_GET_LIST_DATA () {
+    CONTRACTDETAIL_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -58,7 +57,7 @@ export default function PurchaseOrderManagement (state = initialState, action) {
         'loading', true
       )
     },
-    PURCHASEORDERMANAG_ADD_LIST_DATA () {
+    CONTRACTDETAIL_ADD_LIST_DATA () {
       let { data } = action.payload
       return state.mergeIn(
         ['pagination'], { total: data.count }
@@ -82,9 +81,9 @@ export default function PurchaseOrderManagement (state = initialState, action) {
 
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(PURCHASEORDERMANAG_GET_LIST_DATA)
+    const { payload = {} } = yield take(CONTRACTDETAIL_GET_LIST_DATA)
     const { callback, params } = payload
-    const data = yield call(fetchAPI, apis.PurchaseAPI.getPurchaseOrders, params)
+    const data = yield call(fetchAPI, apis.PurchaseAPI.getContractDetails, params)
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }

@@ -12,7 +12,7 @@ import QuotationModal from './QuotationModal'
 import './Quotation.less'
 
 const columns = [
-  'inventory_type', 'name_spec', 'material_mark_quotation', 'unit_price', 'unit', 'action'
+  'pretty_inventory_type', 'name_spec', 'material_mark_quotation', 'unit_price', 'unit', 'action'
 ]
 
 class Quotation extends React.Component {

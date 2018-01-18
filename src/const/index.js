@@ -1367,8 +1367,8 @@ export const COLUMNS = {
   },
   bidding_sheet_status: {
     title: '当前状态',
-    key: 'status_name',
-    dataIndex: 'status_name'
+    key: 'pretty_status',
+    dataIndex: 'pretty_status'
   },
   history: {
     title: '查看历史',
@@ -1429,10 +1429,10 @@ export const COLUMNS = {
     title: '上传文件',
     key: 'upload_supplier_file'
   },
-  inventory_type: {
+  pretty_inventory_type: {
     title: '库存',
-    key: 'inventory_type',
-    dataIndex: 'inventory_type'
+    key: 'pretty_inventory_type',
+    dataIndex: 'pretty_inventory_type'
   },
   name_spec: {
     title: '名称及规格',
@@ -1454,15 +1454,15 @@ export const COLUMNS = {
     key: 'unit',
     dataIndex: 'unit'
   },
-  file_name: {
+  doc_name: {
     title: '文件名称',
-    key: 'file_name',
-    dataIndex: 'file_name'
+    key: 'doc_name',
+    dataIndex: 'doc_name'
   },
-  file_size: {
+  doc_size: {
     title: '文件大小',
-    key: 'file_size',
-    dataIndex: 'file_size'
+    key: 'doc_size',
+    dataIndex: 'doc_size'
   },
   upload_dt: {
     title: '上传时间',
@@ -1493,5 +1493,75 @@ export const COLUMNS = {
     title: '完工时间',
     key: 'actual_finish_dt',
     dataIndex: 'actual_finish_dt'
+  },
+  uid_execution: {
+    title: '编号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
+  lister: {
+    title: '制表人',
+    key: 'lister',
+    dataIndex: 'lister'
+  },
+  list_dt: {
+    title: '制表日期',
+    key: 'list_dt',
+    dataIndex: 'list_dt'
+  },
+  process_requirement: {
+    title: '工艺要求',
+    key: 'process_requirement',
+    dataIndex: 'process_requirement'
+  },
+  contract_number: {
+    title: '合同编号',
+    key: 'contract_number',
+    dataIndex: 'contract_number'
+  },
+  accept_supplier: {
+    title: '单位名称',
+    key: 'accept_supplier',
+    dataIndex: 'accept_supplier'
+  },
+  content: {
+    title: '协作内容',
+    key: 'content',
+    dataIndex: 'content'
+  },
+  contract_amount: {
+    title: '合同金额',
+    key: 'contract_amount',
+    dataIndex: 'contract_amount'
+  },
+  billing_amount: {
+    title: '开票金额',
+    key: 'billing_amount',
+    dataIndex: 'billing_amount'
+  },
+  payable_amounts: {
+    title: '已付金额',
+    key: 'payable_amounts',
+    dataIndex: 'payable_amounts'
+  },
+  prepaid_amounts: {
+    title: '应付金额',
+    key: 'prepaid_amounts',
+    dataIndex: 'prepaid_amounts'
+  },
+  submitter: {
+    title: '用户',
+    key: 'submitter',
+    dataIndex: 'submitter'
+  },
+  amount: {
+    title: '金额',
+    key: 'amount',
+    dataIndex: 'amount'
+  },
+  submit_dt: {
+    title: '提交日期',
+    key: 'submit_dt',
+    dataIndex: 'submit_dt'
   }
 }

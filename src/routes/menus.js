@@ -45,7 +45,8 @@ export const menu = {
       material_sub_apply: '/purchase/material_sub_apply',
       status_back_track: '/purchase/status_back_track',
       material_execution: '/purchase/material_execution',
-      supplier: '/purchase/supplier'
+      supplier: '/purchase/supplier',
+      contract: '/purchase/contract'
     },
     inventory: {
       icon: 'appstore',

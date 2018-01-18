@@ -5,22 +5,21 @@ import _ from 'lodash'
 import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
-import { Button, Popconfirm, message, Upload } from 'antd'
+import { Link } from 'react-router-dom'
+import { Button, Divider, message } from 'antd'
 
 import CustomTable from 'components/CustomTable'
-import './SupplierDocument.less'
+import AmountModal from './AmountModal'
 
 const columns = [
-  'doc_name', 'doc_size', 'upload_dt', 'action'
+  'contract_number', 'accept_supplier', 'content', 'contract_amount', 'billing_amount', 'payable_amounts',
+  'prepaid_amounts', 'action'
 ]
 
-class SupplierDocument extends React.Component {
+class Contract extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
-    const query = QueryString.parse(this.props.location.search)
-    this._id = +query.id
-    this._uid = +query.uid
     this._columns = this.buildColumns()
   }
 
@@ -32,41 +31,29 @@ class SupplierDocument extends React.Component {
 
   buildColumns () {
     return util.buildColumns(columns, {
-      doc_name: {
-        render: (text, record, index) => {
-          return record.doc_name && (
-            <a
-              className='document-link'
-              key={index}
-              href={record.path}
-              download={record.doc_name}
-            >
-              {record.doc_name}
-            </a>
-          )
-        }
-      },
-      upload_dt: {
-        render: (text, record, index) => {
-          return record.upload_dt && record.upload_dt.split('T')[0]
-        }
-      },
       action: {
         render: (text, record, index) => {
           return (
-            <Popconfirm
-              title='确定删除吗？'
-              onConfirm={this.handleDelete(record.id)}
-              okText='确定'
-              cancelText='取消'
-            >
+            <div>
               <Button
-                type='danger'
+                type='success'
+                size='small'
+                data-id={record.id}
+                data-prepaid-amounts={record.prepaid_amounts}
+                onClick={this.handleOpenAmountModal}
+              >
+                添加已付金额
+              </Button>
+              <Divider type='vertical' />
+              <Button
+                type='primary'
                 size='small'
               >
-                删除
+                <Link to={`/purchase/contract/contract_detail/?id=${record.id}`}>
+                  查看已付金额明细
+                </Link>
               </Button>
-            </Popconfirm>
+            </div>
           )
         }
       }
@@ -76,8 +63,7 @@ class SupplierDocument extends React.Component {
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
     return Object.assign({
-      page: 1,
-      supplier: this._id
+      page: 1
     }, oldQuery, query)
   }
 
@@ -100,7 +86,7 @@ class SupplierDocument extends React.Component {
 
   updatelist (query = QueryString.parse(this.props.location.search)) {
     this.props.getListDataAction({
-      params: this._query(query)
+      params: query
     })
   }
 
@@ -110,23 +96,29 @@ class SupplierDocument extends React.Component {
     })
   }
 
-  handleDelete = (id) => {
-    return (e) => {
-      fetchAPI(apis.PurchaseAPI.deleteSupplierDocument, {}, { id }).then((repos) => {
-        message.success('删除成功！')
-        this.props.getListDataAction({
-          params: this._query()
-        })
-      })
-    }
+  handleOpenAmountModal = (e) => {
+    let { id, prepaidAmounts } = e.target.dataset
+    console.log('handleOpenAmountModal', e.target.dataset)
+    this.props.changeAmountModalAction({
+      visible: true,
+      id: +id,
+      prepaidAmounts: +prepaidAmounts
+    })
   }
 
-  uploadFile = (file) => {
-    fetchAPI(apis.PurchaseAPI.addSupplierDocument, {
-      path: file.file,
-      ...file.data
-    }, {}, true).then(() => {
-      message.success('上传成功')
+  handleCloseAmountModal = () => {
+    this.props.changeAmountModalAction({
+      visible: false
+    })
+  }
+
+  handleSaveAmount = (id, fieldsValue) => {
+    fetchAPI(apis.PurchaseAPI.addContractDetail, {
+      ...fieldsValue,
+      bidding_sheet: id
+    }).then((repos) => {
+      message.success('添加成功！')
+      this.handleCloseAmountModal()
       this.updatelist()
     })
   }
@@ -137,22 +129,9 @@ class SupplierDocument extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
-    const data = { supplier: this._id }
+    const amountModal = _.get(mydata, 'amountModal', {})
     return (
-      <div className='supplier-document'>
-        <h1 className='title'>供应商编号：{this._uid}</h1>
-        <Upload
-          className='add-btn'
-          name='file'
-          data={data}
-          customRequest={this.uploadFile}
-        >
-          <Button
-            type='success'
-          >
-            上传供应商文件
-          </Button>
-        </Upload>
+      <div className='contract'>
         <CustomTable
           dataSource={list}
           columns={this._columns}
@@ -161,16 +140,24 @@ class SupplierDocument extends React.Component {
           size='middle'
           onChange={this.handleChangeTable}
         />
+        { amountModal.visible &&
+          <AmountModal
+            {...amountModal}
+            onOk={this.handleSaveAmount}
+            onCancel={this.handleCloseAmountModal}
+          />
+        }
       </div>
     )
   }
 }
 
-SupplierDocument.propTypes = {
+Contract.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
-  getListDataAction: PropTypes.func.isRequired
+  getListDataAction: PropTypes.func.isRequired,
+  changeAmountModalAction: PropTypes.func.isRequired
 }
 
-export default SupplierDocument
+export default Contract

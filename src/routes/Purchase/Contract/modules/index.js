@@ -7,8 +7,9 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const PURCHASEORDERMANAG_GET_LIST_DATA = 'PURCHASEORDERMANAG_GET_LIST_DATA'
-const PURCHASEORDERMANAG_ADD_LIST_DATA = 'PURCHASEORDERMANAG_ADD_LIST_DATA'
+const CONTRACT_GET_LIST_DATA = 'CONTRACT_GET_LIST_DATA'
+const CONTRACT_ADD_LIST_DATA = 'CONTRACT_ADD_LIST_DATA'
+const CONTRACT_CHANGE_AMOUNT_MODAL = 'CONTRACT_CHANGE_AMOUNT_MODAL'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -17,21 +18,29 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : PURCHASEORDERMANAG_GET_LIST_DATA,
+    type    : CONTRACT_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : PURCHASEORDERMANAG_ADD_LIST_DATA,
+    type    : CONTRACT_ADD_LIST_DATA,
+    payload : payload
+  }
+}
+
+function changeAmountModalAction (payload = {}) {
+  return {
+    type    : CONTRACT_CHANGE_AMOUNT_MODAL,
     payload : payload
   }
 }
 
 export const actions = {
   getListDataAction,
-  addListDataAction
+  addListDataAction,
+  changeAmountModalAction
 }
 
 // ------------------------------------
@@ -42,12 +51,14 @@ var initialState = Immutable.fromJS({
   pagination: {
     pageSize: 10
   },
-  columns: []
+  amountModal: {
+    visible: false
+  }
 })
 
-export default function PurchaseOrderManagement (state = initialState, action) {
+export default function Contract (state = initialState, action) {
   var map = {
-    PURCHASEORDERMANAG_GET_LIST_DATA () {
+    CONTRACT_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -58,7 +69,7 @@ export default function PurchaseOrderManagement (state = initialState, action) {
         'loading', true
       )
     },
-    PURCHASEORDERMANAG_ADD_LIST_DATA () {
+    CONTRACT_ADD_LIST_DATA () {
       let { data } = action.payload
       return state.mergeIn(
         ['pagination'], { total: data.count }
@@ -66,6 +77,9 @@ export default function PurchaseOrderManagement (state = initialState, action) {
         loading: false,
         list: data.results
       })
+    },
+    CONTRACT_CHANGE_AMOUNT_MODAL () {
+      return state.mergeIn(['amountModal'], action.payload)
     }
   }
 
@@ -82,9 +96,9 @@ export default function PurchaseOrderManagement (state = initialState, action) {
 
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(PURCHASEORDERMANAG_GET_LIST_DATA)
+    const { payload = {} } = yield take(CONTRACT_GET_LIST_DATA)
     const { callback, params } = payload
-    const data = yield call(fetchAPI, apis.PurchaseAPI.getPurchaseOrders, params)
+    const data = yield call(fetchAPI, apis.PurchaseAPI.getContracts, params)
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }

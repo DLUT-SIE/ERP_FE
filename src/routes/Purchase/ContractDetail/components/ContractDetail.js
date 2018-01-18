@@ -3,22 +3,19 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
-// import fetchAPI from 'api'
-// import { apis } from 'api/config'
-// import { Link } from 'react-router-dom'
-import { Button } from 'antd'
 
-import FilterBar from './FilterBar.js'
 import CustomTable from 'components/CustomTable'
 
 const columns = [
-  'uid_execution', 'lister', 'list_dt', 'process_requirement', 'action'
+  'submitter', 'amount', 'submit_dt'
 ]
 
-class StatusBackTrack extends React.Component {
+class Contract extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
+    const query = QueryString.parse(this.props.location.search)
+    this._id = +query.id
     this._columns = this.buildColumns()
   }
 
@@ -30,38 +27,19 @@ class StatusBackTrack extends React.Component {
 
   buildColumns () {
     return util.buildColumns(columns, {
-      list_dt: {
-        render: (text, record, index) => {
-          return record.list_dt && record.list_dt.split('T')[0]
-        }
-      },
-      action: {
-        render: (text, record, index) => {
-          return (
-            <Button
-              type='primary'
-              size='small'
-              data-id={record.id}
-            >
-              { record.saved ? '编辑' : '查看' }
-            </Button>
-          )
+      submit_dt: {
+        render (text, record, index) {
+          return record.submit_dt && record.submit_dt.split('T')[0]
         }
       }
-    })
-  }
-
-  handleSearch = (searchValue) => {
-    this.updateQuery({
-      page: 1,
-      ...searchValue
     })
   }
 
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
     return Object.assign({
-      page: 1
+      page: 1,
+      bidding_sheet: this._id
     }, oldQuery, query)
   }
 
@@ -84,7 +62,7 @@ class StatusBackTrack extends React.Component {
 
   updatelist (query = QueryString.parse(this.props.location.search)) {
     this.props.getListDataAction({
-      params: query
+      params: this._query()
     })
   }
 
@@ -95,18 +73,13 @@ class StatusBackTrack extends React.Component {
   }
 
   render () {
-    const { status, location } = this.props
-    const query = QueryString.parse(location.search)
+    const { status } = this.props
     const mydata = status.toJS()
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
     return (
-      <div>
-        <FilterBar
-          fieldsValue={query}
-          onSearch={this.handleSearch}
-        />
+      <div className='contract'>
         <CustomTable
           dataSource={list}
           columns={this._columns}
@@ -120,11 +93,11 @@ class StatusBackTrack extends React.Component {
   }
 }
 
-StatusBackTrack.propTypes = {
+Contract.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   getListDataAction: PropTypes.func.isRequired
 }
 
-export default StatusBackTrack
+export default Contract

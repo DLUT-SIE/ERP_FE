@@ -105,7 +105,7 @@ export default function PurchaseOrder (state = initialState, action) {
         params.columns = columns
       }
       return state.mergeIn(
-        ['pagination'], { total: data.total }
+        ['pagination'], { total: data.count }
       ).merge(params)
     },
     PURCHASEORDER_CHANGE_EDIT_MODAL () {

@@ -69,7 +69,7 @@ export default function MaterialExecution (state = initialState, action) {
     MATERIALEXECUTION_ADD_LIST_DATA () {
       let { data } = action.payload
       return state.mergeIn(
-        ['pagination'], { total: data.total }
+        ['pagination'], { total: data.count }
       ).merge({
         loading: false,
         list: data.results
@@ -95,7 +95,7 @@ export function *getListSaga (type, body) {
   while (true) {
     const { payload = {} } = yield take(MATERIALEXECUTION_GET_LIST_DATA)
     const { callback, params } = payload
-    const data = yield call(fetchAPI, apis.PurchaseAPI.getBiddingSheets, params)
+    const data = yield call(fetchAPI, apis.PurchaseAPI.getMaterialExecutions, params)
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }
