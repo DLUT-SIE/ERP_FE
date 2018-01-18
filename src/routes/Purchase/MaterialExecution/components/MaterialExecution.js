@@ -3,17 +3,16 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
-import fetchAPI from 'api'
-import { apis } from 'api/config'
-import { Link } from 'react-router-dom'
-import { Button, message } from 'antd'
+// import fetchAPI from 'api'
+// import { apis } from 'api/config'
+// import { Link } from 'react-router-dom'
+import { Button } from 'antd'
 
 import FilterBar from './FilterBar.js'
 import CustomTable from 'components/CustomTable'
-import StatusModal from './StatusModal'
 
 const columns = [
-  'bidding_sheet_uid', 'bidding_sheet_status', 'history', 'change_status'
+  'uid_execution', 'lister', 'list_dt', 'process_requirement', 'action'
 ]
 
 class StatusBackTrack extends React.Component {
@@ -31,30 +30,20 @@ class StatusBackTrack extends React.Component {
 
   buildColumns () {
     return util.buildColumns(columns, {
-      history: {
+      list_dt: {
+        render: (text, record, index) => {
+          return record.list_dt && record.list_dt.split('T')[0]
+        }
+      },
+      action: {
         render: (text, record, index) => {
           return (
             <Button
               type='primary'
               size='small'
+              data-id={record.id}
             >
-              <Link to={`/purchase/status_back_track/status_history/?uid=${record.uid}&id=${record.id}`}>
-                查看
-              </Link>
-            </Button>
-          )
-        }
-      },
-      change_status: {
-        render: (text, record, index) => {
-          return (
-            <Button
-              type='success'
-              size='small'
-              data-fields-value={JSON.stringify(record)}
-              onClick={this.handleOpenStatusModal}
-            >
-              更改状态
+              { record.saved ? '编辑' : '查看' }
             </Button>
           )
         }
@@ -105,34 +94,6 @@ class StatusBackTrack extends React.Component {
     })
   }
 
-  handleOpenStatusModal = (e) => {
-    let { fieldsValue } = e.target.dataset
-    fieldsValue = JSON.parse(fieldsValue)
-    this.props.changeStatusModalAction({
-      visible: true,
-      fieldsValue: {
-        bidding_sheet_id: fieldsValue.id,
-        bidding_sheet: fieldsValue.uid,
-        original_status_id: fieldsValue.status,
-        original_status: fieldsValue.status_name
-      }
-    })
-  }
-
-  handleCloseStatusModal = () => {
-    this.props.changeStatusModalAction({
-      visible: false
-    })
-  }
-
-  handleSaveStatusChange = (fieldsValue) => {
-    fetchAPI(apis.PurchaseAPI.addStatusChanges, fieldsValue).then((repos) => {
-      message.success('更改成功！')
-      this.handleCloseStatusModal()
-      this.updatelist()
-    })
-  }
-
   render () {
     const { status, location } = this.props
     const query = QueryString.parse(location.search)
@@ -140,7 +101,6 @@ class StatusBackTrack extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
-    const modal = _.get(mydata, 'modal', {})
     return (
       <div>
         <FilterBar
@@ -155,13 +115,6 @@ class StatusBackTrack extends React.Component {
           size='middle'
           onChange={this.handleChangeTable}
         />
-        { modal.visible &&
-          <StatusModal
-            {...modal}
-            onOk={this.handleSaveStatusChange}
-            onCancel={this.handleCloseStatusModal}
-          />
-        }
       </div>
     )
   }
@@ -171,8 +124,7 @@ StatusBackTrack.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
-  getListDataAction: PropTypes.func.isRequired,
-  changeStatusModalAction: PropTypes.func.isRequired
+  getListDataAction: PropTypes.func.isRequired
 }
 
 export default StatusBackTrack

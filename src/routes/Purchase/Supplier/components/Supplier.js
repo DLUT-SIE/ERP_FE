@@ -31,6 +31,28 @@ class Supplier extends React.Component {
 
   buildColumns () {
     return util.buildColumns(columns, {
+      supplier_file: {
+        render: (text, record, index) => {
+          return record.docs.length > 0 ? (
+            <div>
+              {
+                _.map(record.docs, (doc, index) => {
+                  return (
+                    <a
+                      className='document-link'
+                      key={index}
+                      href={doc.path}
+                      download={doc.doc_name}
+                    >
+                      {doc.doc_name}
+                    </a>
+                  )
+                })
+              }
+            </div>
+          ) : ''
+        }
+      },
       quotation: {
         render: (text, record, index) => {
           return (
