@@ -1322,8 +1322,8 @@ export const COLUMNS = {
   },
   bidding_sheet_status: {
     title: '当前状态',
-    key: 'status_name',
-    dataIndex: 'status_name'
+    key: 'pretty_status',
+    dataIndex: 'pretty_status'
   },
   history: {
     title: '查看历史',
