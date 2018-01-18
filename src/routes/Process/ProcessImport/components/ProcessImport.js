@@ -81,7 +81,7 @@ class ProcessImport extends React.Component {
     fetchAPI(apis.ProcessAPI.uploadProcessLibrary, {
       file: file.file,
       ...file.data
-    }).then(() => {
+    }, {}, true).then(() => {
       message.success('上传成功')
       this.updatelist()
     })

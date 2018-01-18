@@ -368,6 +368,84 @@ export const PURCHASE_ORDER_STATUS_LIST = [
   }
 ]
 
+export const BIDDING_SHEET_STATUS_LIST = [
+  {
+    value: 0,
+    label: '标单创建'
+  },
+  {
+    value: 1,
+    label: '供应商选择'
+  },
+  {
+    value: 2,
+    label: '招标申请选择'
+  },
+  {
+    value: 3,
+    label: '招标申请填写'
+  },
+  {
+    value: 4,
+    label: '招标中'
+  },
+  {
+    value: 5,
+    label: '中标确认'
+  },
+  {
+    value: 6,
+    label: '进程跟踪'
+  },
+  {
+    value: 7,
+    label: '标单检验'
+  },
+  {
+    value: 8,
+    label: '标单入库'
+  },
+  {
+    value: 9,
+    label: '标单完成'
+  },
+  {
+    value: 10,
+    label: '标单终止'
+  }
+]
+
+export const MATERIAL_CATEGORY_LIST = [
+  {
+    value: -1,
+    label: '未设置'
+  },
+  {
+    value: 0,
+    label: '主材定额'
+  },
+  {
+    value: 1,
+    label: '辅材定额'
+  },
+  {
+    value: 2,
+    label: '先投件明细'
+  },
+  {
+    value: 3,
+    label: '外购件明细'
+  },
+  {
+    value: 4,
+    label: '焊材定额'
+  },
+  {
+    value: 5,
+    label: '工序性外协明细'
+  }
+]
+
 export const UNKNOW_COLUMN = {
   title: '未知标题',
   dataIndex: 'unkow_column',
@@ -1183,6 +1261,31 @@ export const COLUMNS = {
     key: 'gender',
     dataIndex: 'gender'
   },
+  uid_material_sub_applies: {
+    title: '单据编号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
+  production: {
+    title: '产品名称',
+    key: 'production',
+    dataIndex: 'production'
+  },
+  figure_code: {
+    title: '图号',
+    key: 'figure_code',
+    dataIndex: 'figure_code'
+  },
+  applicant_material_sub_applies: {
+    title: '申请人',
+    key: 'applicant',
+    dataIndex: 'applicant'
+  },
+  reason: {
+    title: '备注',
+    key: 'reason',
+    dataIndex: 'reason'
+  },
   refund_count: {
     title: '数量',
     key: 'actual_count',
@@ -1251,5 +1354,114 @@ export const COLUMNS = {
     title: '涂装明细',
     key: 'coating_detail',
     dataIndex: 'coating_detail'
+  },
+  bidding_sheet_uid: {
+    title: '标单',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
+  bidding_sheet_status: {
+    title: '当前状态',
+    key: 'status_name',
+    dataIndex: 'status_name'
+  },
+  history: {
+    title: '查看历史',
+    key: 'history'
+  },
+  change_status: {
+    title: '更改状态',
+    key: 'change_status'
+  },
+  pretty_original_status: {
+    title: '更改前状态',
+    key: 'pretty_original_status',
+    dataIndex: 'pretty_original_status'
+  },
+  pretty_new_status: {
+    title: '更改后状态',
+    key: 'pretty_new_status',
+    dataIndex: 'pretty_new_status'
+  },
+  change_dt: {
+    title: '更改日期',
+    key: 'change_dt',
+    dataIndex: 'change_dt'
+  },
+  change_user: {
+    title: '执行人',
+    key: 'change_user',
+    dataIndex: 'change_user'
+  },
+  change_type: {
+    title: '更改类型',
+    key: 'change_type'
+  },
+  reason_bidding_sheet: {
+    title: '更改原因',
+    key: 'reason',
+    dataIndex: 'reason'
+  },
+  supplier_uid: {
+    title: '供应商编号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
+  supplier_name: {
+    title: '供应商名称',
+    key: 'name',
+    dataIndex: 'name'
+  },
+  supplier_file: {
+    title: '相关文件下载',
+    key: 'supplier_file'
+  },
+  quotation: {
+    title: '报价',
+    key: 'quotation'
+  },
+  upload_supplier_file: {
+    title: '上传文件',
+    key: 'upload_supplier_file'
+  },
+  inventory_type: {
+    title: '库存',
+    key: 'inventory_type',
+    dataIndex: 'inventory_type'
+  },
+  name_spec: {
+    title: '名称及规格',
+    key: 'name_spec',
+    dataIndex: 'name_spec'
+  },
+  material_mark_quotation: {
+    title: '材质',
+    key: 'material_mark',
+    dataIndex: 'material_mark'
+  },
+  unit_price: {
+    title: '单价',
+    key: 'unit_price',
+    dataIndex: 'unit_price'
+  },
+  unit: {
+    title: '单位',
+    key: 'unit',
+    dataIndex: 'unit'
+  },
+  file_name: {
+    title: '文件名称',
+    key: 'file_name',
+    dataIndex: 'file_name'
+  },
+  file_size: {
+    title: '文件大小',
+    key: 'file_size',
+    dataIndex: 'file_size'
+  },
+  upload_dt: {
+    title: '上传时间',
+    key: 'upload_dt',
+    dataIndex: 'upload_dt'
   }
 }
