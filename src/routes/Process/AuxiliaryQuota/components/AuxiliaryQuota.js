@@ -161,10 +161,6 @@ class AuxiliaryQuota extends React.Component {
     })
   }
 
-  handleQuichAdd = () => {
-    console.log('handleQuichAdd')
-  }
-
   handleSave = (id, fieldsValue) => {
     fetchAPI(apis.ProcessAPI.updateAuxiliaryQuota, fieldsValue, { id }).then((repos) => {
       message.success('修改成功！')
@@ -247,7 +243,6 @@ class AuxiliaryQuota extends React.Component {
         { workOrderInfo.id &&
           <AddBar
             onAdd={this.handleAdd}
-            onQuickAdd={this.handleQuichAdd}
           />
         }
         <TableInfo

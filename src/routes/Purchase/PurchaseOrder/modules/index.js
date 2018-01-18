@@ -138,12 +138,7 @@ export function *getPurchaseOrderSaga (type, body) {
   while (true) {
     const { payload = {} } = yield take(PURCHASEORDER_GET_PURCHASE_ORDER)
     const { callback, params } = payload
-    let { url, method } = apis.PurchaseAPI.getPurchaseOrder
-    const api = {
-      url: url(params.id),
-      method
-    }
-    const data = yield call(fetchAPI, api)
+    const data = yield call(fetchAPI, apis.PurchaseAPI.getPurchaseOrder, {}, { id: params.id })
     callback && callback(data)
     yield put(addPurchaseOrderAction({ data }))
   }

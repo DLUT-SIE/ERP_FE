@@ -113,7 +113,7 @@ class PurchaseOrderManagement extends React.Component {
     return filterQuery
   }
 
-  updatelist (query = this.props.location.query) {
+  updatelist (query = QueryString.parse(this.props.location.search)) {
     this.props.getListDataAction({
       params: query
     })
@@ -127,12 +127,7 @@ class PurchaseOrderManagement extends React.Component {
 
   handleDelete = (id) => {
     return (e) => {
-      const { url, method } = apis.PurchaseAPI.deletePurchaseOrder
-      const api = {
-        url: url(id),
-        method
-      }
-      fetchAPI(api).then((repos) => {
+      fetchAPI(apis.PurchaseAPI.deletePurchaseOrder, {}, { id }).then((repos) => {
         message.success('删除成功！')
         this.updatelist()
       })
@@ -141,12 +136,7 @@ class PurchaseOrderManagement extends React.Component {
 
   handleFinishPurchaseOrder = (id) => {
     return (e) => {
-      const { url, method } = apis.PurchaseAPI.updatePurchaseOrder
-      const api = {
-        url: url(id),
-        method
-      }
-      fetchAPI(api).then((repos) => {
+      fetchAPI(apis.PurchaseAPI.updatePurchaseOrder, {}, { id }).then((repos) => {
         message.success('操作成功！')
         this.updatelist()
       })

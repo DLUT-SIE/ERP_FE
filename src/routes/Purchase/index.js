@@ -4,6 +4,14 @@ import MaterialSummary from './MaterialSummary'
 import PendingOrder from './PendingOrder'
 import PurchaseOrderManagement from './PurchaseOrderManagement'
 import PurchaseOrder from './PurchaseOrder'
+import MaterialSubApply from './MaterialSubApply'
+import MaterialSubApplyDetail from './MaterialSubApplyDetail'
+import StatusBackTrack from './StatusBackTrack'
+import StatusHistory from './StatusHistory'
+import MaterialExecution from './MaterialExecution'
+import Supplier from './Supplier'
+import Quotation from './Quotation'
+import SupplierDocument from './SupplierDocument'
 import _ from 'lodash'
 
 const childRoutes = [
@@ -26,6 +34,46 @@ const childRoutes = [
     path: 'purchase_order_management',
     breadcrumbName: '订购单管理',
     component: PurchaseOrderManagement
+  },
+  {
+    path: 'material_sub_apply/material_sub_apply_detail',
+    breadcrumbName: '材料代用申请单',
+    component: MaterialSubApplyDetail
+  },
+  {
+    path: 'material_sub_apply',
+    breadcrumbName: '材料代用',
+    component: MaterialSubApply
+  },
+  {
+    path: 'status_back_track/status_history',
+    breadcrumbName: '状态更改历史',
+    component: StatusHistory
+  },
+  {
+    path: 'status_back_track',
+    breadcrumbName: '状态回溯',
+    component: StatusBackTrack
+  },
+  {
+    path: 'material_execution',
+    breadcrumbName: '材料执行',
+    component: MaterialExecution
+  },
+  {
+    path: 'supplier/quotation',
+    breadcrumbName: '报价管理',
+    component: Quotation
+  },
+  {
+    path: 'supplier/supplier_document',
+    breadcrumbName: '供应商文件',
+    component: SupplierDocument
+  },
+  {
+    path: 'supplier',
+    breadcrumbName: '供应商管理',
+    component: Supplier
   }
 ]
 

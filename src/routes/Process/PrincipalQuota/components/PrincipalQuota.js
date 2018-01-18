@@ -254,7 +254,7 @@ class PrincipalQuota extends React.Component {
         { workOrderInfo.id &&
           <Button
             className='add-btn'
-            type='primary'
+            type='success'
             onClick={this.handleOpenAddModal}
           >
             添加
