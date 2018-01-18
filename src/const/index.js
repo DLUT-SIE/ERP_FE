@@ -1384,10 +1384,10 @@ export const COLUMNS = {
     title: '上传文件',
     key: 'upload_supplier_file'
   },
-  inventory_type: {
+  pretty_inventory_type: {
     title: '库存',
-    key: 'inventory_type',
-    dataIndex: 'inventory_type'
+    key: 'pretty_inventory_type',
+    dataIndex: 'pretty_inventory_type'
   },
   name_spec: {
     title: '名称及规格',
@@ -1423,5 +1423,25 @@ export const COLUMNS = {
     title: '上传时间',
     key: 'upload_dt',
     dataIndex: 'upload_dt'
+  },
+  uid_execution: {
+    title: '编号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
+  lister: {
+    title: '制表人',
+    key: 'lister',
+    dataIndex: 'lister'
+  },
+  list_dt: {
+    title: '制表日期',
+    key: 'list_dt',
+    dataIndex: 'list_dt'
+  },
+  process_requirement: {
+    title: '工艺要求',
+    key: 'process_requirement',
+    dataIndex: 'process_requirement'
   }
 }

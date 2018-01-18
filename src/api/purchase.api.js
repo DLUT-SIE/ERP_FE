@@ -114,5 +114,9 @@ export default {
   deleteSupplierDocument: {
     url: '/api/supplier_documents/:id/',
     method: 'DELETE'
+  },
+  getMaterialExecutions: {
+    url: '/api/material_executions/',
+    method: 'GET'
   }
 }

@@ -95,7 +95,7 @@ export function *getListSaga (type, body) {
   while (true) {
     const { payload = {} } = yield take(MATERIALEXECUTION_GET_LIST_DATA)
     const { callback, params } = payload
-    const data = yield call(fetchAPI, apis.PurchaseAPI.getBiddingSheets, params)
+    const data = yield call(fetchAPI, apis.PurchaseAPI.getMaterialExecutions, params)
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }
