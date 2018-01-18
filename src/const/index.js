@@ -1443,5 +1443,55 @@ export const COLUMNS = {
     title: '工艺要求',
     key: 'process_requirement',
     dataIndex: 'process_requirement'
+  },
+  contract_number: {
+    title: '合同编号',
+    key: 'contract_number',
+    dataIndex: 'contract_number'
+  },
+  accept_supplier: {
+    title: '单位名称',
+    key: 'accept_supplier',
+    dataIndex: 'accept_supplier'
+  },
+  content: {
+    title: '协作内容',
+    key: 'content',
+    dataIndex: 'content'
+  },
+  contract_amount: {
+    title: '合同金额',
+    key: 'contract_amount',
+    dataIndex: 'contract_amount'
+  },
+  billing_amount: {
+    title: '开票金额',
+    key: 'billing_amount',
+    dataIndex: 'billing_amount'
+  },
+  payable_amounts: {
+    title: '已付金额',
+    key: 'payable_amounts',
+    dataIndex: 'payable_amounts'
+  },
+  prepaid_amounts: {
+    title: '应付金额',
+    key: 'prepaid_amounts',
+    dataIndex: 'prepaid_amounts'
+  },
+  submitter: {
+    title: '用户',
+    key: 'submitter',
+    dataIndex: 'submitter'
+  },
+  amount: {
+    title: '金额',
+    key: 'amount',
+    dataIndex: 'amount'
+  },
+  submit_dt: {
+    title: '提交日期',
+    key: 'submit_dt',
+    dataIndex: 'submit_dt'
   }
 }

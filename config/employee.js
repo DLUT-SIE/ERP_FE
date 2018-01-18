@@ -105,6 +105,10 @@ const config = {
             "code": "menu.purchase.supplier",
             "name": "供应商管理",
             "children": []
+        }, {
+            "code": "menu.purchase.contract",
+            "name": "合同财务管理",
+            "children": []
         }]
     }, {
         "code": "menu.inventory",
