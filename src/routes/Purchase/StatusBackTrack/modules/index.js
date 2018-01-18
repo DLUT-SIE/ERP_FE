@@ -70,7 +70,7 @@ export default function StatusBackTrack (state = initialState, action) {
     STATUSBACKTRACK_ADD_LIST_DATA () {
       let { data } = action.payload
       return state.mergeIn(
-        ['pagination'], { total: data.total }
+        ['pagination'], { total: data.count }
       ).merge({
         loading: false,
         list: data.results
