@@ -1443,5 +1443,10 @@ export const COLUMNS = {
     title: '工艺要求',
     key: 'process_requirement',
     dataIndex: 'process_requirement'
+  },
+  entry_form_uid: {
+    title: '入库单编号',
+    key: 'uid',
+    dataIndex: 'uid'
   }
 }

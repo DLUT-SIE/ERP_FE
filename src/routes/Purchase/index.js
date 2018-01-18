@@ -4,6 +4,7 @@ import MaterialSummary from './MaterialSummary'
 import PendingOrder from './PendingOrder'
 import PurchaseOrderManagement from './PurchaseOrderManagement'
 import PurchaseOrder from './PurchaseOrder'
+import EntryConfirm from './EntryConfirm'
 import MaterialSubApply from './MaterialSubApply'
 import MaterialSubApplyDetail from './MaterialSubApplyDetail'
 import StatusBackTrack from './StatusBackTrack'
@@ -34,6 +35,11 @@ const childRoutes = [
     path: 'purchase_order_management',
     breadcrumbName: '订购单管理',
     component: PurchaseOrderManagement
+  },
+  {
+    path: 'entry_confirm',
+    breadcrumbName: '入库确认',
+    component: EntryConfirm
   },
   {
     path: 'material_sub_apply/material_sub_apply_detail',
