@@ -17,6 +17,7 @@ import MaterialRefundCard from './MaterialRefundCard'
 import AddMaterialRefundCard from './MaterialRefundCard/components/AddRefundCard'
 import AccoutSearch from './AccountSearch'
 import CompDepartment from './CompDepartment'
+import WorkHourSearch from './WorkHourSearch'
 
 const childRoutes = [
   {
@@ -83,6 +84,11 @@ const childRoutes = [
     path: 'departments',
     breadcrumbName: '综合工部',
     component: CompDepartment
+  },
+  {
+    path: 'query_work_hours',
+    breadcrumbName: '工时信息查询',
+    component: WorkHourSearch
   }
 ]
 

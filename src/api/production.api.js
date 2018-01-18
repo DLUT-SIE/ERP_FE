@@ -205,5 +205,9 @@ export default{
   updateCompDepartmentState: {
     url: '/api/comprehensive_department_file_lists/:id/',
     method: 'PATCH'
+  },
+  getManHourMessage: {
+    url: '/api/man_hour_messages/',
+    method: 'GET'
   }
 }

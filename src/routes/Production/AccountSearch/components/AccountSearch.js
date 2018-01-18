@@ -123,7 +123,6 @@ class ProductionPlan extends React.Component {
     })
   }
   handleSave = (fieldsValue) => {
-    console.log(fieldsValue)
     fetchAPI(apis.ProductionAPI.updateSubMaterialLedger, fieldsValue, { id: fieldsValue.id }).then((repos) => {
       this.props.changeModalAction({
         visible: true,
