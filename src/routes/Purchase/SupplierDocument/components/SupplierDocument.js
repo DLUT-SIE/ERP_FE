@@ -11,7 +11,7 @@ import CustomTable from 'components/CustomTable'
 import './SupplierDocument.less'
 
 const columns = [
-  'file_name', 'file_size', 'upload_dt', 'action'
+  'doc_name', 'doc_size', 'upload_dt', 'action'
 ]
 
 class SupplierDocument extends React.Component {
@@ -32,6 +32,20 @@ class SupplierDocument extends React.Component {
 
   buildColumns () {
     return util.buildColumns(columns, {
+      doc_name: {
+        render: (text, record, index) => {
+          return record.doc_name && (
+            <a
+              className='document-link'
+              key={index}
+              href={record.path}
+              download={record.doc_name}
+            >
+              {record.doc_name}
+            </a>
+          )
+        }
+      },
       upload_dt: {
         render: (text, record, index) => {
           return record.upload_dt && record.upload_dt.split('T')[0]
@@ -86,7 +100,7 @@ class SupplierDocument extends React.Component {
 
   updatelist (query = QueryString.parse(this.props.location.search)) {
     this.props.getListDataAction({
-      params: query
+      params: this._query(query)
     })
   }
 

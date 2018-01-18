@@ -1409,15 +1409,15 @@ export const COLUMNS = {
     key: 'unit',
     dataIndex: 'unit'
   },
-  file_name: {
+  doc_name: {
     title: '文件名称',
-    key: 'file_name',
-    dataIndex: 'file_name'
+    key: 'doc_name',
+    dataIndex: 'doc_name'
   },
-  file_size: {
+  doc_size: {
     title: '文件大小',
-    key: 'file_size',
-    dataIndex: 'file_size'
+    key: 'doc_size',
+    dataIndex: 'doc_size'
   },
   upload_dt: {
     title: '上传时间',
