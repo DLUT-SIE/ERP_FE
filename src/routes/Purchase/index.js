@@ -12,6 +12,7 @@ import MaterialExecution from './MaterialExecution'
 import Supplier from './Supplier'
 import Quotation from './Quotation'
 import SupplierDocument from './SupplierDocument'
+import Contract from './Contract'
 import _ from 'lodash'
 
 const childRoutes = [
@@ -74,6 +75,11 @@ const childRoutes = [
     path: 'supplier',
     breadcrumbName: '供应商管理',
     component: Supplier
+  },
+  {
+    path: 'contract',
+    breadcrumbName: '合同财务管理',
+    component: Contract
   }
 ]
 
