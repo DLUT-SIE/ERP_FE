@@ -7,9 +7,8 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const TASK_PLAN_DATE_GET_LIST_DATA = 'TASK_PLAN_DATE_GET_LIST_DATA'
-const TASK_PLAN_DATE_ADD_LIST_DATA = 'TASK_PLAN_DATE_ADD_LIST_DATA'
-const TASK_PLAN_DATE_CHANGE_MODAL_DATA = 'TASK_PLAN_DATE_CHANGE_MODAL_DATA'
+const COMP_DEPARTMENT_GET_LIST_DATA = 'COMP_DEPARTMENT_GET_LIST_DATA'
+const COMP_DEPARTMENT_ADD_LIST_DATA = 'COMP_DEPARTMENT_ADD_LIST_DATA'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -18,28 +17,21 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : TASK_PLAN_DATE_GET_LIST_DATA,
+    type    : COMP_DEPARTMENT_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : TASK_PLAN_DATE_ADD_LIST_DATA,
-    payload : payload
-  }
-}
-function changeModalAction (payload = {}) {
-  return {
-    type    :TASK_PLAN_DATE_CHANGE_MODAL_DATA,
+    type    : COMP_DEPARTMENT_ADD_LIST_DATA,
     payload : payload
   }
 }
 
 export const actions = {
   getListDataAction,
-  addListDataAction,
-  changeModalAction
+  addListDataAction
 }
 
 // ------------------------------------
@@ -55,9 +47,9 @@ var initialState = Immutable.fromJS({
   }
 })
 
-export default function TaskPlanDate (state = initialState, action) {
+export default function CompDepartment (state = initialState, action) {
   var map = {
-    TASK_PLAN_DATE_GET_LIST_DATA () {
+    COMP_DEPARTMENT_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -68,7 +60,7 @@ export default function TaskPlanDate (state = initialState, action) {
         'loading', true
       )
     },
-    TASK_PLAN_DATE_ADD_LIST_DATA () {
+    COMP_DEPARTMENT_ADD_LIST_DATA () {
       let { data } = action.payload
       return state.mergeIn(
         ['pagination'], { total: data.count }
@@ -76,12 +68,8 @@ export default function TaskPlanDate (state = initialState, action) {
         list: data.results,
         loading: false
       })
-    },
-    TASK_PLAN_DATE_CHANGE_MODAL_DATA () {
-      return state.mergeIn(['modal'], action.payload)
     }
   }
-
   if (map[action.type]) {
     return map[action.type]()
   } else {
@@ -95,9 +83,9 @@ export default function TaskPlanDate (state = initialState, action) {
 
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(TASK_PLAN_DATE_GET_LIST_DATA)
+    const { payload = {} } = yield take(COMP_DEPARTMENT_GET_LIST_DATA)
     const { callback, params } = payload
-    const data = yield call(fetchAPI, apis.ProductionAPI.getProcessDetail, params)
+    const data = yield call(fetchAPI, apis.ProductionAPI.getCompDepartment, params)
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }

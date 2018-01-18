@@ -2,22 +2,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
-import moment from 'moment'
 import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
-import { Button, message } from 'antd'
+import { message } from 'antd'
 
 import FilterBar from './FilterBar'
-import TaskPlanDateModal from './TaskPlanDateModal'
 import CustomTable from 'components/CustomTable'
-import { PROCESS_DETAIL_STATUS } from 'const'
+import HandleItem from './HandleItem'
 
 const columns = [
-  'material_index', 'work_order_uid', 'process_id', 'process_name', 'work_hour', 'estimated_start_dt', 'estimated_finish_dt', 'action'
+  'sub_order', 'sketch', 'pressure_test', 'process_lib', 'product_graph', 'encasement_graph', 'shipping_mark', 'encasement_list', 'coating_detail'
 ]
 
-class ProductionPlan extends React.Component {
+class CompDepartment extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -31,43 +29,44 @@ class ProductionPlan extends React.Component {
   }
   buildColumns () {
     return util.buildColumns(columns, {
-      estimated_start_dt: {
+      sketch: {
         render: (text, record, index) => {
-          return record.estimated_start_dt && moment(record.estimated_start_dt).format('YYYY-MM-DD')
+          return <HandleItem type='sketch' item={record} handleConfirm={this.handleConfirm} handleRevoke={this.handleRevoke} />
         }
       },
-      estimated_finish_dt: {
+      pressure_test: {
         render: (text, record, index) => {
-          return record.estimated_finish_dt && moment(record.estimated_finish_dt).format('YYYY-MM-DD')
+          return <HandleItem type='pressure_test' item={record} handleConfirm={this.handleConfirm} handleRevoke={this.handleRevoke} />
         }
       },
-      action: {
+      process_lib: {
         render: (text, record, index) => {
-          if (_.isNull(record.estimated_start_dt)) {
-            return (
-              <Button
-                type='primary'
-                size='small'
-                data-fields-value={JSON.stringify(record)}
-                data-index={index}
-                onClick={this.handleOpenEditModal}
-              >
-                添加时间
-              </Button>
-            )
-          } else {
-            return (
-              <Button
-                type='primary'
-                size='small'
-                data-fields-value={JSON.stringify(record)}
-                data-index={index}
-                onClick={this.handleOpenEditModal}
-              >
-                修改时间
-              </Button>
-            )
-          }
+          return <HandleItem type='process_lib' item={record} handleConfirm={this.handleConfirm} handleRevoke={this.handleRevoke} />
+        }
+      },
+      product_graph: {
+        render: (text, record, index) => {
+          return <HandleItem type='product_graph' item={record} handleConfirm={this.handleConfirm} handleRevoke={this.handleRevoke} />
+        }
+      },
+      encasement_graph: {
+        render: (text, record, index) => {
+          return <HandleItem type='encasement_graph' item={record} handleConfirm={this.handleConfirm} handleRevoke={this.handleRevoke} />
+        }
+      },
+      shipping_mark: {
+        render: (text, record, index) => {
+          return <HandleItem type='shipping_mark' item={record} handleConfirm={this.handleConfirm} handleRevoke={this.handleRevoke} />
+        }
+      },
+      encasement_list: {
+        render: (text, record, index) => {
+          return <HandleItem type='encasement_list' item={record} handleConfirm={this.handleConfirm} handleRevoke={this.handleRevoke} />
+        }
+      },
+      coating_detail: {
+        render: (text, record, index) => {
+          return <HandleItem type='coating_detail' item={record} handleConfirm={this.handleConfirm} handleRevoke={this.handleRevoke} />
         }
       }
     })
@@ -79,21 +78,6 @@ class ProductionPlan extends React.Component {
       ...searchValue
     })
   }
-  handleOpenEditModal = (e) => {
-    const { fieldsValue, index } = e.target.dataset
-    this.props.changeModalAction({
-      visible: true,
-      index: +index,
-      fieldsValue: JSON.parse(fieldsValue)
-    })
-  }
-
-  handleCloseModal = (e) => {
-    this.props.changeModalAction({
-      visible: false
-    })
-  }
-
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
     return Object.assign({
@@ -123,10 +107,22 @@ class ProductionPlan extends React.Component {
       params: query
     })
   }
-  handleSave = (fieldsValue) => {
-    fieldsValue.status = PROCESS_DETAIL_STATUS.PLANED
-    fetchAPI(apis.ProductionAPI.updateProcessDetails, fieldsValue, { id: fieldsValue.id }).then((repos) => {
-      this.handleCloseModal()
+  handleConfirm = (fieldsValue) => {
+    const { id, type } = fieldsValue
+    let values = {}
+    values[type] = true
+    fetchAPI(apis.ProductionAPI.updateCompDepartmentState, values, { id: id }).then((repos) => {
+      message.success('修改成功！')
+      this.props.getListDataAction({
+        params: this._query()
+      })
+    })
+  }
+  handleRevoke = (fieldsValue) => {
+    const { id, type } = fieldsValue
+    let values = {}
+    values[type] = false
+    fetchAPI(apis.ProductionAPI.updateCompDepartmentState, values, { id: id }).then((repos) => {
       message.success('修改成功！')
       this.props.getListDataAction({
         params: this._query()
@@ -144,10 +140,8 @@ class ProductionPlan extends React.Component {
     const query = QueryString.parse(location.search)
     const mydata = status.toJS()
     const list = _.get(mydata, 'list', [])
-    console.log('list', list)
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
-    const modal = _.get(mydata, 'modal', {})
     return (
       <div>
         <FilterBar
@@ -163,24 +157,16 @@ class ProductionPlan extends React.Component {
           size='middle'
           onChange={this.handleChangeTable}
         />
-        { modal.visible &&
-          <TaskPlanDateModal
-            onOk={this.handleSave}
-            onCancel={this.handleCloseModal}
-            {...modal}
-          />
-        }
       </div>
     )
   }
 }
 
-ProductionPlan.propTypes = {
+CompDepartment.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
-  getListDataAction: PropTypes.func.isRequired,
-  changeModalAction: PropTypes.func.isRequired
+  getListDataAction: PropTypes.func.isRequired
 }
 
-export default ProductionPlan
+export default CompDepartment

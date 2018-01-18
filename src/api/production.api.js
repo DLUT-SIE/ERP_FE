@@ -201,5 +201,9 @@ export default{
   getCompDepartment: {
     url: '/api/comprehensive_department_file_lists/',
     method: 'GET'
+  },
+  updateCompDepartmentState: {
+    url: '/api/comprehensive_department_file_lists/:id/',
+    method: 'PATCH'
   }
 }

@@ -1,14 +1,14 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { actions } from '../modules'
-import TaskPlanDate from '../components/TaskPlanDate'
+import CompDepartment from '../components/CompDepartment'
 
 const mapDispatchToProps = {
   ...actions
 }
 
 const mapStateToProps = (state) => ({
-  status: state.taskPlanDate
+  status: state.compDepartment
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TaskPlanDate))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CompDepartment))
