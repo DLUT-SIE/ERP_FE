@@ -1315,6 +1315,46 @@ export const COLUMNS = {
     key: 'process_material.total_weight',
     dataIndex: 'process_material.total_weight'
   },
+  sketch: {
+    title: '简图',
+    key: 'sketch',
+    dataIndex: 'sketch'
+  },
+  pressure_test: {
+    title: '试压工艺',
+    key: 'pressure_test',
+    dataIndex: 'pressure_test'
+  },
+  process_lib: {
+    title: '工艺库',
+    key: 'process_lib',
+    dataIndex: 'process_lib'
+  },
+  product_graph: {
+    title: '产品图',
+    key: 'product_graph',
+    dataIndex: 'product_graph'
+  },
+  encasement_graph: {
+    title: '装箱图',
+    key: 'encasement_graph',
+    dataIndex: 'encasement_graph'
+  },
+  shipping_mark: {
+    title: '唛头',
+    key: 'shipping_mark',
+    dataIndex: 'shipping_mark'
+  },
+  encasement_list: {
+    title: '装箱单',
+    key: 'encasement_list',
+    dataIndex: 'encasement_list'
+  },
+  coating_detail: {
+    title: '涂装明细',
+    key: 'coating_detail',
+    dataIndex: 'coating_detail'
+  },
   bidding_sheet_uid: {
     title: '标单',
     key: 'uid',

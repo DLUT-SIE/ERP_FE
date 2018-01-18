@@ -16,6 +16,7 @@ import AddWeldingApplyCard from './MaterialApplyCard/components/AddApllyCard'
 import MaterialRefundCard from './MaterialRefundCard'
 import AddMaterialRefundCard from './MaterialRefundCard/components/AddRefundCard'
 import AccoutSearch from './AccountSearch'
+import CompDepartment from './CompDepartment'
 
 const childRoutes = [
   {
@@ -77,6 +78,11 @@ const childRoutes = [
     path: 'ledgers',
     breadcrumbName: '台账查询',
     component: AccoutSearch
+  },
+  {
+    path: 'departments',
+    breadcrumbName: '综合工部',
+    component: CompDepartment
   }
 ]
 
