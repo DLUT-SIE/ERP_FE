@@ -197,5 +197,13 @@ export default{
   updateSubMaterialLedger: {
     url: '/api/sub_material_ledgers/:id/',
     method: 'PATCH'
+  },
+  getCompDepartment: {
+    url: '/api/comprehensive_department_file_lists/',
+    method: 'GET'
+  },
+  updateCompDepartmentState: {
+    url: '/api/comprehensive_department_file_lists/:id/',
+    method: 'PATCH'
   }
 }

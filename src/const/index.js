@@ -1315,6 +1315,46 @@ export const COLUMNS = {
     key: 'process_material.total_weight',
     dataIndex: 'process_material.total_weight'
   },
+  sketch: {
+    title: '简图',
+    key: 'sketch',
+    dataIndex: 'sketch'
+  },
+  pressure_test: {
+    title: '试压工艺',
+    key: 'pressure_test',
+    dataIndex: 'pressure_test'
+  },
+  process_lib: {
+    title: '工艺库',
+    key: 'process_lib',
+    dataIndex: 'process_lib'
+  },
+  product_graph: {
+    title: '产品图',
+    key: 'product_graph',
+    dataIndex: 'product_graph'
+  },
+  encasement_graph: {
+    title: '装箱图',
+    key: 'encasement_graph',
+    dataIndex: 'encasement_graph'
+  },
+  shipping_mark: {
+    title: '唛头',
+    key: 'shipping_mark',
+    dataIndex: 'shipping_mark'
+  },
+  encasement_list: {
+    title: '装箱单',
+    key: 'encasement_list',
+    dataIndex: 'encasement_list'
+  },
+  coating_detail: {
+    title: '涂装明细',
+    key: 'coating_detail',
+    dataIndex: 'coating_detail'
+  },
   bidding_sheet_uid: {
     title: '标单',
     key: 'uid',
@@ -1448,5 +1488,55 @@ export const COLUMNS = {
     title: '入库单编号',
     key: 'uid',
     dataIndex: 'uid'
+  },
+  contract_number: {
+    title: '合同编号',
+    key: 'contract_number',
+    dataIndex: 'contract_number'
+  },
+  accept_supplier: {
+    title: '单位名称',
+    key: 'accept_supplier',
+    dataIndex: 'accept_supplier'
+  },
+  content: {
+    title: '协作内容',
+    key: 'content',
+    dataIndex: 'content'
+  },
+  contract_amount: {
+    title: '合同金额',
+    key: 'contract_amount',
+    dataIndex: 'contract_amount'
+  },
+  billing_amount: {
+    title: '开票金额',
+    key: 'billing_amount',
+    dataIndex: 'billing_amount'
+  },
+  payable_amounts: {
+    title: '已付金额',
+    key: 'payable_amounts',
+    dataIndex: 'payable_amounts'
+  },
+  prepaid_amounts: {
+    title: '应付金额',
+    key: 'prepaid_amounts',
+    dataIndex: 'prepaid_amounts'
+  },
+  submitter: {
+    title: '用户',
+    key: 'submitter',
+    dataIndex: 'submitter'
+  },
+  amount: {
+    title: '金额',
+    key: 'amount',
+    dataIndex: 'amount'
+  },
+  submit_dt: {
+    title: '提交日期',
+    key: 'submit_dt',
+    dataIndex: 'submit_dt'
   }
 }
