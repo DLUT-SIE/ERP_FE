@@ -82,8 +82,8 @@ export default function EntryConfirm (state = initialState, action) {
 export function *getListSaga (type, body) {
   while (true) {
     const { payload = {} } = yield take(ENTRYCONFIRM_GET_LIST_DATA)
-    const { callback, params } = payload
-    const data = yield call(fetchAPI, apis.PurchaseAPI.getMaterialExecutions, params)
+    const { callback, params, api } = payload
+    const data = yield call(fetchAPI, apis.InventoryAPI[api], params)
     callback && callback(data)
     yield put(addListDataAction({ data: data }))
   }

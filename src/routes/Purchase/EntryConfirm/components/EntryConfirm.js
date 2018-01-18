@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
-// import fetchAPI from 'api'
-// import { apis } from 'api/config'
 // import { Link } from 'react-router-dom'
 import { Button } from 'antd'
 
@@ -14,12 +12,12 @@ import CustomTable from 'components/CustomTable'
 const columns = [
   'entry_form_uid', 'create_dt', 'purchaser', 'action'
 ]
-// const apiMap = {
-//   0: 'getWeldEntry',
-//   1: 'getSteelEntry',
-//   2: 'getAuxiliaryEntry',
-//   3: 'getBroughtInEntry'
-// }
+const apiMap = {
+  0: 'getWeldEntry',
+  1: 'getSteelEntry',
+  2: 'getAuxiliaryEntry',
+  3: 'getBroughtInEntry'
+}
 
 class EntryConfirm extends React.Component {
   constructor (props) {
@@ -29,9 +27,13 @@ class EntryConfirm extends React.Component {
   }
 
   componentDidMount () {
-    this.props.getListDataAction({
-      params: this._query()
-    })
+    const query = QueryString.parse(this.props.location.search)
+    if (!_.isUndefined(query.type)) {
+      this.props.getListDataAction({
+        params: this._query(),
+        api: apiMap[query.type]
+      })
+    }
   }
 
   buildColumns () {
@@ -89,9 +91,12 @@ class EntryConfirm extends React.Component {
   }
 
   updatelist (query = QueryString.parse(this.props.location.search)) {
-    this.props.getListDataAction({
-      params: query
-    })
+    if (!_.isUndefined(query.type)) {
+      this.props.getListDataAction({
+        params: query,
+        api: apiMap[query.type]
+      })
+    }
   }
 
   handleChangeTable = (pagination, filters, sorter) => {

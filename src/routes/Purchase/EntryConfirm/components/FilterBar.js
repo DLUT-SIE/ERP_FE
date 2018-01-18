@@ -36,7 +36,7 @@ class FilterBar extends React.Component {
         onSubmit={this.handleSubmit}
       >
         <FormItem>
-          {getFieldDecorator('category')(
+          {getFieldDecorator('type')(
             <CustomSelect
               placeholder='入库单类别'
               list={MATERIAL_CATEGORY}
