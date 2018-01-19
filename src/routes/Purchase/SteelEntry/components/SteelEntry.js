@@ -10,7 +10,7 @@ import SteelEntryDetailTr from './SteelEntryDetailTr'
 import DetailModal from './DetailModal'
 import './SteelEntry.less'
 
-class WeldEntry extends React.Component {
+class SteelEntry extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -144,11 +144,11 @@ class WeldEntry extends React.Component {
   }
 }
 
-WeldEntry.propTypes = {
+SteelEntry.propTypes = {
   location: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   getDataAction: PropTypes.func.isRequired,
   changeModalAction: PropTypes.func.isRequired
 }
 
-export default WeldEntry
+export default SteelEntry

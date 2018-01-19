@@ -15,7 +15,7 @@ const columns = [
   'uid_execution', 'lister', 'list_dt', 'process_requirement', 'action'
 ]
 
-class StatusBackTrack extends React.Component {
+class MaterialExecution extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -120,11 +120,11 @@ class StatusBackTrack extends React.Component {
   }
 }
 
-StatusBackTrack.propTypes = {
+MaterialExecution.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   getListDataAction: PropTypes.func.isRequired
 }
 
-export default StatusBackTrack
+export default MaterialExecution
