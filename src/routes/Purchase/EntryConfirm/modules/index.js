@@ -1,5 +1,6 @@
 import { put, call, take } from 'redux-saga/effects'
 import Immutable from 'immutable'
+import _ from 'lodash'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 
@@ -41,7 +42,8 @@ var initialState = Immutable.fromJS({
   loading: false,
   pagination: {
     pageSize: 10
-  }
+  },
+  columns: []
 })
 
 export default function EntryConfirm (state = initialState, action) {
@@ -58,13 +60,17 @@ export default function EntryConfirm (state = initialState, action) {
       )
     },
     ENTRYCONFIRM_ADD_LIST_DATA () {
-      let { data } = action.payload
-      return state.mergeIn(
-        ['pagination'], { total: data.count }
-      ).merge({
+      let { data, columns } = action.payload
+      const params = {
         loading: false,
         list: data.results
-      })
+      }
+      if (!_.isUndefined(columns)) {
+        params.columns = columns
+      }
+      return state.mergeIn(
+        ['pagination'], { total: data.count }
+      ).merge(params)
     }
   }
 
@@ -85,7 +91,7 @@ export function *getListSaga (type, body) {
     const { callback, params, api } = payload
     const data = yield call(fetchAPI, apis.InventoryAPI[api], params)
     callback && callback(data)
-    yield put(addListDataAction({ data: data }))
+    yield put(addListDataAction({ data }))
   }
 }
 

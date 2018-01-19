@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Button } from 'antd'
 
 import FilterBar from './FilterBar.js'
@@ -12,31 +12,46 @@ import CustomTable from 'components/CustomTable'
 const columns = [
   'entry_form_uid', 'create_dt', 'purchaser', 'action'
 ]
-const apiMap = {
-  0: 'getWeldEntry',
-  1: 'getSteelEntry',
-  2: 'getAuxiliaryEntry',
-  3: 'getBroughtInEntry'
+const typeMap = {
+  0: {
+    api: 'getWeldEntry',
+    path: 'weld_entry'
+  },
+  1: {
+    api: 'getSteelEntry',
+    path: 'steel_entry'
+  },
+  2: {
+    api: 'getAuxiliaryEntry',
+    path: 'auxiliary_entry'
+  },
+  3: {
+    api: 'getBroughtInEntry',
+    path: 'brought_in_entry'
+  }
 }
 
 class EntryConfirm extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
-    this._columns = this.buildColumns()
   }
 
   componentDidMount () {
     const query = QueryString.parse(this.props.location.search)
     if (!_.isUndefined(query.type)) {
       this.props.getListDataAction({
-        params: this._query(),
-        api: apiMap[query.type]
+        api: typeMap[query.type].api,
+        callback: (data) => {
+          const columns = this.buildColumns(query)
+          this.props.addListDataAction({ data, columns })
+        }
       })
     }
   }
 
-  buildColumns () {
+  buildColumns (query) {
+    const path = typeMap[query.type].path
     return util.buildColumns(columns, {
       create_dt: {
         render: (text, record, index) => {
@@ -51,7 +66,9 @@ class EntryConfirm extends React.Component {
               size='small'
               data-id={record.id}
             >
-              待处理
+              <Link to={`/purchase/entry_confirm/${path}/?id=${record.id}`}>
+                待处理
+              </Link>
             </Button>
           )
         }
@@ -93,8 +110,11 @@ class EntryConfirm extends React.Component {
   updatelist (query = QueryString.parse(this.props.location.search)) {
     if (!_.isUndefined(query.type)) {
       this.props.getListDataAction({
-        params: query,
-        api: apiMap[query.type]
+        api: typeMap[query.type].api,
+        callback: (data) => {
+          const columns = this.buildColumns(query)
+          this.props.addListDataAction({ data, columns })
+        }
       })
     }
   }
@@ -112,6 +132,7 @@ class EntryConfirm extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
+    const columns = _.get(mydata, 'columns', [])
     return (
       <div>
         <FilterBar
@@ -120,7 +141,7 @@ class EntryConfirm extends React.Component {
         />
         <CustomTable
           dataSource={list}
-          columns={this._columns}
+          columns={columns}
           loading={loading}
           pagination={pagination}
           size='middle'
@@ -135,7 +156,8 @@ EntryConfirm.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
-  getListDataAction: PropTypes.func.isRequired
+  getListDataAction: PropTypes.func.isRequired,
+  addListDataAction: PropTypes.func.isRequired
 }
 
 export default EntryConfirm

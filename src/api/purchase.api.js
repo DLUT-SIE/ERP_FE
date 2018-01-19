@@ -130,5 +130,13 @@ export default {
   addContractDetail: {
     url: '/api/contract_details/',
     method: 'POST'
+  },
+  getWeldingMaterialEntry: {
+    url: '/api/welding_material_entries/:id/',
+    method: 'GET'
+  },
+  updateWeldingMaterialEntryDetail: {
+    url: '/api/welding_material_entry_details/:id/',
+    method: 'PATCH'
   }
 }
