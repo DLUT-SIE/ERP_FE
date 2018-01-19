@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ItemOperationArea from './ItemOperationArea'
+import ItemOperationArea from 'components/ItemOperationArea'
 
 class WeldEntryDetailTr extends React.Component {
   constructor (props) {
