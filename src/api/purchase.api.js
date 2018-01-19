@@ -138,5 +138,13 @@ export default {
   updateWeldingMaterialEntryDetail: {
     url: '/api/welding_material_entry_details/:id/',
     method: 'PATCH'
+  },
+  getSteelMaterialEntry: {
+    url: '/api/steel_material_entries/:id/',
+    method: 'GET'
+  },
+  updateSteelMaterialEntryDetail: {
+    url: '/api/steel_material_entry_details/:id/',
+    method: 'PATCH'
   }
 }
