@@ -130,5 +130,37 @@ export default {
   addContractDetail: {
     url: '/api/contract_details/',
     method: 'POST'
+  },
+  getWeldingMaterialEntry: {
+    url: '/api/welding_material_entries/:id/',
+    method: 'GET'
+  },
+  updateWeldingMaterialEntryDetail: {
+    url: '/api/welding_material_entry_details/:id/',
+    method: 'PATCH'
+  },
+  getSteelMaterialEntry: {
+    url: '/api/steel_material_entries/:id/',
+    method: 'GET'
+  },
+  updateSteelMaterialEntryDetail: {
+    url: '/api/steel_material_entry_details/:id/',
+    method: 'PATCH'
+  },
+  getAuxiliaryMaterialEntry: {
+    url: '/api/auxiliary_material_entries/:id/',
+    method: 'GET'
+  },
+  updateAuxiliaryMaterialEntryDetail: {
+    url: '/api/auxiliary_material_entry_details/:id/',
+    method: 'PATCH'
+  },
+  getBoughtInComponentEntry: {
+    url: '/api/bought_in_component_entries/:id/',
+    method: 'GET'
+  },
+  updateBoughtInComponentEntryDetail: {
+    url: '/api/bought_in_component_entry_details/:id/',
+    method: 'PATCH'
   }
 }

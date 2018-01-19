@@ -4,6 +4,11 @@ import MaterialSummary from './MaterialSummary'
 import PendingOrder from './PendingOrder'
 import PurchaseOrderManagement from './PurchaseOrderManagement'
 import PurchaseOrder from './PurchaseOrder'
+import WeldEntry from './WeldEntry'
+import SteelEntry from './SteelEntry'
+import AuxiliaryEntry from './AuxiliaryEntry'
+import BroughtInEntry from './BroughtInEntry'
+import EntryConfirm from './EntryConfirm'
 import MaterialSubApply from './MaterialSubApply'
 import MaterialSubApplyDetail from './MaterialSubApplyDetail'
 import StatusBackTrack from './StatusBackTrack'
@@ -36,6 +41,31 @@ const childRoutes = [
     path: 'purchase_order_management',
     breadcrumbName: '订购单管理',
     component: PurchaseOrderManagement
+  },
+  {
+    path: 'entry_confirm/weld_entry',
+    breadcrumbName: '焊材入库单',
+    component: WeldEntry
+  },
+  {
+    path: 'entry_confirm/steel_entry',
+    breadcrumbName: '钢材入库单',
+    component: SteelEntry
+  },
+  {
+    path: 'entry_confirm/auxiliary_entry',
+    breadcrumbName: '辅材入库单',
+    component: AuxiliaryEntry
+  },
+  {
+    path: 'entry_confirm/brought_in_entry',
+    breadcrumbName: '外购件入库单',
+    component: BroughtInEntry
+  },
+  {
+    path: 'entry_confirm',
+    breadcrumbName: '入库确认',
+    component: EntryConfirm
   },
   {
     path: 'material_sub_apply/material_sub_apply_detail',

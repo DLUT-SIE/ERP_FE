@@ -90,6 +90,10 @@ const config = {
             "name": "订购单管理",
             "children": []
         }, {
+            "code": "menu.purchase.entry_confirm",
+            "name": "入库确认",
+            "children": []
+        }, {
             "code": "menu.purchase.material_sub_apply",
             "name": "材料代用",
             "children": []

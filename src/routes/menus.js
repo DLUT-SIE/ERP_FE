@@ -42,6 +42,7 @@ export const menu = {
       pending_order: '/purchase/pending_order',
       material: '/purchase/material',
       purchase_order_management: '/purchase/purchase_order_management',
+      entry_confirm: '/purchase/entry_confirm',
       material_sub_apply: '/purchase/material_sub_apply',
       status_back_track: '/purchase/status_back_track',
       material_execution: '/purchase/material_execution',
