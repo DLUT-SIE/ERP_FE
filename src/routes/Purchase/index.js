@@ -7,6 +7,7 @@ import PurchaseOrder from './PurchaseOrder'
 import WeldEntry from './WeldEntry'
 import SteelEntry from './SteelEntry'
 import AuxiliaryEntry from './AuxiliaryEntry'
+import BroughtInEntry from './BroughtInEntry'
 import EntryConfirm from './EntryConfirm'
 import MaterialSubApply from './MaterialSubApply'
 import MaterialSubApplyDetail from './MaterialSubApplyDetail'
@@ -55,6 +56,11 @@ const childRoutes = [
     path: 'entry_confirm/auxiliary_entry',
     breadcrumbName: '辅材入库单',
     component: AuxiliaryEntry
+  },
+  {
+    path: 'entry_confirm/brought_in_entry',
+    breadcrumbName: '外购件入库单',
+    component: BroughtInEntry
   },
   {
     path: 'entry_confirm',

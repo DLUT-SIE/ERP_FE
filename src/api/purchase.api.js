@@ -154,5 +154,13 @@ export default {
   updateAuxiliaryMaterialEntryDetail: {
     url: '/api/auxiliary_material_entry_details/:id/',
     method: 'PATCH'
+  },
+  getBoughtInComponentEntry: {
+    url: '/api/bought_in_component_entries/:id/',
+    method: 'GET'
+  },
+  updateBoughtInComponentEntryDetail: {
+    url: '/api/bought_in_component_entry_details/:id/',
+    method: 'PATCH'
   }
 }
