@@ -26,16 +26,13 @@ class EditFinishDateModal extends React.Component {
       if (fieldsValue.id) {
         values.id = fieldsValue.id
       }
-      values.estimated_finish_dt = fieldsValue.estimated_finish_dt
       onOk && onOk({
-        ...values,
-        count: +values.count
+        ...values
       })
     })
   }
 
   render () {
-    console.log(this.props)
     const { editDateVisible, onCancel, form } = this.props
     const { getFieldDecorator } = form
     return (

@@ -1170,6 +1170,11 @@ export const COLUMNS = {
     key: 'work_group_name',
     dataIndex: 'work_group_name'
   },
+  work_group: {
+    title: '分配组',
+    key: 'work_group',
+    dataIndex: 'work_group'
+  },
   material_name_welding: {
     title: '牌号',
     key: 'material_name',
@@ -1463,6 +1468,31 @@ export const COLUMNS = {
     title: '上传时间',
     key: 'upload_dt',
     dataIndex: 'upload_dt'
+  },
+  step: {
+    title: '工序',
+    key: 'step',
+    dataIndex: 'step'
+  },
+  man_hours: {
+    title: '工时',
+    key: 'man_hours',
+    dataIndex: 'man_hours'
+  },
+  writer: {
+    title: '工票员',
+    key: 'writer',
+    dataIndex: 'writer'
+  },
+  quota_clerk: {
+    title: '定额员',
+    key: 'quota_clerk',
+    dataIndex: 'quota_clerk'
+  },
+  actual_finish_dt: {
+    title: '完工时间',
+    key: 'actual_finish_dt',
+    dataIndex: 'actual_finish_dt'
   },
   uid_execution: {
     title: '编号',
