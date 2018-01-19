@@ -27,7 +27,6 @@ class WeldEntry extends React.Component {
   }
 
   handleOpenModal = (index) => {
-    console.log('handleOpenModal', index)
     const mydata = this.props.status.toJS()
     const data = _.get(mydata, 'data', [])
     this.props.changeModalAction({

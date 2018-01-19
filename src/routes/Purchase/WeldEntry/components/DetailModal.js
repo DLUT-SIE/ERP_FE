@@ -13,6 +13,15 @@ const formItemLayout = {
   wrapperCol: { span: 14 }
 }
 const fieldsConfig = {
+  count: {
+    rules: [{ pattern: /^(\d+)(\.\d+)?$/, message: '请输入正确的整数或小数！' }]
+  },
+  weight: {
+    rules: [{ pattern: /^(\d+)(\.\d+)?$/, message: '请输入正确的整数或小数！' }]
+  },
+  total_weight: {
+    rules: [{ pattern: /^(\d+)(\.\d+)?$/, message: '请输入正确的整数或小数！' }]
+  }
 }
 
 class DetailModal extends React.Component {
@@ -27,9 +36,9 @@ class DetailModal extends React.Component {
         return
       }
       const params = {
-        count: +values.count || 0,
-        weight: +values.weight || 0,
-        total_weight: +values.total_weight || 0,
+        count: values.count ? +values.count : 0,
+        weight: values.weight ? +values.weight : 0,
+        total_weight: values.total_weight ? values.total_weight : 0,
         model: values.model || '',
         batch_number: values.batch_number || '',
         factory: values.factory || '',

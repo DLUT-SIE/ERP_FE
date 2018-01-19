@@ -26,7 +26,7 @@ class DetailModal extends React.Component {
       const params = {
         unit: values.unit || '',
         supplier: values.supplier || '',
-        factory: +values.factory || '',
+        factory: values.factory || '',
         remark: values.remark || ''
       }
       onOk && onOk(fieldsValue.id, params)
