@@ -146,5 +146,13 @@ export default {
   updateSteelMaterialEntryDetail: {
     url: '/api/steel_material_entry_details/:id/',
     method: 'PATCH'
+  },
+  getAuxiliaryMaterialEntry: {
+    url: '/api/auxiliary_material_entries/:id/',
+    method: 'GET'
+  },
+  updateAuxiliaryMaterialEntryDetail: {
+    url: '/api/auxiliary_material_entry_details/:id/',
+    method: 'PATCH'
   }
 }
