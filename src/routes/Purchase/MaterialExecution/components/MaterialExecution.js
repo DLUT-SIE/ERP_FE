@@ -3,13 +3,12 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
-// import fetchAPI from 'api'
-// import { apis } from 'api/config'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Button } from 'antd'
 
 import FilterBar from './FilterBar.js'
 import CustomTable from 'components/CustomTable'
+import './MaterialExecution.less'
 
 const columns = [
   'uid_execution', 'lister', 'list_dt', 'process_requirement', 'action'
@@ -43,7 +42,9 @@ class MaterialExecution extends React.Component {
               size='small'
               data-id={record.id}
             >
-              { record.saved ? '编辑' : '查看' }
+              <Link to={`/purchase/material_execution/material_execution_detail/?id=${record.id}`}>
+                查看
+              </Link>
             </Button>
           )
         }
@@ -102,11 +103,19 @@ class MaterialExecution extends React.Component {
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
     return (
-      <div>
+      <div className='material-execution'>
         <FilterBar
           fieldsValue={query}
           onSearch={this.handleSearch}
         />
+        <Button
+          className='add-btn'
+          type='success'
+        >
+          <Link to='/purchase/material_execution/material_execution_detail'>
+            新建材料执行表
+          </Link>
+        </Button>
         <CustomTable
           dataSource={list}
           columns={this._columns}

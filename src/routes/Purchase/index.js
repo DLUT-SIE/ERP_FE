@@ -13,6 +13,7 @@ import MaterialSubApply from './MaterialSubApply'
 import MaterialSubApplyDetail from './MaterialSubApplyDetail'
 import StatusBackTrack from './StatusBackTrack'
 import StatusHistory from './StatusHistory'
+import MaterialExecutionDetail from './MaterialExecutionDetail'
 import MaterialExecution from './MaterialExecution'
 import Supplier from './Supplier'
 import Quotation from './Quotation'
@@ -86,6 +87,11 @@ const childRoutes = [
     path: 'status_back_track',
     breadcrumbName: '状态回溯',
     component: StatusBackTrack
+  },
+  {
+    path: 'material_execution/material_execution_detail',
+    breadcrumbName: '材料执行清单',
+    component: MaterialExecutionDetail
   },
   {
     path: 'material_execution',
