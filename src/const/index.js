@@ -1514,6 +1514,11 @@ export const COLUMNS = {
     key: 'process_requirement',
     dataIndex: 'process_requirement'
   },
+  entry_form_uid: {
+    title: '入库单编号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
   contract_number: {
     title: '合同编号',
     key: 'contract_number',
