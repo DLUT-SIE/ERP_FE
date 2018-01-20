@@ -119,6 +119,18 @@ export default {
     url: '/api/material_executions/',
     method: 'GET'
   },
+  getMaterialExecution: {
+    url: '/api/material_executions/:id/',
+    method: 'GET'
+  },
+  addMaterialExecution: {
+    url: '/api/material_executions/',
+    method: 'POST'
+  },
+  getMaterialExecutionDetails: {
+    url: '/api/material_execution_details/',
+    method: 'GET'
+  },
   getContracts: {
     url: '/api/contracts/',
     method: 'GET'
