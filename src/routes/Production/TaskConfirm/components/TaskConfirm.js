@@ -101,7 +101,7 @@ class ProductionPlan extends React.Component {
     })
   }
   fetchProcessDetailItem = (id, cb) => {
-    fetchAPI(apis.ProductionAPI.getProcessDetailItem, null, id).then((repos) => {
+    fetchAPI(apis.ProductionAPI.getProcessDetailItem, null, { id: id }).then((repos) => {
       cb(repos)
     })
   }

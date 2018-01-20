@@ -33,12 +33,12 @@ class FilterBar extends React.Component {
         onSubmit={this.handleSubmit}
       >
         <FormItem>
-          {getFieldDecorator('first_name')(
+          {getFieldDecorator('name')(
             <Input className='input' placeholder='姓名' />
           )}
         </FormItem>
         <FormItem>
-          {getFieldDecorator('work_group_name')(
+          {getFieldDecorator('work_group')(
             <Input className='input' placeholder='工作组' />
           )}
         </FormItem>

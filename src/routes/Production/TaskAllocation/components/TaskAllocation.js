@@ -43,10 +43,11 @@ class ProductionPlan extends React.Component {
       },
       action: {
         render: (text, record, index) => {
+          console.log(index, record.status)
           if (record.status === PROCESS_DETAIL_STATUS.ALLOCATION) {
             return (
               <Button
-                type='primary'
+                type='danger'
                 size='small'
                 data-id={record.id}
                 data-index={index}
