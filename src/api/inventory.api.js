@@ -146,5 +146,21 @@ export default {
   createWarehouseRecord: {
     url: '/api/warehouses/',
     method: 'POST'
+  },
+  getWeldingMaterialApplyCardDetails: {
+    url: '/api/welding_material_apply_cards/:id/',
+    method: 'GET'
+  },
+  getSteelMaterialApplyCardDetails: {
+    url: '/api/steel_material_apply_cards/:id/',
+    method: 'GET'
+  },
+  getBroughtInMaterialApplyCardDetails: {
+    url: '/api/bought_in_component_apply_cards/:id/',
+    method: 'GET'
+  },
+  getAuxiliaryMaterialApplyCardDetails: {
+    url: '/api/auxiliary_material_apply_cards/:id/',
+    method: 'GET'
   }
 }

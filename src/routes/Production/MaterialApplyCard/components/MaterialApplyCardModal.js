@@ -6,10 +6,10 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { Modal, Button, Form } from 'antd'
 import './MaterialApplyCardModal.less'
-import WeldMaterialApplyCardTable from './WeldMaterialApplyCardTable'
-/* import SteelMaterialApplyCardTable from './WeldMaterialApplyCardTable'
-import BroughtInMaterialApplyCardTable from './WeldMaterialApplyCardTable'
-import AuxiliaryMaterialApplyCardTable from './WeldMaterialApplyCardTable' */
+import WeldMaterialApplyCardTable from 'components/ApplyCardsTable/WeldMaterialApplyCardTable'
+import SteelMaterialApplyCardTable from 'components/ApplyCardsTable/SteelMaterialApplyCardTable'
+import BroughtInMaterialApplyCardTable from 'components/ApplyCardsTable/BroughtInMaterialApplyCardTable'
+import AuxiliaryMaterialApplyCardTable from 'components/ApplyCardsTable/AuxiliaryMaterialApplyCardTable'
 import { MATERIAL_APPLY_CARD_TYPE } from 'const'
 
 class MaterialApplyCardModal extends React.Component {
@@ -17,22 +17,7 @@ class MaterialApplyCardModal extends React.Component {
     super(props)
     this.state = {}
   }
-  // todo: 确认按钮有什么作用？
-  handleSave = () => {
-    const { onOk, form } = this.props
-    form.validateFields((err, values) => {
-      if (err) {
-        return
-      }
-      onOk && onOk({
-        ...values,
-        count: +values.count
-      })
-    })
-  }
-  changeStatus = () => {
-    console.log(1)
-  }
+
   render () {
     const { visible, onCancel } = this.props
     return (
@@ -41,17 +26,10 @@ class MaterialApplyCardModal extends React.Component {
           className='production-user-modal'
           title='领用单信息'
           visible={visible}
-          width={900}
+          width={'70%'}
           onOk={this.handleSave}
           onCancel={onCancel}
           footer={[
-            <Button
-              key='submit'
-              type='primary'
-              onClick={this.handleSave}
-            >
-              保存
-            </Button>,
             <Button
               key='back'
               onClick={onCancel}
@@ -59,11 +37,11 @@ class MaterialApplyCardModal extends React.Component {
               返回
             </Button>
           ]}
-        >{/* 这里根据category来显示不同的table */}
-          {this.props.category === MATERIAL_APPLY_CARD_TYPE.WELD ? (<WeldMaterialApplyCardTable details={this.props.details} changeStatus={this.changeStatus} />) : ''}
-          {/* {this.props.category === MATERIAL_APPLY_CARD_TYPE.STEEL ? (<SteelMaterialApplyCardTable details={this.props.details} changeStatus={this.changeStatus} />) : ''}
-          {this.props.category === MATERIAL_APPLY_CARD_TYPE.BROUGHT_IN ? (<BroughtInMaterialApplyCardTable details={this.props.details} changeStatus={this.changeStatus} />) : ''}
-          {this.props.category === MATERIAL_APPLY_CARD_TYPE.AUXILIARY ? (<AuxiliaryMaterialApplyCardTable details={this.props.details} changeStatus={this.changeStatus} />) : ''} */}
+        >
+          {this.props.category === MATERIAL_APPLY_CARD_TYPE.WELD ? (<WeldMaterialApplyCardTable details={this.props.details} changeStatus={this.props.changeStatus} />) : ''}
+          {this.props.category === MATERIAL_APPLY_CARD_TYPE.STEEL ? (<SteelMaterialApplyCardTable details={this.props.details} changeStatus={this.props.changeStatus} />) : ''}
+          {this.props.category === MATERIAL_APPLY_CARD_TYPE.BROUGHT_IN ? (<BroughtInMaterialApplyCardTable details={this.props.details} changeStatus={this.props.changeStatus} />) : ''}
+          {this.props.category === MATERIAL_APPLY_CARD_TYPE.AUXILIARY ? (<AuxiliaryMaterialApplyCardTable details={this.props.details} changeStatus={this.props.changeStatus} />) : ''}
         </Modal>
       </Form>
     )
@@ -71,11 +49,10 @@ class MaterialApplyCardModal extends React.Component {
 }
 MaterialApplyCardModal.propTypes = {
   visible: PropTypes.bool.isRequired,
-  onOk: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  form: PropTypes.object.isRequired,
   details: PropTypes.object.isRequired,
-  category: PropTypes.string.isRequired
+  category: PropTypes.string.isRequired,
+  changeStatus: PropTypes.func.isRequired
 }
 let makeFileds = function (fieldsValue) {
   let result = {}

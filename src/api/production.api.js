@@ -11,7 +11,7 @@ export default{
     method: 'GET'
   },
   deleteProductionPlan: {
-    url: '/api/production_plans/',
+    url: '/api/production_plans/:id/',
     method: 'DELETE'
   },
   updateProductionPlan: {
@@ -129,6 +129,22 @@ export default{
   getProcurementMaterial: {
     url : '/api/procurement_materials/production/',
     method: 'GET'
+  },
+  updateWeldingMaterialApplyCardsStatus: {
+    url: '/api/welding_material_apply_cards/:id/',
+    method: 'PATCH'
+  },
+  updateSteelMaterialApplyCardsStatus: {
+    url: '/api/steel_material_apply_cards/:id/',
+    method: 'PATCH'
+  },
+  updateBroughtInMaterialApplyCardsStatus: {
+    url: '/api/bought_in_component_apply_cards/:id/',
+    method: 'PATCH'
+  },
+  updateAuxiliaryMaterialApplyCardsStatus: {
+    url: '/api/auxiliary_material_apply_cards/:id/',
+    method: 'PATCH'
   },
   getWeldingMaterialRefundCards: {
     url : '/api/welding_material_refund_cards/',

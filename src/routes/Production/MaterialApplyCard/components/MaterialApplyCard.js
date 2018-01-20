@@ -65,7 +65,14 @@ class MaterialApplyCard extends React.Component {
       }
     })
   }
-
+  changeStatus = (id, actions) => {
+    console.log('actions', actions)
+    fetchAPI(apis.ProductionAPI.updateWeldingMaterialApplyCardsStatus, { status: actions }, { id }).then((repos) => {
+      console.log('repos', repos)
+      message.success('修改成功！')
+      this.handleCloseModal()
+    })
+  }
   handleSearch = (searchValue) => {
     let _searchValue = { ...searchValue }
     let { category } = _searchValue
@@ -128,15 +135,6 @@ class MaterialApplyCard extends React.Component {
       params: query
     })
   }
-  handleSave = (fieldsValue) => {
-    fetchAPI(apis.ProductionAPI.updateProductionUserGroup, fieldsValue, fieldsValue.id).then(() => {
-      this.handleCloseModal()
-      message.success('修改成功！')
-      this.props.getListDataAction({
-        params: this._query()
-      })
-    })
-  }
   handleChangeTable = (pagination, filters, sorter) => {
     this.updateQuery({
       page: pagination.current > 1 ? pagination.current : ''
@@ -167,8 +165,8 @@ class MaterialApplyCard extends React.Component {
         />
         { modal.visible &&
           <MaterialApplyCardModal
-            onOk={this.handleSave}
             onCancel={this.handleCloseModal}
+            changeStatus={this.changeStatus}
             {...modal}
           />
         }
