@@ -33,7 +33,7 @@ class ProductionPlan extends React.Component {
     return util.buildColumns(columns, {
       plan_dt: {
         render: (text, record, index) => {
-          return moment(record.plan_dt).format('YYYY-MM-DD')
+          return record.plan_dt && moment(record.plan_dt).format('YYYY-MM-DD')
         }
       },
       action: {
@@ -57,7 +57,7 @@ class ProductionPlan extends React.Component {
                 cancelText='取消'
               >
                 <Button
-                  type='primary'
+                  type='danger'
                   size='small'
                 >
                   删除
@@ -86,7 +86,7 @@ class ProductionPlan extends React.Component {
   }
   handleDelete = (id) => {
     return (e) => {
-      fetchAPI(apis.ProductionAPI.deleteProductionPlan, { id: id }).then((repos) => {
+      fetchAPI(apis.ProductionAPI.deleteProductionPlan, {}, { id }).then((repos) => {
         message.success('删除成功！')
         this.updatelist()
       })

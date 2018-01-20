@@ -97,7 +97,7 @@ class ProductionUsers extends React.Component {
   }
   handleDelete = (id) => {
     return (e) => {
-      fetchAPI(apis.ProductionAPI.deleteProductionUser, null, { id: id }).then(() => {
+      fetchAPI(apis.ProductionAPI.deleteProductionUser, {}, { id }).then(() => {
         message.success('删除成功！')
         this.props.getListDataAction({
           params: this._query()

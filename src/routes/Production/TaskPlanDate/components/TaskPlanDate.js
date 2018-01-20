@@ -144,7 +144,6 @@ class ProductionPlan extends React.Component {
     const query = QueryString.parse(location.search)
     const mydata = status.toJS()
     const list = _.get(mydata, 'list', [])
-    console.log('list', list)
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
     const modal = _.get(mydata, 'modal', {})

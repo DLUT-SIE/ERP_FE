@@ -3,6 +3,10 @@ import { Redirect } from 'react-router-dom'
 import _ from 'lodash'
 import WeldManage from './WeldManage'
 import WeldEntry from './WeldManage/components/WeldEnrty'
+import WeldApplyCardDetail from './WeldManage/components/WeldApplyCard/components/WeldApplyCardDetail'
+import SteelApplyCardDetail from './SteelManage/components/SteelApplyCard/components/SteelApplyCardDetail'
+import BroughtInApplyCardDetail from './BroughtInManage/components/BroughtInApplyCard/components/BroughtInApplyCardDetail'
+import AuxiliaryApplyCardDetail from './AuxiliaryManage/components/AuxiliaryApplyCard/components/AuxiliaryApplyCardDetail'
 import WeldDetail from './WeldManage/components/WeldEnrty/components/WeldDetail'
 import WeldApplyCard from './WeldManage/components/WeldApplyCard'
 import WeldHumitureRecord from './WeldManage/components/WeldHumitureRecord'
@@ -37,6 +41,7 @@ import AuxiliaryInventoryAccount from './AuxiliaryManage/components/AuxiliaryAcc
 import BasicDataManage from './BasicDataManage'
 import WareHouse from './BasicDataManage/components/Warehouse'
 import TempHumiture from './BasicDataManage/components/TempHumiture'
+
 const childRoutes = [
   {
     path: `weld/weld_entry/:uid`,
@@ -51,9 +56,9 @@ const childRoutes = [
     exact: true
   },
   {
-    path: `weld/weld_apply_card/:uid`,
+    path: `weld/weld_apply_card/:id/`,
     breadcrumbName: '焊材领用卡',
-    component: WeldDetail,
+    component: WeldApplyCardDetail,
     exact: true
   },
   {
@@ -112,6 +117,12 @@ const childRoutes = [
     exact: true
   },
   {
+    path: 'steel/steel_apply_card/:id/',
+    breadcrumbName: '钢材领用卡',
+    component: SteelApplyCardDetail,
+    exact: true
+  },
+  {
     path: 'steel/steel_apply_card',
     breadcrumbName: '钢材领用管理',
     component: SteelApplyCard,
@@ -161,6 +172,12 @@ const childRoutes = [
     exact: true
   },
   {
+    path: 'brought_in/brought_in_apply_card/:id/',
+    breadcrumbName: '外购件领用卡',
+    component: BroughtInApplyCardDetail,
+    exact: true
+  },
+  {
     path: 'brought_in/brought_in_apply_card',
     breadcrumbName: '外购件领用管理',
     component: BroughtInApplyCard,
@@ -207,6 +224,12 @@ const childRoutes = [
     path: 'auxiliary/auxiliary_entry',
     breadcrumbName: '辅助工具入库管理',
     component: AuxiliaryEntry,
+    exact: true
+  },
+  {
+    path: 'auxiliary/auxiliary_apply_card/:id/',
+    breadcrumbName: '辅助工具领用管理',
+    component: AuxiliaryApplyCardDetail,
     exact: true
   },
   {

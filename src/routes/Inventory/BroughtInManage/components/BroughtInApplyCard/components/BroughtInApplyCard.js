@@ -18,7 +18,7 @@ const applyCardStatus = {
   APPLY_STATUS_END: 4
 }
 
-class SteelApplyCard extends React.Component {
+class BroughtInApplyCard extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -44,9 +44,8 @@ class SteelApplyCard extends React.Component {
               <Button
                 type='danger'
                 size='small'
-                data-id={record.uid}
               >
-                <Link to={`/inventory/brought_in/brought_in_apply_card/${record.uid}`}>待处理</Link>
+                <Link to={`/inventory/brought_in/brought_in_apply_card/${record.id}`}>待处理</Link>
               </Button>
             )
           } else {
@@ -54,9 +53,8 @@ class SteelApplyCard extends React.Component {
               <Button
                 type='primary'
                 size='small'
-                data-id={record.uid}
               >
-                <Link to={`/inventory/brought_in/brought_in_apply_card/${record.uid}`}>详情</Link>
+                <Link to={`/inventory/brought_in/brought_in_apply_card/${record.id}`}>详情</Link>
               </Button>
             )
           }
@@ -134,11 +132,11 @@ class SteelApplyCard extends React.Component {
   }
 }
 
-SteelApplyCard.propTypes = {
+BroughtInApplyCard.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   getListDataAction: PropTypes.func.isRequired
 }
 
-export default SteelApplyCard
+export default BroughtInApplyCard

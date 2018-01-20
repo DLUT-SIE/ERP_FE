@@ -44,9 +44,9 @@ class SteelApplyCard extends React.Component {
               <Button
                 type='danger'
                 size='small'
-                data-id={record.uid}
+                data-id={record.id}
               >
-                <Link to={`/inventory/steel/steel_apply_card/${record.uid}`}>待处理</Link>
+                <Link to={`/inventory/steel/steel_apply_card/${record.id}`}>待处理</Link>
               </Button>
             )
           } else {
@@ -56,7 +56,7 @@ class SteelApplyCard extends React.Component {
                 size='small'
                 data-id={record.uid}
               >
-                <Link to={`/inventory/steel/steel_apply_card/${record.uid}`}>详情</Link>
+                <Link to={`/inventory/steel/steel_apply_card/${record.id}`}>详情</Link>
               </Button>
             )
           }
