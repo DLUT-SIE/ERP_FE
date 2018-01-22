@@ -40,7 +40,7 @@ export const menu = {
     purchase: {
       icon: 'appstore',
       pending_order: '/purchase/pending_order',
-      material: '/purchase/material',
+      material_summarize: '/purchase/material_summarize',
       purchase_order_management: '/purchase/purchase_order_management',
       entry_confirm: '/purchase/entry_confirm',
       material_sub_apply: '/purchase/material_sub_apply',
