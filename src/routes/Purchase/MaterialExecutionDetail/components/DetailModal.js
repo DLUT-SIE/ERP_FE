@@ -52,7 +52,6 @@ class DetailModal extends React.Component {
       onChange: this.handleSelectChange,
       getCheckboxProps: this.getDisabledList
     }
-    console.log('title', title)
     return (
       <Modal
         className='detail-modal'
