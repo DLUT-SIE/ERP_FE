@@ -27,7 +27,7 @@ export default function fetchAPI (api, body, params, multipartFormData = false) 
   if (method === 'GET') {
     if (!_.isEmpty(body)) {
       let params = _.isPlainObject(body) ? querystring.stringify(body) : body
-      url = url + `?${params}`
+      url = url.indexOf('?') === -1 ? url + `?${params}` : url + `&${params}`
     }
   } else {
     if (multipartFormData) {
