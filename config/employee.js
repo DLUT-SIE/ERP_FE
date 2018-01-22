@@ -82,7 +82,7 @@ const config = {
             "name": "待处理工作令",
             "children": [],
         }, {
-            "code": "menu.purchase.material",
+            "code": "menu.purchase.material_summarize",
             "name": "物料汇总",
             "children": [],
         }, {

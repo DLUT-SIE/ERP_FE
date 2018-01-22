@@ -1,6 +1,6 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import MaterialSummary from './MaterialSummary'
+import MaterialSummarize from './MaterialSummarize'
 import PendingOrder from './PendingOrder'
 import PurchaseOrderManagement from './PurchaseOrderManagement'
 import PurchaseOrder from './PurchaseOrder'
@@ -29,9 +29,9 @@ const childRoutes = [
     component: PurchaseOrder
   },
   {
-    path: 'material',
+    path: 'material_summarize',
     breadcrumbName: '物料汇总',
-    component: MaterialSummary
+    component: MaterialSummarize
   },
   {
     path: 'pending_order',

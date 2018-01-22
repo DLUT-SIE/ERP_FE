@@ -1614,5 +1614,10 @@ export const COLUMNS = {
     title: '余料',
     key: 'oddments',
     dataIndex: 'oddments'
+  },
+  material_status: {
+    title: '物料状态',
+    key: 'pretty_status',
+    dataIndex: 'pretty_status'
   }
 }
