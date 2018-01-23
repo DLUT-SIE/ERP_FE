@@ -1,4 +1,12 @@
 export default {
+  getSubWorkOrders: {
+    url: '/api/sub_work_orders/',
+    method: 'GET'
+  },
+  updateSubWorkOrder: {
+    url: '/api/sub_work_orders/:id/',
+    method: 'PATCH'
+  },
   getPurchaseOrders: {
     url: '/api/purchase_orders/',
     method: 'GET'

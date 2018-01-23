@@ -7,9 +7,13 @@ import { Modal, Input, Button, Popconfirm, message } from 'antd'
 import CustomTable from 'components/CustomTable'
 import './OrderModal.less'
 
-const columns = [
-  'sub_order', 'batch_number_execution', 'material_name_execution', 'material_uid', 'material_category',
-  'spec', 'count', 'weight_execution'
+const columns0 = [
+  'sub_order', 'name_order', 'spec_order', 'material_order', 'count_order', 'weight', 'total_weight',
+  'remark_order', 'material_status'
+]
+const columns1 = [
+  'sub_order', 'name_order', 'ticket_number_order', 'drawing_number_order', 'material_order', 'count_order',
+  'weight', 'total_weight', 'remark_order', 'material_status'
 ]
 
 class OrderModal extends React.Component {
@@ -31,6 +35,8 @@ class OrderModal extends React.Component {
   }
 
   buildColumns () {
+    const { type } = this.props
+    const columns = type === 'type0' ? columns0 : columns1
     return util.buildColumns(columns, {})
   }
 
@@ -117,6 +123,7 @@ class OrderModal extends React.Component {
 
 OrderModal.propTypes = {
   visible: PropTypes.bool.isRequired,
+  type: PropTypes.string.isRequired,
   id: PropTypes.number,
   uid: PropTypes.string,
   list: PropTypes.array.isRequired,

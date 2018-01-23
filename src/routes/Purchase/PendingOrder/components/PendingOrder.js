@@ -3,40 +3,87 @@ import PropTypes from 'prop-types'
 import QueryString from 'query-string'
 import _ from 'lodash'
 import util from 'utils'
-import { Button } from 'antd'
+import fetchAPI from 'api'
+import { apis } from 'api/config'
+import { MATERIAL_CATEGORY_LIST } from 'const'
+import { Button, Popconfirm, message } from 'antd'
 
-import FilterBar from 'components/WorkOrderFilterBar'
+import FilterBar from './FilterBar'
+import CustomSelect from 'components/CustomSelect'
 import CustomTable from 'components/CustomTable'
+import './PendingOrder.less'
 
 const columns = [
-  'order_id', 'detail', 'contract', 'action'
+  'sub_work_order_uid', 'detail', 'action'
 ]
 
 class PendingOrder extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      typeList: []
+    }
     this._columns = this.buildColumns()
+    MATERIAL_CATEGORY_LIST.shift()
   }
 
   componentDidMount () {
-    this.props.getInitDataAction({
-      params: this._query()
+    this.props.getListDataAction({
+      params: this._query(),
+      callback: (repos) => {
+        const typeList = _.map(repos.results, (item) => {
+          return 0
+        })
+        this.setState({
+          typeList
+        })
+      }
     })
   }
 
   buildColumns () {
+    const { typeList } = this.state
     return util.buildColumns(columns, {
+      detail: {
+        render: (text, record, index) => {
+          return (
+            <div>
+              <CustomSelect
+                list={MATERIAL_CATEGORY_LIST}
+                placeholder='请选择要查看的明细表'
+                value={typeList[index]}
+                onChange={this.handleChange(index)}
+              />
+              <Button
+                className='check-btn'
+                type='primary'
+                size='small'
+                data-uid={record.uid}
+                data-index={index}
+                onClick={this.handleCheck}
+              >
+                查看
+              </Button>
+            </div>
+          )
+        }
+      },
       action: {
         render: (text, record, index) => {
           return (
-            <Button
-              type='primary'
-              size='small'
-              data-id={record.work_id}
+            <Popconfirm
+              title='确定完成吗？'
+              onConfirm={this.handleFinished(record.id)}
+              okText='确定'
+              cancelText='取消'
             >
-              完成
-            </Button>
+              <Button
+                type='success'
+                size='small'
+              >
+                完成
+              </Button>
+            </Popconfirm>
           )
         }
       }
@@ -53,7 +100,8 @@ class PendingOrder extends React.Component {
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
     return Object.assign({
-      page: 1
+      page: 1,
+      finished: false
     }, oldQuery, query)
   }
 
@@ -76,13 +124,42 @@ class PendingOrder extends React.Component {
 
   updatelist (query = QueryString.parse(this.props.location.search)) {
     this.props.getListDataAction({
-      params: query
+      params: this._query(query)
     })
   }
 
   handleChangeTable = (pagination, filters, sorter) => {
     this.updateQuery({
       page: pagination.current > 1 ? pagination.current : ''
+    })
+  }
+
+  handleFinished = (id) => {
+    return (e) => {
+      fetchAPI(apis.PurchaseAPI.updateSubWorkOrder, { finished: true }, { id }).then((repos) => {
+        message.success('操作成功！')
+        this.updatelist()
+      })
+    }
+  }
+
+  handleChange = (index) => {
+    return (value, item) => {
+      const { typeList } = this.state
+      typeList[index] = +value
+      this.setState({
+        typeList
+      })
+    }
+  }
+
+  handleCheck = (e) => {
+    const { uid, index } = e.target.dataset
+    const { typeList } = this.state
+    const type = typeList[index]
+    this.props.history.push({
+      pathname: '/purchase/pending_order/detail_table/',
+      search: `?sub_work_order_uid=${uid}&inventory_type=${type}`
     })
   }
 
@@ -94,7 +171,7 @@ class PendingOrder extends React.Component {
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
     return (
-      <div>
+      <div className='pending-order'>
         <FilterBar
           fieldsValue={query}
           onSearch={this.handleSearch}
@@ -116,7 +193,6 @@ PendingOrder.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
-  getInitDataAction: PropTypes.func.isRequired,
   getListDataAction: PropTypes.func.isRequired
 }
 

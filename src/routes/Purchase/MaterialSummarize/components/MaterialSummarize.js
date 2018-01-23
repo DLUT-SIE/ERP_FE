@@ -204,14 +204,20 @@ class MaterialSummarize extends React.Component {
   }
 
   handleOpenOrderModal = (id, uid, list = []) => {
+    const query = QueryString.parse(this.props.location.search)
+    if (_.isUndefined(query.inventory_type)) {
+      query.inventory_type = 0
+    }
+    const type = +query.inventory_type < 2 ? 'type0' : 'type1'
     const params = {
       visible: true,
-      list: []
+      list: [],
+      type
     }
     if (!_.isUndefined(id)) {
       fetchAPI(apis.PurchaseAPI.getProcurementMaterials, { purchase_order_uid: uid }).then((repos) => {
         list = _.map(list, (item) => {
-          item.status = '待加入'
+          item.pretty_status = '待加入'
           return item
         })
         params.list = list.concat(repos.results)

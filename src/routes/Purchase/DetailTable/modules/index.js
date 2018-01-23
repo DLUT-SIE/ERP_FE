@@ -1,5 +1,6 @@
 import { put, call, take } from 'redux-saga/effects'
 import Immutable from 'immutable'
+import _ from 'lodash'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 
@@ -7,8 +8,8 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const PENDING_GET_LIST_DATA = 'PENDING_GET_LIST_DATA'
-const PENDING_ADD_LIST_DATA = 'PENDING_ADD_LIST_DATA'
+const DETAILTABLE_GET_LIST_DATA = 'DETAILTABLE_GET_LIST_DATA'
+const DETAILTABLE_ADD_LIST_DATA = 'DETAILTABLE_ADD_LIST_DATA'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -17,14 +18,14 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : PENDING_GET_LIST_DATA,
+    type    : DETAILTABLE_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : PENDING_ADD_LIST_DATA,
+    type    : DETAILTABLE_ADD_LIST_DATA,
     payload : payload
   }
 }
@@ -44,9 +45,9 @@ var initialState = Immutable.fromJS({
   }
 })
 
-export default function PendingOrder (state = initialState, action) {
+export default function DetailTable (state = initialState, action) {
   var map = {
-    PENDING_GET_LIST_DATA () {
+    DETAILTABLE_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -57,14 +58,18 @@ export default function PendingOrder (state = initialState, action) {
         'loading', true
       )
     },
-    PENDING_ADD_LIST_DATA () {
-      let { data } = action.payload
-      return state.mergeIn(
-        ['pagination'], { total: data.count }
-      ).merge({
+    DETAILTABLE_ADD_LIST_DATA () {
+      let { data, columns } = action.payload
+      const params = {
         list: data.results,
         loading: false
-      })
+      }
+      if (!_.isUndefined(columns)) {
+        params.columns = columns
+      }
+      return state.mergeIn(
+        ['pagination'], { total: data.count }
+      ).merge(params)
     }
   }
 
@@ -80,9 +85,9 @@ export default function PendingOrder (state = initialState, action) {
 // ------------------------------------
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(PENDING_GET_LIST_DATA)
+    const { payload = {} } = yield take(DETAILTABLE_GET_LIST_DATA)
     const { callback, params } = payload
-    const data = yield call(fetchAPI, apis.PurchaseAPI.getSubWorkOrders, params)
+    const data = yield call(fetchAPI, apis.PurchaseAPI.getProcurementMaterials, params)
     callback && callback(data)
     yield put(addListDataAction({ data }))
   }
