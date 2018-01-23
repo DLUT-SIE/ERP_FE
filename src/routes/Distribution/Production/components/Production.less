@@ -1,8 +1,13 @@
 @import "../../../../static/styles/helper.less";
 
-.production .ant-upload-list{
-  display: none;
-}
-.production .document-link{
-  color: @a-link-color;
+.production{
+  .ant-upload-list{
+    display: none;
+  }
+  .document-link{
+    color: @a-link-color;
+  }
+  .document-link:hover{
+    color: @a-link-hover-color;
+  }
 }
