@@ -44,9 +44,8 @@ class SteelRefund extends React.Component {
               <Button
                 type='danger'
                 size='small'
-                data-id={record.uid}
               >
-                <Link to={`/inventory/brought_in/brought_in_entry/${record.uid}`}>待处理</Link>
+                <Link to={`/inventory/brought_in/brought_in_refund/${record.id}`}>待处理</Link>
               </Button>
             )
           } else {
@@ -56,7 +55,7 @@ class SteelRefund extends React.Component {
                 size='small'
                 data-id={record.uid}
               >
-                <Link to={`/inventory/brought_in/brought_in_entry/${record.uid}`}>详情</Link>
+                <Link to={`/inventory/brought_in/brought_in_refund/${record.id}`}>详情</Link>
               </Button>
             )
           }

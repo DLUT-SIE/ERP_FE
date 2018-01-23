@@ -22,6 +22,11 @@ const mapRequest = {
   bought_in_component_refund_cards: apis.ProductionAPI.getBroughtInMaterialRefundCardDetails,
   auxiliary_material_refund_cards: apis.ProductionAPI.getAuxiliaryMaterialRefundCardDetails
 }
+const updateMapRequest = {
+  welding_material_refund_cards: apis.ProductionAPI.updateWeldMaterialRefundcardStatus,
+  steel_material_refund_cards: apis.ProductionAPI.updatSteelMaterialRefundcardStatus,
+  bought_in_component_refund_cards: apis.ProductionAPI.updateBroughtInMaterialRefundcardStatus
+}
 class MaterialApplyCard extends React.Component {
   constructor (props) {
     super(props)
@@ -129,24 +134,17 @@ class MaterialApplyCard extends React.Component {
       params: query
     })
   }
-  handleSave = (fieldsValue) => {
-    let { url, method } = apis.ProductionAPI.updateProductionUserGroup
-    url = url(fieldsValue.id)
-    const api = {
-      url,
-      method
-    }
-    fetchAPI(api, fieldsValue).then(() => {
-      this.handleCloseModal()
-      message.success('修改成功！')
-      this.props.getListDataAction({
-        params: this._query()
-      })
-    })
-  }
   handleChangeTable = (pagination, filters, sorter) => {
     this.updateQuery({
       page: pagination.current > 1 ? pagination.current : ''
+    })
+  }
+  changeStatus = (type, id, actions) => {
+    console.log('actions', actions)
+    fetchAPI(updateMapRequest[type], { status: actions }, { id }).then((repos) => {
+      console.log('repos', repos)
+      message.success('修改成功！')
+      this.handleCloseModal()
     })
   }
 
@@ -174,8 +172,8 @@ class MaterialApplyCard extends React.Component {
         />
         { modal.visible &&
           <MaterialRefundCardModal
-            onOk={this.handleSave}
             onCancel={this.handleCloseModal}
+            changeStatus={this.changeStatus}
             {...modal}
           />
         }

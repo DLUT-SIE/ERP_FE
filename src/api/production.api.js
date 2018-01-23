@@ -167,16 +167,28 @@ export default{
     method: 'GET'
   },
   getSteelMaterialRefundCardDetails: {
-    url: '/api/steel_material_refund_details/:id/',
+    url: '/api/steel_material_refund_cards/:id/',
     method: 'GET'
   },
   getBroughtInMaterialRefundCardDetails: {
-    url: '/api/bought_in_component_refund_details/:id/',
+    url: '/api/bought_in_component_refund_cards/:id/',
     method: 'GET'
   },
   getAuxiliaryMaterialRefundCardDetails: {
     url: '/api/auxiliary_material_refund_cards/:id/',
     method: 'GET'
+  },
+  updateWeldMaterialRefundcardStatus: {
+    url: '/api/welding_material_refund_cards/:id/',
+    method: 'PATCH'
+  },
+  updatSteelMaterialRefundcardStatus: {
+    url: '/api/steel_material_refund_cards/:id/',
+    method: 'PATCH'
+  },
+  updateBroughtInMaterialRefundcardStatus: {
+    url: '/api/bought_in_component_refund_cards/:id/',
+    method: 'PATCH'
   },
   getWeldingMaterialCompletedApplyCards: {
     url: '/api/welding_material_apply_cards/',
