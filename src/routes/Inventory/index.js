@@ -7,7 +7,10 @@ import WeldApplyCardDetail from './WeldManage/components/WeldApplyCard/component
 import SteelApplyCardDetail from './SteelManage/components/SteelApplyCard/components/SteelApplyCardDetail'
 import BroughtInApplyCardDetail from './BroughtInManage/components/BroughtInApplyCard/components/BroughtInApplyCardDetail'
 import AuxiliaryApplyCardDetail from './AuxiliaryManage/components/AuxiliaryApplyCard/components/AuxiliaryApplyCardDetail'
-import WeldDetail from './WeldManage/components/WeldEnrty/components/WeldDetail'
+import WeldEntryCardDetail from './WeldManage/components/WeldEnrty/components/WeldEntryCardDetail'
+import SteelEntryCardDetail from './SteelManage/components/SteelEnrty/components/SteelEntryCardDetail'
+import BroughtInEntryCardDetail from './BroughtInManage/components/BroughtInEnrty/components/BroughtInEntryCardDetail'
+import AuxiliaryEntryCardDetail from './AuxiliaryManage/components/AuxiliaryEntry/components/AuxiliaryEntryCardDetail'
 import WeldApplyCard from './WeldManage/components/WeldApplyCard'
 import WeldHumitureRecord from './WeldManage/components/WeldHumitureRecord'
 import WeldRefund from './WeldManage/components/WeldRefund'
@@ -44,12 +47,11 @@ import AuxiliaryInventoryAccount from './AuxiliaryManage/components/AuxiliaryAcc
 import BasicDataManage from './BasicDataManage'
 import WareHouse from './BasicDataManage/components/Warehouse'
 import TempHumiture from './BasicDataManage/components/TempHumiture'
-
 const childRoutes = [
   {
-    path: `weld/weld_entry/:uid`,
+    path: `weld/weld_entry/:id`,
     breadcrumbName: '焊材入库单',
-    component: WeldDetail,
+    component: WeldEntryCardDetail,
     exact: true
   },
   {
@@ -132,6 +134,12 @@ const childRoutes = [
   },
   // 钢材管理
   {
+    path: 'steel/steel_entry/:id',
+    breadcrumbName: '钢材入库卡',
+    component: SteelEntryCardDetail,
+    exact: true
+  },
+  {
     path: 'steel/steel_entry',
     breadcrumbName: '钢材入库管理',
     component: SteelEntry,
@@ -187,6 +195,12 @@ const childRoutes = [
   },
   // 外购件管理
   {
+    path: 'brought_in/brought_in_entry/:id',
+    breadcrumbName: '外购件入库单',
+    component: BroughtInEntryCardDetail,
+    exact: true
+  },
+  {
     path: 'brought_in/brought_in_entry',
     breadcrumbName: '外购件入库管理',
     component: BroughtInEntry,
@@ -241,6 +255,12 @@ const childRoutes = [
     exact: true
   },
   // 辅助工具
+  {
+    path: 'auxiliary/auxiliary_entry/:id',
+    breadcrumbName: '辅助工具入库卡',
+    component: AuxiliaryEntryCardDetail,
+    exact: true
+  },
   {
     path: 'auxiliary/auxiliary_entry',
     breadcrumbName: '辅助工具入库管理',

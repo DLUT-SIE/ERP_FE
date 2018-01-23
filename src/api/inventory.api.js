@@ -162,5 +162,37 @@ export default {
   getAuxiliaryMaterialApplyCardDetails: {
     url: '/api/auxiliary_material_apply_cards/:id/',
     method: 'GET'
+  },
+  getWeldingMaterialEntryCardDetails: {
+    url: '/api/welding_material_entries/:id/',
+    method: 'GET'
+  },
+  getSteelMaterialEntryCardDetails: {
+    url: '/api/steel_material_entries/:id/',
+    method: 'GET'
+  },
+  getBroughtInMaterialEntryCardDetails: {
+    url: '/api/bought_in_component_entries/:id/',
+    method: 'GET'
+  },
+  getAuxiliaryMaterialEntryCardDetail: {
+    url: '/api/auxiliary_material_entries/:id/',
+    method: 'GET'
+  },
+  updateWeldingMaterialEntryCardStatus: {
+    url: '/api/welding_material_entries/:id/',
+    method: 'PATCH'
+  },
+  updateSteelMaterialEntryCardStatus: {
+    url: '/api/steel_material_entries/:id/',
+    method: 'PATCH'
+  },
+  updateBroughtInMaterialEntryCardStatus: {
+    url: '/api/bought_in_component_entries/:id/',
+    method: 'PATCH'
+  },
+  updateAuxiliaryMaterialEntryCardStatus: {
+    url: '/api/auxiliary_material_entries/:id/',
+    method: 'PATCH'
   }
 }
