@@ -79,6 +79,14 @@ export default {
     url: '/api/bidding_sheets/',
     method: 'GET'
   },
+  getBiddingSheet: {
+    url: '/api/bidding_sheets/:id/',
+    method: 'GET'
+  },
+  updateBiddingSheet: {
+    url: '/api/bidding_sheets/:id/',
+    method: 'PATCH'
+  },
   getStatusChanges: {
     url: '/api/status_changes/',
     method: 'GET'
@@ -189,6 +197,14 @@ export default {
   },
   updateBoughtInComponentEntryDetail: {
     url: '/api/bought_in_component_entry_details/:id/',
+    method: 'PATCH'
+  },
+  addSupplyRelationship: {
+    url: '/api/supply_relationships/',
+    method: 'POST'
+  },
+  updateSupplyRelationship: {
+    url: '/api/supply_relationships/',
     method: 'PATCH'
   }
 }
