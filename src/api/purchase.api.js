@@ -7,6 +7,10 @@ export default {
     url: '/api/purchase_orders/:id/',
     method: 'GET'
   },
+  addPurchaseOrders: {
+    url: '/api/purchase_orders/',
+    method: 'POST'
+  },
   updatePurchaseOrder: {
     url: '/api/purchase_orders/:id/',
     method: 'PATCH'
@@ -17,6 +21,10 @@ export default {
   },
   getProcurementMaterials: {
     url: '/api/procurement_materials/',
+    method: 'GET'
+  },
+  getProcurementMaterialsWithStatus: {
+    url: '/api/procurement_materials/?status=1&status=2&status=3',
     method: 'GET'
   },
   updateProcurementMaterial: {
@@ -117,6 +125,18 @@ export default {
   },
   getMaterialExecutions: {
     url: '/api/material_executions/',
+    method: 'GET'
+  },
+  getMaterialExecution: {
+    url: '/api/material_executions/:id/',
+    method: 'GET'
+  },
+  addMaterialExecution: {
+    url: '/api/material_executions/',
+    method: 'POST'
+  },
+  getMaterialExecutionDetails: {
+    url: '/api/material_execution_details/',
     method: 'GET'
   },
   getContracts: {

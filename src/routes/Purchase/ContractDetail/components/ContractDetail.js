@@ -10,7 +10,7 @@ const columns = [
   'submitter', 'amount', 'submit_dt'
 ]
 
-class Contract extends React.Component {
+class ContractDetail extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -93,11 +93,11 @@ class Contract extends React.Component {
   }
 }
 
-Contract.propTypes = {
+ContractDetail.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   getListDataAction: PropTypes.func.isRequired
 }
 
-export default Contract
+export default ContractDetail

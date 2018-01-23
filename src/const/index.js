@@ -446,6 +446,17 @@ export const MATERIAL_CATEGORY_LIST = [
   }
 ]
 
+export const MATERIAL_EXECUTION_CATEGORY_LIST = [
+  {
+    value: 0,
+    label: '主材'
+  },
+  {
+    value: 1,
+    label: '辅材'
+  }
+]
+
 export const UNKNOW_COLUMN = {
   title: '未知标题',
   dataIndex: 'unkow_column',
@@ -1568,5 +1579,45 @@ export const COLUMNS = {
     title: '提交日期',
     key: 'submit_dt',
     dataIndex: 'submit_dt'
+  },
+  batch_number_execution: {
+    title: '出厂批号',
+    key: 'batch_number',
+    dataIndex: 'batch_number'
+  },
+  material_name_execution: {
+    title: '材质',
+    key: 'material_name',
+    dataIndex: 'material_name'
+  },
+  material_uid: {
+    title: '材质编号',
+    key: 'material_uid',
+    dataIndex: 'material_uid'
+  },
+  material_category: {
+    title: '材质类别',
+    key: 'material_category',
+    dataIndex: 'material_category'
+  },
+  weight_execution: {
+    title: '重量',
+    key: 'weight',
+    dataIndex: 'weight'
+  },
+  part: {
+    title: '零件',
+    key: 'part',
+    dataIndex: 'part'
+  },
+  oddments: {
+    title: '余料',
+    key: 'oddments',
+    dataIndex: 'oddments'
+  },
+  material_status: {
+    title: '物料状态',
+    key: 'pretty_status',
+    dataIndex: 'pretty_status'
   }
 }

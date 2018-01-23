@@ -17,6 +17,27 @@
   background-color: @select-dropdown-menu-hover!important;
 }
 
+.ant-table-thead{
+  th{
+    vertical-align: middle!important;
+    text-align: center!important;
+  }
+}
+.ant-table-tbody {
+  td {
+    vertical-align: middle!important;
+    text-align: center!important;
+  }
+}
+.ant-table-tbody > tr {
+  &.ant-table-row-hover,
+  &:hover {
+    & td {
+      background: @table-row-hover-bg!important;
+    }
+  }
+}
+
 .container {
   // 重写ant-select 和 cascader样式
   .select, .cascader{
@@ -27,26 +48,7 @@
       background-color: @select-item-over-bg;
     }
   }
-  .ant-table-thead{
-    th{
-      vertical-align: middle;
-      text-align: center;
-    }
-  }
-  .ant-table-tbody {
-    td {
-      vertical-align: middle;
-      text-align: center;
-    }
-  }
-  .ant-table-tbody > tr {
-    &.ant-table-row-hover,
-    &:hover {
-      & td {
-        background: @table-row-hover-bg;
-      }
-    }
-  }
+
   // 解决表格固定列包含select组件时delete按钮hover会穿透显示的问题
   .ant-table-fixed-right {
     z-index: 1;

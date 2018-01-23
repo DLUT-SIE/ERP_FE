@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import ItemOperationArea from 'components/ItemOperationArea'
 
-class SteelEntryDetailTr extends React.Component {
+class BroughtInEntryDetailTr extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -55,10 +55,10 @@ class SteelEntryDetailTr extends React.Component {
   }
 }
 
-SteelEntryDetailTr.propTypes = {
+BroughtInEntryDetailTr.propTypes = {
   item: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   onEdit: PropTypes.func.isRequired
 }
 
-export default SteelEntryDetailTr
+export default BroughtInEntryDetailTr

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import MaterialSummary from './MaterialSummary'
+import MaterialSummarize from './MaterialSummarize'
 import PendingOrder from './PendingOrder'
 import PurchaseOrderManagement from './PurchaseOrderManagement'
 import PurchaseOrder from './PurchaseOrder'
@@ -13,6 +13,7 @@ import MaterialSubApply from './MaterialSubApply'
 import MaterialSubApplyDetail from './MaterialSubApplyDetail'
 import StatusBackTrack from './StatusBackTrack'
 import StatusHistory from './StatusHistory'
+import MaterialExecutionDetail from './MaterialExecutionDetail'
 import MaterialExecution from './MaterialExecution'
 import Supplier from './Supplier'
 import Quotation from './Quotation'
@@ -28,9 +29,9 @@ const childRoutes = [
     component: PurchaseOrder
   },
   {
-    path: 'material',
+    path: 'material_summarize',
     breadcrumbName: '物料汇总',
-    component: MaterialSummary
+    component: MaterialSummarize
   },
   {
     path: 'pending_order',
@@ -86,6 +87,11 @@ const childRoutes = [
     path: 'status_back_track',
     breadcrumbName: '状态回溯',
     component: StatusBackTrack
+  },
+  {
+    path: 'material_execution/material_execution_detail',
+    breadcrumbName: '材料执行清单',
+    component: MaterialExecutionDetail
   },
   {
     path: 'material_execution',
