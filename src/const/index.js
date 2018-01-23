@@ -475,15 +475,14 @@ export const COLUMNS = {
     key: 'work_order_uid',
     dataIndex: 'work_order_uid'
   },
+  sub_work_order_uid: {
+    title: '子工作令编号',
+    key: 'uid',
+    dataIndex: 'uid'
+  },
   detail: {
     title: '明细表',
-    key: 'detail',
-    dataIndex: 'detail'
-  },
-  contract: {
-    title: '联系单',
-    key: 'contract',
-    dataIndex: 'contract'
+    key: 'detail'
   },
   production_name: {
     title: '产品名称',
@@ -1248,6 +1247,11 @@ export const COLUMNS = {
   },
   remark_order: {
     title: '备注',
+    key: 'process_material.remark',
+    dataIndex: 'process_material.remark'
+  },
+  cooperation_content_order: {
+    title: '协作内容',
     key: 'process_material.remark',
     dataIndex: 'process_material.remark'
   },
