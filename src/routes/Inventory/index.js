@@ -11,6 +11,9 @@ import WeldDetail from './WeldManage/components/WeldEnrty/components/WeldDetail'
 import WeldApplyCard from './WeldManage/components/WeldApplyCard'
 import WeldHumitureRecord from './WeldManage/components/WeldHumitureRecord'
 import WeldRefund from './WeldManage/components/WeldRefund'
+import WeldRefundDetail from './WeldManage/components/WeldRefund/components/WeldRefundCardDetail'
+import SteelRefundDetail from './SteelManage/components/SteelRefund/components/SteelRefundCardDetail'
+import BroughtInRefundDetail from './BroughtInManage/components/BroughtInRefund/components/BroughtInRefundCardDetail'
 import WeldAccount from './WeldManage/components/WeldAccount'
 import WeldEntryAccount from './WeldManage/components/WeldAccount/components/WeldEnrtyAccount'
 import WeldApplyCardAccount from './WeldManage/components/WeldAccount/components/WeldApplyCardAccount'
@@ -71,6 +74,24 @@ const childRoutes = [
     path: 'weld/weld_humiture_record',
     breadcrumbName: '焊材温湿度记录',
     component: WeldHumitureRecord,
+    exact: true
+  },
+  {
+    path:'weld/weld_refund/:id/',
+    breadcrumbName: '焊材退库卡',
+    component: WeldRefundDetail,
+    exact: true
+  },
+  {
+    path:'steel/steel_refund/:id/',
+    breadcrumbName: '钢材退库卡',
+    component: SteelRefundDetail,
+    exact: true
+  },
+  {
+    path:'brought_in/brought_in_refund/:id/',
+    breadcrumbName: '外购件退库卡',
+    component: BroughtInRefundDetail,
     exact: true
   },
   {

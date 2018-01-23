@@ -21,6 +21,12 @@ const mapRequest = {
   bought_in_component_apply_cards: apis.ProductionAPI.getBroughtInMaterialApplyCardDetails,
   auxiliary_material_apply_cards: apis.ProductionAPI.getAuxiliaryMaterialApplyCardDetails
 }
+const updateMapRequest = {
+  welding_material_apply_cards: apis.ProductionAPI.updateWeldingMaterialApplyCardsStatus,
+  steel_material_apply_cards: apis.ProductionAPI.updateSteelMaterialApplyCardsStatus,
+  bought_in_component_apply_cards: apis.ProductionAPI.updateBroughtInMaterialApplyCardsStatus,
+  auxiliary_material_apply_cards: apis.ProductionAPI.updateAuxiliaryMaterialApplyCardsStatus
+}
 class MaterialApplyCard extends React.Component {
   constructor (props) {
     super(props)
@@ -65,9 +71,9 @@ class MaterialApplyCard extends React.Component {
       }
     })
   }
-  changeStatus = (id, actions) => {
+  changeStatus = (type, id, actions) => {
     console.log('actions', actions)
-    fetchAPI(apis.ProductionAPI.updateWeldingMaterialApplyCardsStatus, { status: actions }, { id }).then((repos) => {
+    fetchAPI(updateMapRequest[type], { status: actions }, { id }).then((repos) => {
       console.log('repos', repos)
       message.success('修改成功！')
       this.handleCloseModal()

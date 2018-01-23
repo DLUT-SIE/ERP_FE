@@ -44,9 +44,8 @@ class WeldRefund extends React.Component {
               <Button
                 type='danger'
                 size='small'
-                data-id={record.uid}
               >
-                <Link to={`/inventory/weld/weld_entry/${record.uid}`}>待处理</Link>
+                <Link to={`/inventory/weld/weld_refund/${record.id}`}>待处理</Link>
               </Button>
             )
           } else {
@@ -54,9 +53,8 @@ class WeldRefund extends React.Component {
               <Button
                 type='primary'
                 size='small'
-                data-id={record.uid}
               >
-                <Link to={`/inventory/weld/weld_entry/${record.uid}`}>详情</Link>
+                <Link to={`/inventory/weld/weld_refund/${record.id}`}>详情</Link>
               </Button>
             )
           }

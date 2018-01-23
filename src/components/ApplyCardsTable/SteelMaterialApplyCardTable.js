@@ -7,6 +7,7 @@ import { Row, Col, Button } from 'antd'
 import moment from 'moment'
 import _ from 'lodash'
 import './SteelMaterialApplyCardTable.less'
+import { MATERIAL_APPLY_CARD_TYPE } from 'const'
 
 class SteelMaterialApplyCardTable extends React.Component {
   constructor (props) {
@@ -43,7 +44,7 @@ class SteelMaterialApplyCardTable extends React.Component {
   changeSign = (e) => {
     const { id, actions } = e.target.dataset
     const { changeStatus } = this.props
-    changeStatus && changeStatus(id, actions)
+    changeStatus && changeStatus(MATERIAL_APPLY_CARD_TYPE.STEEL, id, actions)
   }
   getStatusButton = (id, people, status, actions, tarStatus) => {
     if (!_.isNull(people)) {
