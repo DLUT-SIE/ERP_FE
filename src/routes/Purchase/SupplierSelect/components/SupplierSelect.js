@@ -14,7 +14,7 @@ import QuotationModal from './QuotationModal'
 import './SupplierSelect.less'
 
 const columns = [
-  'selected', 'supplier_uid', 'supplier_name', 'supplier_file', 'quotation'
+  'selected', 'supplier_uid', 'supplier_name', 'supplier_file', 'price'
 ]
 
 class SupplierSelect extends React.Component {
@@ -70,7 +70,7 @@ class SupplierSelect extends React.Component {
           ) : ''
         }
       },
-      quotation: {
+      price: {
         render: (text, record, index) => {
           return (
             <Button
@@ -205,7 +205,7 @@ class SupplierSelect extends React.Component {
     return (
       <div className='supplier-select'>
         <OrderForm
-          id={this._id}
+          bidId={this._id}
         />
         <FilterBar
           fieldsValue={query}

@@ -91,15 +91,13 @@ const PurchaseOrderRawTable = (props) => {
               { order.work_order }
             </td>
             <td className='writer-td' colSpan={6}>
-              编制日期: {`${order.lister} ${order.list_dt}`}
+              编制日期: {order.lister} {order.list_dt}
             </td>
             <td className='foreign-purchasing-td' colSpan={5}>
               外采科长：{order.chief} {order.audit_date}
-              }
             </td>
             <td className='approve-td' colSpan={5}>
               批准：{order.approver} {order.approve_dt}
-              }
             </td>
           </tr>
         </tbody>
