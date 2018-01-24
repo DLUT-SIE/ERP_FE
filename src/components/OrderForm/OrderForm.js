@@ -20,9 +20,9 @@ class OrderForm extends React.Component {
   }
 
   componentDidMount () {
-    const { id } = this.props
-    if (!_.isUndefined(id)) {
-      fetchAPI(apis.PurchaseAPI.getBiddingSheet, {}, { id }).then((bid) => {
+    const { bidId } = this.props
+    if (!_.isUndefined(bidId)) {
+      fetchAPI(apis.PurchaseAPI.getBiddingSheet, {}, { id: bidId }).then((bid) => {
         fetchAPI(apis.PurchaseAPI.getPurchaseOrder, {}, { id: bid.purchase_order }).then((order) => {
           this.setState({
             order
@@ -34,6 +34,25 @@ class OrderForm extends React.Component {
           this.setState({
             list: materials.results
           })
+        })
+      })
+      return
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const { orderId, orderUid } = nextProps
+    if (!_.isUndefined(orderId)) {
+      fetchAPI(apis.PurchaseAPI.getPurchaseOrder, {}, { id: orderId }).then((order) => {
+        this.setState({
+          order
+        })
+      })
+      fetchAPI(apis.PurchaseAPI.getProcurementMaterials, {
+        purchase_order_uid: orderUid
+      }).then((materials) => {
+        this.setState({
+          list: materials.results
         })
       })
     }
@@ -78,7 +97,9 @@ class OrderForm extends React.Component {
 }
 
 OrderForm.propTypes = {
-  id: PropTypes.number.isRequired
+  bidId: PropTypes.number,
+  orderId: PropTypes.number,
+  orderUid: PropTypes.string
 }
 
 export default OrderForm
