@@ -7,7 +7,7 @@ import fetchAPI from 'api'
 import { apis } from 'api/config'
 import { Button, Checkbox, message } from 'antd'
 
-import OrderForm from './OrderForm'
+import OrderForm from 'components/OrderForm'
 import FilterBar from './FilterBar'
 import CustomTable from 'components/CustomTable'
 import QuotationModal from './QuotationModal'
@@ -32,14 +32,6 @@ class SupplierSelect extends React.Component {
     if (!_.isUndefined(this._id)) {
       this.props.getListDataAction({
         params: this._query()
-      })
-      fetchAPI(apis.PurchaseAPI.getBiddingSheet, {}, { id: this._id }).then((repos) => {
-        this.props.getPurchaseOrderAction({
-          params: {
-            id: repos.purchase_order,
-            uid: repos.purchase_order_uid
-          }
-        })
       })
     }
   }
@@ -209,14 +201,11 @@ class SupplierSelect extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
-    const order = _.get(mydata, 'order', {})
-    const materialList = _.get(mydata, 'materialList', [])
     const quotationModal = _.get(mydata, 'quotationModal', {})
     return (
       <div className='supplier-select'>
         <OrderForm
-          order={order}
-          list={materialList}
+          id={this._id}
         />
         <FilterBar
           fieldsValue={query}
@@ -267,7 +256,6 @@ SupplierSelect.propTypes = {
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   getListDataAction: PropTypes.func.isRequired,
-  getPurchaseOrderAction: PropTypes.func.isRequired,
   changeQuotationModalAction: PropTypes.func.isRequired
 }
 

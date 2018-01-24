@@ -9,8 +9,6 @@ import { apis } from 'api/config'
 
 const SUPPLIERSELECT_GET_LIST_DATA = 'SUPPLIERSELECT_GET_LIST_DATA'
 const SUPPLIERSELECT_ADD_LIST_DATA = 'SUPPLIERSELECT_ADD_LIST_DATA'
-const SUPPLIERSELECT_GET_ORDER_DATA = 'SUPPLIERSELECT_GET_ORDER_DATA'
-const SUPPLIERSELECT_ADD_ORDER_DATA = 'SUPPLIERSELECT_ADD_ORDER_DATA'
 const SUPPLIERSELECT_CHANGE_QUOTATION_MODAL = 'SUPPLIERSELECT_CHANGE_QUOTATION_MODAL'
 const PAGE_SIZE = 10
 
@@ -32,20 +30,6 @@ function addListDataAction (payload = {}) {
   }
 }
 
-function getPurchaseOrderAction (body) {
-  return {
-    type    : SUPPLIERSELECT_GET_ORDER_DATA,
-    payload : body
-  }
-}
-
-function addPurchaseOrderAction (payload = {}) {
-  return {
-    type    : SUPPLIERSELECT_ADD_ORDER_DATA,
-    payload : payload
-  }
-}
-
 function changeQuotationModalAction (payload = {}) {
   return {
     type    : SUPPLIERSELECT_CHANGE_QUOTATION_MODAL,
@@ -56,7 +40,6 @@ function changeQuotationModalAction (payload = {}) {
 export const actions = {
   getListDataAction,
   addListDataAction,
-  getPurchaseOrderAction,
   changeQuotationModalAction
 }
 
@@ -95,13 +78,6 @@ export default function SupplierSelect (state = initialState, action) {
         loading: false
       })
     },
-    SUPPLIERSELECT_ADD_ORDER_DATA () {
-      const { orderData, materialData } = action.payload
-      return state.merge({
-        order: orderData,
-        materialList: materialData.results
-      })
-    },
     SUPPLIERSELECT_CHANGE_QUOTATION_MODAL () {
       return state.mergeIn(['quotationModal'], action.payload)
     }
@@ -127,19 +103,6 @@ export function *getListSaga (type, body) {
   }
 }
 
-export function *getOrderSaga (type, body) {
-  while (true) {
-    const { payload = {} } = yield take(SUPPLIERSELECT_GET_ORDER_DATA)
-    const { params } = payload
-    const [ orderData, materialData ] = yield [
-      call(fetchAPI, apis.PurchaseAPI.getPurchaseOrder, {}, { id: params.id }),
-      call(fetchAPI, apis.PurchaseAPI.getProcurementMaterials, { purchase_order_uid: params.uid })
-    ]
-    yield put(addPurchaseOrderAction({ orderData, materialData }))
-  }
-}
-
 export const sagas = [
-  getListSaga,
-  getOrderSaga
+  getListSaga
 ]
