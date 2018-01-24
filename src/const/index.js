@@ -1450,10 +1450,10 @@ export const COLUMNS = {
     title: '相关文件下载',
     key: 'supplier_file'
   },
-  quotation: {
+  price: {
     title: '报价',
-    key: 'quotation',
-    dataIndex: 'quotation'
+    key: 'price',
+    dataIndex: 'price'
   },
   upload_supplier_file: {
     title: '上传文件',
@@ -1667,8 +1667,8 @@ export const COLUMNS = {
     title: '状态回溯',
     key: 'status_backtrack'
   },
-  choose: {
+  selected: {
     title: '选择',
-    key: 'choose'
+    key: 'selected'
   }
 }

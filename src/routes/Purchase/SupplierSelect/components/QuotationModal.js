@@ -6,7 +6,7 @@ import { Modal } from 'antd'
 import CustomTable from 'components/CustomTable'
 
 const columns = [
-  'pretty_inventory_type', 'name_spec', 'material_mark_quotation', 'unit_price', 'unit', 'quotation'
+  'pretty_inventory_type', 'name_spec', 'material_mark_quotation', 'unit_price', 'unit', 'price'
 ]
 
 class QuotationModal extends React.Component {

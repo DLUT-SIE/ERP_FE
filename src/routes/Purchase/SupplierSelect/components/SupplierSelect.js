@@ -14,7 +14,7 @@ import QuotationModal from './QuotationModal'
 import './SupplierSelect.less'
 
 const columns = [
-  'choose', 'supplier_uid', 'supplier_name', 'supplier_file', 'quotation'
+  'selected', 'supplier_uid', 'supplier_name', 'supplier_file', 'quotation'
 ]
 
 class SupplierSelect extends React.Component {
@@ -46,9 +46,9 @@ class SupplierSelect extends React.Component {
 
   buildColumns () {
     return util.buildColumns(columns, {
-      choose: {
+      selected: {
         render: (text, record, index) => {
-          return record.choose ? '已选择' : (
+          return record.selected ? '已选择' : (
             <Checkbox
               id={record.id}
               onChange={this.handleChangeCheckbox}
