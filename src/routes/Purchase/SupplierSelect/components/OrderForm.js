@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PurchaseOrderRawTable from './PurchaseOrderRawTable'
-import PurchaseOrderNormalTable from './PurchaseOrderNormalTable'
-import PurchaseOrderWeldTable from './PurchaseOrderWeldTable'
+import PurchaseOrderRawTable from 'components/PurchaseOrderRawTable'
+import PurchaseOrderNormalTable from 'components/PurchaseOrderNormalTable'
+import PurchaseOrderWeldTable from 'components/PurchaseOrderWeldTable'
 import './OrderForm.less'
 
 class OrderForm extends React.Component {
