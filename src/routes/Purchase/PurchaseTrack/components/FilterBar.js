@@ -44,7 +44,7 @@ class FilterBar extends React.Component {
             htmlType='submit'
             onClick={this.handleSubmit}
           >
-            标单查询
+            进行中标单查询
           </Button>
         </FormItem>
       </Form>
