@@ -5,7 +5,7 @@ import _ from 'lodash'
 import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
-import { Button, Checkbox, message } from 'antd'
+import { Button, Checkbox, Popconfirm, message } from 'antd'
 
 import OrderForm from 'components/OrderForm'
 import FilterBar from './FilterBar'
@@ -97,7 +97,8 @@ class SupplierSelect extends React.Component {
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
     return Object.assign({
-      page: 1
+      page: 1,
+      id: this._id
     }, oldQuery, query)
   }
 
@@ -179,7 +180,7 @@ class SupplierSelect extends React.Component {
   }
 
   handleReset = () => {
-    fetchAPI(apis.PurchaseAPI.updateSupplyRelationship, { bidding_sheet: this._id }).then((repos) => {
+    fetchAPI(apis.PurchaseAPI.resetSupplyRelationships, {}, { id: this._id }).then((repos) => {
       message.success('重置成功！')
       this.updatelist()
     })
@@ -226,12 +227,18 @@ class SupplierSelect extends React.Component {
           >
             供应商选择确认
           </Button>
-          <Button
-            type='danger'
-            onClick={this.handleReset}
+          <Popconfirm
+            title='确定重置吗？'
+            onConfirm={this.handleReset}
+            okText='确定'
+            cancelText='取消'
           >
-            供应商选择重置
-          </Button>
+            <Button
+              type='danger'
+            >
+              供应商选择重置
+            </Button>
+          </Popconfirm>
           <Button
             type='success'
             onClick={this.handleSubmit}

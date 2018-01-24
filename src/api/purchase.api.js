@@ -79,6 +79,10 @@ export default {
     url: '/api/bidding_sheets/',
     method: 'GET'
   },
+  getBiddingSheetsWithStatus: {
+    url: '/api/bidding_sheets/?status=2&status=3&status=4&status=5&status=6&status=7&status=8',
+    method: 'GET'
+  },
   getBiddingSheet: {
     url: '/api/bidding_sheets/:id/',
     method: 'GET'
@@ -203,8 +207,20 @@ export default {
     url: '/api/supply_relationships/',
     method: 'POST'
   },
-  updateSupplyRelationship: {
-    url: '/api/supply_relationships/',
-    method: 'PATCH'
+  resetSupplyRelationships: {
+    url: '/api/supply_relationships/reset/',
+    method: 'GET'
+  },
+  getProcessFollowingInfos: {
+    url: '/api/process_following_infos/',
+    method: 'GET'
+  },
+  addProcessFollowingInfo: {
+    url: '/api/process_following_infos/',
+    method: 'POST'
+  },
+  getSuppliersWithBiddingSheet: {
+    url: '/api/suppliers/bidding_sheet/',
+    method: 'GET'
   }
 }
