@@ -42,7 +42,7 @@ class OrderForm extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     const { orderId, orderUid } = nextProps
-    if (!_.isUndefined(orderId)) {
+    if (!_.isUndefined(orderId) && nextProps.orderId !== this.props.orderId) {
       fetchAPI(apis.PurchaseAPI.getPurchaseOrder, {}, { id: orderId }).then((order) => {
         this.setState({
           order
