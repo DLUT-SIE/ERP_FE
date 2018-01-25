@@ -80,7 +80,7 @@ export default {
     method: 'GET'
   },
   getBiddingSheetsWithStatus: {
-    url: '/api/bidding_sheets/?status=2&status=3&status=4&status=5&status=6&status=7&status=8',
+    url: '/api/bidding_sheets/?status=1&status=2&status=3&status=4&status=5&status=6&status=7&status=8',
     method: 'GET'
   },
   getBiddingSheet: {
@@ -222,5 +222,13 @@ export default {
   getSuppliersWithBiddingSheet: {
     url: '/api/suppliers/bidding_sheet/',
     method: 'GET'
+  },
+  getArrivalInspections: {
+    url: '/api/arrival_inspections/',
+    method: 'GET'
+  },
+  updateArrivalInspections: {
+    url: '/api/suppliers/arrival_inspections/:id',
+    method: 'PATCH'
   }
 }

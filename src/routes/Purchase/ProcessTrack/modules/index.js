@@ -7,9 +7,9 @@ import { apis } from 'api/config'
 // Constants
 // ------------------------------------
 
-const TRACK_GET_LIST_DATA = 'TRACK_GET_LIST_DATA'
-const TRACK_ADD_LIST_DATA = 'TRACK_ADD_LIST_DATA'
-const TRACK_CHANGE_STATUS_MODAL = 'TRACK_CHANGE_STATUS_MODAL'
+const PROCESSTRACK_GET_LIST_DATA = 'PROCESSTRACK_GET_LIST_DATA'
+const PROCESSTRACK_ADD_LIST_DATA = 'PROCESSTRACK_ADD_LIST_DATA'
+const PROCESSTRACK_CHANGE_TRACK_MODAL = 'PROCESSTRACK_CHANGE_TRACK_MODAL'
 const PAGE_SIZE = 10
 
 // ------------------------------------
@@ -18,21 +18,21 @@ const PAGE_SIZE = 10
 
 function getListDataAction (body) {
   return {
-    type    : TRACK_GET_LIST_DATA,
+    type    : PROCESSTRACK_GET_LIST_DATA,
     payload : body
   }
 }
 
 function addListDataAction (payload = {}) {
   return {
-    type    : TRACK_ADD_LIST_DATA,
+    type    : PROCESSTRACK_ADD_LIST_DATA,
     payload : payload
   }
 }
 
-function changeStatusModalAction (payload = {}) {
+function changeTrackModal (payload = {}) {
   return {
-    type    : TRACK_CHANGE_STATUS_MODAL,
+    type    : PROCESSTRACK_CHANGE_TRACK_MODAL,
     payload : payload
   }
 }
@@ -40,7 +40,7 @@ function changeStatusModalAction (payload = {}) {
 export const actions = {
   getListDataAction,
   addListDataAction,
-  changeStatusModalAction
+  changeTrackModal
 }
 
 // ------------------------------------
@@ -51,14 +51,14 @@ var initialState = Immutable.fromJS({
   pagination: {
     pageSize: 10
   },
-  statusModal: {
+  trackModal: {
     visible: false
   }
 })
 
-export default function PurchaseTrack (state = initialState, action) {
+export default function ProcessTrack (state = initialState, action) {
   var map = {
-    TRACK_GET_LIST_DATA () {
+    PROCESSTRACK_GET_LIST_DATA () {
       let { params = {} } = action.payload
       return state.mergeIn(
         ['pagination'], {
@@ -69,7 +69,7 @@ export default function PurchaseTrack (state = initialState, action) {
         'loading', true
       )
     },
-    TRACK_ADD_LIST_DATA () {
+    PROCESSTRACK_ADD_LIST_DATA () {
       let { data } = action.payload
       return state.mergeIn(
         ['pagination'], { total: data.count }
@@ -78,8 +78,8 @@ export default function PurchaseTrack (state = initialState, action) {
         loading: false
       })
     },
-    TRACK_CHANGE_STATUS_MODAL () {
-      return state.mergeIn(['statusModal'], action.payload)
+    PROCESSTRACK_CHANGE_TRACK_MODAL () {
+      return state.mergeIn(['trackModal'], action.payload)
     }
   }
 
@@ -95,9 +95,9 @@ export default function PurchaseTrack (state = initialState, action) {
 // ------------------------------------
 export function *getListSaga (type, body) {
   while (true) {
-    const { payload = {} } = yield take(TRACK_GET_LIST_DATA)
+    const { payload = {} } = yield take(PROCESSTRACK_GET_LIST_DATA)
     const { callback, params } = payload
-    const data = yield call(fetchAPI, apis.PurchaseAPI.getBiddingSheetsWithStatus, params)
+    const data = yield call(fetchAPI, apis.PurchaseAPI.getProcessFollowingInfos, params)
     callback && callback(data)
     yield put(addListDataAction({ data }))
   }

@@ -471,6 +471,17 @@ export const BID_STATUS_MAP = {
   '标单终止': 10
 }
 
+export const CALL_FOR_BID_CATEGORY_LIST = [
+  {
+    value: 0,
+    label: '填写招标申请表'
+  },
+  {
+    value: 1,
+    label: '填写比质比价卡'
+  }
+]
+
 export const UNKNOW_COLUMN = {
   title: '未知标题',
   dataIndex: 'unkow_column',
@@ -1648,7 +1659,7 @@ export const COLUMNS = {
     key: 'call_for_bid'
   },
   process_track: {
-    title: '过程跟踪',
+    title: '进程跟踪',
     key: 'process_track'
   },
   checkout_entry: {
@@ -1670,5 +1681,50 @@ export const COLUMNS = {
   selected: {
     title: '选择',
     key: 'selected'
+  },
+  following_dt: {
+    title: '跟踪日期',
+    key: 'following_dt',
+    dataIndex: 'following_dt'
+  },
+  following_method: {
+    title: '跟踪方式',
+    key: 'following_method',
+    dataIndex: 'following_method'
+  },
+  following_feedback: {
+    title: '跟踪反馈',
+    key: 'following_feedback',
+    dataIndex: 'following_feedback'
+  },
+  executor: {
+    title: '执行人',
+    key: 'executor',
+    dataIndex: 'executor'
+  },
+  inform_process: {
+    title: '是否联系工艺部门',
+    key: 'inform_process',
+    dataIndex: 'inform_process'
+  },
+  bid_pretty_status: {
+    title: '状态',
+    key: 'pretty_status',
+    dataIndex: 'pretty_status'
+  },
+  material_confirm: {
+    title: '实物确认',
+    key: 'material_confirm',
+    dataIndex: 'material_confirm'
+  },
+  soft_confirm: {
+    title: '软件确认',
+    key: 'soft_confirm',
+    dataIndex: 'soft_confirm'
+  },
+  inspection_confirm: {
+    title: '检验通过',
+    key: 'inspection_confirm',
+    dataIndex: 'inspection_confirm'
   }
 }
