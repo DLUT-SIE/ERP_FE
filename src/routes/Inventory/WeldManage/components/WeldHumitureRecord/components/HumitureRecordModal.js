@@ -55,6 +55,9 @@ class HumitureRecordModal extends React.Component {
       if (_.isUndefined(values.remark)) {
         values.remark = ''
       }
+      if (!_.isUndefined(values.keeper)) {
+        delete values.keeper
+      }
       onOk && onOk({
         ...values,
         count: +values.count
@@ -158,10 +161,10 @@ class HumitureRecordModal extends React.Component {
           </Row>
           <Row>
             <Col span={12}>
-              <FormItem label='库管员' {...formItemLayout}>
+              <FormItem label='记录员' {...formItemLayout}>
                 {
                   getFieldDecorator('keeper', fieldsConfig['keeper'])(
-                    <Input placeholder='' />
+                    <Input placeholder='' disabled />
                   )
                 }
               </FormItem>

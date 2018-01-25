@@ -39,7 +39,24 @@ export const CICULATION_ROUTE_LIST = [
     label: 'XZ'
   }
 ]
-
+export const MATERIAL_STATUS = [
+  {
+    value: 0,
+    label: '正常使用'
+  },
+  {
+    value: 1,
+    label: '已用尽'
+  },
+  {
+    value: 2,
+    label: '已过期'
+  },
+  {
+    value: 3,
+    label: '已报废'
+  }
+]
 export const PROCESS_ROUTE_LIST = [
   {
     value: 0,
@@ -1623,5 +1640,25 @@ export const COLUMNS = {
     title: '物料状态',
     key: 'pretty_status',
     dataIndex: 'pretty_status'
+  },
+  standard_num: {
+    title: '标准号',
+    key: 'standard_num',
+    dataIndex: 'standard_num'
+  },
+  heat_num: {
+    title: '炉批号',
+    key: 'heat_num',
+    dataIndex: 'heat_num'
+  },
+  codedmark: {
+    title: '编码标记',
+    key: 'codedmark',
+    dataIndex: 'codedmark'
+  },
+  welding_engineer: {
+    title: '焊接工程师',
+    key: 'welding_engineer',
+    dataIndex: 'welding_engineer'
   }
 }

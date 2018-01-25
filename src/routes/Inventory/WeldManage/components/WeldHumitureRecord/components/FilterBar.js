@@ -60,7 +60,7 @@ class FilterBar extends React.Component {
           </Button>
         </FormItem>
         <FormItem className='float-right'>
-          <Button type='primary' icon='plus' onClick={this.props.onAddClick} >
+          <Button type='success' icon='plus' onClick={this.props.onAddClick} >
             新建记录
           </Button>
         </FormItem>

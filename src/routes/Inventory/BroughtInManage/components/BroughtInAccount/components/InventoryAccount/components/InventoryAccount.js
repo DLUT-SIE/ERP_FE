@@ -63,7 +63,7 @@ class SteelEntryAccount extends React.Component {
   // update
   handleOpenEditModal = (e) => {
     const { id } = e.target.dataset
-    let { url, method } = apis.InventoryAPI.getSteelInventoryAccountDetail
+    let { url, method } = apis.InventoryAPI.getBroughtInInventoryAccountDetail
     url = url(id)
     const api = {
       url,
@@ -80,13 +80,7 @@ class SteelEntryAccount extends React.Component {
   // need update
   handleSave = (fieldsValue) => {
     if (fieldsValue.id) {
-      let { url, method } = apis.InventoryAPI.updateSteelInventoryAccount
-      url = url(fieldsValue.id)
-      const api = {
-        url,
-        method
-      }
-      fetchAPI(api, fieldsValue).then((repos) => {
+      fetchAPI(apis.InventoryAPI.updateBroughtInInventoryAccount, fieldsValue, { id: fieldsValue.id }).then((repos) => {
         this.handleCloseModal()
         message.success('修改成功！')
         this.props.getListDataAction({

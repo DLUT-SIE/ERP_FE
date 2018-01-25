@@ -31,7 +31,6 @@ class WeldMaterialApplyCardTable extends React.Component {
   }
   render () {
     let refundCard = this.props.details
-    console.log('table', refundCard)
     return (
       <div className='material-refund-card-table'>
         <p className='title'><u><span>太重滨海煤化工分公司</span></u></p>
@@ -51,68 +50,70 @@ class WeldMaterialApplyCardTable extends React.Component {
             </Col>
           </Row>
           <table className='table-info'>
-            <tr className='tr-label' >
-              <td rowSpan={2} className='sub-order-uid'>
-                <p><span>工作令</span></p>
-              </td>
-              <td rowSpan={2} className='apply-card-dt'>
-                <p><span>领用时间</span></p>
-              </td>
-              <td rowSpan={2} className='apply-card-uid'>
-                <p><span>领用单编号</span></p>
-              </td>
-              <td rowSpan={2} className='model'>
-                <p><span>型号</span></p>
-              </td>
-              <td rowSpan={2} className='specification'>
-                <p><span>规格</span></p>
-              </td>
-              <td colSpan={2} className='refund-num'>
-                <p><span>退库量</span></p>
-              </td>
-              <td rowSpan={2} className='refund-status'>
-                <p><span>退库状态</span></p>
-              </td>
-            </tr>
-            <tr className='tr-label-row-1'>
-              <td className='weight'>
-                <p><span>重量(kg)</span></p>
-              </td>
-              <td className='count'>
-                <p><span>数量</span></p>
-              </td>
-            </tr>
-            <tr className='tr-value'>
-              <td className='sub-order-uid-value'>
-                <p><span>{refundCard.sub_order_uid}</span></p>
-              </td>
-              <td className='welding-seam-uid-value'>
-                <p><span>{refundCard.apply_card_create_dt && moment(refundCard.apply_card_create_dt).format('YYYY-MM-DD')}</span></p>
-              </td>
-              <td className='apply-card-uid'>
-                <p><span>{refundCard.apply_card_uid}</span></p>
-              </td>
-              <td className='model-value'>
-                <p><span>{refundCard.model}</span></p>
-              </td>
-              <td className='specification-value'>
-                <p><span>{refundCard.specification}</span></p>
-              </td>
-              <td className='refund-value'>
-                <p><span>{refundCard.weight}</span></p>
-              </td>
-              <td className='apply-value'>
-                <p><span>{refundCard.count}</span></p>
-              </td>
-              <td className='material-code-value'>
-                <p><span>{refundCard.pretty_status}</span></p>
-              </td>
-            </tr>
-            <tr className='remark_tr'>
-              <td colSpan={8} className='remark'>
-                <p><span>备注：1、以上六项为领用人填写；2、后一项为发料人填写</span></p>
-              </td>
-            </tr>
+            <tbody>
+              <tr className='tr-label' >
+                <td rowSpan={2} className='sub-order-uid'>
+                  <p><span>工作令</span></p>
+                </td>
+                <td rowSpan={2} className='apply-card-dt'>
+                  <p><span>领用时间</span></p>
+                </td>
+                <td rowSpan={2} className='apply-card-uid'>
+                  <p><span>领用单编号</span></p>
+                </td>
+                <td rowSpan={2} className='model'>
+                  <p><span>型号</span></p>
+                </td>
+                <td rowSpan={2} className='specification'>
+                  <p><span>规格</span></p>
+                </td>
+                <td colSpan={2} className='refund-num'>
+                  <p><span>退库量</span></p>
+                </td>
+                <td rowSpan={2} className='refund-status'>
+                  <p><span>退库状态</span></p>
+                </td>
+              </tr>
+              <tr className='tr-label-row-1'>
+                <td className='weight'>
+                  <p><span>重量(kg)</span></p>
+                </td>
+                <td className='count'>
+                  <p><span>数量</span></p>
+                </td>
+              </tr>
+              <tr className='tr-value'>
+                <td className='sub-order-uid-value'>
+                  <p><span>{refundCard.sub_order_uid}</span></p>
+                </td>
+                <td className='welding-seam-uid-value'>
+                  <p><span>{refundCard.apply_card_create_dt && moment(refundCard.apply_card_create_dt).format('YYYY-MM-DD')}</span></p>
+                </td>
+                <td className='apply-card-uid'>
+                  <p><span>{refundCard.apply_card_uid}</span></p>
+                </td>
+                <td className='model-value'>
+                  <p><span>{refundCard.model}</span></p>
+                </td>
+                <td className='specification-value'>
+                  <p><span>{refundCard.specification}</span></p>
+                </td>
+                <td className='refund-value'>
+                  <p><span>{refundCard.weight}</span></p>
+                </td>
+                <td className='apply-value'>
+                  <p><span>{refundCard.count}</span></p>
+                </td>
+                <td className='material-code-value'>
+                  <p><span>{refundCard.pretty_status}</span></p>
+                </td>
+              </tr>
+              <tr className='remark_tr'>
+                <td colSpan={8} className='remark'>
+                  <p><span>备注：1、以上六项为领用人填写；2、后一项为发料人填写</span></p>
+                </td>
+              </tr>
+            </tbody>
           </table>
           <Row className='actions'>
             <Col span={12}>

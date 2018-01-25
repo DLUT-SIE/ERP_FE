@@ -6,13 +6,17 @@ import util, { makeFields } from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 import { Button, message, Form, Input } from 'antd'
+import './BasicDataHumitureRecord.less'
 
 const columns = [
   'create_dt', 'keeper', 'action'
 ]
 const formItemLayout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 12 }
+  labelCol: { span: 3 },
+  wrapperCol: { span: 8 }
+}
+const formItemLayout2 = {
+  wrapperCol: { span: 11 }
 }
 const fieldsConfig = {
   requireTemp: {
@@ -91,21 +95,21 @@ class BasicDataHumitureRecord extends React.Component {
     // const list = _.get(mydata, 'list', [])
     const { getFieldDecorator } = form
     return (
-      <Form>
+      <Form className='basic-data-humiture-record'>
         <FormItem label='要求温度' {...formItemLayout}>
           {
             getFieldDecorator('requireTemp', fieldsConfig['requireTemp'])(
               <Input placeholder='请输入要求温度' />)
           }
         </FormItem>
-        <FormItem label='要求温度' {...formItemLayout}>
+        <FormItem label='要求湿度' {...formItemLayout}>
           {
             getFieldDecorator('requireHumid', fieldsConfig['requireHumid'])(
               <Input placeholder='请输入要求温度' />)
           }
         </FormItem>
-        <FormItem {...formItemLayout}>
-          <Button>确定</Button>
+        <FormItem {...formItemLayout2}>
+          <Button className='float-right' type='success'>确定</Button>
         </FormItem>
       </Form>
     )

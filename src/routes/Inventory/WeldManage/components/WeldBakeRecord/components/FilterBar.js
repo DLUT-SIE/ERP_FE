@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
-import { Form, Button, Input } from 'antd'
+import { Form, Button, DatePicker } from 'antd'
 import './FilterBar.less'
-import { MATERIAL_CATEGORY } from 'const/index'
-import CustomSelect from 'components/CustomSelect'
+import moment from 'moment'
+import { makeFields } from 'utils'
 
 const FormItem = Form.Item
 
@@ -19,6 +18,8 @@ class FilterBar extends React.Component {
     const { onSearch, form } = this.props
     form.validateFields(() => {
       let fieldsValue = form.getFieldsValue()
+      fieldsValue.create_dt_start = fieldsValue.create_dt_start && moment(fieldsValue.create_dt_start).format('YYYY-MM-DD')
+      fieldsValue.create_dt_end = fieldsValue.create_dt_end && moment(fieldsValue.create_dt_end).format('YYYY-MM-DD')
       onSearch && onSearch({
         ...fieldsValue
       })
@@ -28,30 +29,30 @@ class FilterBar extends React.Component {
   render () {
     const { form } = this.props
     const { getFieldDecorator } = form
-    console.log(MATERIAL_CATEGORY)
     return (
       <Form
-        className='warehouse-manage-filterbar'
+        className='pendingorder-filterbar'
         layout='inline'
         onSubmit={this.handleSubmit}
       >
         <FormItem>
-          {getFieldDecorator('name')(
-            <Input className='input' placeholder='库房名称' />
-          )}
+          {
+            getFieldDecorator('create_dt_start')(
+              <DatePicker placeholder='起始日期' />
+            )
+          }
         </FormItem>
         <FormItem>
-          {getFieldDecorator('location')(
-            <Input className='input' placeholder='位置' />
-          )}
-        </FormItem>
-        <FormItem >
           {
-            getFieldDecorator('category')(
-              <CustomSelect
-                placeholder='请选择材料类型'
-                list={MATERIAL_CATEGORY}
-              />
+            getFieldDecorator('create_dt_end')(
+              <DatePicker placeholder='结束日期' />
+            )
+          }
+        </FormItem>
+        <FormItem>
+          {
+            getFieldDecorator('standard_num')(
+              <DatePicker placeholder='标准号' />
             )
           }
         </FormItem>
@@ -67,7 +68,7 @@ class FilterBar extends React.Component {
         </FormItem>
         <FormItem className='float-right'>
           <Button type='success' icon='plus' onClick={this.props.onAddClick} >
-            新增库房
+            新建记录
           </Button>
         </FormItem>
       </Form>
@@ -79,17 +80,6 @@ FilterBar.propTypes = {
   form: PropTypes.object.isRequired,
   onSearch: PropTypes.func.isRequired,
   onAddClick: PropTypes.func.isRequired
-}
-
-let makeFields = function (fieldsValue) {
-  let result = {}
-  _.forEach(fieldsValue, (value, key) => {
-    result[key] = Form.createFormField({ value })
-    if (key === 'category') {
-      result[key] = Form.createFormField({ value: 0 })
-    }
-  })
-  return result
 }
 
 const WrappedForm = Form.create({

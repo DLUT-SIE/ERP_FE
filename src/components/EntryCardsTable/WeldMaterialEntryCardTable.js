@@ -16,7 +16,7 @@ class WeldMaterialEntryCardTable extends React.Component {
   iterateValues = (details) => {
     const lists = details.map((item, index) => {
       return (
-        <tr className='tr-value'>
+        <tr className='tr-value' key={index}>
           <td className='name'>
             <p><span>{item.name}</span></p>
           </td>
@@ -98,77 +98,79 @@ class WeldMaterialEntryCardTable extends React.Component {
             </Col>
           </Row>
           <table className='table-info'>
-            <tr className='tr-label' >
-              <td className='name'>
-                <p><span>名称</span></p>
-              </td>
-              <td className='band-num'>
-                <p><span>牌号</span></p>
-              </td>
-              <td className='model'>
-                <p><span>型号</span></p>
-              </td>
-              <td className='spec'>
-                <p><span>规格</span></p>
-              </td>
-              <td className='weight'>
-                <p><span>公斤数</span></p>
-              </td>
-              <td className='per-weight'>
-                <p><span>单件重量</span></p>
-              </td>
-              <td className='count'>
-                <p><span>件数</span></p>
-              </td>
-              <td className='batch-number'>
-                <p><span>材料批号</span></p>
-              </td>
-              <td className='material-number'>
-                <p><span>材质编号</span></p>
-              </td>
-              <td className='production-dt'>
-                <p><span>出厂日期</span></p>
-              </td>
-              <td className='factory'>
-                <p><span>厂家</span></p>
-              </td>
-              <td className='remark'>
-                <p><span>备注</span></p>
-              </td>
-              <td className='per-price'>
-                <p><span>单价</span></p>
-              </td>
-              <td className='total-price'>
-                <p><span>总价</span></p>
-              </td>
-            </tr>
-            {this.iterateValues(entryCard.details)}
-            <tr className='tr-btns'>
-              <td className='purchaser'>
-                <p><span>采购员</span></p>
-              </td>
-              <td colSpan={2} className='purchaser-value'>
-                <p><span>{this.getStatusButton(entryCard.id, entryCard.purchaser, entryCard.status, entryCard.actions, 0)}</span></p>
-              </td>
-              <td className='inspector'>
-                <p><span>检验员</span></p>
-              </td>
-              <td colSpan={3} className='inspector-value'>
-                <p><span>{this.getStatusButton(entryCard.id, entryCard.inspector, entryCard.status, entryCard.actions, 1)}</span></p>
-              </td>
-              <td className='keeper'>
-                <p><span>库管员</span></p>
-              </td>
-              <td colSpan={3} className='keeper-value'>
-                <p><span>{this.getStatusButton(entryCard.id, entryCard.keeper, entryCard.status, entryCard.actions, 2)}</span></p>
-              </td>
-              <td colSpan={2} className='total-num'>
-                <p><span>合计:</span></p>
-              </td>
-              <td className='total-num-value'>
-                <p><span /></p>
-              </td>
-            </tr>
+            <tbody>
+              <tr className='tr-label' >
+                <td className='name'>
+                  <p><span>名称</span></p>
+                </td>
+                <td className='band-num'>
+                  <p><span>牌号</span></p>
+                </td>
+                <td className='model'>
+                  <p><span>型号</span></p>
+                </td>
+                <td className='spec'>
+                  <p><span>规格</span></p>
+                </td>
+                <td className='weight'>
+                  <p><span>公斤数</span></p>
+                </td>
+                <td className='per-weight'>
+                  <p><span>单件重量</span></p>
+                </td>
+                <td className='count'>
+                  <p><span>件数</span></p>
+                </td>
+                <td className='batch-number'>
+                  <p><span>材料批号</span></p>
+                </td>
+                <td className='material-number'>
+                  <p><span>材质编号</span></p>
+                </td>
+                <td className='production-dt'>
+                  <p><span>出厂日期</span></p>
+                </td>
+                <td className='factory'>
+                  <p><span>厂家</span></p>
+                </td>
+                <td className='remark'>
+                  <p><span>备注</span></p>
+                </td>
+                <td className='per-price'>
+                  <p><span>单价</span></p>
+                </td>
+                <td className='total-price'>
+                  <p><span>总价</span></p>
+                </td>
+              </tr>
+              {this.iterateValues(entryCard.details)}
+              <tr className='tr-btns'>
+                <td className='purchaser'>
+                  <p><span>采购员</span></p>
+                </td>
+                <td colSpan={2} className='purchaser-value'>
+                  <p><span>{this.getStatusButton(entryCard.id, entryCard.purchaser, entryCard.status, entryCard.actions, 0)}</span></p>
+                </td>
+                <td className='inspector'>
+                  <p><span>检验员</span></p>
+                </td>
+                <td colSpan={3} className='inspector-value'>
+                  <p><span>{this.getStatusButton(entryCard.id, entryCard.inspector, entryCard.status, entryCard.actions, 1)}</span></p>
+                </td>
+                <td className='keeper'>
+                  <p><span>库管员</span></p>
+                </td>
+                <td colSpan={3} className='keeper-value'>
+                  <p><span>{this.getStatusButton(entryCard.id, entryCard.keeper, entryCard.status, entryCard.actions, 2)}</span></p>
+                </td>
+                <td colSpan={2} className='total-num'>
+                  <p><span>合计:</span></p>
+                </td>
+                <td className='total-num-value'>
+                  <p><span /></p>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>)

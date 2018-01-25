@@ -5,7 +5,7 @@ import _ from 'lodash'
 import util from 'utils'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
-import { Button, message, Popconfirm } from 'antd'
+import { Button, message, Popconfirm, Divider } from 'antd'
 
 import FilterBar from './FilterBar'
 import WarehouseModal from './WarehouseModal'
@@ -43,7 +43,7 @@ class WarehouseManage extends React.Component {
               >
               修改
             </Button>
-              <span className='ant-divider' />
+              <Divider type='vertical' />
               <Popconfirm
                 title='确定删除吗？'
                 onConfirm={this.handleDelete(record.id)}
@@ -51,7 +51,7 @@ class WarehouseManage extends React.Component {
                 cancelText='取消'
               >
                 <Button
-                  type='primary'
+                  type='danger'
                   size='small'
                 >
                   删除

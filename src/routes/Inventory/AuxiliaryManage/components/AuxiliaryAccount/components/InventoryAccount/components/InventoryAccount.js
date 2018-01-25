@@ -63,7 +63,7 @@ class SteelEntryAccount extends React.Component {
   // update
   handleOpenEditModal = (e) => {
     const { id } = e.target.dataset
-    fetchAPI(apis.InventoryAPI.getSteelInventoryAccountDetail, null, { id: id }).then((resp) => {
+    fetchAPI(apis.InventoryAPI.getAuxiliaryInventoryAccountDetail, null, { id: id }).then((resp) => {
       this.props.changeModalAction({
         visible: true,
         fieldsValue: resp
@@ -74,7 +74,7 @@ class SteelEntryAccount extends React.Component {
   // need update
   handleSave = (fieldsValue) => {
     if (fieldsValue.id) {
-      fetchAPI(apis.InventoryAPI.updateSteelInventoryAccount, fieldsValue, { id: fieldsValue.id }).then((repos) => {
+      fetchAPI(apis.InventoryAPI.updateAuxiliaryInventoryAccount, fieldsValue, { id: fieldsValue.id }).then((repos) => {
         this.handleCloseModal()
         message.success('修改成功！')
         this.props.getListDataAction({

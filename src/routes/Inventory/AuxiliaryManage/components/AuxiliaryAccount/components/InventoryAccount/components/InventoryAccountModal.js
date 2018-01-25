@@ -3,18 +3,14 @@
  */
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Modal, Input, Button, Form } from 'antd'
 import _ from 'lodash'
-import { Modal, Input, Button, Form, Row, Col, Select } from 'antd'
 import './InventoryAccountModal.less'
-import util, { makeFields } from 'utils'
-import moment from 'moment'
-
-import CustomTable from 'components/CustomTable'
+import { makeFields } from 'utils'
+import { MATERIAL_STATUS } from 'const'
+import CustomSelect from 'components/CustomSelect'
 
 const FormItem = Form.Item
-const columns = [
-  'class_name', 'specification', 'create_dt', 'material_batch_number', 'material_code', 'factory', 'weight'
-]
 const formItemLayout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 }
@@ -27,18 +23,9 @@ const fieldsConfig = {
     }]
   }
 }
-class HumitureRecordModal extends React.Component {
+class AuxiliaryInventoryAccountModal extends React.Component {
   constructor (props) {
     super(props)
-  }
-  buildColumns () {
-    return util.buildColumns(columns, {
-      create_dt:{
-        render: (text, record, index) => {
-          return moment(record.create_dt).format('YYYY-MM-DD')
-        }
-      }
-    })
   }
   handleSave = () => {
     const { onOk, form, fieldsValue } = this.props
@@ -58,11 +45,7 @@ class HumitureRecordModal extends React.Component {
       })
     })
   }
-  handleChangeTable = (pagination, filters, sorter) => {
-    this.updateQuery({
-      page: pagination.current > 1 ? pagination.current : ''
-    })
-  }
+
   render () {
     const { visible, form, onCancel } = this.props
     const { getFieldDecorator } = form
@@ -70,8 +53,8 @@ class HumitureRecordModal extends React.Component {
       <Form>
         <Modal
           title='查看材料库存信息'
+          className='auxiliary-inventory-account-modal'
           visible={visible}
-          width={800}
           onOk={this.handleSave}
           onCancel={onCancel}
           footer={[
@@ -90,58 +73,29 @@ class HumitureRecordModal extends React.Component {
             </Button>
           ]}
         >
-          <CustomTable
-            dataSource={[{
-              'id': 1,
-              'class_name': '焊材',
-              'specification': '12312',
-              'create_dt': '2017-12-19',
-              'material_batch_number': '99856',
-              'material_code': '111',
-              'factory': '大连机车厂',
-              'weight': '159'
-            }]}
-            columns={this._columns}
-            size='middle'
-            onChange={this.handleChangeTable}
-          />
-          <Row>
-            <Col span={12}>
-              <FormItem label='数量' {...formItemLayout}>
-                {
-                  getFieldDecorator('weight', fieldsConfig['weight'])(
-                    <Input placeholder='' />
-                  )
-                }
-              </FormItem>
-            </Col>
-            <Col span={12}>
-              <FormItem label='材料状态' {...formItemLayout}>
-                {
-                  getFieldDecorator('status')(
-                    <Select
-                      showSearch
-                      style={{ width: 200 }}
-                      placeholder='Select a person'
-                      optionFilterProp='children'
-                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                    >
-                      <Option value='in_use'>正常使用</Option>
-                      <Option value='use_up'>已用完</Option>
-                      <Option value='out_of_date'>已过期</Option>
-                      <Option value='out_of_use'>已报废</Option>
-                    </Select>
-                  )
-                }
-              </FormItem>
-            </Col>
-          </Row>
+          <FormItem label='数量' {...formItemLayout}>
+            {
+              getFieldDecorator('count', fieldsConfig['count'])(
+                <Input placeholder='' />
+              )
+            }
+          </FormItem>
+          <FormItem label='材料状态' {...formItemLayout}>
+            {
+              getFieldDecorator('status', fieldsConfig['status'])(
+                <CustomSelect
+                  list={MATERIAL_STATUS}
+                  placeholder='请选择材料状态'
+                />
+              )
+            }
+          </FormItem>
         </Modal>
       </Form>
     )
   }
 }
-HumitureRecordModal.propTypes = {
+AuxiliaryInventoryAccountModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   fieldsValue: PropTypes.object.isRequired,
   onOk: PropTypes.func.isRequired,
@@ -153,6 +107,6 @@ const WrappedForm = Form.create({
   mapPropsToFields (props) {
     return makeFields(props.fieldsValue)
   }
-})(HumitureRecordModal)
+})(AuxiliaryInventoryAccountModal)
 
 export default WrappedForm

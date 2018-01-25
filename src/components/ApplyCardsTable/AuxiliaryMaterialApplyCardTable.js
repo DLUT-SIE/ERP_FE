@@ -51,61 +51,63 @@ class AuxiliaryMaterialApplyCardTable extends React.Component {
             </Col>
           </Row>
           <table className='table-info'>
-            <tr className='tr-label' >
-              <td className='menu'>
-                <p><span /></p>
-              </td>
-              <td className='name'>
-                <p><span>材料名称</span></p>
-              </td>
-              <td className='spec'>
-                <p><span>规格</span></p>
-              </td>
-              <td className='department'>
-                <p><span>单位</span></p>
-              </td>
-              <td className='count'>
-                <p><span>数量</span></p>
-              </td>
-            </tr>
-            <tr className='tr-value' >
-              <td className='menu'>
-                <p><span>请领</span></p>
-              </td>
-              <td className='name'>
-                <p><span>{applyCard.apply_inventory_name}</span></p>
-              </td>
-              <td className='spec'>
-                <p><span>{applyCard.specification}</span></p>
-              </td>
-              <td className='department'>
-                <p><span>{applyCard.department}</span></p>
-              </td>
-              <td className='count'>
-                <p><span>{applyCard.apply_count}</span></p>
-              </td>
-            </tr>
-            <tr className='tr-label' >
-              <td className='menu'>
-                <p><span>实发</span></p>
-              </td>
-              <td className='name'>
-                <p><span>{applyCard.actual_inventory_name}</span></p>
-              </td>
-              <td className='spec'>
-                <p><span>{applyCard.specification}</span></p>
-              </td>
-              <td className='department'>
-                <p><span>{applyCard.department}</span></p>
-              </td>
-              <td className='count'>
-                <p><span>{applyCard.actual_count}</span></p>
-              </td>
-            </tr>
-            <tr>
-              <td className='menu'>备注</td>
-              <td colSpan={4} className='remark'>{applyCard.remark}</td>
-            </tr>
+            <tbody>
+              <tr className='tr-label' >
+                <td className='menu'>
+                  <p><span /></p>
+                </td>
+                <td className='name'>
+                  <p><span>材料名称</span></p>
+                </td>
+                <td className='spec'>
+                  <p><span>规格</span></p>
+                </td>
+                <td className='department'>
+                  <p><span>单位</span></p>
+                </td>
+                <td className='count'>
+                  <p><span>数量</span></p>
+                </td>
+              </tr>
+              <tr className='tr-value' >
+                <td className='menu'>
+                  <p><span>请领</span></p>
+                </td>
+                <td className='name'>
+                  <p><span>{applyCard.apply_inventory_name}</span></p>
+                </td>
+                <td className='spec'>
+                  <p><span>{applyCard.specification}</span></p>
+                </td>
+                <td className='department'>
+                  <p><span>{applyCard.department}</span></p>
+                </td>
+                <td className='count'>
+                  <p><span>{applyCard.apply_count}</span></p>
+                </td>
+              </tr>
+              <tr className='tr-label' >
+                <td className='menu'>
+                  <p><span>实发</span></p>
+                </td>
+                <td className='name'>
+                  <p><span>{applyCard.actual_inventory_name}</span></p>
+                </td>
+                <td className='spec'>
+                  <p><span>{applyCard.specification}</span></p>
+                </td>
+                <td className='department'>
+                  <p><span>{applyCard.department}</span></p>
+                </td>
+                <td className='count'>
+                  <p><span>{applyCard.actual_count}</span></p>
+                </td>
+              </tr>
+              <tr>
+                <td className='menu'>备注</td>
+                <td colSpan={4} className='remark'>{applyCard.remark}</td>
+              </tr>
+            </tbody>
           </table>
           <Row className='actions'>
             <Col span={6}>
