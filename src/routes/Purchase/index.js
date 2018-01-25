@@ -5,6 +5,11 @@ import PendingOrder from './PendingOrder'
 import MaterialSummarize from './MaterialSummarize'
 import PurchaseOrderManagement from './PurchaseOrderManagement'
 import PurchaseOrder from './PurchaseOrder'
+import SupplierSelect from './SupplierSelect'
+import CallForBid from './CallForBid'
+import ProcessTrack from './ProcessTrack'
+import CheckoutEntry from './CheckoutEntry'
+import PurchaseTrack from './PurchaseTrack'
 import WeldEntry from './WeldEntry'
 import SteelEntry from './SteelEntry'
 import AuxiliaryEntry from './AuxiliaryEntry'
@@ -48,6 +53,31 @@ const childRoutes = [
     path: 'purchase_order_management',
     breadcrumbName: '订购单管理',
     component: PurchaseOrderManagement
+  },
+  {
+    path: 'purchase_track/supplier_select',
+    breadcrumbName: '供应商选择',
+    component: SupplierSelect
+  },
+  {
+    path: 'purchase_track/call_for_bid',
+    breadcrumbName: '招标',
+    component: CallForBid
+  },
+  {
+    path: 'purchase_track/process_track',
+    breadcrumbName: '过程跟踪',
+    component: ProcessTrack
+  },
+  {
+    path: 'purchase_track/checkout_entry',
+    breadcrumbName: '检验入库',
+    component: CheckoutEntry
+  },
+  {
+    path: 'purchase_track',
+    breadcrumbName: '采购跟踪',
+    component: PurchaseTrack
   },
   {
     path: 'entry_confirm/weld_entry',

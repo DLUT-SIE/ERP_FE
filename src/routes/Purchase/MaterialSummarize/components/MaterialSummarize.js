@@ -70,18 +70,26 @@ class MaterialSummarize extends React.Component {
 
   componentDidMount () {
     const query = this._query()
-    this.props.getListDataAction({
-      params: query,
-      callback: (materialData, purchaseOrderData) => {
-        this.setState({
-          checkedBoolList: _.map(materialData.results, (item) => {
-            return false
-          })
-        }, () => {
-          const columns = this.buildColumns(typeMap[query.inventory_type].columns)
-          this.props.addListDataAction({ materialData, purchaseOrderData, columns })
+    this.fetchData(query, (materialData, purchaseOrderData) => {
+      this.setState({
+        checkedBoolList: _.map(materialData.results, (item) => {
+          return false
         })
-      }
+      }, () => {
+        const columns = this.buildColumns(typeMap[query.inventory_type].columns)
+        this.props.addListDataAction({ materialData, purchaseOrderData, columns })
+      })
+    })
+  }
+
+  fetchData (query, callback) {
+    this.props.getListDataAction({
+      params: {
+        inventory_type: 0,
+        finished: false,
+        ...query
+      },
+      callback
     })
   }
 
@@ -130,9 +138,7 @@ class MaterialSummarize extends React.Component {
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
     return Object.assign({
-      page: 1,
-      inventory_type: 0,
-      finished: false
+      page: 1
     }, oldQuery, query)
   }
 
@@ -154,18 +160,15 @@ class MaterialSummarize extends React.Component {
   }
 
   updatelist (query = QueryString.parse(this.props.location.search)) {
-    this.props.getListDataAction({
-      params: this._query(query),
-      callback: (materialData, purchaseOrderData) => {
-        this.setState({
-          checkedBoolList: _.map(materialData.results, (item) => {
-            return false
-          })
-        }, () => {
-          const columns = this.buildColumns(typeMap[query.inventory_type].columns)
-          this.props.addListDataAction({ materialData, purchaseOrderData, columns })
+    this.fetchData(query, (materialData, purchaseOrderData) => {
+      this.setState({
+        checkedBoolList: _.map(materialData.results, (item) => {
+          return false
         })
-      }
+      }, () => {
+        const columns = this.buildColumns(typeMap[query.inventory_type].columns)
+        this.props.addListDataAction({ materialData, purchaseOrderData, columns })
+      })
     })
   }
 

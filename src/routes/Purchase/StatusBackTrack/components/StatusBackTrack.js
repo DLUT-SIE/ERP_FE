@@ -10,7 +10,7 @@ import { Button, message } from 'antd'
 
 import FilterBar from './FilterBar.js'
 import CustomTable from 'components/CustomTable'
-import StatusModal from './StatusModal'
+import StatusModal from 'components/StatusModal'
 
 const columns = [
   'bidding_sheet_uid', 'bidding_sheet_status', 'history', 'change_status'
@@ -113,8 +113,8 @@ class StatusBackTrack extends React.Component {
       fieldsValue: {
         bidding_sheet_id: fieldsValue.id,
         bidding_sheet: fieldsValue.uid,
-        original_status_id: fieldsValue.status,
-        original_status: fieldsValue.status_name
+        original_status: fieldsValue.status,
+        pretty_original_status: fieldsValue.pretty_status
       }
     })
   }

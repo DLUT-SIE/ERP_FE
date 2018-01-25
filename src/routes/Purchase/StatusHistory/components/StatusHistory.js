@@ -95,7 +95,7 @@ class StatusHistory extends React.Component {
     const pagination = _.get(mydata, 'pagination', {})
     return (
       <div className='status-history'>
-        <h1>标单标号：{this._uid}</h1>
+        <h1>标单编号：{this._uid}</h1>
         <CustomTable
           dataSource={list}
           columns={this._columns}

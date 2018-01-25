@@ -90,6 +90,10 @@ const config = {
             "name": "订购单管理",
             "children": []
         }, {
+            "code": "menu.purchase.purchase_track",
+            "name": "采购跟踪",
+            "children": []
+        }, {
             "code": "menu.purchase.entry_confirm",
             "name": "入库确认",
             "children": []
