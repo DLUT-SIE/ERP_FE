@@ -69,12 +69,20 @@ class DetailTable extends React.Component {
   }
 
   componentDidMount () {
+    this.fetchData(this._query(), (data) => {
+      const columns = this.buildColumns(typeMap[this._type].columns)
+      this.props.addListDataAction({ data, columns })
+    })
+  }
+
+  fetchData (query, callback) {
     this.props.getListDataAction({
-      params: this._query(),
-      callback: (data) => {
-        const columns = this.buildColumns(typeMap[this._type].columns)
-        this.props.addListDataAction({ data, columns })
-      }
+      params: {
+        inventory_type: +this._type,
+        sub_work_order_uid: this._uid,
+        ...query
+      },
+      callback
     })
   }
 
@@ -105,9 +113,7 @@ class DetailTable extends React.Component {
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
     return Object.assign({
-      page: 1,
-      inventory_type: +this._type,
-      sub_work_order_uid: this._uid
+      page: 1
     }, oldQuery, query)
   }
 
@@ -129,9 +135,7 @@ class DetailTable extends React.Component {
   }
 
   updatelist (query = QueryString.parse(this.props.location.search)) {
-    this.props.getListDataAction({
-      params: this._query(query)
-    })
+    this.fetchData(query)
   }
 
   handleChangeTable = (pagination, filters, sorter) => {

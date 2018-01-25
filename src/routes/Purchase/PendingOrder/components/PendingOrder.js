@@ -23,21 +23,29 @@ class PendingOrder extends React.Component {
     this.state = {
       typeList: []
     }
-    this._columns = this.buildColumns()
-    MATERIAL_CATEGORY_LIST.shift()
   }
 
   componentDidMount () {
+    this.fetchData(this._query(), (repos) => {
+      const typeList = _.map(repos.results, (item) => {
+        return -1
+      })
+      this.setState({
+        typeList
+      }, () => {
+        const columns = this.buildColumns()
+        this.props.addListDataAction({ data: repos, columns })
+      })
+    })
+  }
+
+  fetchData (query, callback) {
     this.props.getListDataAction({
-      params: this._query(),
-      callback: (repos) => {
-        const typeList = _.map(repos.results, (item) => {
-          return 0
-        })
-        this.setState({
-          typeList
-        })
-      }
+      params: {
+        finished: false,
+        ...query
+      },
+      callback
     })
   }
 
@@ -100,8 +108,7 @@ class PendingOrder extends React.Component {
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
     return Object.assign({
-      page: 1,
-      finished: false
+      page: 1
     }, oldQuery, query)
   }
 
@@ -123,9 +130,7 @@ class PendingOrder extends React.Component {
   }
 
   updatelist (query = QueryString.parse(this.props.location.search)) {
-    this.props.getListDataAction({
-      params: this._query(query)
-    })
+    this.fetchData(query)
   }
 
   handleChangeTable = (pagination, filters, sorter) => {
@@ -157,6 +162,10 @@ class PendingOrder extends React.Component {
     const { uid, index } = e.target.dataset
     const { typeList } = this.state
     const type = typeList[index]
+    if (type === -1) {
+      message.warning('请先选择要查看的明细表类别！')
+      return
+    }
     this.props.history.push({
       pathname: '/purchase/pending_order/detail_table/',
       search: `?sub_work_order_uid=${uid}&inventory_type=${type}`
@@ -170,6 +179,7 @@ class PendingOrder extends React.Component {
     const list = _.get(mydata, 'list', [])
     const loading = _.get(mydata, 'loading')
     const pagination = _.get(mydata, 'pagination', {})
+    const columns = _.get(mydata, 'columns', [])
     return (
       <div className='pending-order'>
         <FilterBar
@@ -178,7 +188,7 @@ class PendingOrder extends React.Component {
         />
         <CustomTable
           dataSource={list}
-          columns={this._columns}
+          columns={columns}
           loading={loading}
           pagination={pagination}
           size='middle'
@@ -193,7 +203,8 @@ PendingOrder.propTypes = {
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
-  getListDataAction: PropTypes.func.isRequired
+  getListDataAction: PropTypes.func.isRequired,
+  addListDataAction: PropTypes.func.isRequired
 }
 
 export default PendingOrder

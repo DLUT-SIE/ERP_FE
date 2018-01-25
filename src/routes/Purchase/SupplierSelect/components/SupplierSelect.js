@@ -30,10 +30,18 @@ class SupplierSelect extends React.Component {
 
   componentDidMount () {
     if (!_.isUndefined(this._id)) {
-      this.props.getListDataAction({
-        params: this._query()
-      })
+      this.fetchData(this._query())
     }
+  }
+
+  fetchData (query, callback) {
+    this.props.getListDataAction({
+      params: {
+        id: this._id,
+        ...query
+      },
+      callback
+    })
   }
 
   buildColumns () {
@@ -97,8 +105,7 @@ class SupplierSelect extends React.Component {
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
     return Object.assign({
-      page: 1,
-      id: this._id
+      page: 1
     }, oldQuery, query)
   }
 
@@ -120,13 +127,10 @@ class SupplierSelect extends React.Component {
   }
 
   updatelist (query = QueryString.parse(this.props.location.search)) {
-    this.props.getListDataAction({
-      params: this._query(query),
-      callback: () => {
-        this.setState({
-          checkedList: []
-        })
-      }
+    this.fetchData(query, () => {
+      this.setState({
+        checkedList: []
+      })
     })
   }
 

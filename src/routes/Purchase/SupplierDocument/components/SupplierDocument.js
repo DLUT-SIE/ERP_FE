@@ -20,13 +20,20 @@ class SupplierDocument extends React.Component {
     this.state = {}
     const query = QueryString.parse(this.props.location.search)
     this._id = +query.id
-    this._uid = +query.uid
+    this._uid = query.uid
     this._columns = this.buildColumns()
   }
 
   componentDidMount () {
+    this.fetchData(this._query())
+  }
+
+  fetchData (query) {
     this.props.getListDataAction({
-      params: this._query()
+      params: {
+        supplier: this._id,
+        ...query
+      }
     })
   }
 
@@ -76,8 +83,7 @@ class SupplierDocument extends React.Component {
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
     return Object.assign({
-      page: 1,
-      supplier: this._id
+      page: 1
     }, oldQuery, query)
   }
 
@@ -99,9 +105,7 @@ class SupplierDocument extends React.Component {
   }
 
   updatelist (query = QueryString.parse(this.props.location.search)) {
-    this.props.getListDataAction({
-      params: this._query(query)
-    })
+    this.fetchData(query)
   }
 
   handleChangeTable = (pagination, filters, sorter) => {
@@ -114,9 +118,7 @@ class SupplierDocument extends React.Component {
     return (e) => {
       fetchAPI(apis.PurchaseAPI.deleteSupplierDocument, {}, { id }).then((repos) => {
         message.success('删除成功！')
-        this.props.getListDataAction({
-          params: this._query()
-        })
+        this.fetchData(this._query())
       })
     }
   }
