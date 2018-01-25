@@ -474,6 +474,31 @@ export const MATERIAL_EXECUTION_CATEGORY_LIST = [
   }
 ]
 
+export const BID_STATUS_MAP = {
+  '标单创建': 0,
+  '供应商选择': 1,
+  '招标申请选择': 2,
+  '招标申请填写': 3,
+  '招标中': 4,
+  '中标确认': 5,
+  '进程跟踪': 6,
+  '标单检验': 7,
+  '标单入库': 8,
+  '标单完成': 9,
+  '标单终止': 10
+}
+
+export const CALL_FOR_BID_CATEGORY_LIST = [
+  {
+    value: 0,
+    label: '填写招标申请表'
+  },
+  {
+    value: 1,
+    label: '填写比质比价卡'
+  }
+]
+
 export const UNKNOW_COLUMN = {
   title: '未知标题',
   dataIndex: 'unkow_column',
@@ -1393,7 +1418,7 @@ export const COLUMNS = {
     dataIndex: 'coating_detail'
   },
   bidding_sheet_uid: {
-    title: '标单',
+    title: '标单编号',
     key: 'uid',
     dataIndex: 'uid'
   },
@@ -1453,16 +1478,17 @@ export const COLUMNS = {
     title: '相关文件下载',
     key: 'supplier_file'
   },
-  quotation: {
+  price: {
     title: '报价',
-    key: 'quotation'
+    key: 'price',
+    dataIndex: 'price'
   },
   upload_supplier_file: {
     title: '上传文件',
     key: 'upload_supplier_file'
   },
   pretty_inventory_type: {
-    title: '库存',
+    title: '明细类别',
     key: 'pretty_inventory_type',
     dataIndex: 'pretty_inventory_type'
   },
@@ -1660,5 +1686,82 @@ export const COLUMNS = {
     title: '焊接工程师',
     key: 'welding_engineer',
     dataIndex: 'welding_engineer'
+  },
+  supplier_select: {
+    title: '供应商选择',
+    key: 'supplier_select'
+  },
+  call_for_bid: {
+    title: '招标',
+    key: 'call_for_bid'
+  },
+  process_track: {
+    title: '进程跟踪',
+    key: 'process_track'
+  },
+  checkout_entry: {
+    title: '检验入库',
+    key: 'checkout_entry'
+  },
+  bid_status: {
+    title: '状态',
+    key: 'bid_status'
+  },
+  status_change_history: {
+    title: '状态更改历史',
+    key: 'status_change_history'
+  },
+  status_backtrack: {
+    title: '状态回溯',
+    key: 'status_backtrack'
+  },
+  selected: {
+    title: '选择',
+    key: 'selected'
+  },
+  following_dt: {
+    title: '跟踪日期',
+    key: 'following_dt',
+    dataIndex: 'following_dt'
+  },
+  following_method: {
+    title: '跟踪方式',
+    key: 'following_method',
+    dataIndex: 'following_method'
+  },
+  following_feedback: {
+    title: '跟踪反馈',
+    key: 'following_feedback',
+    dataIndex: 'following_feedback'
+  },
+  executor: {
+    title: '执行人',
+    key: 'executor',
+    dataIndex: 'executor'
+  },
+  inform_process: {
+    title: '是否联系工艺部门',
+    key: 'inform_process',
+    dataIndex: 'inform_process'
+  },
+  bid_pretty_status: {
+    title: '状态',
+    key: 'pretty_status',
+    dataIndex: 'pretty_status'
+  },
+  material_confirm: {
+    title: '实物确认',
+    key: 'material_confirm',
+    dataIndex: 'material_confirm'
+  },
+  soft_confirm: {
+    title: '软件确认',
+    key: 'soft_confirm',
+    dataIndex: 'soft_confirm'
+  },
+  inspection_confirm: {
+    title: '检验通过',
+    key: 'inspection_confirm',
+    dataIndex: 'inspection_confirm'
   }
 }

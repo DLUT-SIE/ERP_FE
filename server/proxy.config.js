@@ -5,7 +5,8 @@ const proxy = [
   // }
   {
     url: '/api/*',
-    target: 'http://192.168.3.2:8010'
+    // target: 'http://192.168.3.2:8010'
+    target: 'http://192.168.3.91:8000'
   }
 ]
 

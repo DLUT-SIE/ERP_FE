@@ -41,8 +41,8 @@ class StatusModal extends React.Component {
       onOk && onOk({
         new_status: +values.new_status,
         bidding_sheet: fieldsValue.bidding_sheet_id,
-        original_status: fieldsValue.original_status_id,
-        reason: values.reason
+        original_status: fieldsValue.original_status,
+        reason: values.reason || ''
       })
     })
   }
@@ -85,7 +85,7 @@ class StatusModal extends React.Component {
             <Col span={8}>
               <FormItem label='当前状态' {...formItemLayout}>
                 {
-                  getFieldDecorator('original_status', fieldsConfig['original_status'])(
+                  getFieldDecorator('pretty_original_status', fieldsConfig['pretty_original_status'])(
                     <Input disabled />
                   )
                 }

@@ -51,7 +51,10 @@ var initialState = Immutable.fromJS({
   pagination: {
     pageSize: 10
   },
-  columns: []
+  columns: [],
+  modal: {
+    visible: false
+  }
 })
 
 export default function StatusBackTrack (state = initialState, action) {

@@ -1,5 +1,6 @@
 import { put, call, take } from 'redux-saga/effects'
 import Immutable from 'immutable'
+import _ from 'lodash'
 import fetchAPI from 'api'
 import { apis } from 'api/config'
 
@@ -58,13 +59,17 @@ export default function PendingOrder (state = initialState, action) {
       )
     },
     PENDING_ADD_LIST_DATA () {
-      let { data } = action.payload
-      return state.mergeIn(
-        ['pagination'], { total: data.count }
-      ).merge({
+      let { data, columns } = action.payload
+      const params = {
         list: data.results,
         loading: false
-      })
+      }
+      if (!_.isUndefined(columns)) {
+        params.columns = columns
+      }
+      return state.mergeIn(
+        ['pagination'], { total: data.count }
+      ).merge(params)
     }
   }
 
