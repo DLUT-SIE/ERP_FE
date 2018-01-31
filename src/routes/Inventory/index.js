@@ -47,6 +47,7 @@ import AuxiliaryInventoryAccount from './AuxiliaryManage/components/AuxiliaryAcc
 import BasicDataManage from './BasicDataManage'
 import WareHouse from './BasicDataManage/components/Warehouse'
 import TempHumiture from './BasicDataManage/components/TempHumiture'
+import WeldBakeRecord from './WeldManage/components/WeldBakeRecord'
 const childRoutes = [
   {
     path: `weld/weld_entry/:id`,
@@ -76,6 +77,12 @@ const childRoutes = [
     path: 'weld/weld_humiture_record',
     breadcrumbName: '焊材温湿度记录',
     component: WeldHumitureRecord,
+    exact: true
+  },
+  {
+    path: 'weld/weld_bake_record',
+    breadcrumbName: '焊材烘焙记录',
+    component: WeldBakeRecord,
     exact: true
   },
   {

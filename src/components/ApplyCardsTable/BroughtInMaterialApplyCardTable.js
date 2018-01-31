@@ -17,7 +17,7 @@ class BroughtInMaterialApplyCardTable extends React.Component {
   iterateValues = (details) => {
     const lists = details.map((item, index) => {
       return (
-        <tr className='tr-value'>
+        <tr className='tr-value' key={index}>
           <td className='index'>
             <p><span>{index}</span></p>
           </td>
@@ -85,30 +85,32 @@ class BroughtInMaterialApplyCardTable extends React.Component {
             </Col>
           </Row>
           <table className='table-info'>
-            <tr className='tr-label' >
-              <td className='index'>
-                <p><span>序号</span></p>
-              </td>
-              <td className='drawing-number'>
-                <p><span>零件图/标准</span></p>
-              </td>
-              <td className='spec'>
-                <p><span>名称及规格</span></p>
-              </td>
-              <td className='material-mark'>
-                <p><span>材料牌号</span></p>
-              </td>
-              <td className='count'>
-                <p><span>数量</span></p>
-              </td>
-              <td className='material-code'>
-                <p><span>标记号</span></p>
-              </td>
-              <td className='remark'>
-                <p><span>备注</span></p>
-              </td>
-            </tr>
-            {this.iterateValues(applyCard.details)}
+            <tbody>
+              <tr className='tr-label' >
+                <td className='index'>
+                  <p><span>序号</span></p>
+                </td>
+                <td className='drawing-number'>
+                  <p><span>零件图/标准</span></p>
+                </td>
+                <td className='spec'>
+                  <p><span>名称及规格</span></p>
+                </td>
+                <td className='material-mark'>
+                  <p><span>材料牌号</span></p>
+                </td>
+                <td className='count'>
+                  <p><span>数量</span></p>
+                </td>
+                <td className='material-code'>
+                  <p><span>标记号</span></p>
+                </td>
+                <td className='remark'>
+                  <p><span>备注</span></p>
+                </td>
+              </tr>
+              {this.iterateValues(applyCard.details)}
+            </tbody>
           </table>
           <Row className='actions'>
             <Col span={6}>

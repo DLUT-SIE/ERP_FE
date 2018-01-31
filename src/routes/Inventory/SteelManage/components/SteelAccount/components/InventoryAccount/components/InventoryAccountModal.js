@@ -4,39 +4,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import { Modal, Input, Button, Form, Row, Col, Select } from 'antd'
+import { Modal, Input, Button, Form, Row, Col } from 'antd'
+import CustomSelect from 'components/CustomSelect'
 import './InventoryAccountModal.less'
-import util, { makeFields } from 'utils'
-import moment from 'moment'
+import { makeFields } from 'utils'
+import { apis } from 'api/config'
+import fetchAPI from 'api'
 
-import CustomTable from 'components/CustomTable'
 const FormItem = Form.Item
-const columns = [
-  'class_name', 'specification', 'create_dt', 'material_batch_number', 'material_code', 'factory', 'weight'
-]
 const formItemLayout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 }
 }
 
 const fieldsConfig = {
-  weight: {
-    rules:[{ required: true, message:'请输入数量（10:00）' }, {
+  /* weight: {
+    rules:[{ required: true, message:'请输入数量' }, {
       pattern: /^[0-9]+$/, message: '请输入数值！'
     }]
-  }
+  } */
 }
-class HumitureRecordModal extends React.Component {
+class InventoryAccountModal extends React.Component {
   constructor (props) {
     super(props)
+    this.state = {
+      wareHouse: []
+    }
   }
-  buildColumns () {
-    return util.buildColumns(columns, {
-      create_dt:{
-        render: (text, record, index) => {
-          return moment(record.create_dt).format('YYYY-MM-DD')
-        }
-      }
+  componentWillMount () {
+    fetchAPI(apis.InventoryAPI.getWarehouseRecords).then((repos) => {
+      const results = repos.results
+      const list = results.map((item) => {
+        return { value: item.id, label: item.location }
+      })
+      this.setState({ wareHouse: list })
     })
   }
   handleSave = () => {
@@ -73,6 +74,7 @@ class HumitureRecordModal extends React.Component {
           width={800}
           onOk={this.handleSave}
           onCancel={onCancel}
+          className='steel-inventory-account-modal'
           footer={[
             <Button
               key='submit'
@@ -89,24 +91,38 @@ class HumitureRecordModal extends React.Component {
             </Button>
           ]}
         >
-          <CustomTable
-            dataSource={[{
-              'id': 1,
-              'class_name': '焊材',
-              'specification': '12312',
-              'create_dt': '2017-12-19',
-              'material_batch_number': '99856',
-              'material_code': '111',
-              'factory': '大连机车厂',
-              'weight': '159'
-            }]}
-            columns={this._columns}
-            size='middle'
-            onChange={this.handleChangeTable}
-          />
+          <Row>
+            <Col span={12}>
+              <FormItem label='名称及规格' {...formItemLayout}>
+                {
+                  getFieldDecorator('specification', fieldsConfig['specification'])(
+                    <Input placeholder='' />
+                  )
+                }
+              </FormItem>
+            </Col>
+            <Col span={12}>
+              <FormItem label='长度' {...formItemLayout}>
+                {
+                  getFieldDecorator('length', fieldsConfig['length'])(
+                    <Input placeholder='' />
+                  )
+                }
+              </FormItem>
+            </Col>
+          </Row>
           <Row>
             <Col span={12}>
               <FormItem label='数量' {...formItemLayout}>
+                {
+                  getFieldDecorator('count', fieldsConfig['count'])(
+                    <Input placeholder='' />
+                  )
+                }
+              </FormItem>
+            </Col>
+            <Col span={12}>
+              <FormItem label='重量' {...formItemLayout}>
                 {
                   getFieldDecorator('weight', fieldsConfig['weight'])(
                     <Input placeholder='' />
@@ -114,22 +130,16 @@ class HumitureRecordModal extends React.Component {
                 }
               </FormItem>
             </Col>
+          </Row>
+          <Row>
             <Col span={12}>
-              <FormItem label='材料状态' {...formItemLayout}>
+              <FormItem label='库房位置' {...formItemLayout}>
                 {
-                  getFieldDecorator('status')(
-                    <Select
-                      showSearch
-                      style={{ width: 200 }}
-                      placeholder='Select a person'
-                      optionFilterProp='children'
-                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                    >
-                      <Option value='in_use'>正常使用</Option>
-                      <Option value='use_up'>已用完</Option>
-                      <Option value='out_of_date'>已过期</Option>
-                      <Option value='out_of_use'>已报废</Option>
-                    </Select>
+                  getFieldDecorator('location')(
+                    <CustomSelect
+                      list={this.state.wareHouse}
+                      placeholder='请选择库房'
+                    />
                   )
                 }
               </FormItem>
@@ -140,7 +150,7 @@ class HumitureRecordModal extends React.Component {
     )
   }
 }
-HumitureRecordModal.propTypes = {
+InventoryAccountModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   fieldsValue: PropTypes.object.isRequired,
   onOk: PropTypes.func.isRequired,
@@ -152,6 +162,6 @@ const WrappedForm = Form.create({
   mapPropsToFields (props) {
     return makeFields(props.fieldsValue)
   }
-})(HumitureRecordModal)
+})(InventoryAccountModal)
 
 export default WrappedForm

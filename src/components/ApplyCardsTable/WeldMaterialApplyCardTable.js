@@ -52,83 +52,85 @@ class WeldMaterialApplyCardTable extends React.Component {
             </Col>
           </Row>
           <table className='table-info'>
-            <tr className='tr-label' >
-              <td rowSpan={2} className='sub-order-uid'>
-                <p><span>工作令</span></p>
-              </td>
-              <td rowSpan={2} className='welding-seam-uid'>
-                <p><span>焊缝编号</span></p>
-              </td>
-              <td rowSpan={2} className='material-mark'>
-                <p><span>焊材牌号</span></p>
-              </td>
-              <td rowSpan={2} className='model'>
-                <p><span>型号</span></p>
-              </td>
-              <td rowSpan={2} className='specification'>
-                <p><span>规格</span></p>
-              </td>
-              <td colSpan={2} className='apply-num'>
-                <p><span>领用量</span></p>
-              </td>
-              <td rowSpan={2} className='material-code'>
-                <p><span>材质标记</span></p>
-              </td>
-              <td colSpan={2} className='actual-num'>
-                <p><span>实发量</span></p>
-              </td>
-            </tr>
-            <tr className='tr-label-row-1'>
-              <td className='apply-detail'>
-                <p><span>重量(kg)</span></p>
-              </td>
-              <td className='apply-detail'>
-                <p><span>数量</span></p>
-              </td>
-              <td className='apply-detail'>
-                <p><span>重量(kg)</span></p>
-              </td>
-              <td className='apply-detail'>
-                <p><span>数量</span></p>
-              </td>
-            </tr>
-            <tr className='tr-value'>
-              <td className='sub-order-uid-value'>
-                <p><span>{applyCard.sub_order_uid}</span></p>
-              </td>
-              <td className='welding-seam-uid-value'>
-                <p><span>{applyCard.welding_seam_uid}</span></p>
-              </td>
-              <td className='material-mark-value'>
-                <p><span>{applyCard.material_mark}</span></p>
-              </td>
-              <td className='model-value'>
-                <p><span>{applyCard.model}</span></p>
-              </td>
-              <td className='specification-value'>
-                <p><span>{applyCard.specification}</span></p>
-              </td>
-              <td className='apply-value'>
-                <p><span>{applyCard.apply_weight}</span></p>
-              </td>
-              <td className='apply-value'>
-                <p><span>{applyCard.apply_count}</span></p>
-              </td>
-              <td className='material-code-value'>
-                <p><span>{applyCard.material_code}</span></p>
-              </td>
-              <td className='apply-value'>
-                <p><span>{applyCard.actual_weight}</span></p>
-              </td>
-              <td className='apply-value'>
-                <p><span>{applyCard.actual_count}</span></p>
-              </td>
-            </tr>
-            <tr className='remark_tr'>
-              <td colSpan={10} className='remark'>
-                <p><span>备注：1、以上六项为领用人填写；2、后二项为发料人填写</span></p>
-              </td>
-            </tr>
+            <tbody>
+              <tr className='tr-label' >
+                <td rowSpan={2} className='sub-order-uid'>
+                  <p><span>工作令</span></p>
+                </td>
+                <td rowSpan={2} className='welding-seam-uid'>
+                  <p><span>焊缝编号</span></p>
+                </td>
+                <td rowSpan={2} className='material-mark'>
+                  <p><span>焊材牌号</span></p>
+                </td>
+                <td rowSpan={2} className='model'>
+                  <p><span>型号</span></p>
+                </td>
+                <td rowSpan={2} className='specification'>
+                  <p><span>规格</span></p>
+                </td>
+                <td colSpan={2} className='apply-num'>
+                  <p><span>领用量</span></p>
+                </td>
+                <td rowSpan={2} className='material-code'>
+                  <p><span>材质标记</span></p>
+                </td>
+                <td colSpan={2} className='actual-num'>
+                  <p><span>实发量</span></p>
+                </td>
+              </tr>
+              <tr className='tr-label-row-1'>
+                <td className='apply-detail'>
+                  <p><span>重量(kg)</span></p>
+                </td>
+                <td className='apply-detail'>
+                  <p><span>数量</span></p>
+                </td>
+                <td className='apply-detail'>
+                  <p><span>重量(kg)</span></p>
+                </td>
+                <td className='apply-detail'>
+                  <p><span>数量</span></p>
+                </td>
+              </tr>
+              <tr className='tr-value'>
+                <td className='sub-order-uid-value'>
+                  <p><span>{applyCard.sub_order_uid}</span></p>
+                </td>
+                <td className='welding-seam-uid-value'>
+                  <p><span>{applyCard.welding_seam_uid}</span></p>
+                </td>
+                <td className='material-mark-value'>
+                  <p><span>{applyCard.material_mark}</span></p>
+                </td>
+                <td className='model-value'>
+                  <p><span>{applyCard.model}</span></p>
+                </td>
+                <td className='specification-value'>
+                  <p><span>{applyCard.specification}</span></p>
+                </td>
+                <td className='apply-value'>
+                  <p><span>{applyCard.apply_weight}</span></p>
+                </td>
+                <td className='apply-value'>
+                  <p><span>{applyCard.apply_count}</span></p>
+                </td>
+                <td className='material-code-value'>
+                  <p><span>{applyCard.material_code}</span></p>
+                </td>
+                <td className='apply-value'>
+                  <p><span>{applyCard.actual_weight}</span></p>
+                </td>
+                <td className='apply-value'>
+                  <p><span>{applyCard.actual_count}</span></p>
+                </td>
+              </tr>
+              <tr className='remark_tr'>
+                <td colSpan={10} className='remark'>
+                  <p><span>备注：1、以上六项为领用人填写；2、后二项为发料人填写</span></p>
+                </td>
+              </tr>
+            </tbody>
           </table>
           <Row className='actions'>
             <Col span={6}>

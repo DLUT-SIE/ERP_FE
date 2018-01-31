@@ -19,7 +19,7 @@ const WeldSubMenus = [
   },
   {
     icon: 'check-square-o',
-    path: '/inventory/weld/weld_apply_card',
+    path: '/inventory/weld/weld_bake_record',
     breadcrumbName: '焊材烘焙记录'
   },
   {
@@ -31,12 +31,12 @@ const WeldSubMenus = [
     icon: 'check-square-o',
     path: '/inventory/weld/weld_account',
     breadcrumbName: '焊材台账'
-  },
+  }/* ,
   {
     icon: 'check-square-o',
     path: '/inventory/weld/weld_apply_card',
     breadcrumbName: '焊材发放回收记录'
-  }
+  } */
 ]
 const WeldAccountSubMenus = [
   {

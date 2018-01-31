@@ -15,7 +15,7 @@ class BroughtInMaterialEntryCardTable extends React.Component {
   iterateValues = (details) => {
     const lists = details.map((item, index) => {
       return (
-        <tr className='tr-value' >
+        <tr className='tr-value' key={index}>
           <td className='index'>
             <p><span>{index + 1}</span></p>
           </td>
@@ -89,39 +89,41 @@ class BroughtInMaterialEntryCardTable extends React.Component {
             </Col>
           </Row>
           <table className='table-info'>
-            <tr className='tr-label' >
-              <td className='index'>
-                <p><span>序号</span></p>
-              </td>
-              <td className='sub-order'>
-                <p><span>工作令</span></p>
-              </td>
-              <td className='spec-number'>
-                <p><span>标准号或图号</span></p>
-              </td>
-              <td className='spec'>
-                <p><span>名称及规格</span></p>
-              </td>
-              <td className='material-number'>
-                <p><span>材料牌号</span></p>
-              </td>
-              <td className='batch-number'>
-                <p><span>炉批号</span></p>
-              </td>
-              <td className='mark-number'>
-                <p><span>标记号</span></p>
-              </td>
-              <td className='unit'>
-                <p><span>单位</span></p>
-              </td>
-              <td className='count'>
-                <p><span>数量</span></p>
-              </td>
-            </tr>
-            {this.iterateValues(entryCard.details)}
-            <tr>
-              <td className='remark' colSpan={9}><p><span>备注:{entryCard.remark}</span></p></td>
-            </tr>
+            <tbody>
+              <tr className='tr-label' >
+                <td className='index'>
+                  <p><span>序号</span></p>
+                </td>
+                <td className='sub-order'>
+                  <p><span>工作令</span></p>
+                </td>
+                <td className='spec-number'>
+                  <p><span>标准号或图号</span></p>
+                </td>
+                <td className='spec'>
+                  <p><span>名称及规格</span></p>
+                </td>
+                <td className='material-number'>
+                  <p><span>材料牌号</span></p>
+                </td>
+                <td className='batch-number'>
+                  <p><span>炉批号</span></p>
+                </td>
+                <td className='mark-number'>
+                  <p><span>标记号</span></p>
+                </td>
+                <td className='unit'>
+                  <p><span>单位</span></p>
+                </td>
+                <td className='count'>
+                  <p><span>数量</span></p>
+                </td>
+              </tr>
+              {this.iterateValues(entryCard.details)}
+              <tr>
+                <td className='remark' colSpan={9}><p><span>备注:{entryCard.remark}</span></p></td>
+              </tr>
+            </tbody>
           </table>
           <Row className='actions'>
             <Col span={8}>

@@ -26,7 +26,7 @@ class SteelApplyCardAccount extends React.Component {
   }
   buildColumns () {
     return util.buildColumns(columns, {
-      create_dt:{
+      apply_dt:{
         render: (text, record, index) => {
           return moment(record.create_dt).format('YYYY-MM-DD')
         }

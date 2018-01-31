@@ -11,6 +11,22 @@ export default {
     url: '/api/welding_material_humiture_records/',
     method: 'GET'
   },
+  getWeldBakeRecordDetail: {
+    url: '/api/welding_material_bake_records/:id/',
+    method: 'GET'
+  },
+  getWeldBakeRecord: {
+    url: '/api/welding_material_bake_records/',
+    method: 'GET'
+  },
+  updateWeldBakeRecord: {
+    url: '/api/welding_material_bake_records/:id/',
+    method: 'PATCH'
+  },
+  createWeldBakeRecord: {
+    url: '/api/welding_material_bake_records/',
+    method: 'POST'
+  },
   getWeldHumitureRecordDetail: {
     url: '/api/welding_material_humiture_records/:id/',
     method: 'GET'
@@ -40,11 +56,11 @@ export default {
     method: 'GET'
   },
   getWeldInventoryAccountDetail: {
-    url: '/api/welding_material_inventory_ledgers/:id/',
+    url: '/api/welding_material_inventory_details/:id/',
     method: 'GET'
   },
   updateWeldInventoryAccount: {
-    url: '/api/welding_material_inventory_ledgers/:id/',
+    url: '/api/welding_material_inventory_details/:id/',
     method: 'PATCH'
   },
   getSteelEntry: {
@@ -107,6 +123,14 @@ export default {
     url: '/api/bought_in_component_inventory_ledgers/',
     method: 'GET'
   },
+  getBroughtInInventoryAccountDetail: {
+    url: '/api/bought_in_component_inventory_ledgers/:id/',
+    method: 'GET'
+  },
+  updateBroughtInInventoryAccount: {
+    url: '/api/bought_in_component_inventory_details/:id/',
+    method: 'PATCH'
+  },
   getAuxiliaryEntry: {
     url: '/api/auxiliary_material_entries/',
     method: 'GET'
@@ -126,6 +150,14 @@ export default {
   getAuxiliaryInventoryAccount: {
     url: '/api/auxiliary_material_inventory_ledgers/',
     method: 'GET'
+  },
+  getAuxiliaryInventoryAccountDetail: {
+    url: '/api/auxiliary_material_inventory_ledgers/:id/',
+    method: 'GET'
+  },
+  updateAuxiliaryInventoryAccount: {
+    url: '/api/auxiliary_material_inventory_details/:id/',
+    method: 'PATCH'
   },
   getWarehouseRecords: {
     url: '/api/warehouses/',

@@ -16,7 +16,7 @@ class AuxiliaryMaterialEntryCardTable extends React.Component {
   iterateValues = (details) => {
     const lists = details.map((item, index) => {
       return (
-        <tr className='tr-value' >
+        <tr className='tr-value' key={index}>
           <td className='name'>
             <p><span>{item.name}</span></p>
           </td>
@@ -76,30 +76,32 @@ class AuxiliaryMaterialEntryCardTable extends React.Component {
             </Col>
           </Row>
           <table className='table-info'>
-            <tr className='tr-label' >
-              <td className='name'>
-                <p><span>名称</span></p>
-              </td>
-              <td className='spec'>
-                <p><span>规格</span></p>
-              </td>
-              <td className='count'>
-                <p><span>数量</span></p>
-              </td>
-              <td className='factory'>
-                <p><span>厂家</span></p>
-              </td>
-              <td className='supplier'>
-                <p><span>供货商</span></p>
-              </td>
-              <td className='remark'>
-                <p><span>备注</span></p>
-              </td>
-              <td className='unit'>
-                <p><span>单位</span></p>
-              </td>
-            </tr>
-            {this.iterateValues(entryCard.details)}
+            <tbody>
+              <tr className='tr-label' >
+                <td className='name'>
+                  <p><span>名称</span></p>
+                </td>
+                <td className='spec'>
+                  <p><span>规格</span></p>
+                </td>
+                <td className='count'>
+                  <p><span>数量</span></p>
+                </td>
+                <td className='factory'>
+                  <p><span>厂家</span></p>
+                </td>
+                <td className='supplier'>
+                  <p><span>供货商</span></p>
+                </td>
+                <td className='remark'>
+                  <p><span>备注</span></p>
+                </td>
+                <td className='unit'>
+                  <p><span>单位</span></p>
+                </td>
+              </tr>
+              {this.iterateValues(entryCard.details)}
+            </tbody>
           </table>
           <Row className='actions'>
             <Col span={8}>

@@ -17,7 +17,7 @@ class SteelMaterialApplyCardTable extends React.Component {
   iterateValues = (details) => {
     const lists = details.map((item, index) => {
       return (
-        <tr className='tr-value'>
+        <tr className='tr-value' key={index}>
           <td className='sub-order-uid'>
             {item.sub_order_uid}
           </td>
@@ -79,32 +79,34 @@ class SteelMaterialApplyCardTable extends React.Component {
             </Col>
           </Row>
           <table className='table-info'>
-            <tr className='tr-label' >
-              <td className='sub-order-uid'>
-                <p><span>工作令</span></p>
-              </td>
-              <td className='material-mark'>
-                <p><span>钢号</span></p>
-              </td>
-              <td className='material-code'>
-                <p><span>材质编号</span></p>
-              </td>
-              <td className='spec'>
-                <p><span>规格</span></p>
-              </td>
-              <td className='count'>
-                <p><span>数量</span></p>
-              </td>
-              <td className='components'>
-                <p><span>零件编号</span></p>
-              </td>
-            </tr>
-            {this.iterateValues(applyCard.details)}
-            <tr className='remark_tr'>
-              <td colSpan={7} className='remark'>
-                <p><span>备注：1、以上六项为领用人填写；2、后二项为发料人填写</span></p>
-              </td>
-            </tr>
+            <tbody>
+              <tr className='tr-label' >
+                <td className='sub-order-uid'>
+                  <p><span>工作令</span></p>
+                </td>
+                <td className='material-mark'>
+                  <p><span>钢号</span></p>
+                </td>
+                <td className='material-code'>
+                  <p><span>材质编号</span></p>
+                </td>
+                <td className='spec'>
+                  <p><span>规格</span></p>
+                </td>
+                <td className='count'>
+                  <p><span>数量</span></p>
+                </td>
+                <td className='components'>
+                  <p><span>零件编号</span></p>
+                </td>
+              </tr>
+              {this.iterateValues(applyCard.details)}
+              <tr className='remark_tr'>
+                <td colSpan={7} className='remark'>
+                  <p><span>备注：1、以上六项为领用人填写；2、后二项为发料人填写</span></p>
+                </td>
+              </tr>
+            </tbody>
           </table>
           <Row className='actions'>
             <Col span={6}>
