@@ -22,7 +22,6 @@ class TaskAllocationModal extends React.Component {
     this.state = {}
   }
   componentDidMount () {
-    console.log('props', this.props.groups)
     let groups = this.props.groups
     groups = groups.map((item) => {
       return { label: item.name, value: item.id }

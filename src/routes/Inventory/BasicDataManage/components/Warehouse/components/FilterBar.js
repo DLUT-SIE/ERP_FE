@@ -28,7 +28,6 @@ class FilterBar extends React.Component {
   render () {
     const { form } = this.props
     const { getFieldDecorator } = form
-    console.log(MATERIAL_CATEGORY)
     return (
       <Form
         className='warehouse-manage-filterbar'

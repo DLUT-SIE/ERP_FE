@@ -57,7 +57,6 @@ class ProductionPlan extends React.Component {
   }
   handleConfirm = (e) => {
     const { id } = e.target.dataset
-    console.log('id', id)
     fetchAPI(apis.ProductionAPI.updateProcessDetails, null, { id: id }).then((repos) => {
       message.success('修改成功！')
       this.props.getListDataAction({

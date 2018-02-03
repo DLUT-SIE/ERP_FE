@@ -20,7 +20,6 @@ class ProductionPlanModal extends React.Component {
   }
   handleSave = () => {
     const { onOk, form, fieldsValue } = this.props
-    console.log(fieldsValue)
     form.validateFields((err, values) => {
       if (err) {
         return
@@ -34,7 +33,6 @@ class ProductionPlanModal extends React.Component {
         ...values,
         count: +values.count
       })
-      console.log('values', values)
     })
   }
   render () {

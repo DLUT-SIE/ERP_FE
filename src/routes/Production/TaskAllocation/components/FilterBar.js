@@ -19,7 +19,6 @@ class FilterBar extends React.Component {
     const { onSearch, form } = this.props
     form.validateFields(() => {
       let fieldsValue = form.getFieldsValue()
-      console.log(fieldsValue, fieldsValue)
       fieldsValue.plan_status = util.str2bool(fieldsValue.plan_status)
       onSearch && onSearch({
         ...fieldsValue

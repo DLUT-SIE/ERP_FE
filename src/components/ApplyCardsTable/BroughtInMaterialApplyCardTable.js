@@ -61,7 +61,6 @@ class BroughtInMaterialApplyCardTable extends React.Component {
   }
   render () {
     let applyCard = this.props.details
-    console.log('table', applyCard)
     return (
       <div className='brought-in-material-apply-card-table'>
         <p className='title'><u><span>太重滨海煤化工分公司</span></u></p>

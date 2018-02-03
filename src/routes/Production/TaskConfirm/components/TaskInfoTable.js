@@ -11,7 +11,6 @@ class TaskInfoTable extends React.Component {
     this.state = {}
   }
   handleChange = (e) => {
-    console.log(111111111)
     this.setState({ remark: e.target.value })
     this.props.onChange(this.state.remark)
   }
@@ -21,13 +20,11 @@ class TaskInfoTable extends React.Component {
         <Input placeholder='请输入检查内容' type='text' value={this.state.remark} onChange={this.handleChange} className='remark-input' />
       )
     } else {
-      console.log('remark', remark)
       return remark
     }
   }
   render () {
     const { taskInfo } = this.props
-    console.log('taskInfo', taskInfo)
     return (
       <table className='task-info-table'>
         <tbody>
