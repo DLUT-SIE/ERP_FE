@@ -35,7 +35,6 @@ class MaterialApplyCard extends React.Component {
   }
 
   componentDidMount () {
-    console.log(this._query())
     let params = this._query()
     if (_.isUndefined(params.category)) {
       this.setState({ category: MATERIAL_REFUND_CARD_TYPE.WELD })
@@ -140,9 +139,7 @@ class MaterialApplyCard extends React.Component {
     })
   }
   changeStatus = (type, id, actions) => {
-    console.log('actions', actions)
     fetchAPI(updateMapRequest[type], { status: actions }, { id }).then((repos) => {
-      console.log('repos', repos)
       message.success('修改成功！')
       this.handleCloseModal()
     })

@@ -81,7 +81,6 @@ class WeldMaterialEntryCardTable extends React.Component {
   }
   render () {
     let entryCard = this.props.details
-    console.log('table', entryCard)
     return (
       <div className='weld-material-entry-card-table'>
         <p className='title'><u><span>太重滨海煤化工分公司</span></u></p>

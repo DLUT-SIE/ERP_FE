@@ -17,9 +17,7 @@ class MaterialRefundCardModal extends React.Component {
     super(props)
     this.state = {}
   }
-  changeStatus = () => {
-    console.log(1)
-  }
+  changeStatus = () => {}
   render () {
     const { visible, onCancel } = this.props
     return (

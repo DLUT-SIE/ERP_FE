@@ -23,7 +23,6 @@ class AddProductionPlan extends React.Component {
     this.rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
         this.setState({ addLists: selectedRowKeys })
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
       getCheckboxProps: record => ({
         disabled: record.name === 'Disabled User' // Column configuration not to be checked
@@ -63,7 +62,6 @@ class AddProductionPlan extends React.Component {
       return parseInt(item)
     })
     this.createProductionPlan(lists)
-    console.log('addLists', this.state.addLists)
   }
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)

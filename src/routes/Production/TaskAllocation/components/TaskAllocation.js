@@ -43,7 +43,6 @@ class ProductionPlan extends React.Component {
       },
       action: {
         render: (text, record, index) => {
-          console.log(index, record.status)
           if (record.status === PROCESS_DETAIL_STATUS.ALLOCATION) {
             return (
               <Button
@@ -88,7 +87,6 @@ class ProductionPlan extends React.Component {
       url,
       method
     }
-    console.log(api)
     fetchAPI(api).then((repos) => {
       cb(repos.results)
     })
@@ -108,7 +106,6 @@ class ProductionPlan extends React.Component {
     const { id } = e.target.dataset
     let values = {}
     values.status = PROCESS_DETAIL_STATUS.PLANED
-    console.log(values)
     fetchAPI(apis.ProductionAPI.updateProcessDetails, values, { id: id }).then((repos) => {
       this.handleCloseModal()
       message.success('修改成功！')

@@ -89,7 +89,6 @@ export function *getListSaga (type, body) {
     const { payload = {} } = yield take(ADD_APPLY_CARD_GET_LIST_DATA)
     const { callback, params } = payload
     let detailType = mapRequest[params.detail_type]
-    console.log('params', params)
     if (_.isUndefined(detailType)) {
       detailType = apis.ProductionAPI.getWeldingQuotaItems
     }

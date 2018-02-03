@@ -25,12 +25,10 @@ class ProductionPlanModal extends React.Component {
       }
       values.remark = this.state.remark
       values.status = PROCESS_DETAIL_STATUS.INSPECTED
-      console.log('remark', fieldsValue)
       onOk && onOk({
         ...values,
         count: +values.count
       })
-      console.log('values', values)
     })
   }
   getFooter = (status) => {
@@ -63,7 +61,6 @@ class ProductionPlanModal extends React.Component {
   }
   onChange = (remark) => {
     this.state.remark = remark
-    console.log('onchange', remark)
   }
   render () {
     const { visible, onCancel } = this.props

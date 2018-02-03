@@ -7,7 +7,7 @@ class GetComponent extends React.Component {
     return (
       <Bundle load={container}>
         {(Component) => {
-          return <Component />
+          return <Component.default />
         }}
       </Bundle>
     )

@@ -75,7 +75,6 @@ let makeFields = function (fieldsValue) {
   let result = {}
   _.forEach(fieldsValue, (value, key) => {
     result[key] = Form.createFormField({ value })
-    console.log(key, value)
     if (key === 'category' && _.isNull(value)) {
       result[key] = Form.createFormField({ value: 'welding_material_apply_cards' })
     }

@@ -67,7 +67,6 @@ class SteelBarMaterialRefundCardTable extends React.Component {
   }
   render () {
     let refundCard = this.props.details
-    console.log('table', refundCard)
     return (
       <div className='steel-bar-material-refund-card-table'>
         <p className='title'><u><span>太重滨海煤化工分公司</span></u></p>

@@ -27,7 +27,6 @@ class AddApplyCard extends React.Component {
     this.rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
         this.setState({ addLists: selectedRowKeys })
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
       getCheckboxProps: record => ({
         disabled: record.name === 'Disabled User' // Column configuration not to be checked
@@ -57,8 +56,6 @@ class AddApplyCard extends React.Component {
       sub_order: subOrder,
       process_materials: processMaterials
     }
-    console.log(processMaterials)
-    console.log(typeof subOrder, typeof processMaterials[0])
     fetchAPI(api, values).then((repos) => {
       message.success('添加成功！')
     })
@@ -69,18 +66,14 @@ class AddApplyCard extends React.Component {
     const mydata = status.toJS()
     const list = _.get(mydata, 'list', [])
     let workOrderId
-    console.log(list)
     if (list.length > 0) {
       workOrderId = list[0].work_order_id
     }
-    console.log(workOrderId)
     let lists = this.state.addLists.map((item) => {
       return parseInt(item)
     })
     workOrderId = parseInt(workOrderId)
     this.createApplyCard(apply_card_type, workOrderId, lists)
-    console.log('addLists', this.state.addLists, 'location.search', QueryString.parse(location.search))
-    console.log('fieldsValue', fieldsValue)
   }
   _query (query = {}) {
     const oldQuery = QueryString.parse(this.props.location.search)
