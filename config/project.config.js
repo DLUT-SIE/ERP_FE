@@ -48,7 +48,7 @@ const config = {
   compiler_hash_type       : 'hash',
   compiler_fail_on_warning : false,
   compiler_quiet           : false,
-  compiler_public_path     : '/',
+  compiler_public_path     : '/static/',
   compiler_mock_route      : '/mock',
   compiler_stats           : {
     chunks : false,

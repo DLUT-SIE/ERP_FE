@@ -10,14 +10,14 @@
       window.erpConfig = JSON.parse('<%=htmlWebpackPlugin.options.employeeConf%>')
       window.erpConfig.menus = JSON.stringify(window.erpConfig.menus)
     } else {
-      window.erpConfig = {}
-      // window.erpConfig = {
-      //   employeeId: '{{employee_id}}',
-      //   employeeName: '{{employee_name}}',
-      //   employeeMail: '{{email}}',
-      //   isAdmin: checkBool('{{is_admin}}'),
-      //   menus: '{{ menu|tojson|safe }}'
-      // }
+      window.erpConfig = {
+        employeeId: '{{employee_id}}',
+        employeeName: '{{employee_name}}',
+        employeeMail: '{{email}}',
+        isAdmin: true,
+        deptMap: '{{ deptMap }}',
+        menus: '{{ menu|safe }}'
+      }
     }
   </script>
 </head>
