@@ -8,14 +8,14 @@
     var env = '<%=htmlWebpackPlugin.options.env%>'
     if (env !== 'production') {
       window.erpConfig = JSON.parse('<%=htmlWebpackPlugin.options.employeeConf%>')
+      window.erpConfig.deptMap = JSON.stringify(window.erpConfig.deptMap)
       window.erpConfig.menus = JSON.stringify(window.erpConfig.menus)
     } else {
       window.erpConfig = {
         employeeId: '{{employee_id}}',
         employeeName: '{{employee_name}}',
         employeeMail: '{{email}}',
-        isAdmin: true,
-        deptMap: '{{ deptMap }}',
+        deptMap: '{{ deptMap|safe }}',
         menus: '{{ menu|safe }}'
       }
     }

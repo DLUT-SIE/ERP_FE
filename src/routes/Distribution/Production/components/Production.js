@@ -18,7 +18,7 @@ class Production extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
-    this._deptMap = window.erpConfig.deptMap
+    this._deptMap = window.erpConfig.deptMap ? JSON.parse(window.erpConfig.deptMap) : {}
     this._columns = this.buildColumns()
   }
 

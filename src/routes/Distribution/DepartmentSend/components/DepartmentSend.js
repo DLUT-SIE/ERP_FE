@@ -20,7 +20,7 @@ class Production extends React.Component {
     this.state = {}
 
     this._deptType = this.props.location.pathname.split('/')[2].split('_')[0]
-    this._deptMap = window.erpConfig.deptMap
+    this._deptMap = window.erpConfig.deptMap ? JSON.parse(window.erpConfig.deptMap) : {}
     this._columns = this.buildColumns()
   }
 
