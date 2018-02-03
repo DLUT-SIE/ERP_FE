@@ -19,7 +19,7 @@ module.exports = {
     html_env                 : 'production',
     html_employee            : '',
     compiler_base_route      : '',
-    compiler_public_path     : '',
+    compiler_public_path     : '/static/',
     compiler_fail_on_warning : false,
     compiler_hash_type       : 'chunkhash',
     compiler_devtool         : false,
