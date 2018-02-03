@@ -98,7 +98,6 @@ class Contract extends React.Component {
 
   handleOpenAmountModal = (e) => {
     let { id, prepaidAmounts } = e.target.dataset
-    console.log('handleOpenAmountModal', e.target.dataset)
     this.props.changeAmountModalAction({
       visible: true,
       id: +id,

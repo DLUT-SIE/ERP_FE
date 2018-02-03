@@ -102,7 +102,6 @@ class TransferCard extends React.Component {
   }
 
   updatelist (query = QueryString.parse(this.props.location.search)) {
-    console.log('updatelist', query)
     this.props.getListDataAction({
       params: query
     })

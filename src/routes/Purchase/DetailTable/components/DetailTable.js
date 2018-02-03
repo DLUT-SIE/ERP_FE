@@ -162,7 +162,6 @@ class DetailTable extends React.Component {
     Promise.all(_.map(list, (item) => {
       fetchAPI(apis.PurchaseAPI.updateProcurementMaterial, { status: 1 }, { id: item.id })
     })).then(() => {
-      console.log('success')
       message.success('全部添加成功！')
       this.updatelist()
     })

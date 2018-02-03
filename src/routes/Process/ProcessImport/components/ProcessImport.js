@@ -88,8 +88,7 @@ class ProcessImport extends React.Component {
   }
 
   handleProof = (e) => {
-    const { id } = e.target.dataset
-    console.log('handleProof', id)
+    // const { id } = e.target.dataset
   }
 
   handleSearch = (searchValue) => {
