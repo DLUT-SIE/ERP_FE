@@ -293,7 +293,6 @@ class WeldingSeam extends React.Component {
   }
 
   handleCheckWeldingProcessSpecification = () => {
-    console.log('')
   }
 
   render () {

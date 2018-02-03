@@ -221,7 +221,6 @@ let makeFields = function (props) {
   _.forEach(fieldsValue, (value, index) => {
     result[`${routePrefix}${index + 1}`] = Form.createFormField({ value: value + '' })
   })
-  console.log('makeFields', result)
   return result
 }
 

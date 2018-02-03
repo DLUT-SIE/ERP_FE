@@ -109,7 +109,6 @@ class ProcessTrack extends React.Component {
   }
 
   handleSaveTrack = (fieldsValue) => {
-    console.log('fieldsValue', fieldsValue)
     fetchAPI(apis.PurchaseAPI.addProcessFollowingInfo, {
       ...fieldsValue,
       bidding_sheet: this._id
